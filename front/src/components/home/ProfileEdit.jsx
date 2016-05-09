@@ -6,7 +6,7 @@ import StoreRegistry from '../../core/StoreRegistry';
 
 import { ControlLabel, Button, FormControl, FormGroup, Form, Col, Panel, PageHeader } from 'react-bootstrap'
 
-class ProfilEdit extends React.Component {
+class ProfileEdit extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -119,8 +119,8 @@ class ProfilEdit extends React.Component {
 	}
 }
 
-ProfilEdit.contextTypes = {
+ProfileEdit.contextTypes = {
 	router: React.PropTypes.object
 }
 		
-export default ProfilEdit;
+export default ProfileEdit;

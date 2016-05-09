@@ -7,7 +7,7 @@ import StoreRegistry from '../../core/StoreRegistry';
 // custom modules
 import AuxiliariesBox from '../users/auxiliaries/AuxiliariesBox.jsx'
 import ServicesBox from '../users/services/ServicesBox.jsx'
-import Profil from './Profil.jsx'
+import Profile from './Profile.jsx'
 
 class Home extends React.Component {
 
@@ -25,7 +25,7 @@ class Home extends React.Component {
 			case 'auxiliary' : 
 				return (
 					<div className='container'>
-						<Profil/>
+						<Profile/>
 					</div>
 				);
 			 case 'admin' :

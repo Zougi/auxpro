@@ -3,10 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ap.web</groupId>
-	<artifactId>rest</artifactId>
+	<artifactId>auxpro.rest</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AP WEB REST</name>
+	<name>AP WEB AUXPRO REST</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

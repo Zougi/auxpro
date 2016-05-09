@@ -29,7 +29,7 @@ class ServicesTuto extends React.Component {
 				<div className="col-sm-3"></div>
 				<div className="col-sm-3"></div>
 				<div className="col-sm-3">
-					<Link to="/profilprompt" className="btn btn-success">Passer</Link>
+					<Link to="/profileprompt" className="btn btn-success">Passer</Link>
 				</div>
 			</div>
 		</div>

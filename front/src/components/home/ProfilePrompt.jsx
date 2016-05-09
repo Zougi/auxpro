@@ -7,7 +7,7 @@ import StoreRegistry from '../../core/StoreRegistry';
 import { IndexLink, Link } from 'react-router'
 import { Modal, Button } from 'react-bootstrap';
 
-class ProfilPrompt extends React.Component {
+class ProfilePrompt extends React.Component {
 
 	componentWillMount() {
         let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
@@ -24,7 +24,7 @@ class ProfilPrompt extends React.Component {
 				<Modal.Title>Completez votre profil</Modal.Title>
 			  </Modal.Header>
 			  <Modal.Footer>
-				<Link to='/profiledit' className='btn btn-success'>Continuer</Link>
+				<Link to='/profileedit' className='btn btn-success'>Continuer</Link>
 				 <Link to='/home' className='btn btn-primary'>Pas Maintenant</Link>
 			  </Modal.Footer>
 
@@ -34,8 +34,8 @@ class ProfilPrompt extends React.Component {
 	}
 }
 
-ProfilPrompt.contextTypes = {
+ProfilePrompt.contextTypes = {
 	router: React.PropTypes.object
 }
 		
-export default ProfilPrompt;
+export default ProfilePrompt;

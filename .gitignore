@@ -61,5 +61,5 @@ dist/
 target/
 
 #mongo generated files
-mongo/data
-mongo/log
+database/data
+database/log

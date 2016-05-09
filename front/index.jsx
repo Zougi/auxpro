@@ -9,17 +9,17 @@ import 'react-bootstrap';
 
 import Bootstrap from './src/core/Bootstrap.js';
 
-import App from './src/components/app/App.jsx'
-import Land from './src/components/land/Land.jsx'
-import Home from './src/components/home/Home.jsx'
-import About from './src/components/about/About.jsx'
-import Login from './src/components/login/Login.jsx'
-import RegisterAux from './src/components/register/RegisterAux.jsx'
-import RegisterSad from './src/components/register/RegisterSad.jsx'
+import About         from './src/components/about/About.jsx'
+import App           from './src/components/app/App.jsx'
+import Home          from './src/components/home/Home.jsx'
+import ProfilePrompt from './src/components/home/ProfilePrompt.jsx'
+import ProfileEdit   from './src/components/home/ProfileEdit.jsx'
+import Land          from './src/components/land/Land.jsx'
+import Login         from './src/components/login/Login.jsx'
+import RegisterAux   from './src/components/register/RegisterAux.jsx'
+import RegisterSad   from './src/components/register/RegisterSad.jsx'
 import AuxiliaryTuto from './src/components/users/auxiliaries/AuxiliaryTuto.jsx'
-import ServicesTuto from './src/components/users/services/ServicesTuto.jsx'
-import ProfilPrompt from './src/components/home/ProfilPrompt.jsx'
-import ProfilEdit from './src/components/home/ProfilEdit.jsx'
+import ServicesTuto  from './src/components/users/services/ServicesTuto.jsx'
 
 render((
   <Router history={browserHistory}>
@@ -32,8 +32,8 @@ render((
 		<Route path="/registerSad" component={RegisterSad}/>
 		<Route path="/auxiliaryTuto" component={AuxiliaryTuto}/>
 		<Route path="/servicesTuto" component={ServicesTuto}/>
-		<Route path="/profilprompt" component={ProfilPrompt}/>
-		<Route path="/profiledit" component={ProfilEdit}/>
+		<Route path="/profileprompt" component={ProfilePrompt}/>
+		<Route path="/profileedit" component={ProfileEdit}/>
 	</Route>
   </Router>
 ), document.getElementById('app'))

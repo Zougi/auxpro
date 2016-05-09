@@ -6,7 +6,7 @@ import { Grid, Row, Col, Table, Panel, PageHeader } from 'react-bootstrap'
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
 
-class Profil extends React.Component {
+class Profile extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -64,8 +64,8 @@ class Profil extends React.Component {
 	}
 }
 
-Profil.contextTypes = {
+Profile.contextTypes = {
 	router: React.PropTypes.object
 }
 
-export default Profil;
+export default Profile;
