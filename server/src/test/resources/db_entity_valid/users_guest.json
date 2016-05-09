@@ -1,0 +1,6 @@
+{
+	"name":"guest",
+	"password":"guest",
+	"active":true,
+	"type":"guest"
+}

@@ -1,0 +1,19 @@
+{
+	"name":"z",
+	"password":"z",
+	"email":"z",
+	"registrationDate":"2016-02-15",
+	"active":true,
+	"tutoSkipped":true,
+	"type":"service",
+	
+	"society": "Societe 1",
+	"phone":"10 10 10 10 10",
+	"socialReason":"Mand",
+	"siret":"6565789",
+	"address": {
+		"address": "1 avenue de la premiere societe",
+		"postalCode": 75010,
+		"city": "Paris"
+	}
+}

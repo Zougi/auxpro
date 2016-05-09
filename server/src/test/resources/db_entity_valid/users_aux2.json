@@ -1,0 +1,21 @@
+{
+	"name":"user2@user2.fr",
+	"password":"user2pwd",
+	"email":"user2@user2.fr",
+	"active":true,
+	"registrationDate":"2016-05-01",
+	"tutoSkipped":false,
+	"type":"auxiliary",
+	"civility":"Mme",
+	"firstName": "Second",
+	"lastName": "Auxiliaire",
+	"phone":"02 02 02 02 02",
+	"birthDate":"1992-05-01",
+	"birthPlace":"Saint Ouen",
+	"diploma":"Diplome de foufou",
+	"address": {
+		"address": "2 rue du second utilisateur",
+		"postalCode": 75002,
+		"city": "Paris"
+	}
+}

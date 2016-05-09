@@ -1,0 +1,21 @@
+{
+	"name":"a",
+	"password":"a",
+	"email":"a",
+	"registrationDate":"2016-06-15",
+	"active":true,
+	"tutoSkipped":true,
+	"type":"auxiliary",
+	"civility":"Mr",
+	"firstName": "Premier",
+	"lastName": "Auxiliaire",
+	"phone":"01 01 01 01 01",
+	"birthDate":"1980-01-03",
+	"birthPlace":"Paris",
+	"diploma":"Diplome de trucmuche",
+	"address": {
+		"address": "1 rue du premier utilisateur",
+		"postalCode": 75001,
+		"city": "Paris"
+	}
+}
