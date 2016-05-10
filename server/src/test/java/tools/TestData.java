@@ -7,20 +7,18 @@ import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.ap.web.entity.BeanConverter;
+import org.ap.web.entity.constant.EAuxCivility;
+import org.ap.web.entity.constant.EUserType;
+import org.ap.web.entity.user.AuxiliaryBean;
+import org.ap.web.entity.user.CredentialsBean;
+import org.ap.web.entity.user.ServiceBean;
+import org.ap.web.entity.user.UserBean;
 import org.ap.web.internal.EConfigProperties;
-import org.ap.web.rest.entity.BeanConverter;
-import org.ap.web.rest.entity.constant.EAuxCivility;
-import org.ap.web.rest.entity.constant.EUserType;
-import org.ap.web.rest.entity.user.AuxiliaryBean;
-import org.ap.web.rest.entity.user.CredentialsBean;
-import org.ap.web.rest.entity.user.ServiceBean;
-import org.ap.web.rest.entity.user.UserBean;
+import org.ap.web.internal.Mappers;
 import org.ap.web.service.MongoConnection;
 import org.ap.web.service.MongoConstants;
 import org.bson.Document;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestData {
 
@@ -38,14 +36,6 @@ public class TestData {
 	
 	/* OBJECT MAPPER */
 
-	private static ObjectMapper _MAPPER; 
-	public static ObjectMapper getMapper() {
-		if (_MAPPER == null) {
-			_MAPPER = new ObjectMapper();
-			_MAPPER.setSerializationInclusion(Include.NON_NULL);
-		}
-		return _MAPPER;
-	}
 
 	/* TEST RESOURCES */
 
@@ -65,6 +55,7 @@ public class TestData {
 		List<Document> list = new ArrayList<Document>();
 		File dir = new File(TEST_RSC_ENTITY_VALID);
 		for (String path : dir.list()) {
+			System.out.println(path);
 			try {
 				if (path.contains("_aux")) {
 					list.add(BeanConverter.convertToDocument(getAuxiliaryFromJson(path)));
@@ -83,15 +74,16 @@ public class TestData {
 	
 	public static UserBean getUserFromJson(String path) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return getMapper().readValue(content, UserBean.class);
+		System.out.println(content);
+		return Mappers.DEFAULT.getMapper().readValue(content, UserBean.class);
 	}
 	public static AuxiliaryBean getAuxiliaryFromJson(String path) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return getMapper().readValue(content, AuxiliaryBean.class);
+		return Mappers.DEFAULT.getMapper().readValue(content, AuxiliaryBean.class);
 	}
 	public static ServiceBean getServiceFromJson(String path) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return getMapper().readValue(content, ServiceBean.class);
+		return Mappers.DEFAULT.getMapper().readValue(content, ServiceBean.class);
 	}
 
 	private static String USER_NAME = "newUser";

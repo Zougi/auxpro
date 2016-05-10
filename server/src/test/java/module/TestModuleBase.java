@@ -17,8 +17,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import tools.TestBase;
 import tools.TestData;
 
@@ -31,9 +29,6 @@ public class TestModuleBase extends TestBase {
 
 	protected static MongoConnection CONN;
 
-	
-	protected static ObjectMapper MAPPER = TestData.getMapper();
-	
 	@BeforeClass
 	public static void startHttpServer() {
 		final ResourceConfig rc = new RestApplication();

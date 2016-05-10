@@ -2,8 +2,8 @@ package module.rest.auth;
 
 import javax.ws.rs.core.Response;
 
-import org.ap.web.rest.entity.constant.EUserType;
-import org.ap.web.rest.entity.user.UserBean;
+import org.ap.web.entity.constant.EUserType;
+import org.ap.web.entity.user.UserBean;
 import org.ap.web.rest.servlet.auth.AuthServlet;
 import org.junit.Test;
 
@@ -34,13 +34,11 @@ public class AuthGetRestTest extends RestTestBase {
 		UserBean user = prepare("", userAdmin.getName(), userAdmin.getPassword()).get(UserBean.class);
 		TestCase.assertEquals(userAdmin.getName(), user.getName());
 		TestCase.assertEquals(EUserType.ADMIN.getId(), user.getType());
-		TestCase.assertNull(user.getPassword());
 	}
 	@Test
 	public void testV_getAuth_User() throws Exception {
 		UserBean user = prepare("", userAux1.getName(), userAux1.getPassword()).get(UserBean.class);
 		TestCase.assertEquals(userAux1.getName(), user.getName());
 		TestCase.assertEquals(EUserType.AUXILIARY.getId(), user.getType());
-		TestCase.assertNull(user.getPassword());
 	}
 }

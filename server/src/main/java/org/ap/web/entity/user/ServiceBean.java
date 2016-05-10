@@ -1,9 +1,9 @@
-package org.ap.web.rest.entity.user;
+package org.ap.web.entity.user;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.ap.web.rest.entity.constant.EUserType;
-import org.ap.web.rest.entity.contact.AddressBean;
+import org.ap.web.entity.constant.EUserType;
+import org.ap.web.entity.contact.AddressBean;
 
 @XmlRootElement
 public class ServiceBean extends UserBean {

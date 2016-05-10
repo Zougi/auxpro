@@ -6,9 +6,9 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Response.Status;
 
+import org.ap.web.entity.BeanConverter;
+import org.ap.web.entity.user.UserBean;
 import org.ap.web.internal.APException;
-import org.ap.web.rest.entity.BeanConverter;
-import org.ap.web.rest.entity.user.UserBean;
 import org.ap.web.rest.security.Encoder;
 import org.ap.web.rest.security.UserSecurityContext;
 import org.ap.web.service.users.IUsersService;
@@ -50,7 +50,6 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 					throw new WebApplicationException(Status.UNAUTHORIZED);
 				}
 				UserBean user = BeanConverter.convertToUser(_service.checkUser(credentials[0], credentials[1]));
-
 				requestContext.setSecurityContext(new UserSecurityContext(user));
 			} catch (APException e) {
 				throw new WebApplicationException(Status.UNAUTHORIZED);

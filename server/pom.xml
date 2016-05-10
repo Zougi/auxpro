@@ -14,7 +14,7 @@
 
 		<jersey.version>2.22.1</jersey.version>
 		<junit.version>4.10</junit.version>
-		
+
 		<apache.validator.version>1.4.0</apache.validator.version>
 
 		<spring.release.train>1.9.1.RELEASE</spring.release.train>
@@ -104,6 +104,7 @@
 				<configuration>
 					<url>http://localhost:8090/manager</url>
 					<port>8090</port>
+					<path>/rest</path>
 					<server>localhost</server>
 				</configuration>
 			</plugin>

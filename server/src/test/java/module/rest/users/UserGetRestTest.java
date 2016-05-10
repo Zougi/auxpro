@@ -2,7 +2,7 @@ package module.rest.users;
 
 import javax.ws.rs.core.Response;
 
-import org.ap.web.rest.entity.user.UserBean;
+import org.ap.web.entity.user.UserBean;
 import org.ap.web.rest.servlet.users.UsersServlet;
 import org.junit.Test;
 

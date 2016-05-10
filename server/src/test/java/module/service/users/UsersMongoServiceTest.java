@@ -2,10 +2,10 @@ package module.service.users;
 
 import java.util.HashMap;
 
+import org.ap.web.entity.BeanConverter;
+import org.ap.web.entity.constant.EUserType;
+import org.ap.web.entity.user.UserBean;
 import org.ap.web.internal.APException;
-import org.ap.web.rest.entity.BeanConverter;
-import org.ap.web.rest.entity.constant.EUserType;
-import org.ap.web.rest.entity.user.UserBean;
 import org.ap.web.service.users.UsersMongoService;
 import org.bson.Document;
 import org.junit.Before;

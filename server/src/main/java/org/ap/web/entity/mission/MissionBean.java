@@ -1,6 +1,6 @@
-package org.ap.web.rest.entity.mission;
+package org.ap.web.entity.mission;
 
-import org.ap.web.rest.entity.contact.ContactBean;
+import org.ap.web.entity.contact.ContactBean;
 
 public class MissionBean {
 

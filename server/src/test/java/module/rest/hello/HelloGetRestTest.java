@@ -2,7 +2,7 @@ package module.rest.hello;
 
 import javax.ws.rs.core.MediaType;
 
-import org.ap.web.rest.entity.user.UserBean;
+import org.ap.web.entity.user.UserBean;
 import org.junit.Test;
 
 import junit.framework.TestCase;

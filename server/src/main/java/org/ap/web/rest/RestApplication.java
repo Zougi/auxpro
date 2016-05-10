@@ -27,7 +27,7 @@ public class RestApplication extends ResourceConfig {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
-		
+				
 		packages("org.ap.web.rest.servlet");
 		register(JacksonFeature.class);
 		//register(JacksonJsonProvider.class);

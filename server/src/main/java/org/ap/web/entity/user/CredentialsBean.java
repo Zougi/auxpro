@@ -1,4 +1,4 @@
-package org.ap.web.rest.entity.user;
+package org.ap.web.entity.user;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

@@ -37,6 +37,7 @@ class Profile extends React.Component {
 					<Col smOffset={1} sm={7}>
 						<Panel>
 						<Table bordered striped hover fill>
+						<tbody>
 							<tr>
 								<th>Nom</th>
 								<td>{this.state.data.firstName} {this.state.data.lastName}</td>
@@ -53,6 +54,7 @@ class Profile extends React.Component {
 								<th>Diplome</th>
 								<td>{this.state.data.diploma}</td>
 							</tr>
+						</tbody>
 						</Table>
 						</Panel>
 					</Col>

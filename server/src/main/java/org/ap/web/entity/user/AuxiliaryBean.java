@@ -1,12 +1,12 @@
-package org.ap.web.rest.entity.user;
+package org.ap.web.entity.user;
 
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.ap.web.rest.entity.constant.EAuxCivility;
-import org.ap.web.rest.entity.constant.EUserType;
-import org.ap.web.rest.entity.contact.AddressBean;
+import org.ap.web.entity.constant.EAuxCivility;
+import org.ap.web.entity.constant.EUserType;
+import org.ap.web.entity.contact.AddressBean;
 
 @XmlRootElement
 public class AuxiliaryBean extends UserBean {
@@ -37,7 +37,7 @@ public class AuxiliaryBean extends UserBean {
 	public void setPhone(String phone) { this.phone = phone; }
 	
 	public AddressBean getAddress() { return address; }
-	public void setAdress(AddressBean adress) { this.address = adress; }
+	public void setAddress(AddressBean adress) { this.address = adress; }
 	
 	public Date getBirthDate() { return birthDate; }
 	public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }

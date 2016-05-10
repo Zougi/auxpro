@@ -14,6 +14,11 @@ public class APException extends Exception {
 	public static final APException USER_NOT_FOUND = new APException("USER_NOT_FOUND", Status.NOT_FOUND);
 	public static final APException USER_NOT_DELETED = new APException("USER_NOT_DELETED", Status.INTERNAL_SERVER_ERROR);
 	public static final APException USER_NOT_ADDED = new APException("USER_NOT_ADDED", Status.INTERNAL_SERVER_ERROR);
+	
+	public static final APException JSON_GENERATION_EX = new APException("JSON_GENERATION_EX", Status.INTERNAL_SERVER_ERROR);
+	public static final APException JSON_MAPPING_EX = new APException("JSON_MAPPING_EX", Status.INTERNAL_SERVER_ERROR);
+	public static final APException JSON_PARSE_EX = new APException("JSON_PARSE_EX", Status.INTERNAL_SERVER_ERROR);
+	public static final APException JSON_IO_EX = new APException("JSON_IO_EX", Status.INTERNAL_SERVER_ERROR);
 
 	public static final APException USER_ID_INUSE = new APException("USER_ID_INUSE", Status.BAD_REQUEST);
 	public static final APException USER_NAME_INUSE = new APException("USER_NAME_INUSE", Status.BAD_REQUEST);

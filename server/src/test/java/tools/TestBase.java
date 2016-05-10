@@ -1,8 +1,8 @@
 package tools;
 
-import org.ap.web.rest.entity.user.AuxiliaryBean;
-import org.ap.web.rest.entity.user.ServiceBean;
-import org.ap.web.rest.entity.user.UserBean;
+import org.ap.web.entity.user.AuxiliaryBean;
+import org.ap.web.entity.user.ServiceBean;
+import org.ap.web.entity.user.UserBean;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;

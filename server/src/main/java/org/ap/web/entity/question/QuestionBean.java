@@ -1,4 +1,4 @@
-package org.ap.web.rest.entity.question;
+package org.ap.web.entity.question;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

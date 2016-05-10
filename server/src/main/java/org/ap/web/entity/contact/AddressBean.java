@@ -1,4 +1,4 @@
-package org.ap.web.rest.entity.contact;
+package org.ap.web.entity.contact;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

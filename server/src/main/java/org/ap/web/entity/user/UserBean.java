@@ -1,4 +1,4 @@
-package org.ap.web.rest.entity.user;
+package org.ap.web.entity.user;
 
 import java.util.Date;
 
