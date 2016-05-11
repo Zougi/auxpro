@@ -43,10 +43,13 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	// IUserServlet Implementation //
 
 	@Override
-	public Response getServicesJSON(SecurityContext sc) {
+	public Response getServicesJSON(SecurityContext sc, int postal) {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("type", EUserType.SERVICE.getId());
+			if (postal != 0) {
+				map.put("address.postalCode", postal);
+			}
 			ServiceBean[] users = BeanConverter.convertToServices(_service.getUsers(map));
 			return Response.status(200).entity(users, resolveAnnotations(sc)).build();
 		} catch (APException e) {

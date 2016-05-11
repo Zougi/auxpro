@@ -1,14 +1,16 @@
 package module.rest.services;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.core.Response;
 
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.user.ServiceBean;
 import org.ap.web.rest.servlet.services.ServicesServlet;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
-import tools.TestData;
 
 public class ServicesGetRestTest extends RestTestBase {
 
@@ -31,9 +33,15 @@ public class ServicesGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asAdmin_checkStatus() throws Exception {
-		UserBean userAdmin = TestData.getUserFromJson("users_admin.json");
 		Response rsp = prepare("", userAdmin.getName(), userAdmin.getPassword()).get();
 		TestCase.assertEquals(200, rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
+	}
+	@Test
+	public void testV_asAdmin_withFilter() throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("postal", 31000);
+		ServiceBean[] rsp = prepare("", params, userAdmin.getName(), userAdmin.getPassword()).get(ServiceBean[].class);
+		TestCase.assertEquals(1, rsp.length);
 	}
 }

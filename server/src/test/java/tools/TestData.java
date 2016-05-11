@@ -55,7 +55,6 @@ public class TestData {
 		List<Document> list = new ArrayList<Document>();
 		File dir = new File(TEST_RSC_ENTITY_VALID);
 		for (String path : dir.list()) {
-			System.out.println(path);
 			try {
 				if (path.contains("_aux")) {
 					list.add(BeanConverter.convertToDocument(getAuxiliaryFromJson(path)));
@@ -74,7 +73,6 @@ public class TestData {
 	
 	public static UserBean getUserFromJson(String path) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		System.out.println(content);
 		return Mappers.DEFAULT.getMapper().readValue(content, UserBean.class);
 	}
 	public static AuxiliaryBean getAuxiliaryFromJson(String path) throws Exception {
