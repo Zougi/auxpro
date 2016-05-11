@@ -1,42 +1,76 @@
 // react modules
 import React from 'react';
 // react-bootstrap modules
-import { Carousel } from 'react-bootstrap';
-
-import { IndexLink, Link } from 'react-router'
+import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap';
+// react-router-bootstrap modules
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
 class AuxiliaryTuto extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+            index: 0,
+            direction: null
+        };
+	}
+
+	handleSelect(selectedIndex, e) {
+		this.setState({
+			index: selectedIndex,
+			direction: e.direction
+		});
+	}
+
 	render() { return (
-		<div className='container'>
-			<Carousel>
-				<Carousel.Item>
-				  <img width={1200} height={500} alt='1200x500' src='./../../../../assets/img/tutoaux1.JPG'/>
-				</Carousel.Item>
-				<Carousel.Item>
-				  <img width={1200} height={500} alt='1200x500' src='./../../../../assets/img/tutoaux2.JPG'/>
-				</Carousel.Item>
-				<Carousel.Item>
-				  <img width={1200} height={500} alt='1200x500' src='./../../../../assets/img/tutoaux3.JPG'/>
-				</Carousel.Item>
-				<Carousel.Item>
-				  <img width={1200} height={500} alt='1200x500' src='./../../../../assets/img/tutoaux4.JPG'/>
-				</Carousel.Item>
-				<Carousel.Item>
-				  <img width={1200} height={500} alt='1200x500' src='./../../../../assets/img/tutoaux5.JPG'/>
-				</Carousel.Item>
-				<Carousel.Item>
-				  <img width={1200} height={500} alt='1200x500' src='./../../../../assets/img/tutoaux6.JPG'/>
-				</Carousel.Item>
-			  </Carousel>
-			<div className='row'>
-				<div className='col-sm-3'></div>
-				<div className='col-sm-3'></div>
-				<div className='col-sm-3'></div>
-				<div className='col-sm-3'>
-					<Link to='/profileprompt' className='btn btn-success'>Passer</Link>
-				</div>
-			</div>
+		<div className='container'><br/>
+			<Grid>
+				<Row>
+					<Col smOffset={1} sm={10} mdOffset={2} md={8}>
+						<Carousel activeIndex={this.state.index} direction={this.state.direction} onSelect={this.handleSelect.bind(this)}>
+							<Carousel.Item>
+								<ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux1.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>
+							<Carousel.Item>
+							  <ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux2.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>
+							<Carousel.Item>
+							  <ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux3.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>
+							<Carousel.Item>
+							  <ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux4.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>
+							<Carousel.Item>
+							  <ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux5.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>
+							<Carousel.Item>
+							  <ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux6.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>			
+						  </Carousel>
+					  </Col>
+				  </Row>
+				  <br/>
+				  <Row>
+					<Col smOffset={8} sm={3} mdOffset={7} md={3} className="left">
+						<LinkContainer to='/profileprompt'>
+							<Button bsStyle="success" bsSize='large' block>Passer</Button>
+						</LinkContainer>
+					</Col>
+				</Row>
+			</Grid>
+			<br/>
 		</div>
 	);}
 }
