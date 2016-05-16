@@ -1,20 +1,20 @@
 // custom modules
-import { s, m, h, D, MONTHS_NB, DAYS_NB } from './DateConstants.js';
+import { s, m, h, D } from './DateConstants.js';
 
 export default class DateDay {
 
 	constructor(date) {
 		this.date = new Date(date);
 		this.date.setHours(0, 0, 0);
-		this.id = this.date.getFullYear() + '-' + MONTHS_NB[this.date.getMonth()] + '-' + DAYS_NB[this.date.getDate()];
+		this.id = this.date.toString();
 	}
 
 	get previousDay() {
-		return new DateDay(this.date.getTime() - D);
+		return new DateDay(this.date.getTime() - 1.5*D);
 	}
 
 	get nextDay() {
-		return new DateDay(this.date.getTime() + D);		
+		return new DateDay(this.date.getTime() + 1.5*D);		
 	}
 
 	getDayInDays(i) {

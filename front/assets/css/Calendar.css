@@ -3,7 +3,7 @@
 }
 
 .calendar .month {
-	
+	background:blue;	
 }
 
 .calendar .week {
@@ -21,9 +21,27 @@
 .calendar .day:hover {
 	background:rgba(35,35,255,0.1);
 }
+.calendar .day.btn-success:hover {
+	border:0;
+	background:rgba(35,255,35,0.2);
+	color:#252627;
+}
+
 
 .calendar .day.active {
 	background: rgba(255,255,255,0);
 	border: 1px solid red;
 	box-shadow: unset;
+}
+.calendar .day.active.btn-success {
+	border: 1px solid red;
+	box-shadow: unset;
+}
+
+.calendar .day.past {
+	background: #F2F2F2;
+	font-style: italic;
+}
+.calendar .day.notmonth {
+	color: #A3A4A5;
 }

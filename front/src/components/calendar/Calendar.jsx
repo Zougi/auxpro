@@ -7,32 +7,41 @@ import Month from '../calendar/Month.jsx';
 // custom modules
 import { MONTHS } from '../../utils/date/DateConstants.js';
 import DateMonth from '../../utils/date/DateMonth.js';
+import DateDay from '../../utils/date/DateDay.js';
 
 class Calendar extends React.Component {
 
 	constructor(props) {
-		super(props);
+		super(props);		
 		this.state = {
 			month: new DateMonth({ 
-				date: new Date(2016, 9, 15),
+				date: new Date(),
 				start: 1
-			})
+			}),
+			selectedDay: new DateDay(new Date())
 		}
 	}
 
+	_setMonth(month) {
+		this.state.month = month;
+		this.setState(this.state);
+	}
+	_setSelectedDay(day) {
+		this.state.selectedDay = day;
+		this.setState(this.state);
+	}
+
 	onPreviousMonth() {
-		console.log(this.state);
-		let month = this.state.month.previousMonth; 
-		console.log(month);
-		this.setState({
-			month: month
-		});
+		this._setMonth(this.state.month.previousMonth);
 	}
 
 	onNextMonth() {
-		this.setState({
-			month: this.state.month.nextMonth
-		});
+		this._setMonth(this.state.month.nextMonth);
+	}
+
+	onDaySelect(day) {
+		this._setSelectedDay(day);
+		this.props.onDaySelect(day);
 	}
 
 	render() { return (
@@ -42,8 +51,9 @@ class Calendar extends React.Component {
 				<PageItem onClick={this.onPreviousMonth.bind(this)} previous>&larr;</PageItem>
 				<Button>{MONTHS[this.state.month.month]} {this.state.month.year}</Button>
 				<PageItem onClick={this.onNextMonth.bind(this)} next>&rarr;</PageItem>
-				</Pager>
-			<Month month={this.state.month}/>
+			</Pager>
+			<div>{this.state.selectedDay.id}</div>
+			<Month month={this.state.month} onDaySelect={this.onDaySelect.bind(this)}/>
 		</Panel>
 		</div>
     );}

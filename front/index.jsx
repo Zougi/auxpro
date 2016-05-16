@@ -12,6 +12,7 @@ import Bootstrap from './src/core/Bootstrap.js';
 import About         from './src/components/about/About.jsx'
 import Contact       from './src/components/about/Contact.jsx'
 import App           from './src/components/app/App.jsx'
+import Planing       from './src/components/calendar/Planing.jsx'
 import Home          from './src/components/home/Home.jsx'
 import ProfilePrompt from './src/components/home/ProfilePrompt.jsx'
 import ProfileEdit   from './src/components/home/ProfileEdit.jsx'
@@ -27,7 +28,7 @@ render((
     <Route path="/" component={App}>
 		<IndexRoute component={Land}/>
 		<Route path="/about" component={About}/>
-		<Route path="/contact" component={Contact}/>
+		<Route path="/contact" component={Planing}/>
 		<Route path="/login" component={Login}/>
 		<Route path="/home" component={Home}/>
 		<Route path="/registerAux" component={RegisterAux}/>

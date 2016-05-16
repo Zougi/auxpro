@@ -12,13 +12,16 @@ class Month extends React.Component {
 	constructor(props) {
 		super(props);
 	}
-
+	onDaySelect(day) {
+		this.props.onDaySelect(day);
+	}
 	render() { 
+		var month = this.props.month.month;
 		var weeks = this.props.month.weeks.map(function(week) {
             return (
-                <Week key={week.id} week={week}/>
+                <Week key={week.id} week={week} month={month} onDaySelect={this.onDaySelect.bind(this)}/>
             );
-        });
+        }.bind(this));
 		return (
 			<Table condensed responsive>
 	            <thead>

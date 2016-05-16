@@ -13,7 +13,7 @@ export default class DateMonth {
 		}
 		this.year = day.date.getFullYear();
 		this.month = day.date.getMonth();
-		let baseWeek = new DateWeek({ date: day, start: this._start });
+		let baseWeek = new DateWeek({ date: day, month: this.month, start: this._start });
 		this.weeks = [ baseWeek ];
 		// Load previous weeks
 		let previousW = baseWeek.previousWeek;
@@ -23,17 +23,17 @@ export default class DateMonth {
 		}
 		// Load next weeks
 		let nextW = baseWeek.nextWeek;
-		while (nextW.minDate.date.getMonth() === this.month) {
+		while (this.weeks.length < 6) {
 			this.weeks.push(nextW);
 			nextW = nextW.nextWeek;
 		}
 	}
 
 	get previousMonth() {
-		return new DateMonth({ date: this.weeks[0].minDate.previousDay });
+		return new DateMonth({ date: this.weeks[0].minDate.previousDay, start: this._start });
 	}
 
 	get nextMonth() {
-		return new DateMonth({ date: this.weeks[this.weeks.length - 1].maxDate.nextDay });
+		return new DateMonth({ date: this.weeks[this.weeks.length - 1].maxDate.nextDay, start: this._start });
 	}
 }

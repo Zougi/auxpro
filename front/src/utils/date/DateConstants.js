@@ -4,6 +4,8 @@ export const m = 60 * s;
 export const h = 60 * m; 
 export const D = 24 * h;
 
+export const NOW = new Date();
+
 export const DAYS = [ 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi' ];
 export const DAYS_SMALL = [ 'dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ];
 export const DAYS_SHORT = [ 'D', 'L', 'Ma', 'Me', 'J', 'V', 'S' ];

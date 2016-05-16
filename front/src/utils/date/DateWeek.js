@@ -13,12 +13,11 @@ export default class DateWeek {
 	constructor(args) {
 		this.days = [];	
 		this._start = args.start || 0;
-
+		
 		var day = args.date;
 		if (!(day instanceof DateDay)) {
 			day = new DateDay(args.date);
 		}
-
 		var d = day.date.getDay();
 		d = d<this._start?d+7:d;
 
@@ -29,6 +28,10 @@ export default class DateWeek {
 				this.days.push(day.getDayInDays(i - d));
 			}
 		}
+	}
+
+	get id() {
+		return this.days[0].id;
 	}
 
 	get minDate() {
