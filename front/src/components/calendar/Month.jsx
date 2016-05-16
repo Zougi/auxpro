@@ -19,7 +19,12 @@ class Month extends React.Component {
 		var month = this.props.month.month;
 		var weeks = this.props.month.weeks.map(function(week) {
             return (
-                <Week key={week.id} week={week} month={month} onDaySelect={this.onDaySelect.bind(this)}/>
+                <Week 
+                	key={week.id} 
+                	month={month} 
+                	week={week} 
+                	planing={this.props.planing}
+                	onDaySelect={this.onDaySelect.bind(this)}/>
             );
         }.bind(this));
 		return (

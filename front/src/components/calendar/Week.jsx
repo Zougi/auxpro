@@ -17,7 +17,12 @@ class Week extends React.Component {
 		var month = this.props.month;
 		var days = this.props.week.days.map(function(day) {
             return (
-                <Day key={day.id} day={day} month={month} onDaySelect={this.onDaySelect.bind(this)}/>
+                <Day 
+                	key={day.id}
+                	month={month}
+                	day={day}
+                	planing={this.props.planing.getForDay(day.date.getFullYear(), day.date.getMonth(), day.date.getDate())}
+                	onDaySelect={this.onDaySelect.bind(this)}/>
             );
         }.bind(this));
 		return (

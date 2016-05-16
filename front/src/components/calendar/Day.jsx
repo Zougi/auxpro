@@ -9,13 +9,23 @@ class Day extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		var ispast = (this.props.day.date.getTime() + D < NOW.getTime());
-		var ismonth = (this.props.month === this.props.day.date.getMonth());
-		this.state = {
-			active: false,
-			class: 'day' + (ispast?' past':'') + (ismonth?'':' notmonth')
-		};
+		this.state = this._buildState(props);
 	}
+
+	componentWillReceiveProps(props) {
+		this.setState(this._buildState(props));
+    }
+
+    _buildState(props) {
+		let ispast = (props.day.date.getTime() + D < NOW.getTime());
+		let ismonth = (props.month === props.day.date.getMonth());
+		let style = props.planing;
+		return {
+			active: false,
+			class: 'day' + (ispast?' past':'') + (ismonth?'':' notmonth'),
+			style: style||'default'
+		};
+    }
 
 	onDayClicked() {
 		this.setState( { active: !this.state.active } );
@@ -24,7 +34,7 @@ class Day extends React.Component {
 
 	render() { return (
 		<td>
-			<Button bsStyle='success' className={this.state.class} block active={this.state.active} onClick={this.onDayClicked.bind(this)}>
+			<Button bsStyle={this.state.style} className={this.state.class} block active={this.state.active} onClick={this.onDayClicked.bind(this)}>
 				{this.props.day.date.getDate()}
 			</Button>
 		</td>
