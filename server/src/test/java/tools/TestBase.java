@@ -1,8 +1,9 @@
 package tools;
 
-import org.ap.web.entity.user.AuxiliaryBean;
-import org.ap.web.entity.user.ServiceBean;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.common.string.StringConverter;
+import org.ap.web.entity.mongo.AccountBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.mongo.ServiceBean;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
@@ -15,16 +16,23 @@ public class TestBase {
 	
 	/* TEST DATA */
 	
-	protected UserBean userAdmin;
-	protected UserBean userGuest;
-	protected AuxiliaryBean userAux1;
-	protected ServiceBean userSad1;
+	protected AccountBean accountAdmin, account_guest;
+	protected AuxiliaryBean auxiliary1, auxiliary2;
+	protected ServiceBean service_1, service_2;
 	@Before
 	public void setUpTestData() throws Exception {
-		userAdmin = TestData.getUserFromJson("users_admin.json");
-		userGuest = TestData.getUserFromJson("users_guest.json");
-		userAux1 = TestData.getAuxiliaryFromJson("users_aux1.json");
-		userSad1 = TestData.getServiceFromJson("users_sad1.json");
+		accountAdmin = TestData.getFromJson("accounts_admin.json", AccountBean.class);
+		accountAdmin.setId(StringConverter.stringToHex("admin"));
+		account_guest = TestData.getFromJson("accounts_guest.json", AccountBean.class);
+		account_guest.setId(StringConverter.stringToHex("guest"));
+		auxiliary1 = TestData.getFromJson("auxiliaries_aux1.json", AuxiliaryBean.class);
+		auxiliary1.setId(StringConverter.stringToHex("aux1"));
+		auxiliary2 = TestData.getFromJson("auxiliaries_aux2.json", AuxiliaryBean.class);
+		auxiliary2.setId(StringConverter.stringToHex("aux2"));
+		service_1 = TestData.getFromJson("services_sad1.json", ServiceBean.class);
+		service_1.setId(StringConverter.stringToHex("sad1"));
+		service_2 = TestData.getFromJson("services_sad2.json", ServiceBean.class);
+		service_2.setId(StringConverter.stringToHex("sad2"));
 	}
 	
 	/* TEST SETUP */

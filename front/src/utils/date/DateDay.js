@@ -1,5 +1,5 @@
 // custom modules
-import { s, m, h, D } from './DateConstants.js';
+import { s, m, h, D, MONTHS } from './DateConstants.js';
 
 export default class DateDay {
 
@@ -7,6 +7,7 @@ export default class DateDay {
 		this.date = new Date(date);
 		this.date.setHours(0, 0, 0);
 		this.id = this.date.toString();
+		this.value = this.date.getDate() + ' ' + MONTHS[this.date.getMonth()] + ' ' + this.date.getFullYear();
 	}
 
 	get previousDay() {
@@ -23,4 +24,5 @@ export default class DateDay {
 		}
 		return new DateDay(this.date.getTime() + i * D);		
 	}
+
 }

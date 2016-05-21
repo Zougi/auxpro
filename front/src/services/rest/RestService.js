@@ -1,7 +1,7 @@
 
 export default class RestService {
 
-	static _request (reqParam) {
+	static _request(reqParam) {
 			 var _CONFIG = {
 				BASE_URL : 'http://127.0.0.1:8090/rest',
 				HEADER_TOKEN : 'Authorization'
@@ -39,7 +39,7 @@ export default class RestService {
 	 * @param {string} [args.token] valid session token to be passed as header
 	 * @returns a Promise object 
 	 */
-    static getAuth (args) {
+    static getAuth(args) {
         var reqParam = {};
         reqParam.url = '/auth';
         reqParam.method = 'GET';
@@ -53,9 +53,9 @@ export default class RestService {
 	 * @param {string} [args.token] valid session token to be passed as header
 	 * @returns a Promise object 
 	 */
-	static getUsers (args) {
+	static getAuxiliaries(args) {
 		var reqParam = {};
-		reqParam.url = '/users';
+		reqParam.url = '/auxiliaries';
 		reqParam.method = 'GET';
 		reqParam.token = args.token;
 		return RestService._request(reqParam);
@@ -67,23 +67,39 @@ export default class RestService {
 	 * @param {string} [args.token] valid session token to be passed as header
 	 * @returns a Promise object 
 	 */
-	static getAuxiliaries (args) {
+	static getAuxiliary(args) {
 		var reqParam = {};
-		reqParam.url = '/auxiliaries';
+		reqParam.url = '/auxiliaries/' + args.id;
 		reqParam.method = 'GET';
 		reqParam.token = args.token;
 		return RestService._request(reqParam);
 	};
-	
-		/**
+
+	/**
 	 *
 	 * @param {object} [args]
+	 * @param {string} [args.id] auxiliary id
 	 * @param {string} [args.token] valid session token to be passed as header
 	 * @returns a Promise object 
 	 */
-	static getAuxiliary (args) {
+	static getAuxiliaryMissions(args) {
 		var reqParam = {};
-		reqParam.url = '/auxiliaries/' + args.name;
+		reqParam.url = '/auxiliaries/' + args.id + '/missions';
+		reqParam.method = 'GET';
+		reqParam.token = args.token;
+		return RestService._request(reqParam);
+	};
+
+	/**
+	 *
+	 * @param {object} [args]
+	 * @param {string} [args.id] auxiliary id
+	 * @param {string} [args.token] valid session token to be passed as header
+	 * @returns a Promise object 
+	 */
+	static getAuxiliaryAbsences(args) {
+		var reqParam = {};
+		reqParam.url = '/auxiliaries/' + args.id + '/absences';
 		reqParam.method = 'GET';
 		reqParam.token = args.token;
 		return RestService._request(reqParam);
@@ -95,7 +111,7 @@ export default class RestService {
      * @param {object} [args.data]
      * @returns a Promise object 
      */
-    static postAuxiliary (args) {
+    static postAuxiliary(args) {
         var reqParam = {};
         reqParam.url = '/auxiliaries';
         reqParam.method = 'POST';
@@ -110,9 +126,9 @@ export default class RestService {
      * @param {object} [args.data]
      * @returns a Promise object 
      */
-    static putAuxiliary (args) {
+    static putAuxiliary(args) {
         var reqParam = {};
-        reqParam.url = '/auxiliaries/' +args.data.name;
+        reqParam.url = '/auxiliaries/' + args.data.id;
         reqParam.method = 'PUT';
         reqParam.data = args.data;
         reqParam.token = args.token;
@@ -125,7 +141,7 @@ export default class RestService {
 	 * @param {string} [args.token] valid session token to be passed as header
 	 * @returns a Promise object 
 	 */
-	static getServices (args) {
+	static getServices(args) {
 		var reqParam = {};
 		reqParam.url = '/services';
 		reqParam.method = 'GET';
@@ -139,7 +155,7 @@ export default class RestService {
      * @param {object} [args.data]
      * @returns a Promise object 
      */
-    static postService (args) {
+    static postService(args) {
         var reqParam = {};
         reqParam.url = '/services';
         reqParam.method = 'POST';

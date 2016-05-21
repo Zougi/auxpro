@@ -18,6 +18,7 @@ public class APException extends Exception {
 	public static final APException JSON_GENERATION_EX = new APException("JSON_GENERATION_EX", Status.INTERNAL_SERVER_ERROR);
 	public static final APException JSON_MAPPING_EX = new APException("JSON_MAPPING_EX", Status.INTERNAL_SERVER_ERROR);
 	public static final APException JSON_PARSE_EX = new APException("JSON_PARSE_EX", Status.INTERNAL_SERVER_ERROR);
+	public static final APException JSON_PROCESSING_EX = new APException("JSON_PROCESSING_EX", Status.INTERNAL_SERVER_ERROR);
 	public static final APException JSON_IO_EX = new APException("JSON_IO_EX", Status.INTERNAL_SERVER_ERROR);
 
 	public static final APException USER_ID_INUSE = new APException("USER_ID_INUSE", Status.BAD_REQUEST);
@@ -29,6 +30,10 @@ public class APException extends Exception {
 	
 	
 	public static final APException AUX_INFO_INVALID = new APException("AUX_INFO_INVALID", Status.BAD_REQUEST);
+	
+	// MONGO exceptions
+	
+	public static final APException MONGO_ENTITY_NOT_FOUND = new APException("MONGO_ENTITY_NOT_FOUND", Status.INTERNAL_SERVER_ERROR);
 
 	/* ATTRIBUTES */
 

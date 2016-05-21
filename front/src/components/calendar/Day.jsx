@@ -19,7 +19,7 @@ class Day extends React.Component {
     _buildState(props) {
 		let ispast = (props.day.date.getTime() + D < NOW.getTime());
 		let ismonth = (props.month === props.day.date.getMonth());
-		let style = props.planing;
+		let style = (props.planing&&props.planing[0])?props.planing[0].style:'default';
 		return {
 			active: false,
 			class: 'day' + (ispast?' past':'') + (ismonth?'':' notmonth'),

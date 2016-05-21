@@ -1,0 +1,20 @@
+{
+	"startHour":"4",
+	"endHour":"6",
+	"date":"2016-05-31",
+	"contact": {
+		"address": {
+			"address": "1 rue du premier utilisateur",
+			"postalCode": 75001,
+			"city": "Paris"
+		},
+		"addressChecked": false,
+		"phone": "01 01 01 01 01",
+		"phoneChecked": true,
+		"email":"user1@user1.fr",
+		"emailChecked": true
+	},
+	"auxiliaryId":"auxa",
+	"customerId":"cust1",
+	"serviceId":"sad1"
+}

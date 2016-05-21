@@ -1,12 +1,9 @@
 package module.entity;
 
-import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.user.AuxiliaryBean;
-import org.ap.web.entity.user.ServiceBean;
-import org.ap.web.entity.user.UserBean;
 import org.ap.web.internal.APException;
-import org.ap.web.service.users.UsersMongoService;
-import org.bson.Document;
+import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
+import org.ap.web.service.stores.services.ServicesStore;
+import org.ap.web.service.stores.user.UserStore;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,38 +14,32 @@ public class BeanConverterTest extends TestModuleBase {
 
 	/* TEST DATA */
 	
-	private UsersMongoService _svc;
+	private AuxiliariesStore _auxStore;
+	private ServicesStore _sadStore;
+	private UserStore _userStore;
+
 	@Before
 	public void setUpService() {
-		_svc = new UsersMongoService();
+		_auxStore = new AuxiliariesStore();
+		_sadStore = new ServicesStore();
+		_userStore = new UserStore();
 	}
 	
 	/* TEST CASES */
 	
 	@Test
-	public void test_checkUserConversion() throws APException {
-		Document doc = _svc.getUserByName(userAdmin.getName());
-		UserBean bean = BeanConverter.convertToUser(doc);
-		AssertHelper.assertUser(userAdmin, bean);
-	}
-	@Test
 	public void test_checkAuxiliaryConversion() throws APException {
-		Document doc = _svc.getUserByName(userAux1.getName());
-		AuxiliaryBean bean = BeanConverter.convertToAuxiliary(doc);
-		AssertHelper.assertAuxiliary(userAux1, bean);
+		AssertHelper.assertAuxiliary(auxiliary1, _auxStore.get(auxiliary1.getId()));
 	}
 	@Test
-	public void test_checkAuxiliaryNoAddressConversion() throws APException {
-		userAux1.setAddress(null);
-		_svc.updateUser(BeanConverter.convertToDocument(userAux1));
-		Document doc = _svc.getUserByName(userAux1.getName());
-		AuxiliaryBean bean = BeanConverter.convertToAuxiliary(doc);
-		AssertHelper.assertAuxiliary(userAux1, bean);
+	public void test_checkServiceConversion() throws APException {
+		AssertHelper.assertService(service_1, _sadStore.get(service_1.getId()));
 	}
 	@Test
-	public void test_checkSocietyConversion() throws APException {
-		Document doc = _svc.getUserByName(userSad1.getName());
-		ServiceBean bean = BeanConverter.convertToService(doc);
-		AssertHelper.assertService(userSad1, bean);
-	}
+	public void test_checkUserConversion() throws APException {
+		AssertHelper.assertUser(accountAdmin.getUser(), _userStore.get(accountAdmin.getId()));
+		AssertHelper.assertUser(account_guest.getUser(), _userStore.get(account_guest.getId()));
+		AssertHelper.assertUser(auxiliary1.getUser(), _userStore.get(auxiliary1.getId()));
+		AssertHelper.assertUser(service_1.getUser(), _userStore.get(service_1.getId()));	}
+	
 }

@@ -21,7 +21,7 @@ public class RestApplicationTest extends RestTestBase {
 	
 	@Test
 	public void testV_getAuth_checkHeaders() throws Exception {
-		Response response = prepare("", userAdmin.getName(), userAdmin.getPassword()).options();
+		Response response = prepare("", accountAdmin.getUser()).options();
 		String headers = response.getHeaderString(HeadersResponseFilter.ACCESS_CONTROL_ALLOW_HEADERS);
 		TestCase.assertTrue(headers.contains("Content-type"));
 		TestCase.assertTrue(headers.contains(HttpHeaders.AUTHORIZATION));

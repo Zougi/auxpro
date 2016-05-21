@@ -15,8 +15,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.ap.web.entity.user.CredentialsBean;
-import org.ap.web.entity.user.ServiceBean;
+import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.ServiceBean;
 
 /**
  * This interface describes the services servlet features.

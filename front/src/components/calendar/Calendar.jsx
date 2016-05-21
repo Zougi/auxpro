@@ -54,7 +54,6 @@ class Calendar extends React.Component {
 				<Button>{MONTHS[this.state.month.month]} {this.state.year}</Button>
 				<PageItem onClick={this.onNextMonth.bind(this)} next>&rarr;</PageItem>
 			</Pager>
-			<div>{this.state.selectedDay.id}</div>
 			<Month 
 				month={this.state.month} 
 				planing={this.props.planing}

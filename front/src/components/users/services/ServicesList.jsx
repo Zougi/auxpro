@@ -10,22 +10,22 @@ class ServicesList extends React.Component {
 	}
 
     render() { 
-        var nodes = this.props.data.map(function(user) {
+        var nodes = this.props.data.map(function(sad) {
             return (
                 <ServiceItem 
-                    key={user.name}
-                    name={user.name} 
-                    email={user.email}
-                    tuto={user.tutoSkipped}
-                    registration={user.registrationDate}
-                    society={user.society}
-                    reason={user.socialReason}
-                    siret={user.siret}
-                    phone={user.phone}/>
+                    key={sad.id}
+                    name={sad.user.name} 
+                    email={sad.user.email}
+                    tuto={sad.user.tutoSkipped}
+                    registration={sad.user.registrationDate}
+                    society={sad.society}
+                    reason={sad.socialReason}
+                    siret={sad.siret}
+                    phone={sad.contact.phone}/>
             );
         });
         return (
-    	<table>    
+    	<table className="table-striped">
             <thead>
                 <ServiceItem 
                     key='header'

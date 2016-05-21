@@ -12,21 +12,21 @@ class AuxiliariesList extends React.Component {
 	}
 
     render() { 
-        var nodes = this.props.data.map(function(user) {
+        var nodes = this.props.data.map(function(aux) {
             return (
                 <AuxiliaryItem 
-                    key={user.name}
-                    name={user.name} 
-                    email={user.email}
-                    active={user.active}
-                    tuto={user.tutoSkipped}
-                    registration={user.registrationDate}
-                    civility={user.civility}
-                    firstName={user.firstName}
-                    lastName={user.lastName}
-                    birthDate={user.birthDate}
-                    birthPlace={user.birthPlace}
-                    phone={user.phone}/>
+                    key={aux.id}
+                    name={aux.user.name} 
+                    email={aux.user.email}
+                    active={aux.user.active}
+                    tuto={aux.user.tutoSkipped}
+                    registration={aux.user.registrationDate}
+                    civility={aux.person.civility}
+                    firstName={aux.person.firstName}
+                    lastName={aux.person.lastName}
+                    birthDate={aux.person.birthDate}
+                    birthPlace={aux.person.birthPlace}
+                    phone={aux.contact.phone}/>
             );
         });
         return (

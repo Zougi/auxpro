@@ -23,14 +23,20 @@ class App extends React.Component {
 	onLogon() {
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		if (user.logged) {
-			Dispatcher.issue("GET_AUXILIARY", user);
-			let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
-			if (type === 'auxiliary')
-				this.context.router.push("/auxiliaryTuto");
-			else if (type === 'service')
-				this.context.router.push("/servicesTuto");
-			else
+			switch (user.type) {
+			case 'admin':
+			case 'guest':
 				this.context.router.push("/home");
+				break;
+			case 'aux':
+				Dispatcher.issue("GET_AUXILIARY", user);
+				this.context.router.push("/auxiliaryTuto");
+				break;
+			case 'sad':
+				Dispatcher.issue("GET_SERVICE", user);
+				this.context.router.push("/servicesTuto");
+				break;
+			}				
 		} else {
 			this.context.router.push("/");
 		}

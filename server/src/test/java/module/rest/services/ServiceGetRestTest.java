@@ -2,15 +2,14 @@ package module.rest.services;
 
 import javax.ws.rs.core.Response;
 
-import org.ap.web.entity.user.ServiceBean;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.common.string.StringConverter;
+import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.rest.servlet.services.ServicesServlet;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
-import tools.TestData;
 
 public class ServiceGetRestTest extends RestTestBase {
 
@@ -25,22 +24,19 @@ public class ServiceGetRestTest extends RestTestBase {
 	// users/{userId} GET
 	@Test
 	public void testI_getUnknownService() throws Exception {
-		UserBean userAdmin = TestData.getUserFromJson("users_admin.json");
-		Response rsp = prepare("/dummy", userAdmin.getName(), userAdmin.getPassword()).get();
+		Response rsp = prepare("/" + StringConverter.stringToHex("dummy"), accountAdmin.getUser()).get();
 		TestCase.assertEquals(404, rsp.getStatus());
-		TestCase.assertTrue(rsp.hasEntity());
+		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_asUnknownUser() throws Exception {
-		UserBean userSad1 = TestData.getServiceFromJson("users_sad1.json");
-		Response rsp = prepare("/" + userSad1.getName(), "dummy", "dummy").get();
+		Response rsp = prepare("/" + service_1.getUser().getName(), "dummy", "dummy").get();
 		TestCase.assertEquals(401, rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_invalidPassword() throws Exception {
-		UserBean userSad1 = TestData.getServiceFromJson("users_sad1.json");
-		Response rsp = prepare("/" + userSad1.getName(), userSad1.getName(), "dummy").get();
+		Response rsp = prepare("/" + service_1.getUser().getName(), service_1.getUser().getName(), "dummy").get();
 		TestCase.assertEquals(401, rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
@@ -50,36 +46,29 @@ public class ServiceGetRestTest extends RestTestBase {
 	// users/{userId} GET
 	@Test
 	public void testV_getServiceResponse() throws Exception {
-		UserBean userAdmin = TestData.getUserFromJson("users_admin.json");
-		ServiceBean userSad1 = TestData.getServiceFromJson("users_sad1.json");
-		Response rsp = prepare("/" + userSad1.getName(), userAdmin.getName(), userAdmin.getPassword()).get();
+		Response rsp = prepare("/" + service_1.getId(), accountAdmin.getUser()).get();
 		TestCase.assertEquals(200, rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asAdmin() throws Exception {
-		UserBean userAdmin = TestData.getUserFromJson("users_admin.json");
-		ServiceBean userSad1 = TestData.getServiceFromJson("users_sad1.json");
-		ServiceBean userSad = prepare("/" + userSad1.getName(), userAdmin.getName(), userAdmin.getPassword()).get(ServiceBean.class);
-		AssertHelper.assertService(userSad1, userSad);
+		ServiceBean userSad = prepare("/" + service_1.getId(), accountAdmin.getUser()).get(ServiceBean.class);
+		AssertHelper.assertService(service_1, userSad);
 	}
 	@Test
 	public void testV_asSelf() throws Exception {
-		ServiceBean userSad1 = TestData.getServiceFromJson("users_sad1.json");
-		ServiceBean userSad = prepare("/" + userSad1.getName(), userSad1.getName(), userSad1.getPassword()).get(ServiceBean.class);
-		AssertHelper.assertService(userSad1, userSad);
+		ServiceBean userSad = prepare("/" + service_1.getId(), service_1.getUser()).get(ServiceBean.class);
+		AssertHelper.assertService(service_1, userSad);
 	}
 	@Test
 	public void testV_asOther() throws Exception {
-		ServiceBean userSad1 = TestData.getServiceFromJson("users_sad1.json");
-		ServiceBean userSad2 = TestData.getServiceFromJson("users_sad2.json");
-		ServiceBean userSad = prepare("/" + userSad1.getName(), userSad2.getName(), userSad2.getPassword()).get(ServiceBean.class);
+		ServiceBean userSad = prepare("/" + service_1.getId(), service_2.getUser()).get(ServiceBean.class);
 		// Informations are private
-		userSad1.setName(null);
-		userSad1.setPassword(null);
-		userSad1.setEmail(null);
-		userSad1.setActive(false);
-		userSad1.setTutoSkipped(false);
-		AssertHelper.assertService(userSad1, userSad);
+		service_1.getUser().setName(null);
+		service_1.getUser().setPassword(null);
+		service_1.getUser().setEmail(null);
+		service_1.getUser().setActive(false);
+		service_1.getUser().setTutoSkipped(false);
+		AssertHelper.assertService(service_1, userSad);
 	}
 }

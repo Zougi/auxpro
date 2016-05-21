@@ -10,8 +10,20 @@ GetAuxiliaries.do = function (args) {
 
 let GetAuxiliary = new ActionBase({ name: 'GET_AUXILIARY' });
 GetAuxiliary.do = function (args) {
-	Utils.checkMembers(args, ['token']);
+	Utils.checkMembers(args, ['token', 'id']);
 	return RestService.getAuxiliary(args);
+}
+
+let GetAuxiliaryMissions = new ActionBase({ name: 'GET_AUXILIARY_MISSIONS' });
+GetAuxiliaryMissions.do = function (args) {
+	Utils.checkMembers(args, ['token', 'id']);
+	return RestService.getAuxiliaryMissions(args);
+}
+
+let GetAuxiliaryAbsences = new ActionBase({ name: 'GET_AUXILIARY_ABSENCES' });
+GetAuxiliaryAbsences.do = function (args) {
+	Utils.checkMembers(args, ['token', 'id']);
+	return RestService.getAuxiliaryAbsences(args);
 }
 
 let PostAuxiliary = new ActionBase({ name: 'POST_AUXILIARY' });
@@ -26,6 +38,6 @@ PostAuxiliary.do = function (args) {
 
 let PutAuxiliary = new ActionBase({ name: 'PUT_AUXILIARY' });
 PutAuxiliary.do = function (args) {
-	Utils.checkMembers(args, ['data', 'token']);
+	Utils.checkMembers(args, ['id', 'data', 'token']);
 	return RestService.putAuxiliary(args);	
 }

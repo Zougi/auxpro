@@ -15,32 +15,21 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 @ApplicationPath("/rest")
 public class RestApplication extends ResourceConfig {
-	
-	/* ATTRIBUTES */
-	
-	/* CONSTRUCTORS */
-	
-	/**	 */
+
 	public RestApplication() {
 		try {
 			EConfigProperties.loadProperties();
 		} catch (IOException e) {
 			System.err.println(e);
 		}
-				
 		packages("org.ap.web.rest.servlet");
 		register(JacksonFeature.class);
-		//register(JacksonJsonProvider.class);
 		register(AuthorizationRequestFilter.class);
 		register(HeadersResponseFilter.class);
 		register(SecurityEntityFilteringFeature.class);
 		register(EntityFilteringFeature.class);
 		if (new Boolean(EConfigProperties.SERV_LOGIN.getValue())) {
 			register(LoggingFilter.class);
-		}
-		
+		}		
 	}
-	
-	/* METHODS */
-	
 }

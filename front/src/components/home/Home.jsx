@@ -7,7 +7,8 @@ import StoreRegistry from '../../core/StoreRegistry';
 // custom modules
 import AuxiliariesBox from '../users/auxiliaries/AuxiliariesBox.jsx'
 import ServicesBox from '../users/services/ServicesBox.jsx'
-import Profile from './Profile.jsx'
+import ProfileAux from './ProfileAux.jsx'
+import ProfileSad from './ProfileSad.jsx'
 
 class Home extends React.Component {
 
@@ -20,12 +21,17 @@ class Home extends React.Component {
 
 	render() { 
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
-		switch (type){
-			case 'services' :
-			case 'auxiliary' : 
+		switch (type) {
+			case 'sad' :
 				return (
 					<div className='container'>
-						<Profile/>
+						<ProfileSad/>
+					</div>
+				);
+			case 'aux' : 
+				return (
+					<div className='container'>
+						<ProfileAux/>
 					</div>
 				);
 			 case 'admin' :

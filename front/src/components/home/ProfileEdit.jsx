@@ -10,8 +10,9 @@ class ProfileEdit extends React.Component {
 
 	constructor(props) {
 		super(props);
+		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		this.state = {
-			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/name'))
+			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id)
 		};
 	}
 
@@ -22,17 +23,17 @@ class ProfileEdit extends React.Component {
 		}
     }
 	
-	handleChangePassword(e) { this.state.data.password = e.target.value; }
-	handleChangeLastName(e) { this.state.data.lastName =  e.target.value; }
-	handleChangeFirstName(e) { this.state.data.firstName =  e.target.value; }
-	handleChangePhone(e) { this.state.data.phone =  e.target.value; }
-	handleChangeBirthDate(e) { this.state.data.birthDate =  e.target.value; }
-	handleChangeCivility(e) { this.state.data.civility =  e.target.value; }
+	handleChangePassword(e) { this.state.data.user.password = e.target.value; }
+	handleChangeLastName(e) { this.state.data.person.lastName =  e.target.value; }
+	handleChangeFirstName(e) { this.state.data.person.firstName =  e.target.value; }
+	handleChangePhone(e) { this.state.data.contact.phone =  e.target.value; }
+	handleChangeBirthDate(e) { this.state.data.person.birthDate =  e.target.value; }
+	handleChangeCivility(e) { this.state.data.person.civility =  e.target.value; }
 	handleChangeDiploma(e) { this.state.data.diploma =  e.target.value; }
 	
 	update(event) {
 		console.log(this.state.data);
-		 this.state.token = StoreRegistry.getStore('LOGIN_STORE').getData('/token');
+		this.state.token = StoreRegistry.getStore('LOGIN_STORE').getData('/token');
         event.preventDefault();
         Dispatcher.issue('PUT_AUXILIARY', this.state);
 		this.context.router.push('/home');
@@ -57,7 +58,7 @@ class ProfileEdit extends React.Component {
 				Nom
 			  </Col>
 			  <Col sm={10}>
-				<FormControl type='text' defaultValue={this.state.data.lastName} onChange={this.handleChangeLastName.bind(this)}/>
+				<FormControl type='text' defaultValue={this.state.data.person.lastName} onChange={this.handleChangeLastName.bind(this)}/>
 			  </Col>
 			</FormGroup>
 			
@@ -66,7 +67,7 @@ class ProfileEdit extends React.Component {
 				Prenom
 			  </Col>
 			  <Col sm={10}>
-				<FormControl defaultValue={this.state.data.firstName} onChange={this.handleChangeFirstName.bind(this)}/>
+				<FormControl defaultValue={this.state.data.person.firstName} onChange={this.handleChangeFirstName.bind(this)}/>
 			  </Col>
 			</FormGroup>
 			
@@ -75,7 +76,7 @@ class ProfileEdit extends React.Component {
 				Telephone
 			  </Col>
 			  <Col sm={10}>
-				<FormControl type='text' defaultValue={this.state.data.phone} onChange={this.handleChangePhone.bind(this)}/>
+				<FormControl type='text' defaultValue={this.state.data.contact.phone} onChange={this.handleChangePhone.bind(this)}/>
 			  </Col>
 			</FormGroup>
 			
@@ -84,7 +85,7 @@ class ProfileEdit extends React.Component {
 				Date de Naissance
 			  </Col>
 			  <Col sm={10}>
-				<FormControl type='text' defaultValue={this.state.data.birthDate} onChange={this.handleChangeBirthDate.bind(this)}/>
+				<FormControl type='text' defaultValue={this.state.data.person.birthDate} onChange={this.handleChangeBirthDate.bind(this)}/>
 			  </Col>
 			</FormGroup>
 			
@@ -93,7 +94,7 @@ class ProfileEdit extends React.Component {
 				Civilite
 			  </Col>
 			  <Col sm={10}>
-				<FormControl type='text' defaultValue={this.state.data.civility} onChange={this.handleChangeCivility.bind(this)}/>
+				<FormControl type='text' defaultValue={this.state.data.person.civility} onChange={this.handleChangeCivility.bind(this)}/>
 			  </Col>
 			</FormGroup>
 			

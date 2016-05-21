@@ -1,22 +1,16 @@
 package org.ap.web.rest.servlet.services;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.common.EmailValidator;
-import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.user.CredentialsBean;
-import org.ap.web.entity.user.ServiceBean;
+import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
-import org.ap.web.service.users.IUsersService;
-import org.ap.web.service.users.UsersMongoService;
-import org.bson.Document;
+import org.ap.web.service.stores.services.IServicesStore;
+import org.ap.web.service.stores.services.ServicesStore;
 
 @Path("/services")
 public class ServicesServlet extends ServletBase implements IServicesServlet {
@@ -27,15 +21,15 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 
 	/* ATTRIBUTES */
 
-	private IUsersService _service;
+	private IServicesStore _sadStore;
 
 	/* CONSTRUCTOR */
 
 	public ServicesServlet() throws APException {
-		_service = new UsersMongoService();
+		_sadStore = new ServicesStore();
 	}
-	public ServicesServlet(IUsersService service) throws APException {
-		_service = service;
+	public ServicesServlet(IServicesStore sadStore) throws APException {
+		_sadStore = sadStore;
 	}
 
 	/* METHODS */
@@ -45,12 +39,12 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response getServicesJSON(SecurityContext sc, int postal) {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("type", EUserType.SERVICE.getId());
+			ServiceBean[] users;
 			if (postal != 0) {
-				map.put("address.postalCode", postal);
+				users = _sadStore.get(postal);
+			} else {
+				users = _sadStore.get();
 			}
-			ServiceBean[] users = BeanConverter.convertToServices(_service.getUsers(map));
 			return Response.status(200).entity(users, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
@@ -59,26 +53,17 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response createServiceJSON(SecurityContext sc, CredentialsBean bean) {
 		try {
-			if (!EmailValidator.getInstance().isValid(bean.getName())) throw APException.USER_NAME_INVALID;
-			if (!EmailValidator.getInstance().isValid(bean.getEmail())) throw APException.USER_EMAIL_INVALID;
-			ServiceBean service = new ServiceBean();
-			service.setName(bean.getName());
-			service.setEmail(bean.getEmail());
-			service.setPassword(bean.getPassword());
-			Document doc = BeanConverter.convertToDocument(service);
-			doc = _service.createUser(doc);
-			service = BeanConverter.convertToService(doc);
-			return Response.status(201).entity(service, resolveAnnotations(sc, bean)).build();
+			ServiceBean service = _sadStore.create(bean);
+			return Response.status(201).entity(service, resolveAnnotations(sc, service)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response getServiceJSON(SecurityContext sc, String name) {
+	public Response getServiceJSON(SecurityContext sc, String id) {
 		try {
-			Document userSad = _service.getUserByName(name);
-			if (userSad == null) throw APException.USER_NOT_FOUND;
-			ServiceBean bean = BeanConverter.convertToService(userSad);
+			ServiceBean bean = _sadStore.get(id);
+			if (bean == null) return Response.status(Status.NOT_FOUND).build();
 			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
 		} catch (APException e) {
 			return sendException(e);
@@ -87,11 +72,8 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response updateServiceJSON(SecurityContext sc, String id, ServiceBean bean) {
 		try {
-			if (_service.getUserByName(id) == null) throw APException.USER_NOT_FOUND;
 			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
-			Document doc = BeanConverter.convertToDocument(bean);
-			doc = _service.updateUser(doc);
-			bean = BeanConverter.convertToService(doc);
+			bean = _sadStore.update(bean);
 			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
 		} catch (APException e) {
 			return sendException(e);
@@ -99,6 +81,11 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	}
 	@Override
 	public Response deleteServiceJSON(SecurityContext sc, String id) {
-		return sendException(APException.NOT_IMPLEMENTED);
+		try {
+			_sadStore.delete(id);
+			return Response.status(200).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
 	}
 }

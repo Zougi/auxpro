@@ -1,21 +1,22 @@
 package org.ap.web.entity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.ap.web.entity.error.ErrorBean;
 import org.ap.web.entity.error.ErrorDetailsBean;
-import org.ap.web.entity.user.AuxiliaryBean;
-import org.ap.web.entity.user.CredentialsBean;
-import org.ap.web.entity.user.ServiceBean;
-import org.ap.web.entity.user.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.internal.Mappers;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.Block;
+import com.mongodb.client.FindIterable;
 
 public class BeanConverter {
 
@@ -29,90 +30,73 @@ public class BeanConverter {
 		return exBean;
 	}
 
-	// CREDENTIALS
-	public static Document convertToDocument(CredentialsBean credentials) throws APException {
-		return convertToMongo(credentials);
-	}
-	public static CredentialsBean convertToCredentials(Document document) throws APException {
-		return (CredentialsBean)convertToBean(document, CredentialsBean.class);
-	}
-
-	// USER
-	public static Document convertToDocument(UserBean user) throws APException {
-		return convertToMongo(user);
-	}
-	public static UserBean convertToUser(Document document) throws APException {
-		return (UserBean)convertToBean(document, UserBean.class);
-	}
-	public static UserBean[] convertToUsers(List<Document> users) throws APException {
-		UserBean[] beans = new UserBean[users.size()];
-		for (int i = 0 ; i < beans.length ; i++) {
-			beans[i] = convertToUser(users.get(i));
-		}
-		return beans;
-	}
-
-	// AUXILIARY
-	public static Document convertToDocument(AuxiliaryBean auxiliary) throws APException {
-		return convertToMongo(auxiliary);
-	}
-	public static AuxiliaryBean convertToAuxiliary(Document document) throws APException {
-		return (AuxiliaryBean)convertToBean(document, AuxiliaryBean.class);
-	}
-	public static AuxiliaryBean[] convertToAuxiliaries(List<Document> auxs) throws APException {
-		AuxiliaryBean[] beans = new AuxiliaryBean[auxs.size()];
-		for (int i = 0 ; i < beans.length ; i++) {
-			beans[i] = convertToAuxiliary(auxs.get(i));
-		}
-		return beans;
-	}
-
-	// SERVICE
-	public static Document convertToDocument(ServiceBean user) throws APException {
-		return convertToMongo(user);
-	}
-	public static ServiceBean convertToService(Document document) throws APException {
-		return (ServiceBean)convertToBean(document, ServiceBean.class);
-	}
-	public static ServiceBean[] convertToServices(List<Document> sads) throws APException {
-		ServiceBean[] beans = new ServiceBean[sads.size()];
-		for (int i = 0 ; i < beans.length ; i++) {
-			beans[i] = convertToService(sads.get(i));
-		}
-		return beans;
-	}
-	
-	/* HELPERS */
-	
-	public static Document convertToMongo(Object o) throws APException {
-		try {
-			String json = Mappers.DEFAULT.getMapper().writeValueAsString(o);
-			return Document.parse(json);
-		} catch (JsonGenerationException e) {
+	// BEANS
+	public static String beanToString(Object o) throws APException {
+		try { 
+			return Mappers.DEFAULT.getMapper().writeValueAsString(o);
+		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-			throw APException.JSON_GENERATION_EX;
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-			throw APException.JSON_MAPPING_EX;
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw APException.JSON_IO_EX;
+			throw APException.JSON_PROCESSING_EX;
 		}
 	}
-	@SuppressWarnings("unchecked")
-	public static Object convertToBean(Document document, @SuppressWarnings("rawtypes") Class clazz) throws APException {
-		try {
-			String json = document.toJson();
-			return Mappers.MONGO.getMapper().readValue(json, clazz);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-			throw APException.JSON_MAPPING_EX;
+	public static <T> T stringToBean(String json, Class<T> clazz) throws APException {
+		return stringToBean(json, clazz, Mappers.DEFAULT.getMapper());
+	}
+	public static <T> T mongoStringToBean(String json, Class<T> clazz) throws APException {
+		return stringToBean(json, clazz, Mappers.MONGO.getMapper());
+	}
+	public static <T> T stringToBean(String json, Class<T> clazz, ObjectMapper mapper) throws APException {
+		try { 
+			return mapper.readValue(json, clazz);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
-			throw APException.JSON_MAPPING_EX;
+			throw APException.JSON_PARSE_EX;
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			throw APException.JSON_PROCESSING_EX;
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw APException.JSON_IO_EX;
 		}
 	}
+	public static Document convertToMongo(MongoEntity o) throws APException {
+		Document result = convertToMongoDocument(o);
+		result.remove("id");
+		if (o.getId() != null) {
+			result.append("_id", new ObjectId(o.getId()));
+		}
+		return result;
+	}
+	public static Document convertToMongo(Object o) throws APException {
+		return convertToMongoDocument(o);
+	}
+	
+	public static Document convertToMongoDocument(Object o) throws APException {
+		String json = beanToString(o);
+		return Document.parse(json);
+	}
+	public static <T> T convertToBean(Document document, Class<T> clazz) throws APException {
+		String json = document.toJson();
+		T o = mongoStringToBean(json, clazz);
+		if (MongoEntity.class.isAssignableFrom(clazz)) {
+			String id = document.get("_id", ObjectId.class).toString();
+			((MongoEntity)o).setId(id);;
+		}
+		return o;			
+	}
+	public static <T> List<T> convertToBean(FindIterable<Document> iterable, final Class<T> c) {
+		final List<T> result = new ArrayList<T>();
+		iterable.forEach(new Block<Document>() {
+			@Override
+			public void apply(final Document document) {
+				try {
+					result.add(BeanConverter.convertToBean(document, c));
+				} catch (Exception e) {
+					e.printStackTrace();					
+				}
+			}
+		});
+		return result;
+	}
+
 }

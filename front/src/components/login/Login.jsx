@@ -39,8 +39,6 @@ class Login extends React.Component {
 
 	login(event) {
         event.preventDefault();
-        console.log('here');
-        console.log(this.state);
         let params = {
             user: this.state.user, 
             pass: this.state.pass

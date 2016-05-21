@@ -16,12 +16,29 @@ AuxiliaryStore.onGetAuxiliaries = function (args) {
 Dispatcher.register('GET_AUXILIARIES', AuxiliaryStore.onGetAuxiliaries);
 
 AuxiliaryStore.onGetAuxiliary = function (args) {
-	AuxiliaryStore._content.auxiliary[args.name] = args;
+	AuxiliaryStore._content.auxiliary[args.id] = args;
 	AuxiliaryStore.notify();
 };
 
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
-
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
+
+AuxiliaryStore.onGetAuxiliaryMissions = function (args) {
+	if (args && args.length > 0) {
+		AuxiliaryStore._content.auxiliary[args[0].auxiliaryId].missions = args;
+		AuxiliaryStore.notify();
+	}	
+};
+
+Dispatcher.register('GET_AUXILIARY_MISSIONS', AuxiliaryStore.onGetAuxiliaryMissions);
+
+AuxiliaryStore.onGetAuxiliaryAbsences = function (args) {
+	if (args && args.length > 0) {
+		AuxiliaryStore._content.auxiliary[args[0].auxiliaryId].absences = args;
+		AuxiliaryStore.notify();
+	}	
+};
+
+Dispatcher.register('GET_AUXILIARY_ABSENCES', AuxiliaryStore.onGetAuxiliaryAbsences);
 
 export default AuxiliaryStore;

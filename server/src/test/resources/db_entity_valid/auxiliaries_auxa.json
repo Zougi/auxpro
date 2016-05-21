@@ -1,0 +1,31 @@
+{
+	"user": {
+		"name":"a",
+		"password":"a",
+		"email":"a",
+		"registrationDate":"2016-06-15",
+		"active":true,
+		"tutoSkipped":true,
+		"type":"aux"
+	},
+	"person": {
+		"civility":"Mr",
+		"firstName": "Premier",
+		"lastName": "Auxiliaire",
+		"birthDate":"1980-01-03",
+		"birthPlace":"Paris"
+	},
+	"contact": {
+		"address": {
+			"address": "1 rue du premier utilisateur",
+			"postalCode": 75001,
+			"city": "Paris"
+		},
+		"addressChecked": false,
+		"phone": "01 01 01 01 01",
+		"phoneChecked": true,
+		"email":"user1@user1.fr",
+		"emailChecked": true
+	},
+	"diploma":"Diplome de trucmuche"
+}

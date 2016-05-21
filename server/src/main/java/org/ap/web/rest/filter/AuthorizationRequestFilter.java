@@ -6,13 +6,12 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.security.Encoder;
 import org.ap.web.rest.security.UserSecurityContext;
-import org.ap.web.service.users.IUsersService;
-import org.ap.web.service.users.UsersMongoService;
+import org.ap.web.service.stores.user.IUserStore;
+import org.ap.web.service.stores.user.UserStore;
 
 @PreMatching
 public class AuthorizationRequestFilter implements ContainerRequestFilter {
@@ -23,12 +22,12 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
 	/* ATTRIBUTES */
 
-	private IUsersService _service;
+	private IUserStore _store;
 
 	/* CONSTRUCTOR */
 
 	public AuthorizationRequestFilter() throws APException {
-		_service = new UsersMongoService();
+		_store = new UserStore();
 	}
 
 	/* METHODS */
@@ -46,10 +45,13 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 		} else {
 			try {
 				String[] credentials = Encoder.decodeBasicAuth(header);
-				if(credentials == null || credentials.length != 2){
+				if (credentials == null || credentials.length != 2) {
 					throw new WebApplicationException(Status.UNAUTHORIZED);
 				}
-				UserBean user = BeanConverter.convertToUser(_service.checkUser(credentials[0], credentials[1]));
+				UserBean user = _store.check(credentials[0], credentials[1]);
+				if(user == null) {
+					throw new WebApplicationException(Status.UNAUTHORIZED);
+				}
 				requestContext.setSecurityContext(new UserSecurityContext(user));
 			} catch (APException e) {
 				throw new WebApplicationException(Status.UNAUTHORIZED);

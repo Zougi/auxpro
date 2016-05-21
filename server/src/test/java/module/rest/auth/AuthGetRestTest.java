@@ -2,13 +2,13 @@ package module.rest.auth;
 
 import javax.ws.rs.core.Response;
 
-import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.rest.servlet.auth.AuthServlet;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
+import tools.AssertHelper;
 
 public class AuthGetRestTest extends RestTestBase {
 
@@ -31,14 +31,12 @@ public class AuthGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_getAuth_AdminUser() throws Exception {
-		UserBean user = prepare("", userAdmin.getName(), userAdmin.getPassword()).get(UserBean.class);
-		TestCase.assertEquals(userAdmin.getName(), user.getName());
-		TestCase.assertEquals(EUserType.ADMIN.getId(), user.getType());
+		UserBean user = prepare("", accountAdmin.getUser()).get(UserBean.class);
+		AssertHelper.assertUser(accountAdmin.getUser(), user);
 	}
 	@Test
 	public void testV_getAuth_User() throws Exception {
-		UserBean user = prepare("", userAux1.getName(), userAux1.getPassword()).get(UserBean.class);
-		TestCase.assertEquals(userAux1.getName(), user.getName());
-		TestCase.assertEquals(EUserType.AUXILIARY.getId(), user.getType());
+		UserBean user = prepare("", auxiliary1.getUser()).get(UserBean.class);
+		AssertHelper.assertUser(auxiliary1.getUser(), user);
 	}
 }

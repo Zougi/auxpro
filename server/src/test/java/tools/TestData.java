@@ -1,23 +1,26 @@
 package tools;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.constant.EAuxCivility;
+import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.user.AuxiliaryBean;
-import org.ap.web.entity.user.CredentialsBean;
-import org.ap.web.entity.user.ServiceBean;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.EConfigProperties;
 import org.ap.web.internal.Mappers;
-import org.ap.web.service.MongoConnection;
-import org.ap.web.service.MongoConstants;
+import org.ap.web.internal.annotation.MongoId;
+import org.ap.web.service.EMongoCollection;
+import org.ap.web.service.Mongo;
 import org.bson.Document;
 
 public class TestData {
@@ -50,40 +53,55 @@ public class TestData {
 	/* CREATE TEST DB */
 
 	public static void createTestDatabase() {
-		MongoConnection CONN = MongoConnection.getInstance();
-		CONN.getDatabase().drop();
-		List<Document> list = new ArrayList<Document>();
+		Mongo.database().drop();
 		File dir = new File(TEST_RSC_ENTITY_VALID);
-		for (String path : dir.list()) {
-			try {
-				if (path.contains("_aux")) {
-					list.add(BeanConverter.convertToDocument(getAuxiliaryFromJson(path)));
-				} else if (path.contains("_sad")) {
-					list.add(BeanConverter.convertToDocument(getServiceFromJson(path)));
-				} else {
-					list.add(BeanConverter.convertToDocument(getUserFromJson(path)));
+		
+		for (final EMongoCollection col : EMongoCollection.values()) {
+//			System.out.println("- " + col.name());
+			List<Document> objects = new ArrayList<Document>();
+
+			for (String path : dir.list(new FilenameFilter() {
+				public boolean accept(File dir, String name) {
+					return name.startsWith(col.getName() + "_");
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.err.println("unable to load ref from: " + path);
+			}))	{
+//				System.out.println("   - " + path);
+				try {
+					String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
+					MongoEntity obj = (MongoEntity)BeanConverter.stringToBean(content, col.getClazz());
+					String id = path.replaceFirst(col.getName() + "_", "").replace(".json", "");
+					id = StringConverter.stringToHex(id);
+					obj.setId(id);
+					for (Field f : obj.getClass().getDeclaredFields()) {
+						if (f.getDeclaredAnnotation(MongoId.class) != null) {
+							String get = "get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+							String set = "set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+							Method getMethod = obj.getClass().getMethod(get);
+							Method setMethod = obj.getClass().getMethod(set, String.class);
+							String id2 = (String)getMethod.invoke(obj);
+							String hexId = StringConverter.stringToHex(id2);
+							setMethod.invoke(obj, hexId);
+						}
+					}
+					Document document = BeanConverter.convertToMongo(obj);
+					objects.add(document);
+				} catch (Exception e) {
+					e.printStackTrace();
+					break;
+				}
+			}
+			if (objects.size() > 0) {
+//				System.out.println("  > inserting " + objects.size());
+				Mongo.collection(col.getName()).insertMany(objects);
 			}
 		}
-		CONN.getCollection(MongoConstants.Users.COLLECTION).insertMany(list);
 	}
 	
-	public static UserBean getUserFromJson(String path) throws Exception {
+	public static <T> T getFromJson(String path, Class<T> clazz) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return Mappers.DEFAULT.getMapper().readValue(content, UserBean.class);
+		return Mappers.DEFAULT.getMapper().readValue(content, clazz);
 	}
-	public static AuxiliaryBean getAuxiliaryFromJson(String path) throws Exception {
-		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return Mappers.DEFAULT.getMapper().readValue(content, AuxiliaryBean.class);
-	}
-	public static ServiceBean getServiceFromJson(String path) throws Exception {
-		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return Mappers.DEFAULT.getMapper().readValue(content, ServiceBean.class);
-	}
-
+	
 	private static String USER_NAME = "newUser";
 	private static int USER_ID = 0;
 
@@ -109,22 +127,7 @@ public class TestData {
 		bean.setType(EUserType.AUXILIARY.getId());
 		return bean;
 	}
-	public static AuxiliaryBean getNextAuxiliary() {
-		AuxiliaryBean bean = (AuxiliaryBean)fillNextUser(new AuxiliaryBean());
-		bean.setCivility(EAuxCivility.MR.getId());
-		bean.setFirstName("first " + bean.getName());
-		bean.setLastName("last " + bean.getName());
-		bean.setPhone("phone " + bean.getName());
-		bean.setType(EUserType.AUXILIARY.getId());
-		return bean;
-	}
-	public static ServiceBean getNextService() {
-		ServiceBean bean = (ServiceBean)fillNextUser(new ServiceBean());
-		bean.setSociety("society " + bean.getName());
-		bean.setPhone("phone " + bean.getName());
-		bean.setType(EUserType.SERVICE.getId());
-		return bean;
-	}
+	
 
 	public static void main(String[] args) {
 		EConfigProperties.DB_NAME.setValue(TestData.DB_DEV);

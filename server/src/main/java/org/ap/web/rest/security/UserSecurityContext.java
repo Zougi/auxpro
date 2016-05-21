@@ -6,7 +6,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.constant.EUserRole;
 import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.mongo.UserBean;
 
 public class UserSecurityContext implements SecurityContext, Principal {
 	
@@ -63,6 +63,6 @@ public class UserSecurityContext implements SecurityContext, Principal {
 	
 	@Override
 	public String getName() {
-		return _user.getName();
+		return _user.getId();
 	}
 }

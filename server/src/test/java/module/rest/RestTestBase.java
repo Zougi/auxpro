@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.ws.rs.client.Invocation.Builder;
 
+import org.ap.web.entity.mongo.UserBean;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 import module.TestModuleBase;
@@ -27,12 +28,18 @@ public abstract class RestTestBase extends TestModuleBase {
 				path(_root + path).
 				request();
 	}
+	protected Builder prepare(String path, UserBean user) {
+		return prepare(path, user.getName(), user.getPassword());		
+	}
 	protected Builder prepare(String path, String user, String pass) {
 		return TARGET.
 				path(_root + path).
 				request().
 				property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_USERNAME, user).
 				property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD, pass);
+	}
+	protected Builder prepare(String path, Map<String, Object> params, UserBean user) {
+		return prepare(path, params, user.getName(), user.getPassword());
 	}
 	protected Builder prepare(String path, Map<String, Object> params, String user, String pass) {
 		TARGET = TARGET.path(_root + path);

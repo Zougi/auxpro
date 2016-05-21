@@ -8,8 +8,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.BeanConverter;
+import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.user.CredentialsBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.security.annotation.SecurityAnnotation;
 
@@ -46,11 +47,18 @@ public abstract class ServletBase {
 	}
 	
 	public Annotation[] resolveAnnotations(SecurityContext sc) {
-		return resolveAnnotations(sc, null);
+		String id = null;
+		return resolveAnnotations(sc, id);
 	}
-	public Annotation[] resolveAnnotations(SecurityContext sc, CredentialsBean credentials) {
+	public Annotation[] resolveAnnotations(SecurityContext sc, MongoEntity entity) {
+		return resolveAnnotations(sc, entity.getId());
+	}
+	public Annotation[] resolveAnnotations(SecurityContext sc, UserBean user) {
+		return resolveAnnotations(sc, user.getId());
+	}
+	public Annotation[] resolveAnnotations(SecurityContext sc, String id) {
 		Set<Annotation> annotations = new HashSet<Annotation>();
-		if (credentials != null && credentials.getName().equals(sc.getUserPrincipal().getName())) {
+		if (id != null && id.equals(sc.getUserPrincipal().getName())) {
 			annotations.add(SecurityAnnotation.PRIVATE.get());
 			annotations.add(SecurityAnnotation.SECRET.get());
 		}

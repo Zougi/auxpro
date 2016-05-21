@@ -1,0 +1,26 @@
+{
+	"user": {
+		"name":"society1",
+		"password":"society1pwd",
+		"email":"society1@society1.fr",
+		"registrationDate":"2016-02-15",
+		"active":true,
+		"tutoSkipped":true,
+		"type":"sad"
+	},	
+	"contact": {
+		"address": {
+			"address": "1 avenue de la premiere societe",
+			"postalCode": 75010,
+			"city": "Paris"
+		},
+		"addressChecked": true,
+		"phone": "10 10 10 10 10",
+		"phoneChecked": true,
+		"email":"society1@society1.fr",
+		"emailChecked": true
+	},
+	"society": "Societe 1",
+	"socialReason":"Mand",
+	"siret":"6565789"
+}

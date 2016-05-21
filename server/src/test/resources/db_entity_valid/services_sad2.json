@@ -1,0 +1,26 @@
+{
+	"user": {
+		"name":"society2",
+		"password":"society2pwd",
+		"email":"society2@society2.fr",
+		"registrationDate":"2015-12-15",
+		"active":false,
+		"tutoSkipped":false,
+		"type":"sad"
+	},
+	"contact": {
+		"address": {
+			"address": "2 avenue de la seconde societe",
+			"postalCode": 75020,
+			"city": "Paris"
+		},
+		"addressChecked": true,
+		"phone": "20 20 20 20 20",
+		"phoneChecked": true,
+		"email":"society1@society1.fr",
+		"emailChecked": true
+	},
+	"society":"Societe 2",
+	"socialReason":"Prest",
+	"siret":"0120686468"
+}

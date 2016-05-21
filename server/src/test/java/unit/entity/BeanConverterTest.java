@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.bson.Document;
 import org.junit.Test;
@@ -34,6 +34,6 @@ public class BeanConverterTest {
 		user.setTutoSkipped(false);
 		user.setType(EUserType.ADMIN.getId());
 		Document doc = BeanConverter.convertToMongo(user);
-		UserBean bean = BeanConverter.convertToUser(doc);
+		UserBean bean = BeanConverter.convertToBean(doc, UserBean.class);
 		AssertHelper.assertUser(user, bean);
 	}}

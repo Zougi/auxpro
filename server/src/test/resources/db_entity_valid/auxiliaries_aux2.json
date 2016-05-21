@@ -1,0 +1,31 @@
+{
+	"user": {
+		"name":"user2@user2.fr",
+		"password":"user2pwd",
+		"email":"user2@user2.fr",
+		"active":true,
+		"registrationDate":"2016-05-01",
+		"tutoSkipped":false,
+		"type":"aux"
+	},
+	"diploma":"Diplome de foufou",
+	"person": {
+		"civility":"Mme",
+		"firstName": "Seconde",
+		"lastName": "Auxiliaire",
+		"birthDate":"1992-05-01",
+		"birthPlace":"Saint Ouen"
+	},
+	"contact": {
+		"address": {
+			"address": "2 rue du second utilisateur",
+			"postalCode": 75002,
+			"city": "Paris"
+		},
+		"addressChecked": false,
+		"phone": "02 02 02 02 02",
+		"phoneChecked": true,
+		"email":"user1@user1.fr",
+		"emailChecked": true
+	}
+}

@@ -6,7 +6,7 @@ import javax.ws.rs.client.WebTarget;
 
 import org.ap.web.internal.EConfigProperties;
 import org.ap.web.rest.RestApplication;
-import org.ap.web.service.MongoConnection;
+import org.ap.web.service.Mongo;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
@@ -16,7 +16,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-
 import tools.TestBase;
 import tools.TestData;
 
@@ -26,8 +25,6 @@ public class TestModuleBase extends TestBase {
 
 	private static HttpServer SERVER;
 	protected static WebTarget TARGET;
-
-	protected static MongoConnection CONN;
 
 	@BeforeClass
 	public static void startHttpServer() {
@@ -54,8 +51,7 @@ public class TestModuleBase extends TestBase {
 	@BeforeClass
 	public static void setUpDBClient() {
 		EConfigProperties.DB_NAME.setValue(TestData.DB_TEST);
-		MongoConnection.reload();
-		CONN = MongoConnection.getInstance();
+		Mongo.reload();
 	}
 	
 	/* TEST SETUP */
@@ -63,10 +59,11 @@ public class TestModuleBase extends TestBase {
 	// Database handling
 	@Before
 	public void createDB() {
+		Mongo.database().drop();
 		TestData.createTestDatabase();
 	}
 	@After
 	public void destroyDB() {
-		CONN.getDatabase().drop();
+		Mongo.database().drop();
 	}
 }

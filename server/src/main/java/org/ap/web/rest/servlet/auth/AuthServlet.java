@@ -4,13 +4,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.user.UserBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
-import org.ap.web.service.users.IUsersService;
-import org.ap.web.service.users.UsersMongoService;
-import org.bson.Document;
+import org.ap.web.service.stores.user.IUserStore;
+import org.ap.web.service.stores.user.UserStore;
 
 @Path("/auth")
 public class AuthServlet extends ServletBase implements IAuthServlet {
@@ -21,12 +19,12 @@ public class AuthServlet extends ServletBase implements IAuthServlet {
 
 	/* ATTRIBUTES */
 
-	private IUsersService _service;
+	private IUserStore _store;
 
 	/* CONSTRUCTOR */
 
 	public AuthServlet() throws APException {
-		_service = new UsersMongoService();
+		_store = new UserStore();
 	}
 	
 	/* METHODS */
@@ -36,8 +34,7 @@ public class AuthServlet extends ServletBase implements IAuthServlet {
 	@Override
 	public Response getAuth(SecurityContext sc) {
 		try {
-			Document userD = _service.getUserByName(sc.getUserPrincipal().getName());
-			UserBean userB = BeanConverter.convertToUser(userD);
+			UserBean userB = _store.get(sc.getUserPrincipal().getName());
 			return Response.status(200).entity(userB, resolveAnnotations(sc, userB)).build();
 		} catch (APException e) {
 			return sendException(e);

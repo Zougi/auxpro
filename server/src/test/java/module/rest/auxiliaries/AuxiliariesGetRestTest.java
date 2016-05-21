@@ -2,7 +2,7 @@ package module.rest.auxiliaries;
 
 import javax.ws.rs.core.Response;
 
-import org.ap.web.entity.user.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
 import org.junit.Test;
 
@@ -30,18 +30,18 @@ public class AuxiliariesGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asAdmin() throws Exception {
-		AuxiliaryBean[] beans = prepare("", userAdmin.getName(), userAdmin.getPassword()).get(AuxiliaryBean[].class);
+		AuxiliaryBean[] beans = prepare("", accountAdmin.getUser()).get(AuxiliaryBean[].class);
 		TestCase.assertEquals(3, beans.length);
 	}
 	@Test
 	public void testV_asGuest() throws Exception {
-		Response rsp = prepare("", userGuest.getName(), userGuest.getPassword()).get();
+		Response rsp = prepare("", account_guest.getUser()).get();
 		TestCase.assertEquals(200, rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asAdmin_responseStatus() throws Exception {
-		Response rsp = prepare("", userAdmin.getName(), userAdmin.getPassword()).get();
+		Response rsp = prepare("", accountAdmin.getUser()).get();
 		TestCase.assertEquals(200, rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}

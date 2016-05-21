@@ -36,4 +36,11 @@ export default class PlaningHelper {
 		if (!this.hasMonth(year, month)) { this.planing[year][month] = {}; }
 		this.planing[year][month][day] = value;
 	}
+
+	pushDay(year, month, day, value) {
+		if (!this.hasDay(year, month, day)) {
+			this.setDay(year, month, day, []);
+		}
+		this.getForDay(year, month, day).push(value);
+	}
 }
