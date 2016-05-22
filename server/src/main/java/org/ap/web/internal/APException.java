@@ -28,6 +28,8 @@ public class APException extends Exception {
 	public static final APException USER_NAME_INVALID = new APException("USER_NAME_INVALID", Status.BAD_REQUEST);
 	public static final APException USER_EMAIL_INVALID = new APException("USER_EMAIL_INVALID", Status.BAD_REQUEST);
 	
+	public static final APException ABSENCE_HOURS_INVALID = new APException("ABSENCE_HOURS_INVALID", Status.BAD_REQUEST);
+	public static final APException ABSENCE_INVALID_AUX = new APException("ABSENCE_INVALID_AUX", Status.BAD_REQUEST);
 	
 	public static final APException AUX_INFO_INVALID = new APException("AUX_INFO_INVALID", Status.BAD_REQUEST);
 	

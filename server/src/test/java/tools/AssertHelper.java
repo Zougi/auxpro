@@ -5,11 +5,11 @@ import javax.ws.rs.core.Response;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.error.ErrorBean;
 import org.ap.web.entity.error.ErrorDetailsBean;
+import org.ap.web.entity.mongo.AbsenceBean;
 import org.ap.web.entity.mongo.AddressBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
-import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.PersonBean;
 import org.ap.web.entity.mongo.ServiceBean;
@@ -66,18 +66,19 @@ public class AssertHelper {
 			assertContact(expected.getContact(), actual.getContact());
 		}
 	}
-	public static void assertIndisponibilities(IndisponibilityBean[] expected, IndisponibilityBean[] actual) {
+	public static void assertAbsences(AbsenceBean[] expected, AbsenceBean[] actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
 			TestCase.assertEquals(expected.length, actual.length);
-			for (int i = 0 ; i < expected.length ; i++) { assertIndisponibility(expected[i], actual[i]); }
+			for (int i = 0 ; i < expected.length ; i++) { assertAbsence(expected[i], actual[i]); }
 		}
 	}
-	public static void assertIndisponibility(IndisponibilityBean expected, IndisponibilityBean actual) {
+	public static void assertAbsence(AbsenceBean expected, AbsenceBean actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
+			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
 			TestCase.assertEquals(expected.getEndHour(), actual.getEndHour());
 			TestCase.assertEquals(expected.getStartHour(), actual.getStartHour());
 			TestCase.assertEquals(expected.getDate(), actual.getDate());

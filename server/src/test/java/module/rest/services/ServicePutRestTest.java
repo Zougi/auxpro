@@ -25,17 +25,17 @@ public class ServicePutRestTest extends RestTestBase {
 
 	@Test
 	public void testI_notSameUser() throws Exception {
-		Response response = prepare("/" + service_1.getId(), accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service_1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/" + service1.getId(), accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
 		TestCase.assertEquals(403, response.getStatus());
 	}
 	@Test
 	public void testI_invalidName() throws Exception {
-		Response response = prepare("/dummy", accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service_1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/dummy", accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
 		TestCase.assertEquals(403, response.getStatus());
 	}
 	@Test
 	public void testI_unknownUser() throws Exception {
-		Response response = prepare("/myuser", "myuser", "myuser").post(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service_1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/myuser", "myuser", "myuser").post(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
 		TestCase.assertEquals(401, response.getStatus());
 	}
 	
@@ -43,14 +43,14 @@ public class ServicePutRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_update() throws Exception {
-		ServiceBean userAux = prepare("/" + service_1.getId(), service_1.getUser()).get(ServiceBean.class);
-		AssertHelper.assertService(service_1, userAux);
+		ServiceBean userAux = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);
+		AssertHelper.assertService(service1, userAux);
 		
-		service_1.setSiret("dummy");
-		Response response = prepare("/" + service_1.getId(), service_1.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service_1), MediaType.APPLICATION_JSON));
+		service1.setSiret("dummy");
+		Response response = prepare("/" + service1.getId(), service1.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
 		TestCase.assertEquals(200, response.getStatus());
 		
-		userAux = prepare("/" + service_1.getId(), service_1.getUser()).get(ServiceBean.class);
-		AssertHelper.assertService(service_1, userAux);
+		userAux = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);
+		AssertHelper.assertService(service1, userAux);
 	}
 }

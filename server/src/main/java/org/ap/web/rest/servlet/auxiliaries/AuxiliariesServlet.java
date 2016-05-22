@@ -123,4 +123,20 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			return sendException(e);
 		}
 	}
+	@Override
+	public Response createAuxiliaryAbsenceJSON(SecurityContext sc, String id, AbsenceBean absence) {
+		try {
+			String idSc = sc.getUserPrincipal().getName();
+			if (!idSc.equals(id)) return Response.status(Status.FORBIDDEN).build();
+			absence.setAuxiliaryId(id);
+			absence.setId(null);
+			absence = _misStore.createAuxAbsences(absence);
+			return Response.status(201).entity(absence, resolveAnnotations(sc, absence)).build();
+		} catch (APException e) {
+			return sendException(e);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}
+	}
 }

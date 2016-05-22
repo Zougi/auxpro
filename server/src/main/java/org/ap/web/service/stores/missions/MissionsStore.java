@@ -26,6 +26,13 @@ public class MissionsStore implements IMissionsStore {
 		return result.toArray(new MissionBean[result.size()]);
 	}
 	@Override
+	public AbsenceBean createAuxAbsences(AbsenceBean bean) throws APException {
+		if (bean.getEndHour() <= bean.getStartHour()) throw APException.ABSENCE_HOURS_INVALID;
+		Document document = BeanConverter.convertToMongo(bean);
+		document = EMongoCollection.ABSENCES.getService().create(document);		
+		return BeanConverter.convertToBean(document, AbsenceBean.class);
+	}
+	@Override
 	public AbsenceBean[] getAuxAbsences(String id) throws APException {
 		FindIterable<Document> documents = EMongoCollection.ABSENCES.getService().findAll(eq("auxiliaryId", id));
 		List<AbsenceBean> result = BeanConverter.convertToBean(documents, AbsenceBean.class);

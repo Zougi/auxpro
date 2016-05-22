@@ -27,7 +27,7 @@ public class EntityTester extends TestBase {
 	}
 	@Test
 	public void test_printSad1() throws Exception {
-		String s = Mappers.DEFAULT.getMapper().writeValueAsString(service_1);
+		String s = Mappers.DEFAULT.getMapper().writeValueAsString(service1);
 		s = s.replace(",", ",\n");
 		System.out.println(s);
 	}

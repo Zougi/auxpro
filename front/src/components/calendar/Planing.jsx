@@ -50,8 +50,6 @@ class Planing extends React.Component {
     	var aux = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
 		var missions = aux.missions || [];
     	var absences = aux.absences || [];
-		console.log('here');
-    	console.log(missions);
 		this.planing = new PlaningHelper({});
 		for (var i = 0; i < missions.length; i++) {
 			var date = new Date(missions[i].date);
@@ -70,34 +68,28 @@ class Planing extends React.Component {
 		this.state.day = day;
 		this.setState(this.state);
 	}
+	
 	addAbsence() {
-		let year = this.state.day.date.getFullYear();
-		let month = this.state.day.date.getMonth();
-		let day = this.state.day.date.getDate();
-		this.planing.pushDay(year, month, day, { date: this.state.day.date, startHour: 0, endHour: 24, style: 'warning' });
-		this.state.planing = this.planing;
-		this.setState(this.state);
+		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		let params = { 
+			id: user.id,
+			token: user.token,
+			data: {
+				startHour: 0,
+				endHour: 24,
+				date: this.state.day.date.getTime()
+			}
+		};
+        Dispatcher.issue('POST_AUXILIARY_ABSENCE', params).
+        then(function() {
+        	delete params.data;
+        	Dispatcher.issue('GET_AUXILIARY_ABSENCES', params)
+        });
 	}
-	onSetDayDefault() { this._setDayStatus('default')(); }
-	onSetDayPrimary() { this._setDayStatus('primary')(); }
-	onSetDayInfo()    { this._setDayStatus('info')(); }
-	onSetDaySuccess() { this._setDayStatus('success')(); }
-	onSetDayWarning() { this._setDayStatus('warning')(); }
-	onSetDayDanger()  { this._setDayStatus('danger')(); }
-	_setDayStatus(status) {
-		return function() {
-			let year = this.state.day.date.getFullYear();
-			let month = this.state.day.date.getMonth();
-			let day = this.state.day.date.getDate();
-			this.planing.setDay(year, month, day, status);
-			this.state.planing = this.planing;
-			this.setState(this.state);
-		}.bind(this);
-	}
+
 	render() { 
 		var date = this.state.day.date;
 		var stuff = this.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
-		console.log(stuff);
 		var days = stuff.map(function(day) {
 			var title = (day.style==='success')?'Mission:':((day.style==='warning')?'Absence:':'');
 			var key = day.id + '-' + day.startHour + '-' + day.endHour;

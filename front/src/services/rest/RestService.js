@@ -76,6 +76,36 @@ export default class RestService {
 	};
 
 	/**
+     *
+     * @param {object} [args]
+     * @param {object} [args.data]
+     * @returns a Promise object 
+     */
+    static postAuxiliary(args) {
+        var reqParam = {};
+        reqParam.url = '/auxiliaries';
+        reqParam.method = 'POST';
+        reqParam.data = args.data;
+        reqParam.token = args.token;
+        return RestService._request(reqParam);
+    };
+	
+		/**
+     *
+     * @param {object} [args]
+     * @param {object} [args.data]
+     * @returns a Promise object 
+     */
+    static putAuxiliary(args) {
+        var reqParam = {};
+        reqParam.url = '/auxiliaries/' + args.data.id;
+        reqParam.method = 'PUT';
+        reqParam.data = args.data;
+        reqParam.token = args.token;
+        return RestService._request(reqParam);
+    };
+
+/**
 	 *
 	 * @param {object} [args]
 	 * @param {string} [args.id] auxiliary id
@@ -109,31 +139,18 @@ export default class RestService {
      *
      * @param {object} [args]
      * @param {object} [args.data]
+     * @param {object} [args.token]
      * @returns a Promise object 
      */
-    static postAuxiliary(args) {
+    static postAuxiliaryAbsence(args) {
         var reqParam = {};
-        reqParam.url = '/auxiliaries';
+        reqParam.url = '/auxiliaries/' + args.id + '/absences';
         reqParam.method = 'POST';
         reqParam.data = args.data;
         reqParam.token = args.token;
         return RestService._request(reqParam);
     };
 	
-		/**
-     *
-     * @param {object} [args]
-     * @param {object} [args.data]
-     * @returns a Promise object 
-     */
-    static putAuxiliary(args) {
-        var reqParam = {};
-        reqParam.url = '/auxiliaries/' + args.data.id;
-        reqParam.method = 'PUT';
-        reqParam.data = args.data;
-        reqParam.token = args.token;
-        return RestService._request(reqParam);
-    };
 
 	/**
 	 *

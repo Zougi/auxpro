@@ -2,9 +2,12 @@ package module.rest;
 
 import java.util.Map;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.MediaType;
 
 import org.ap.web.entity.mongo.UserBean;
+import org.ap.web.internal.Mappers;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 import module.TestModuleBase;
@@ -50,5 +53,8 @@ public abstract class RestTestBase extends TestModuleBase {
 				request().
 				property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_USERNAME, user).
 				property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD, pass);
+	}
+	public Entity<String> write(Object o) throws Exception {
+		return Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(o), MediaType.APPLICATION_JSON);
 	}
 }

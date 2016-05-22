@@ -33,13 +33,13 @@ public class BeanConverterTest extends TestModuleBase {
 	}
 	@Test
 	public void test_checkServiceConversion() throws APException {
-		AssertHelper.assertService(service_1, _sadStore.get(service_1.getId()));
+		AssertHelper.assertService(service1, _sadStore.get(service1.getId()));
 	}
 	@Test
 	public void test_checkUserConversion() throws APException {
 		AssertHelper.assertUser(accountAdmin.getUser(), _userStore.get(accountAdmin.getId()));
 		AssertHelper.assertUser(account_guest.getUser(), _userStore.get(account_guest.getId()));
 		AssertHelper.assertUser(auxiliary1.getUser(), _userStore.get(auxiliary1.getId()));
-		AssertHelper.assertUser(service_1.getUser(), _userStore.get(service_1.getId()));	}
+		AssertHelper.assertUser(service1.getUser(), _userStore.get(service1.getId()));	}
 	
 }

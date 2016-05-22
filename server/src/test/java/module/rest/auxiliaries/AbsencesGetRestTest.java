@@ -10,12 +10,15 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
+import tools.AssertHelper;
 
-public class AuxiliaryAbsencesGetRestTest extends RestTestBase {
-
-	private static final String ABSENCES = "/absences";
+public class AbsencesGetRestTest extends RestTestBase {
 	
-	public AuxiliaryAbsencesGetRestTest() {
+	public String getUrl(String id) {
+		return "/" + id + "/absences";
+	}
+	
+	public AbsencesGetRestTest() {
 		super(AuxiliariesServlet.PATH);
 	}
  
@@ -23,50 +26,54 @@ public class AuxiliaryAbsencesGetRestTest extends RestTestBase {
 
 	/* Negative Testing */
 
-	// users/{userId} GET
 	@Test
 	public void testI_getUnknownAuxiliairy() throws Exception {
-		Response rsp = prepare("/" + StringConverter.stringToHex("dummy") + ABSENCES, accountAdmin.getUser()).get();
+		Response rsp = prepare(getUrl(StringConverter.stringToHex("dummy")), accountAdmin.getUser()).get();
 		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_asUnknownUser() throws Exception {
-		Response rsp = prepare("/" + auxiliary1.getId() + ABSENCES, "dummy", "dummy").get();
+		Response rsp = prepare(getUrl(auxiliary1.getId()), "dummy", "dummy").get();
 		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_invalidPassword() throws Exception {
-		Response rsp = prepare("/" + auxiliary1.getId() + ABSENCES, auxiliary1.getUser().getName(), "dummy").get();
+		Response rsp = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser().getName(), "dummy").get();
 		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asOtherUser() throws Exception {
-		Response rsp  = prepare("/" + auxiliary1.getId() + ABSENCES, auxiliary2.getUser()).get();
+		Response rsp  = prepare(getUrl(auxiliary1.getId()), auxiliary2.getUser()).get();
 		TestCase.assertEquals(Status.FORBIDDEN.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 
 	/* Positive Testing */
 
-	// users/{userId} GET
 	@Test
 	public void testV_getResponse() throws Exception {
-		Response rsp = prepare("/" + auxiliary1.getId() + ABSENCES, auxiliary1.getUser()).get();
+		Response rsp = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asAdmin() throws Exception {
-		AbsenceBean[] beans = prepare("/" + auxiliary1.getId() + ABSENCES, accountAdmin.getUser()).get(AbsenceBean[].class);
+		AbsenceBean[] beans = prepare(getUrl(auxiliary1.getId()), accountAdmin.getUser()).get(AbsenceBean[].class);
 		TestCase.assertEquals(1, beans.length);
+		AssertHelper.assertAbsence(absenceAux11, beans[0]);
 	}
 	@Test
 	public void testV_asSelf() throws Exception {
-		AbsenceBean[] beans = prepare("/" + auxiliary1.getId() + ABSENCES, auxiliary1.getUser()).get(AbsenceBean[].class);
+		AbsenceBean[] beans = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).get(AbsenceBean[].class);
 		TestCase.assertEquals(1, beans.length);
+		AssertHelper.assertAbsence(absenceAux11, beans[0]);
 	}
-	
+	@Test
+	public void testV_asSelfSeveral() throws Exception {
+		AbsenceBean[] beans = prepare(getUrl(auxiliary2.getId()), auxiliary2.getUser()).get(AbsenceBean[].class);
+		TestCase.assertEquals(2, beans.length);
+	}
 }

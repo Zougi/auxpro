@@ -8,6 +8,8 @@ public interface IMissionsStore {
 
 	public MissionBean[] getOffers() throws APException;
 	
+	public AbsenceBean createAuxAbsences(AbsenceBean bean) throws APException;
+	
 	public AbsenceBean[] getAuxAbsences(String id) throws APException;
 	
 	public MissionBean[] getAuxMissions(String id) throws APException;

@@ -13,11 +13,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.MongoEntity;
-import org.ap.web.entity.constant.EUserType;
 import org.ap.web.entity.mongo.CredentialsBean;
-import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.EConfigProperties;
-import org.ap.web.internal.Mappers;
 import org.ap.web.internal.annotation.MongoId;
 import org.ap.web.service.EMongoCollection;
 import org.ap.web.service.Mongo;
@@ -97,9 +94,24 @@ public class TestData {
 		}
 	}
 	
-	public static <T> T getFromJson(String path, Class<T> clazz) throws Exception {
+	public static <T extends MongoEntity> T getFromJson(String path, Class<T> clazz) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		return Mappers.DEFAULT.getMapper().readValue(content, clazz);
+		T obj = BeanConverter.stringToBean(content, clazz);
+		String id = path.split("_")[1].replace(".json", "");
+		id = StringConverter.stringToHex(id);
+		obj.setId(id);
+		for (Field f : obj.getClass().getDeclaredFields()) {
+			if (f.getDeclaredAnnotation(MongoId.class) != null) {
+				String get = "get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+				String set = "set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+				Method getMethod = obj.getClass().getMethod(get);
+				Method setMethod = obj.getClass().getMethod(set, String.class);
+				String id2 = (String)getMethod.invoke(obj);
+				String hexId = StringConverter.stringToHex(id2);
+				setMethod.invoke(obj, hexId);
+			}
+		}
+		return (T)obj;
 	}
 	
 	private static String USER_NAME = "newUser";
@@ -115,19 +127,6 @@ public class TestData {
 		bean.setEmail(name + "@" + name + ".com");
 		return bean;
 	}
-	public static UserBean getNextUser() {
-		return fillNextUser(new UserBean());
-	}
-	public static UserBean fillNextUser(UserBean bean) {
-		String name = USER_NAME + USER_ID++;
-		bean.setName(name + "@" + name + ".com");
-		bean.setPassword(name);
-		bean.setEmail(name + "@" + name + ".com");
-		bean.setActive(true);
-		bean.setType(EUserType.AUXILIARY.getId());
-		return bean;
-	}
-	
 
 	public static void main(String[] args) {
 		EConfigProperties.DB_NAME.setValue(TestData.DB_DEV);

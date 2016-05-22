@@ -48,7 +48,7 @@ class Calendar extends React.Component {
 
 	render() { return ( 
 		<div className='calendar'>
-        <Panel>
+        <Panel header='Planning'>
 			<Pager>
 				<PageItem onClick={this.onPreviousMonth.bind(this)} previous>&larr;</PageItem>
 				<Button>{MONTHS[this.state.month.month]} {this.state.year}</Button>

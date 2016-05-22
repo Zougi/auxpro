@@ -1,11 +1,8 @@
 package module.rest.auxiliaries;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.internal.Mappers;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
 import org.junit.Test;
 
@@ -25,17 +22,17 @@ public class AuxiliaryPutRestTest extends RestTestBase {
 
 	@Test
 	public void testI_notSameUser() throws Exception {
-		Response response = prepare("/" + auxiliary1.getUser().getName(), accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(auxiliary1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/" + auxiliary1.getUser().getName(), accountAdmin.getUser()).put(write(auxiliary1));
 		TestCase.assertEquals(403, response.getStatus());
 	}
 	@Test
 	public void testI_invalidName() throws Exception {
-		Response response = prepare("/dummy", accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(accountAdmin), MediaType.APPLICATION_JSON));
+		Response response = prepare("/dummy", accountAdmin.getUser()).put(write(accountAdmin));
 		TestCase.assertEquals(403, response.getStatus());
 	}
 	@Test
 	public void testI_unknownUser() throws Exception {
-		Response response = prepare("/myuser", "myuser", "myuser").post(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(auxiliary1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/myuser", "myuser", "myuser").post(write(auxiliary1));
 		TestCase.assertEquals(401, response.getStatus());
 	}
 
@@ -44,18 +41,14 @@ public class AuxiliaryPutRestTest extends RestTestBase {
 
 	@Test
 	public void testV_update() throws Exception {
-		try {
-			AuxiliaryBean userAux = prepare("/" + auxiliary1.getId(), auxiliary1.getUser()).get(AuxiliaryBean.class);
-			AssertHelper.assertAuxiliary(auxiliary1, userAux);
+		AuxiliaryBean userAux = prepare("/" + auxiliary1.getId(), auxiliary1.getUser()).get(AuxiliaryBean.class);
+		AssertHelper.assertAuxiliary(auxiliary1, userAux);
 
-			auxiliary1.setDiploma("dummy");
-			Response response = prepare("/" + auxiliary1.getId(), auxiliary1.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(auxiliary1), MediaType.APPLICATION_JSON));
-			TestCase.assertEquals(200, response.getStatus());
+		auxiliary1.setDiploma("dummy");
+		Response response = prepare("/" + auxiliary1.getId(), auxiliary1.getUser()).put(write(auxiliary1));
+		TestCase.assertEquals(200, response.getStatus());
 
-			userAux = prepare("/" + auxiliary1.getId(), auxiliary1.getUser()).get(AuxiliaryBean.class);
-			AssertHelper.assertAuxiliary(auxiliary1, userAux);
-		} catch (Exception e) {
-			throw e;
-		}
+		userAux = prepare("/" + auxiliary1.getId(), auxiliary1.getUser()).get(AuxiliaryBean.class);
+		AssertHelper.assertAuxiliary(auxiliary1, userAux);
 	}
 }
