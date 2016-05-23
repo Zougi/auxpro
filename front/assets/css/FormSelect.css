@@ -1,0 +1,17 @@
+.form-select {
+
+}
+
+.form-select .select {
+
+}
+
+.form-select .all {
+	font-style: italic;
+	color: #A0A0A0;
+}
+
+.form-select .clear {
+	font-style: initial;
+	color: initial;
+}

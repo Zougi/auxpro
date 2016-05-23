@@ -7,6 +7,7 @@ import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
 // custom components
 import Planing from '../calendar/Planing.jsx'
+import HomeAuxHead from './HomeAuxHead.jsx'
 
 class ProfileAux extends React.Component {
 
@@ -32,33 +33,7 @@ class ProfileAux extends React.Component {
 		<br/>
 		<Grid>
 			<Row>
-				<Col sm={4}>
-					<img src='./../../../assets/img/profil.jpeg'/>
-				</Col>
-				<Col smOffset={1} sm={7}>
-					<Panel>
-					<Table bordered striped hover fill>
-					<tbody>
-						<tr>
-							<th>Nom</th>
-							<td>{this.state.data.person.firstName} {this.state.data.person.lastName}</td>
-						</tr>
-						<tr>
-							<th>Adresse electronique</th>
-							<td>{this.state.data.user.email}</td>
-						</tr>
-						<tr>
-							<th>Telephone</th>
-							<td>{this.state.data.contact.phone}</td>
-						</tr>
-						<tr>
-							<th>Diplome</th>
-							<td>{this.state.data.diploma}</td>
-						</tr>
-					</tbody>
-					</Table>
-					</Panel>
-				</Col>
+				<HomeAuxHead aux={this.state.data}/>
 			</Row>
 			<Row>
 				<Tabs defaultActiveKey={1} id="auxTabs">

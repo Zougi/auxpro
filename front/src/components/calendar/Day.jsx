@@ -34,7 +34,7 @@ class Day extends React.Component {
 
 	render() { return (
 		<td>
-			<Button bsStyle={this.state.style} className={this.state.class} block active={this.state.active} onClick={this.onDayClicked.bind(this)}>
+			<Button bsSize='small' bsStyle={this.state.style} className={this.state.class} block active={this.state.active} onClick={this.onDayClicked.bind(this)}>
 				{this.props.day.date.getDate()}
 			</Button>
 		</td>

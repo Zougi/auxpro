@@ -2,11 +2,15 @@
 import React from 'react'
 // react-bootstrap modules
 import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 // core modules
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
 // custom components
 import Calendar from '../calendar/Calendar.jsx';
+import FormSelect from '../common/FormSelect.jsx';
+import MissionShort from './MissionShort.jsx';
+import AbsenceShort from './AbsenceShort.jsx';
 // customs modules
 import DateDay from '../../utils/date/DateDay.js';
 import PlaningHelper from '../../utils/planing/PlaningHelper.js';
@@ -68,7 +72,9 @@ class Planing extends React.Component {
 		this.state.day = day;
 		this.setState(this.state);
 	}
-	
+	print() {
+		window.print();
+	}
 	addAbsence() {
 		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		let params = { 
@@ -88,25 +94,31 @@ class Planing extends React.Component {
 	}
 
 	render() { 
+		var values = ['value1', 'value2', '...'];
+
 		var date = this.state.day.date;
 		var stuff = this.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
 		var days = stuff.map(function(day) {
-			var title = (day.style==='success')?'Mission:':((day.style==='warning')?'Absence:':'');
 			var key = day.id + '-' + day.startHour + '-' + day.endHour;
-			var duration = day.endHour - day.startHour;
-            return (
-                <ListGroupItem key={key}>
-                	{title}<br/>
-                	Le {this.state.day.value} de {day.startHour}h à {day.endHour}h<br/>
-                	Nombre d'heures : {duration}h
-                </ListGroupItem>
-            );
+			if (day.style === 'success') {
+				return (<MissionShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour}/>);
+			} else {
+				return (<AbsenceShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour}/>);
+			}
         }.bind(this));
 		return (
 		<Grid>
 			<Row>
 				<Col sm={2} md={2} lg={3}>
-					<Panel header="Actions">
+					<Panel header="Actions" className='no-print'>
+						<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.print.bind(this)}>Imprimer mon planning</Button>
+						<br/><p>Afficher mon planning par type de:</p>
+						<Form horizontal>
+							<FormSelect title='Clients' placeholder='<Tous>' values={values}/>
+							<FormSelect title='SAD' placeholder='<Tous>' values={values}/>
+							<FormSelect title='Mission' placeholder='<Tous>' values={values}/>
+      					</Form>
+      					<p>Total heures interventions:</p><br/>
 						<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
 					</Panel>
 				</Col>

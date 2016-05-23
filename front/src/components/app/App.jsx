@@ -44,9 +44,9 @@ class App extends React.Component {
 
 	render() { return (
 		<div>
-			<Header/>
+			<Header className='no-print'/>
 			{this.props.children}
-			<Footer/>
+			<Footer className='no-print'/>
 		</div>
 	);}
 }
