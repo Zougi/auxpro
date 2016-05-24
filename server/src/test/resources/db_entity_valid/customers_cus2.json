@@ -1,0 +1,21 @@
+{
+	"person": {
+		"civility":"Mr",
+		"firstName": "Monique",
+		"lastName": "Martin",
+		"birthDate":"1957-04-25",
+		"birthPlace":"Versailles"
+	},
+	"contact": {
+		"address": {
+			"address": "3 Avenue Victor Hugo",
+			"postalCode": 75016,
+			"city": "Paris"
+		},
+		"addressChecked": true,
+		"phone": "01 01 01 01 01",
+		"phoneChecked": true,
+		"email":"monique.martin@outlook.fr",
+		"emailChecked": true
+	}
+}

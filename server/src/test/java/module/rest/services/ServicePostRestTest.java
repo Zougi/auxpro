@@ -85,7 +85,7 @@ public class ServicePostRestTest extends RestTestBase {
 	}
 	@Test
 	public void testV_asGuest() throws Exception {
-		Response response = prepare("", account_guest.getUser()).post(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(bean), MediaType.APPLICATION_JSON));
+		Response response = prepare("", accountGuest.getUser()).post(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(bean), MediaType.APPLICATION_JSON));
 		TestCase.assertEquals(201, response.getStatus());
 	}
 }

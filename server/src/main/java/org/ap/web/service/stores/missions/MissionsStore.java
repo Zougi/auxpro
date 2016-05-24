@@ -23,6 +23,7 @@ public class MissionsStore implements IMissionsStore {
 	public MissionBean[] getAuxMissions(String id) {
 		FindIterable<Document> documents = EMongoCollection.MISSIONS_AFFECTED.getService().findAll(eq("auxiliaryId", id));
 		List<MissionBean> result = BeanConverter.convertToBean(documents, MissionBean.class);
+		
 		return result.toArray(new MissionBean[result.size()]);
 	}
 	@Override

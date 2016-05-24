@@ -56,14 +56,16 @@ class Planing extends React.Component {
     	var absences = aux.absences || [];
 		this.planing = new PlaningHelper({});
 		for (var i = 0; i < missions.length; i++) {
-			var date = new Date(missions[i].date);
-			missions[i].style = 'success';
-			this.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), missions[i]);
+			var mission = missions[i];
+			var date = new Date(mission.date);
+			mission.style = 'success';
+			this.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), mission);
 		}
 		for (var i = 0; i < absences.length; i++) {
-			var date = new Date(absences[i].date);
-			absences[i].style = 'warning';
-			this.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), absences[i]);
+			var absence = absences[i];
+			var date = new Date(absence.date);
+			absence.style = 'warning';
+			this.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), absence);
 		}
 		this.state.planing = this.planing;
     }
@@ -101,9 +103,9 @@ class Planing extends React.Component {
 		var days = stuff.map(function(day) {
 			var key = day.id + '-' + day.startHour + '-' + day.endHour;
 			if (day.style === 'success') {
-				return (<MissionShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour}/>);
+				return (<MissionShort key={key} date={this.state.day.value} mission={day}/>);
 			} else {
-				return (<AbsenceShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour}/>);
+				return (<AbsenceShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour} service={day.service}/>);
 			}
         }.bind(this));
 		return (

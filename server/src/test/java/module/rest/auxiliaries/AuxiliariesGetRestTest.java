@@ -35,7 +35,7 @@ public class AuxiliariesGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testV_asGuest() throws Exception {
-		Response rsp = prepare("", account_guest.getUser()).get();
+		Response rsp = prepare("", accountGuest.getUser()).get();
 		TestCase.assertEquals(200, rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}

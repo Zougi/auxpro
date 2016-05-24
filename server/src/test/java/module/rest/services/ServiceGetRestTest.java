@@ -21,7 +21,6 @@ public class ServiceGetRestTest extends RestTestBase {
 
 	/* Negative Testing */
 
-	// users/{userId} GET
 	@Test
 	public void testI_getUnknownService() throws Exception {
 		Response rsp = prepare("/" + StringConverter.stringToHex("dummy"), accountAdmin.getUser()).get();
@@ -30,20 +29,19 @@ public class ServiceGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_asUnknownUser() throws Exception {
-		Response rsp = prepare("/" + service1.getUser().getName(), "dummy", "dummy").get();
+		Response rsp = prepare("/" + service1.getId(), "dummy", "dummy").get();
 		TestCase.assertEquals(401, rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_invalidPassword() throws Exception {
-		Response rsp = prepare("/" + service1.getUser().getName(), service1.getUser().getName(), "dummy").get();
+		Response rsp = prepare("/" + service1.getId(), service1.getUser().getName(), "dummy").get();
 		TestCase.assertEquals(401, rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 
 	/* Positive Testing */
 
-	// users/{userId} GET
 	@Test
 	public void testV_getServiceResponse() throws Exception {
 		Response rsp = prepare("/" + service1.getId(), accountAdmin.getUser()).get();
@@ -52,23 +50,23 @@ public class ServiceGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testV_asAdmin() throws Exception {
-		ServiceBean userSad = prepare("/" + service1.getId(), accountAdmin.getUser()).get(ServiceBean.class);
-		AssertHelper.assertService(service1, userSad);
+		ServiceBean service = prepare("/" + service1.getId(), accountAdmin.getUser()).get(ServiceBean.class);
+		AssertHelper.assertService(service1, service);
 	}
 	@Test
 	public void testV_asSelf() throws Exception {
-		ServiceBean userSad = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);
-		AssertHelper.assertService(service1, userSad);
+		ServiceBean service = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);
+		AssertHelper.assertService(service1, service);
 	}
 	@Test
 	public void testV_asOther() throws Exception {
-		ServiceBean userSad = prepare("/" + service1.getId(), service_2.getUser()).get(ServiceBean.class);
+		ServiceBean service = prepare("/" + service1.getId(), service2.getUser()).get(ServiceBean.class);
 		// Informations are private
 		service1.getUser().setName(null);
 		service1.getUser().setPassword(null);
 		service1.getUser().setEmail(null);
 		service1.getUser().setActive(false);
 		service1.getUser().setTutoSkipped(false);
-		AssertHelper.assertService(service1, userSad);
+		AssertHelper.assertService(service1, service);
 	}
 }

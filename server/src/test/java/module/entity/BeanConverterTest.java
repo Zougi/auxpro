@@ -38,7 +38,7 @@ public class BeanConverterTest extends TestModuleBase {
 	@Test
 	public void test_checkUserConversion() throws APException {
 		AssertHelper.assertUser(accountAdmin.getUser(), _userStore.get(accountAdmin.getId()));
-		AssertHelper.assertUser(account_guest.getUser(), _userStore.get(account_guest.getId()));
+		AssertHelper.assertUser(accountGuest.getUser(), _userStore.get(accountGuest.getId()));
 		AssertHelper.assertUser(auxiliary1.getUser(), _userStore.get(auxiliary1.getId()));
 		AssertHelper.assertUser(service1.getUser(), _userStore.get(service1.getId()));	}
 	

@@ -1,0 +1,21 @@
+{
+	"person": {
+		"civility":"Mr",
+		"firstName": "Armand",
+		"lastName": "Dupont",
+		"birthDate":"1942-01-03",
+		"birthPlace":"Paris"
+	},
+	"contact": {
+		"address": {
+			"address": "1 rue de la Paix",
+			"postalCode": 78100,
+			"city": "Saint-Germain"
+		},
+		"addressChecked": true,
+		"phone": "01 01 01 01 01",
+		"phoneChecked": true,
+		"email":"andre.dupont@gmail.com",
+		"emailChecked": true
+	}
+}

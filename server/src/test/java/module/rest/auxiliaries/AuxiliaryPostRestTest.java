@@ -83,7 +83,7 @@ public class AuxiliaryPostRestTest extends RestTestBase {
 	}
 	@Test
 	public void testV_asGuest() throws Exception {
-		Response response = prepare("", account_guest.getUser()).post(write(bean));
+		Response response = prepare("", accountGuest.getUser()).post(write(bean));
 		TestCase.assertEquals(201, response.getStatus());
 	}
 }

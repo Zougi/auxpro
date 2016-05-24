@@ -1,5 +1,22 @@
 package org.ap.web.entity.mongo;
 
-public class CustomerBean {
+import org.ap.web.entity.MongoEntity;
+import org.ap.web.internal.annotation.MongoObject;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@MongoObject
+@JsonIgnoreProperties({"_id"})
+public class CustomerBean extends MongoEntity {
+
+	private PersonBean person;
+	private ContactBean contact;
+	
+	public CustomerBean() {}
+
+	public PersonBean getPerson() { return person; }
+	public void setPerson(PersonBean person) { this.person = person; }
+
+	public ContactBean getContact() { return contact; }
+	public void setContact(ContactBean contact) { this.contact = contact; };
 }

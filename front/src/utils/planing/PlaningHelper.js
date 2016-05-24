@@ -2,7 +2,7 @@
 export default class PlaningHelper {
 
 	constructor(planing) {
-		this.planing = planing;
+		this.planing = planing || {};
 	}
 
 	getForYear(year) {

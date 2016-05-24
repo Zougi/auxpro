@@ -13,8 +13,6 @@ class ProfileAux extends React.Component {
 
 	constructor(props) {
 		super(props);
-		console.log(StoreRegistry.getStore('LOGIN_STORE').getData('/'));
-		console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData('/'));
 		this.state = {
 			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id'))
 		};

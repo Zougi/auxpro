@@ -32,7 +32,6 @@ class ProfileEdit extends React.Component {
 	handleChangeDiploma(e) { this.state.data.diploma =  e.target.value; }
 	
 	update(event) {
-		console.log(this.state.data);
 		this.state.token = StoreRegistry.getStore('LOGIN_STORE').getData('/token');
         event.preventDefault();
         Dispatcher.issue('PUT_AUXILIARY', this.state);
