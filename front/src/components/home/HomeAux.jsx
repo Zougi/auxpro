@@ -8,8 +8,9 @@ import StoreRegistry from '../../core/StoreRegistry';
 // custom components
 import Planing from '../calendar/Planing.jsx'
 import HomeAuxHead from './HomeAuxHead.jsx'
+import ProfileAux from '../profile/ProfileAux.jsx'
 
-class ProfileAux extends React.Component {
+class HomeAux extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -34,11 +35,11 @@ class ProfileAux extends React.Component {
 				<HomeAuxHead aux={this.state.data}/>
 			</Row>
 			<Row>
-				<Tabs defaultActiveKey={1} id="auxTabs">
-					<Tab eventKey={0} title="Les Offres">Les Offres</Tab>
-					<Tab eventKey={1} title="Mon Planning"><Planing/></Tab>
-					<Tab eventKey={2} title="Ma Zone">Ma Zone</Tab>
-					<Tab eventKey={3} title="Mes Informations">Mes Informations</Tab>
+				<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
+					<Tab eventKey={0} title="Mon Planning"><br/><Planing/></Tab>
+					<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
+					<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux/></Tab>
+					<Tab eventKey={3} title="Les Offres"><br/>Les Offres</Tab>
 				</Tabs>
 			</Row>
 		</Grid>
@@ -47,8 +48,8 @@ class ProfileAux extends React.Component {
 	);}
 }
 
-ProfileAux.contextTypes = {
+HomeAux.contextTypes = {
 	router: React.PropTypes.object
 }
 
-export default ProfileAux;
+export default HomeAux;

@@ -12,6 +12,10 @@ import ProfileSad from './ProfileSad.jsx'
 
 class Home extends React.Component {
 
+	constructor(props) {
+		super(props);
+	}
+
 	componentWillMount() {
         let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
 		if (!logged) {

@@ -37,35 +37,35 @@ class Header extends React.Component {
 
 	render() { return (
 		<header>
-		<Navbar inverse fixedTop>
-			<Navbar.Header>
-				<Navbar.Brand>
-					<LinkContainer to='/'>
-						<a>AuxPro</a>
-					</LinkContainer>
-				</Navbar.Brand>
-				<Navbar.Toggle/>
-			</Navbar.Header>
-			<Navbar.Collapse>
-				<Nav>
-					<LinkContainer to='/about'>
-						<NavItem eventKey={1}>About</NavItem>
-					</LinkContainer>
-					<LinkContainer to='/contact'>
-						<NavItem eventKey={2}>Contact</NavItem>
-					</LinkContainer>
-				</Nav>
-				<Nav pullRight>
+			<Navbar inverse fixedTop>
+				<Navbar.Header>
+					<Navbar.Brand>
+						<LinkContainer to='/'>
+							<a>AuxPro</a>
+						</LinkContainer>
+					</Navbar.Brand>
+					<Navbar.Toggle/>
+				</Navbar.Header>
+				<Navbar.Collapse>
 				{this.state.logged?
-					<NavItem onClick={this.logout}>Déconnexion</NavItem>
-				:
-					<LinkContainer to='/login'>
-						<NavItem eventKey={1}>Connexion</NavItem>
-					</LinkContainer>
-				}
-				</Nav>
-			</Navbar.Collapse>
-		</Navbar>
+					<Nav pullRight>
+						<LinkContainer to='/about'>
+							<NavItem eventKey={1}>Acceuil</NavItem>
+						</LinkContainer>
+						<LinkContainer to='/contact'>
+							<NavItem eventKey={2}>Mon Compte</NavItem>
+						</LinkContainer>
+						<NavItem onClick={this.logout}>Déconnexion</NavItem>
+					</Nav>
+					:
+					<Nav pullRight>
+						<LinkContainer to='/login'>
+							<NavItem eventKey={1}>Connexion</NavItem>
+						</LinkContainer>
+					</Nav>
+					}
+				</Navbar.Collapse>
+			</Navbar>
 		</header>
 	);}
 }
