@@ -22,14 +22,16 @@ class FooterTable extends React.Component {
             );
         });
         return (
-        <Col sm={4}><Table condensed>
-            <thead>
-                <tr><th>{this.props.title}</th></tr>
-            </thead>
-            <tbody>
-                {items}
-            </tbody>
-        </Table></Col>
+            <Col sm={this.props.size?this.props.size:4}>
+                <Table condensed>
+                    <thead>
+                        <tr><th>{this.props.title}</th></tr>
+                    </thead>
+                    <tbody>
+                        {items}
+                    </tbody>
+                </Table>
+            </Col>
     );}
 }
 

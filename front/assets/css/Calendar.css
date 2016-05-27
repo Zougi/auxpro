@@ -2,6 +2,41 @@
 
 }
 
+
+/* ----------------------------------------------------------
+ *                                              WEEK DISPLAY
+ */
+.calendar .calendar-week {
+	table-layout:fixed;
+}
+.calendar .calendar-week .day {
+	table-layout:fixed;
+}
+.calendar .calendar-week .hour-head {
+	text-align: center;
+}
+.calendar .calendar-week .hour-b {
+	height: 100px;
+	background: black;
+}
+.calendar .calendar-week .hour {
+	height: 100px;
+	background: linear-gradient(to right, rgba(240, 240, 240, 1), rgba(255, 255, 255, 1));
+}
+.calendar .calendar-week .hour.start {
+	height: 100px;
+	background: linear-gradient(to right, rgba(240, 240, 240, 1), rgba(255, 255, 255, 1));
+	border-left: dashed 1px rgb(180, 180, 180);
+}
+.calendar .calendar-week .hour:hover {
+	background: linear-gradient(to right, rgba(200, 200, 200, 1), rgba(255, 255, 255, 1));
+	cursor: pointer;
+}
+
+
+/* ----------------------------------------------------------
+ *                                             MONTH DISPLAY
+ */
 .calendar .month {
 	background:blue;	
 }

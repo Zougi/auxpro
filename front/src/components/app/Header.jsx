@@ -59,6 +59,9 @@ class Header extends React.Component {
 					</Nav>
 					:
 					<Nav pullRight>
+						<LinkContainer to='/contact'>
+							<NavItem eventKey={2}>Contact</NavItem>
+						</LinkContainer>
 						<LinkContainer to='/login'>
 							<NavItem eventKey={1}>Connexion</NavItem>
 						</LinkContainer>

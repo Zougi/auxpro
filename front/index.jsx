@@ -28,7 +28,7 @@ render((
     <Route path="/" component={App}>
 		<IndexRoute component={Land}/>
 		<Route path="/about" component={About}/>
-		<Route path="/contact" component={Planing}/>
+		<Route path="/contact" component={Contact}/>
 		<Route path="/login" component={Login}/>
 		<Route path="/home" component={Home}/>
 		<Route path="/registerAux" component={RegisterAux}/>

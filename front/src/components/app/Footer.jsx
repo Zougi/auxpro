@@ -29,9 +29,9 @@ class Footer extends React.Component {
 		];
 		return (
 		<footer className="footer"><Navbar><Grid><Row>
-			<FooterTable title="AuxPro" items={items1}/>
-			<FooterTable title="Informations Légales" items={items2}/>
-			<FooterTable title="Questions" items={items3}/>
+			<FooterTable size={4} title="AuxPro" items={items1}/>
+			<FooterTable size={4} title="Informations Légales" items={items2}/>
+			<FooterTable size={4} title="Questions" items={items3}/>
 		</Row></Grid></Navbar></footer>
 	);}
 }
