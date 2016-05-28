@@ -3,11 +3,11 @@ import React from 'react'
 // react-bootstrap modules
 import { Table } from 'react-bootstrap';
 // custom components
-import Week from './Week.jsx';
+import CalendarMonthWeek from './CalendarMonthWeek.jsx';
 // custom modules
 import { DAYS_SHORT } from '../../utils/date/DateConstants.js';
 
-class Month extends React.Component {
+class CalendarMonthMonth extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -19,7 +19,7 @@ class Month extends React.Component {
 		var month = this.props.month.month;
 		var weeks = this.props.month.weeks.map(function(week) {
             return (
-                <Week 
+                <CalendarMonthWeek 
                 	key={week.id} 
                 	month={month} 
                 	week={week} 
@@ -48,4 +48,4 @@ class Month extends React.Component {
 	}
 }
 
-export default Month;
+export default CalendarMonthMonth;

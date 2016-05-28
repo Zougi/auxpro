@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 // custom modules
 import { D, NOW } from '../../utils/date/DateConstants.js';
 
-class Day extends React.Component {
+class CalendarMonthDay extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -41,4 +41,4 @@ class Day extends React.Component {
 	);}
 }
 
-export default Day;
+export default CalendarMonthDay;

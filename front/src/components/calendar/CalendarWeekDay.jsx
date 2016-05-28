@@ -1,24 +1,15 @@
 // react modules
 import React from 'react'
-// react-bootstrap modules
-import { Pager, PageItem, Table, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
-// react-router-bootstrap moduls
-import { LinkContainer } from 'react-router-bootstrap'
-
-// custom components
-import Calendar from '../calendar/Calendar.jsx';
-import Month from '../calendar/Month.jsx';
-import Week from '../calendar/Week.jsx';
-import Day from '../calendar/Day.jsx';
-// custom modules
-import { MONTHS } from '../../utils/date/DateConstants.js';
-import DateMonth from '../../utils/date/DateMonth.js';
-import DateWeek from '../../utils/date/DateWeek.js';
 
 class CalendarWeekDay extends React.Component {
 
 	constructor(props) {
 		super(props);
+		console.log('here');
+	}
+
+	onHourClicked(event) {
+		console.log(event);
 	}
 
 	render() { 
@@ -31,22 +22,18 @@ class CalendarWeekDay extends React.Component {
 
 		let timesHours = this.props.times.map(function(time) {
 			if (time.indexOf('h30') === -1) {
-				return (<td key={time} className="hour"><p/></td>);
+				return (<td key={time} className="hour" onClick={this.onHourClicked}><p/></td>);
 			} else {
-				return (<td key={time} className="hour start"><p/></td>);
+				return (<td key={time} className="hour start" onClick={this.onHourClicked}><p/></td>);
 			}
-		});
+		}.bind(this));
 
 		return (
-		<table style={{width:"100%"}} className="calendar-week">
-			<tbody>
-				<tr>
-					<td className="hour-b"><p/></td>
-					{timesHours}
-					<td className="hour-b"><p/></td>
-				</tr>
-			</tbody>
-		</table>
+		<tr className="day">
+			<td className="hour-b"><p/></td>
+			{timesHours}
+			<td className="hour-b"><p/></td>
+		</tr>
 		);
 	}
 } 

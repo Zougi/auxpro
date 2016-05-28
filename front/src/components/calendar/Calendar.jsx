@@ -1,66 +1,36 @@
 // react modules
 import React from 'react'
 // react-bootstrap modules
-import { Pager, PageItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
+import { Panel, Grid, ButtonGroup, Button, Glyphicon } from 'react-bootstrap';
 // custom components
-import Month from '../calendar/Month.jsx';
-// custom modules
-import { MONTHS } from '../../utils/date/DateConstants.js';
-import DateMonth from '../../utils/date/DateMonth.js';
-import DateDay from '../../utils/date/DateDay.js';
+import CalendarMonth from './CalendarMonth.jsx'
+import CalendarWeek from './CalendarWeekWeek.jsx'
 
 class Calendar extends React.Component {
 
 	constructor(props) {
 		super(props);
-		var date = new Date();
 		this.state = {
-			year: date.getFullYear(),
-			month: new DateMonth({ 
-				date: date,
-				start: 1
-			}),
-			selectedDay: new DateDay(new Date())
-		}
+			mode: 'WEEK'
+		}		
 	}
 
-	_setMonth(month) {
-		this.state.month = month;
-		this.state.year = month.year;
-		this.setState(this.state);
-	}
-	_setSelectedDay(day) {
-		this.state.selectedDay = day;
-		this.setState(this.state);
-	}
 
-	onPreviousMonth() {
-		this._setMonth(this.state.month.previousMonth);
+	render() { 
+		var header = (
+			<div style={{textAlign:'right'}}>
+				<ButtonGroup>
+				    <Button bsSize='xsmall'><Glyphicon glyph="th"/></Button>
+				    <Button bsSize='xsmall'><Glyphicon glyph="th-list"/></Button>
+	  			</ButtonGroup>
+	  		</div>
+	  	);
+		return ( 
+			<Panel header={header} className='calendar'>
+				{this.state.mode === 'MONTH' ? <CalendarMonth/> : <CalendarWeek/> }
+			</Panel>
+	    );
 	}
-	onNextMonth() {
-		this._setMonth(this.state.month.nextMonth);
-	}
-
-	onDaySelect(day) {
-		this._setSelectedDay(day);
-		this.props.onDaySelect(day);
-	}
-
-	render() { return ( 
-		<div className='calendar'>
-        <Panel header='Planning'>
-			<Pager>
-				<PageItem onClick={this.onPreviousMonth.bind(this)} previous>&larr;</PageItem>
-				<Button>{MONTHS[this.state.month.month]} {this.state.year}</Button>
-				<PageItem onClick={this.onNextMonth.bind(this)} next>&rarr;</PageItem>
-			</Pager>
-			<Month 
-				month={this.state.month} 
-				planing={this.props.planing}
-				onDaySelect={this.onDaySelect.bind(this)}/>
-		</Panel>
-		</div>
-    );}
 }
 
 export default Calendar;
