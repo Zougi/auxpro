@@ -64,11 +64,20 @@ class MissionShort extends React.Component {
 		var action = (<a className='info-span' onClick={this.onInfo.bind(this)}>+info</a>);
 		if (this.state.info) {
 			if (this.state.service && this.state.customer) {
-				info = (<div>SAD: {this.state.service.society}<br/>Client: {this.state.customer.person.firstName} {this.state.customer.person.lastName}<br/></div>);
+				info = (
+					<div>
+						SAD: {this.state.service.society}<br/>
+						Client: {this.state.customer.person.firstName} {this.state.customer.person.lastName}<br/>
+						Addresse: {this.state.customer.contact.address.address} {this.state.customer.contact.address.postalCode} {this.state.customer.contact.address.city}<br/>
+					</div>);
 			} else if (this.state.service) {
 				info = (<div>SAD: {this.state.service.society}<br/></div>);
 			} else if (this.state.customer) {
-				info = (<div>Client: {this.state.customer.person.firstName} {this.state.customer.person.lastName}<br/></div>);
+				info = (
+					<div>
+						Client: {this.state.customer.person.firstName} {this.state.customer.person.lastName}<br/>
+						Addresse: {this.state.customer.contact.address.address} {this.state.customer.contact.address.postalCode} {this.state.customer.contact.address.city}<br/>
+					</div>);
 			} else {
 				info = 'Chargement...'	
 			}
