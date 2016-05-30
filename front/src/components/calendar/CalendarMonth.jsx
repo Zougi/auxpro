@@ -13,24 +13,26 @@ class CalendarMonth extends React.Component {
 
 	constructor(props) {
 		super(props);
-		var date = new Date();
+		this._updateState(props);
+	}
+
+	componentWillReceiveProps(props) {
+		this._updateState(props);
+		this.setState(this.state);
+	}
+
+	_updateState(props) {
 		this.state = {
-			year: date.getFullYear(),
 			month: new DateMonth({ 
-				date: date,
+				date: props.day,
 				start: 1
 			}),
-			selectedDay: new DateDay(new Date())
+			day: props.day
 		}
 	}
 
 	_setMonth(month) {
 		this.state.month = month;
-		this.state.year = month.year;
-		this.setState(this.state);
-	}
-	_setSelectedDay(day) {
-		this.state.selectedDay = day;
 		this.setState(this.state);
 	}
 
@@ -41,24 +43,18 @@ class CalendarMonth extends React.Component {
 		this._setMonth(this.state.month.nextMonth);
 	}
 
-	onDaySelect(day) {
-		this._setSelectedDay(day);
-		this.props.onDaySelect(day);
-	}
 
 	render() { return ( 
 		<div className='calendar'>
-        <Panel header='Planning'>
 			<Pager>
 				<PageItem onClick={this.onPreviousMonth.bind(this)} previous>&larr;</PageItem>
-				<Button>{MONTHS[this.state.month.month]} {this.state.year}</Button>
+				<Button>{MONTHS[this.state.month.month]} {this.state.day.date.getFullYear()}</Button>
 				<PageItem onClick={this.onNextMonth.bind(this)} next>&rarr;</PageItem>
 			</Pager>
 			<CalendarMonthMonth 
 				month={this.state.month} 
 				planing={this.props.planing}
-				onDaySelect={this.onDaySelect.bind(this)}/>
-		</Panel>
+				onDaySelect={this.props.onDaySelect}/>
 		</div>
     );}
 }

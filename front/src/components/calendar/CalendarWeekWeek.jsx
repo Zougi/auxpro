@@ -18,14 +18,17 @@ class CalendarWeekWeek extends React.Component {
 			'14h', '14h30', '15h', '15h30', '16h', '16h30', '17h', '17h30', '18h', '18h30', '19h', '19h30',
 			'20h'
 		];
-		let days = [
-			'L', 'Ma', 'Me', 'J', 'V', 'S', 'D'
-		];
-		let daysW = [];
-		for (let i = 0; i < days.length; i++) {
-			daysW.push((<CalendarWeekDay key={days[i]} times={times}/>));
-			if (i < days.length - 1) {
-				daysW.push((<tr key={days[i] + 'sep'}><td><div className="sep"/></td></tr>));
+		let days = [];
+		for (let i = 0; i < this.props.week.days.length; i++) {
+			let curDay = this.props.week.days[i];
+			if (curDay.id === this.props.day.id) {
+				days.push((<CalendarWeekDay onDaySelect={this.props.onDaySelect} day={curDay} key={curDay.id} times={times} selected/>));
+			} else {
+				days.push((<CalendarWeekDay onDaySelect={this.props.onDaySelect} day={curDay} key={curDay.id} times={times}/>));
+			}
+			
+			if (i < this.props.week.days.length - 1) {
+				days.push((<tr key={curDay.id + 'sep'}><td><div className="sep"/></td></tr>));
 			}
 		}
 		let timesHeads = [];
@@ -46,7 +49,7 @@ class CalendarWeekWeek extends React.Component {
 			</table>
 			<table style={{width:"100%"}} className="calendar-week">
 				<tbody>
-					{daysW}		
+					{days}		
 				</tbody>
 			</table>
     	</Panel>

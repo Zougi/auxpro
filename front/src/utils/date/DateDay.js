@@ -11,18 +11,20 @@ export default class DateDay {
 	}
 
 	get previousDay() {
-		return new DateDay(this.date.getTime() - 1.5*D);
+		return this.getDayInDays(-1);
 	}
 
 	get nextDay() {
-		return new DateDay(this.date.getTime() + 1.5*D);		
+		return this.getDayInDays(1);
 	}
 
 	getDayInDays(i) {
 		if (i === 0) {
 			return this;
 		}
-		return new DateDay(this.date.getTime() + i * D);		
+		var date = new Date(this.date);
+		date.setDate(date.getDate() + i)
+		return new DateDay(date);
 	}
 
 }

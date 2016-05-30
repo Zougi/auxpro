@@ -15,16 +15,19 @@ import AbsenceShort from './AbsenceShort.jsx';
 import DateDay from '../../utils/date/DateDay.js';
 import PlaningHelper from '../../utils/planing/PlaningHelper.js';
 
+let INITIAL_STATE ={
+	day: new DateDay(new Date()),
+	mode: 'W',
+	planing: new PlaningHelper()
+}
+
 class Planing extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		
-		this.state = {
-			day: new DateDay(new Date()),
-			planing: new PlaningHelper()
-		}		
+		this.state = INITIAL_STATE;
 
 		let params = { 
 			id: user.id,
@@ -32,8 +35,6 @@ class Planing extends React.Component {
 		};
         Dispatcher.issue('GET_AUXILIARY_MISSIONS', params);
         Dispatcher.issue('GET_AUXILIARY_ABSENCES', params);
-
-        this.loadAuxiliary();
 	}
 
 	componentDidMount() {
@@ -74,6 +75,11 @@ class Planing extends React.Component {
 		this.state.day = day;
 		this.setState(this.state);
 	}
+	onModeChanged(mode) {
+		this.state.mode = mode;
+		this.setState(this.state);
+	}
+
 	print() {
 		window.print();
 	}
@@ -99,7 +105,7 @@ class Planing extends React.Component {
 		var values = ['value1', 'value2', '...'];
 
 		var date = this.state.day.date;
-		var stuff = this.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
+		var stuff = this.state.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
 		var days = stuff.map(function(day) {
 			var key = day.id + '-' + day.startHour + '-' + day.endHour;
 			if (day.style === 'success') {
@@ -124,16 +130,26 @@ class Planing extends React.Component {
 						<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
 					</Panel>
 				</Col>
-				<Col sm={8} md={7} lg={5}>
-					<Calendar onDaySelect={this.onDaySelect.bind(this)} planing={this.state.planing}/>
-	    		</Col>
-	    		<Col sm={2} md={3} lg={4}>
-	    			<Panel header="Informations">
-	    				<ListGroup>
-	    					{days}
-	    				</ListGroup>
-	    			</Panel>
-	    		</Col>
+				{this.state.mode==='M'
+				?(
+					<div>
+					<Col sm={8} md={7} lg={5}>
+						<Calendar onModeChanged={this.onModeChanged.bind(this)} onDaySelect={this.onDaySelect.bind(this)} planing={this.state.planing}/>
+		    		</Col>
+		    		<Col sm={2} md={3} lg={4}>
+		    			<Panel header="Informations">
+		    				<ListGroup>
+		    					{days}
+		    				</ListGroup>
+		    			</Panel>
+		    		</Col>
+		    		</div>
+				):(
+					<Col sm={10} md={10} lg={9}>
+						<Calendar onModeChanged={this.onModeChanged.bind(this)} onDaySelect={this.onDaySelect.bind(this)} planing={this.state.planing}/>
+		    		</Col>
+				)}
+				
 	    	</Row>
 	    </Grid>
 		);

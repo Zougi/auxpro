@@ -4,12 +4,6 @@ import DateDay from './DateDay.js';
 
 export default class DateWeek {
 
-	/**
-	 * Constructs a new DateWeek representation
-	 * @param args
-	 * @param {Date} [args.date]
-	 * @param {int}  [args.start]
-	 */
 	constructor(args) {
 		this.days = [];	
 		this._start = args.start || 0;
@@ -18,15 +12,12 @@ export default class DateWeek {
 		if (!(day instanceof DateDay)) {
 			day = new DateDay(args.date);
 		}
+		
 		var d = day.date.getDay();
 		d = d<this._start?d+7:d;
 
 		for (var i = this._start; i < this._start + 7; i++) {
-			if (i % 7 === d % 7) {
-				this.days.push(day);
-			} else {
-				this.days.push(day.getDayInDays(i - d));
-			}
+			this.days.push(day.getDayInDays(i - d));
 		}
 	}
 

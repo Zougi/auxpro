@@ -10,9 +10,11 @@ class CalendarMonthWeek extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
 	onDaySelect(day) {
 		this.props.onDaySelect(day);
 	}
+
 	render() {
 		var month = this.props.month;
 		var days = this.props.week.days.map(function(day) {
@@ -22,7 +24,7 @@ class CalendarMonthWeek extends React.Component {
                 	month={month}
                 	day={day}
                 	planing={this.props.planing.getForDay(day.date.getFullYear(), day.date.getMonth(), day.date.getDate())}
-                	onDaySelect={this.onDaySelect.bind(this)}/>
+                	onDaySelect={this.props.onDaySelect}/>
             );
         }.bind(this));
 		return (

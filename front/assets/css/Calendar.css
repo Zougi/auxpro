@@ -19,6 +19,7 @@
 	border-radius:0px;
 	font-weight: bold;
 }
+
 /*
 .calendar .day:hover {
 	background:rgba(35,35,255,0.1);
@@ -57,6 +58,10 @@
 }
 .calendar .calendar-week .day {
 	height: 30px;
+}
+.calendar .calendar-week .day.selected {
+	border: 1px solid red;
+	margin: 1px;
 }
 .calendar .calendar-week .sep {
 	height: 7px;
