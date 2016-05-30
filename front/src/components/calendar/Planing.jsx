@@ -103,7 +103,7 @@ class Planing extends React.Component {
 
 	render() { 
 		var values = ['value1', 'value2', '...'];
-
+		var missionsValues = ['planifiees', 'realisees', 'annulees'];
 		var date = this.state.day.date;
 		var stuff = this.state.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
 		var days = stuff.map(function(day) {
@@ -124,7 +124,7 @@ class Planing extends React.Component {
 						<Form horizontal>
 							<FormSelect title='Clients' placeholder='<Tous>' values={values}/>
 							<FormSelect title='SAD' placeholder='<Tous>' values={values}/>
-							<FormSelect title='Mission' placeholder='<Tous>' values={values}/>
+							<FormSelect title='Mission' placeholder='<Tous>' values={missionsValues}/>
       					</Form>
       					<p>Total heures interventions:</p><br/>
 						<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
