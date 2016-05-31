@@ -3,10 +3,10 @@ import React from 'react'
 // react-bootstrap modules
 import { Pager, PageItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 // custom components
-import CalendarWeekWeek from '../calendar/CalendarWeekWeek.jsx';
+import CalendarWeekWeek from './CalendarWeekWeek.jsx';
 // custom modules
-import DateWeek from '../../utils/date/DateWeek.js';
-import { D } from '../../utils/date/DateConstants.js';
+import DateWeek from '../../../utils/date/DateWeek.js';
+import { D } from '../../../utils/date/DateConstants.js';
 
 
 class CalendarWeek extends React.Component {

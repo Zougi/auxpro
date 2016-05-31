@@ -3,7 +3,7 @@ import React from 'react'
 // react-bootstrap modules
 import { Button } from 'react-bootstrap';
 // custom modules
-import { D, NOW } from '../../utils/date/DateConstants.js';
+import { D, NOW } from '../../../utils/date/DateConstants.js';
 
 class CalendarMonthDay extends React.Component {
 	

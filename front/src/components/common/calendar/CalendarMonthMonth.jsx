@@ -5,7 +5,7 @@ import { Table } from 'react-bootstrap';
 // custom components
 import CalendarMonthWeek from './CalendarMonthWeek.jsx';
 // custom modules
-import { DAYS_SHORT } from '../../utils/date/DateConstants.js';
+import { DAYS_SHORT } from '../../../utils/date/DateConstants.js';
 
 class CalendarMonthMonth extends React.Component {
 	

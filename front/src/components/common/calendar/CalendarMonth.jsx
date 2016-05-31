@@ -3,11 +3,11 @@ import React from 'react'
 // react-bootstrap modules
 import { Pager, PageItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 // custom components
-import CalendarMonthMonth from '../calendar/CalendarMonthMonth.jsx';
+import CalendarMonthMonth from './CalendarMonthMonth.jsx';
 // custom modules
-import { MONTHS } from '../../utils/date/DateConstants.js';
-import DateMonth from '../../utils/date/DateMonth.js';
-import DateDay from '../../utils/date/DateDay.js';
+import { MONTHS } from '../../../utils/date/DateConstants.js';
+import DateMonth from '../../../utils/date/DateMonth.js';
+import DateDay from '../../../utils/date/DateDay.js';
 
 class CalendarMonth extends React.Component {
 

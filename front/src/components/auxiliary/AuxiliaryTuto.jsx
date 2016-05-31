@@ -1,11 +1,11 @@
-// Import React Core
+// react modules
 import React from 'react';
 // react-bootstrap modules
 import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap';
 // react-router-bootstrap modules
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
-class ServicesTuto extends React.Component {
+class AuxiliaryTuto extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -30,27 +30,32 @@ class ServicesTuto extends React.Component {
 						<Carousel activeIndex={this.state.index} direction={this.state.direction} onSelect={this.handleSelect.bind(this)}>
 							<Carousel.Item>
 								<ResponsiveEmbed a4by3>
-									<embed type='image/jpg' src='./../../../../assets/img/tutoservices1.JPG'/>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux1.JPG'/>
 								</ResponsiveEmbed>
 							</Carousel.Item>
 							<Carousel.Item>
 							  <ResponsiveEmbed a4by3>
-									<embed type='image/jpg' src='./../../../../assets/img/tutoservices2.JPG'/>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux2.JPG'/>
 								</ResponsiveEmbed>
 							</Carousel.Item>
 							<Carousel.Item>
 							  <ResponsiveEmbed a4by3>
-									<embed type='image/jpg' src='./../../../../assets/img/tutoservices3.JPG'/>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux3.JPG'/>
 								</ResponsiveEmbed>
 							</Carousel.Item>
 							<Carousel.Item>
 							  <ResponsiveEmbed a4by3>
-									<embed type='image/jpg' src='./../../../../assets/img/tutoservices4.JPG'/>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux4.JPG'/>
 								</ResponsiveEmbed>
 							</Carousel.Item>
 							<Carousel.Item>
 							  <ResponsiveEmbed a4by3>
-									<embed type='image/jpg' src='./../../../../assets/img/tutoservices5.JPG'/>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux5.JPG'/>
+								</ResponsiveEmbed>
+							</Carousel.Item>
+							<Carousel.Item>
+							  <ResponsiveEmbed a4by3>
+									<embed type='image/jpg' src='./../../../../assets/img/tutoaux6.JPG'/>
 								</ResponsiveEmbed>
 							</Carousel.Item>			
 						  </Carousel>
@@ -59,9 +64,7 @@ class ServicesTuto extends React.Component {
 				  <br/>
 				  <Row>
 					<Col smOffset={8} sm={3} mdOffset={7} md={3} className="left">
-						<LinkContainer to='/profileprompt'>
-							<Button bsStyle="success" bsSize='large' block>Passer</Button>
-						</LinkContainer>
+						<Button bsStyle="success" bsSize='large' block onClick={this.props.onClose}>Passer</Button>
 					</Col>
 				</Row>
 			</Grid>
@@ -70,4 +73,4 @@ class ServicesTuto extends React.Component {
 	);}
 }
 
-export default ServicesTuto;
+export default AuxiliaryTuto;

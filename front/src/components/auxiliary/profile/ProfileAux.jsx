@@ -3,10 +3,10 @@ import React from 'react';
 // react-bootstrap modules
 import { Button, Form, FormGroup, Panel, Col } from 'react-bootstrap'
 // cuistom components
-import FormBase from '../common/FormBase.jsx'
+import FormBase from '../../common/FormBase.jsx'
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
 
 class ProfileAux extends React.Component {
 

@@ -6,7 +6,7 @@ import { Panel, Grid, ButtonGroup, Button, Glyphicon, Pager, PageItem } from 're
 import CalendarMonth from './CalendarMonth.jsx'
 import CalendarWeek from './CalendarWeek.jsx'
 // custom modules
-import DateDay from '../../utils/date/DateDay.js';
+import DateDay from '../../../utils/date/DateDay.js';
 
 let MODES = {
 	M: 'M',

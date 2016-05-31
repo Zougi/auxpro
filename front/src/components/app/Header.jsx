@@ -1,10 +1,9 @@
 // react modules
 import React from 'react'
-// react-bootstrap moduls
+// react-bootstrap modules
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, Glyphicon } from 'react-bootstrap'
-// react-router-bootstrap moduls
+// react-router-bootstrap modules
 import { LinkContainer } from 'react-router-bootstrap'
-
 // core modules
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';

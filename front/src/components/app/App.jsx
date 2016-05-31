@@ -1,12 +1,12 @@
-/*eslint-disable no-unused-vars */
+// react modules
 import React from 'react';
-/*eslint-enable no-unused-vars */
 import ReactDOM from 'react-dom';
+// react-router modules
 import { Router, Route, hashHistory } from 'react-router'
-
+// core modules
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
-
+// custom components
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 
@@ -22,21 +22,23 @@ class App extends React.Component {
 	
 	onLogon() {
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		var toHome = function () {
+			this.context.router.push("/home");
+		}
 		if (user.logged) {
 			switch (user.type) {
-			case 'admin':
-			case 'guest':
-				this.context.router.push("/home");
-				break;
 			case 'aux':
-				Dispatcher.issue("GET_AUXILIARY", user);
-				this.context.router.push("/auxiliaryTuto");
+				Dispatcher.issue("GET_AUXILIARY", user).
+				then(toHome.bind(this));
 				break;
 			case 'sad':
-				Dispatcher.issue("GET_SERVICE", user);
-				this.context.router.push("/servicesTuto");
+				Dispatcher.issue("GET_SERVICE", user).
+				then(toHome.bind(this));
 				break;
-			}				
+			default:
+				toHome();
+			}	
+			
 		} else {
 			this.context.router.push("/");
 		}
@@ -52,7 +54,7 @@ class App extends React.Component {
 }
 
 App.contextTypes = {
-		router: React.PropTypes.object
-		}
+	router: React.PropTypes.object
+}
 
 export default App;

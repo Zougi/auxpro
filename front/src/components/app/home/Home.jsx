@@ -1,14 +1,11 @@
 // react modules
 import React from 'react';
-
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
 // custom modules
-import AuxiliariesBox from '../users/auxiliaries/AuxiliariesBox.jsx'
-import ServicesBox from '../users/services/ServicesBox.jsx'
-import HomeAux from './HomeAux.jsx'
-import ProfileSad from './ProfileSad.jsx'
+import HomeAux from '../../auxiliary/HomeAux.jsx'
+import HomeSad from '../../service/HomeSad.jsx'
 
 class Home extends React.Component {
 
@@ -29,7 +26,7 @@ class Home extends React.Component {
 			case 'sad' :
 				return (
 					<div className='container'>
-						<ProfileSad/>
+						<HomeSad/>
 					</div>
 				);
 			case 'aux' : 
@@ -43,14 +40,12 @@ class Home extends React.Component {
 				return (
 					<div className='container'>
 						<h1>Home</h1>
-						<AuxiliariesBox/>
-						<ServicesBox/>
 					</div>
 				);
 			default: 
 				return (
 					<div className='container'>
-						Utilisateur Non Typé
+						Problème d'authentification
 					</div>
 				);
 		}

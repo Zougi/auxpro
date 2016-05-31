@@ -4,16 +4,16 @@ import React from 'react'
 import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
-import Calendar from '../calendar/Calendar.jsx';
-import FormSelect from '../common/FormSelect.jsx';
+import Calendar from '../../common/calendar/Calendar.jsx';
+import FormSelect from '../../common/FormSelect.jsx';
 import MissionShort from './MissionShort.jsx';
 import AbsenceShort from './AbsenceShort.jsx';
 // customs modules
-import DateDay from '../../utils/date/DateDay.js';
-import PlaningHelper from '../../utils/planing/PlaningHelper.js';
+import DateDay from '../../../utils/date/DateDay.js';
+import PlaningHelper from '../../../utils/planing/PlaningHelper.js';
 
 let INITIAL_STATE ={
 	day: new DateDay(new Date()),

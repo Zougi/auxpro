@@ -3,10 +3,8 @@ import React from 'react';
 // react-bootstrap modules
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab } from 'react-bootstrap'
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
-// custom components
-import Planing from '../calendar/Planing.jsx'
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
 
 class Profile extends React.Component {
 

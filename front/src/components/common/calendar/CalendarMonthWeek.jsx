@@ -3,7 +3,7 @@ import React from 'react'
 // custom components
 import CalendarMonthDay from './CalendarMonthDay.jsx';
 // custom modules
-import DAYS_SHORT from '../../utils/date/DateConstants.js';
+import DAYS_SHORT from '../../../utils/date/DateConstants.js';
 
 class CalendarMonthWeek extends React.Component {
 	

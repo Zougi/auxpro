@@ -3,8 +3,8 @@ import React from 'react'
 // react-bootstrap modules
 import { ListGroupItem } from 'react-bootstrap';
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
 
 class MissionShort extends React.Component {
 	
