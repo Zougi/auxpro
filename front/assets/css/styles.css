@@ -19,6 +19,7 @@ body {
 .center {
     text-align: center;
 }
+
 .wrap {
     word-wrap: break-word;
 }
@@ -28,4 +29,9 @@ body {
 	font-style:italic;
 	right:3px;
 	bottom:2px;
+}
+
+.map-gic {
+    height: 500px;
+    width: 800px;
 }
