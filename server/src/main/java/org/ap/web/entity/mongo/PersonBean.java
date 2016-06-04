@@ -11,8 +11,12 @@ public class PersonBean {
 	private String firstName;
 	private String lastName;
 	
+	private String socialNumber;
+	private String nationality;
+	private int ciNumber;
+	
 	private Date birthDate;
-	private String birthPlace;
+	private AddressBean birthPlace;
 	
 	public PersonBean() {}
 	
@@ -25,9 +29,18 @@ public class PersonBean {
 	public String getLastName() { return lastName; }
 	public void setLastName(String lastName) { this.lastName = lastName; }
 	
+	public String getSocialNumber() { return socialNumber; }
+	public void setSocialNumber(String socialNumber) { this.socialNumber = socialNumber; }
+	
+	public String getNationality() { return nationality; }
+	public void setNationality(String nationality) { this.nationality = nationality; }
+	
+	public int getCiNumber() { return ciNumber; }
+	public void setCiNumber(int ciNumber) { this.ciNumber = ciNumber; }
+	
 	public Date getBirthDate() { return birthDate; }
 	public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
 	
-	public String getBirthPlace() { return birthPlace; }
-	public void setBirthPlace(String birthPlace) { this.birthPlace = birthPlace; }
+	public AddressBean getBirthPlace() { return birthPlace; }
+	public void setBirthPlace(AddressBean birthPlace) { this.birthPlace = birthPlace; }
 }

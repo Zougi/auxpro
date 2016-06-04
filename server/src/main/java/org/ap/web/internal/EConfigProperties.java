@@ -15,7 +15,7 @@ public enum EConfigProperties {
 	
 	DB_HOST ("db_host", "127.0.0.1"),
 	DB_PORT ("db_port", "4242"),
-	DB_NAME ("db_name", "db-test"),
+	DB_NAME ("db_name", "db-dev"),
 	DB_USER ("db_user", ""),
 	DB_PASS ("db_pass", ""),
 	DB_PATH ("db_path", "./data/db"),

@@ -1,6 +1,5 @@
 package tools;
 
-import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.mongo.AbsenceBean;
 import org.ap.web.entity.mongo.AccountBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;

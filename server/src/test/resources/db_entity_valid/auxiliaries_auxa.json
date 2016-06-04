@@ -1,19 +1,25 @@
 {
 	"user": {
-		"name":"a",
-		"password":"a",
-		"email":"a",
-		"registrationDate":"2016-06-15",
-		"active":true,
-		"tutoSkipped":true,
-		"type":"aux"
+		"name": "a",
+		"password": "a",
+		"email": "a",
+		"registrationDate": "2016-06-15",
+		"active": true,
+		"tutoSkipped": true,
+		"type": "aux"
 	},
 	"person": {
-		"civility":"Mr",
+		"civility": "Mr",
 		"firstName": "Premier",
 		"lastName": "Auxiliaire",
-		"birthDate":"1980-01-03",
-		"birthPlace":"Paris"
+		"nationality": "Francaise",
+		"birthDate": "1980-01-03",
+		"birthPlace": {
+			"city": "Paris",
+			"country":"France"
+		},
+		"socialNumber": "1866875365201",
+		"ciNumber": 65489 
 	},
 	"contact": {
 		"address": {
@@ -24,8 +30,8 @@
 		"addressChecked": false,
 		"phone": "01 01 01 01 01",
 		"phoneChecked": true,
-		"email":"user1@user1.fr",
+		"email": "user1@user1.fr",
 		"emailChecked": true
 	},
-	"diploma":"Diplome de trucmuche"
+	"diploma": "Diplome de trucmuche"
 }

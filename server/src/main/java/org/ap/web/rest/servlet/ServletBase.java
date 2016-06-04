@@ -60,7 +60,6 @@ public abstract class ServletBase {
 		Set<Annotation> annotations = new HashSet<Annotation>();
 		if (id != null && id.equals(sc.getUserPrincipal().getName())) {
 			annotations.add(SecurityAnnotation.PRIVATE.get());
-			annotations.add(SecurityAnnotation.SECRET.get());
 		}
 		if (sc.isUserInRole(EUserType.ADMIN.name())) {
 			annotations.add(SecurityAnnotation.PRIVATE.get());

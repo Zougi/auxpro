@@ -9,14 +9,31 @@ class FormBase extends React.Component {
 		super(props);
 	}
 
+	_getFormControl() {
+		if (this.props.static) {
+			return (
+				<FormControl.Static>
+					{this.props.defaultValue}
+				</FormControl.Static>
+			);
+		} else {
+			return (
+				<FormControl 
+					type={this.props.type?this.props.type:'text'} 
+					defaultValue={this.props.defaultValue} 
+					onChange={this.props.onChange}/>
+			);
+		}
+	}
+
 	render() { 
 		return (
 			<FormGroup>
-				<Col componentClass={ControlLabel} sm={2}>
+				<Col componentClass={ControlLabel} sm={this.props.labelSize?this.props.labelSize:2}>
 					{this.props.title}
 				</Col>
-				<Col sm={10}>
-					<FormControl type={this.props.type?this.props.type:'text'} defaultValue={this.props.defaultValue} onChange={this.props.onChange}/>
+				<Col sm={this.props.labelSize?12-this.props.labelSize:10}>
+					{this._getFormControl()}
 				</Col>
 			</FormGroup>
 		);

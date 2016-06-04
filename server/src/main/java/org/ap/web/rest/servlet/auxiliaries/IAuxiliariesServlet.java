@@ -69,7 +69,7 @@ public interface IAuxiliariesServlet {
 	public Response getAuxiliaryMissionsJSON(@Context SecurityContext sc, @PathParam("auxId") final String id);
 	
 	@POST
-	//@RolesAllowed("aux")
+	@RolesAllowed("authenticated")
 	@Path("{auxId}/absences")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
@@ -80,7 +80,6 @@ public interface IAuxiliariesServlet {
 	@Path("{auxId}/absences")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getAuxiliaryAbsencesJSON(@Context SecurityContext sc, @PathParam("auxId") final String id);
-	
 	
 	@POST
 	@Path("{auxId}/idcard")

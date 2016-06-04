@@ -8,17 +8,20 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public enum Mappers {
 
-	DEFAULT(null),
-	MONGO(new DateJsonDeserializer()),
+	DEFAULT(null, null),
+	MONGO(new DateJsonDeserializer(), null),
 	;
 	
 	private ObjectMapper _mapper;
 	
-	private Mappers(JsonDeserializer<Date> deserializer) {
+	private Mappers(JsonDeserializer<Date> dateDS, JsonDeserializer<Long> longDS) {
 		_mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
-		if (deserializer != null) {		
-			module.addDeserializer(Date.class, deserializer);
+		if (dateDS != null) {
+			module.addDeserializer(Date.class, dateDS);
+		}
+		if (longDS != null) {
+			module.addDeserializer(Long.class, longDS);
 		}
 		_mapper.registerModule(module);
 	}

@@ -13,7 +13,10 @@
 		"firstName": "Premier",
 		"lastName": "Auxiliaire",
 		"birthDate":"1980-01-03",
-		"birthPlace":"Paris"
+		"birthPlace": {
+			"city": "Paris",
+			"country":"France"
+		}
 	},
 	"contact": {
 		"address": {

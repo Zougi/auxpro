@@ -1,0 +1,10 @@
+div.panel.panel-default.small .panel-heading {
+	height:31px;
+	padding:8px;
+	padding-left:8px;
+	font-size:12px;
+}
+div.panel.panel-default.small .panel-body {
+	padding:8px;
+	padding-left:8px;
+}

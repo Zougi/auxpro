@@ -3,8 +3,7 @@
 		"civility":"Mr",
 		"firstName": "Armand",
 		"lastName": "Dupont",
-		"birthDate":"1942-01-03",
-		"birthPlace":"Paris"
+		"birthDate":"1942-01-03"
 	},
 	"contact": {
 		"address": {

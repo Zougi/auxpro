@@ -14,7 +14,10 @@
 		"firstName": "Seconde",
 		"lastName": "Auxiliaire",
 		"birthDate":"1992-05-01",
-		"birthPlace":"Saint Ouen"
+		"birthPlace": {
+			"city": "Versailles",
+			"country": "France"
+		}
 	},
 	"contact": {
 		"address": {

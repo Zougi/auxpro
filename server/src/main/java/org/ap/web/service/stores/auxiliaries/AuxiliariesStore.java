@@ -56,7 +56,11 @@ public class AuxiliariesStore implements IAuxiliariesStore {
 	}
 	@Override
 	public AuxiliaryBean update(AuxiliaryBean bean) throws APException {
-		if (EMongoCollection.AUXILIARIES.getService().findOne(eq("user.name", bean.getUser().getName())) == null) throw APException.USER_NAME_INVALID;
+		Document initial = EMongoCollection.AUXILIARIES.getService().findOne(eq("user.name", bean.getUser().getName()));
+		if (initial == null) throw APException.USER_NAME_INVALID;
+		AuxiliaryBean previous = BeanConverter.convertToBean(initial, AuxiliaryBean.class);
+		bean.setId(previous.getId());
+		bean.getUser().setPassword(previous.getUser().getPassword());
 		Document document = BeanConverter.convertToMongo(bean);
 		document = EMongoCollection.AUXILIARIES.getService().update(document);
 		return BeanConverter.convertToBean(document, AuxiliaryBean.class);

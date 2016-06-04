@@ -90,7 +90,7 @@ export default class RestService {
         return RestService._request(reqParam);
     };
 	
-		/**
+	/**
      *
      * @param {object} [args]
      * @param {object} [args.data]
@@ -98,7 +98,7 @@ export default class RestService {
      */
     static putAuxiliary(args) {
         var reqParam = {};
-        reqParam.url = '/auxiliaries/' + args.data.id;
+        reqParam.url = '/auxiliaries/' + args.id;
         reqParam.method = 'PUT';
         reqParam.data = args.data;
         reqParam.token = args.token;

@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.ap.web.rest.security.annotation.PrivateInformation;
-import org.ap.web.rest.security.annotation.SecretInformation;
 
 @XmlRootElement
 public class UserBean extends CredentialsBean {
@@ -19,7 +18,7 @@ public class UserBean extends CredentialsBean {
 
 	public UserBean() {}
 	
-	@SecretInformation
+	@PrivateInformation
 	public String getId() { return id; }
 	public void setId(String id) { this.id = id; }
 	
