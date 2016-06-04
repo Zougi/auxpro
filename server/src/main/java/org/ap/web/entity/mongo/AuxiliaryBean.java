@@ -12,6 +12,7 @@ public class AuxiliaryBean extends MongoEntity {
 	private UserBean user;
 	private PersonBean person;
 	private ContactBean contact;
+	private SkillsBean skills;
 	private String diploma;
 	
 	public AuxiliaryBean() { }
@@ -27,4 +28,7 @@ public class AuxiliaryBean extends MongoEntity {
 	
 	public String getDiploma() { return diploma; }
 	public void setDiploma(String diploma) { this.diploma = diploma; }
+
+	public SkillsBean getSkills() { return skills; }
+	public void setSkills(SkillsBean skills) { this.skills = skills; }
 }

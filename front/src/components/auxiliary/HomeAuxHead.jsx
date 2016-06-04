@@ -9,7 +9,7 @@ class HomeAuxHead extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.img= props.aux.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
+		this.img= props.data.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
 	}
 
 	render() { return(
@@ -23,19 +23,19 @@ class HomeAuxHead extends React.Component {
 				<tbody>
 					<tr>
 						<th>Nom</th>
-						<td>{this.props.aux.person.firstName} {this.props.aux.person.lastName}</td>
+						<td>{this.props.data.person.firstName} {this.props.data.person.lastName}</td>
 					</tr>
 					<tr>
 						<th>Adresse electronique</th>
-						<td>{this.props.aux.user.email}</td>
+						<td>{this.props.data.user.email}</td>
 					</tr>
 					<tr>
-						<th>Telephone</th>
-						<td>{this.props.aux.contact.phone}</td>
+						<th>Civilité</th>
+						<td>{this.props.data.person.civility}</td>
 					</tr>
 					<tr>
 						<th>Diplome</th>
-						<td>{this.props.aux.diploma}</td>
+						<td>{this.props.data.diploma}</td>
 					</tr>
 				</tbody>
 				</Table>

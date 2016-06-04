@@ -10,20 +10,16 @@ class Profile extends React.Component {
 
 	constructor(props) {
 		super(props);
+		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
 		this.state = {
-			data: StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/name'))
+			edit: false,
+			user: user,
+			data: data
 		};
 	}
 
-	componentWillMount() {
-        let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
-		if (!logged) {
-			this.context.router.push('/login');
-		}
-    }
-
 	render() { 
-	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		return(
 			<div className='container'>
 			<PageHeader>Mon Profil <small>{this.state.data.firstName} {this.state.data.lastName}</small></PageHeader>

@@ -4,11 +4,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class AddressBean {
-	
+		
 	private String address;
 	private int postalCode;
 	private String city;
 	private String country;
+
+	private String lattitude;
+	private String longitude;
 	
 	public AddressBean() {}
 	
@@ -23,4 +26,10 @@ public class AddressBean {
 	
 	public String getCountry() { return country; }
 	public void setCountry(String country) { this.country = country; }
+
+	public String getLattitude() { return lattitude; }
+	public void setLattitude(String lattitude) { this.lattitude = lattitude; }
+
+	public String getLongitude() { return longitude; }
+	public void setLongitude(String longitude) { this.longitude = longitude; }
 }

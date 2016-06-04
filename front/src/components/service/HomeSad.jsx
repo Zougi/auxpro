@@ -8,7 +8,7 @@ import StoreRegistry from '../../core/StoreRegistry';
 // custom components
 import HomeSadHead from './HomeSadHead.jsx'
 import ServicesTuto from './ServicesTuto.jsx'
-
+import Match from './match/Match.jsx'
 
 class HomeSad extends React.Component {
 
@@ -55,7 +55,7 @@ class HomeSad extends React.Component {
 					</Row>
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
-							<Tab eventKey={0} title="Smaching"><br/>Smaching</Tab>
+							<Tab eventKey={0} title="Smaching"><br/><Match/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/>Mes Informations</Tab>
 						</Tabs>

@@ -15,14 +15,30 @@ class HomeAux extends React.Component {
 
 	constructor(props) {
 		super(props);
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let aux = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
-		this.state = {
-			user: aux,
-			showTuto: !aux.user.tutoSkipped,
-			showProfilePrompt: true
-		};
+		this.loadAuxiliary(true);
 	}
+
+	componentDidMount() {
+        StoreRegistry.register('AUXILIARY_STORE', this, this.onAuxiliaryUpdate.bind(this));
+    }
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);   
+    }
+	
+	onAuxiliaryUpdate() {
+    	this.loadAuxiliary(false);
+		this.setState(this.state);
+    }
+    loadAuxiliary(first) {
+    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+    	let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
+    	this.state = {
+			user: user,
+			data: data,
+			showTuto: first?!data.user.tutoSkipped:this.state.showTuto,
+			showProfilePrompt: first?true:this.state.showProfilePrompt
+		};
+    }
 
     _tutoClose() {
     	this.state.showTuto = false;
@@ -36,7 +52,6 @@ class HomeAux extends React.Component {
     	this.state.showProfilePrompt = false;
     	this.setState(this.state);
     }
-
 
 	render() { 
 		if (this.state.showTuto) {
@@ -54,13 +69,13 @@ class HomeAux extends React.Component {
 				<br/>
 				<Grid>
 					<Row>
-						<HomeAuxHead aux={this.state.user}/>
+						<HomeAuxHead data={this.state.data}/>
 					</Row>
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
-							<Tab eventKey={0} title="Mon Planning"><br/><Planing/></Tab>
+							<Tab eventKey={0} title="Mon Planning"><br/><Planing user={this.state.user} data={this.state.data}/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
-							<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux/></Tab>
+							<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux data={this.state.data}/></Tab>
 							<Tab eventKey={3} title="Les Offres"><br/>Les Offres</Tab>
 						</Tabs>
 					</Row>

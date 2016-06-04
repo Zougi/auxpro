@@ -14,8 +14,7 @@ let MODES = {
 }
 
 let INITIAL_STATE = {
-	mode: MODES.W,
-	day: new DateDay(new Date())
+	mode: MODES.W
 }
 
 class Calendar extends React.Component {
@@ -25,17 +24,19 @@ class Calendar extends React.Component {
 		this.state = INITIAL_STATE;
 	}
 
-	onDaySelect(day) {
-		this.state.day = day;
-		this.setState(this.state);
-	}
-
-	setMode(mode) {
-		return function () {
-			this.state.mode = mode;
+	setModeMonth() {
+		if (this.state.mode !== MODES.M) {
+			this.state.mode = MODES.M;
 			this.setState(this.state);
-			this.props.onModeChanged(mode);
-		}.bind(this);
+			this.props.onModeChanged(MODES.M);
+		}
+	}
+	setModeWeek() {
+		if (this.state.mode === MODES.M) {
+			this.state.mode = MODES.W;
+			this.setState(this.state);
+			this.props.onModeChanged(MODES.W);
+		}
 	}
 
 	render() { 
@@ -51,8 +52,18 @@ class Calendar extends React.Component {
 						<td>
 							<div style={{textAlign:'right'}}>
 								<ButtonGroup>
-								    <Button bsSize='xsmall' onClick={this.setMode(MODES.M).bind(this)} active={this.state.mode === MODES.M}><Glyphicon glyph="th"/></Button>
-								    <Button bsSize='xsmall' onClick={this.setMode(MODES.W).bind(this)} active={this.state.mode === MODES.W}><Glyphicon glyph="th-list"/></Button>
+								    <Button 
+								    	bsSize='xsmall' 
+								    	onClick={this.setModeMonth.bind(this)} 
+								    	active={this.state.mode === MODES.M}>
+								    	<Glyphicon glyph="th"/>
+								    </Button>
+								    <Button 
+								    	bsSize='xsmall' 
+								    	onClick={this.setModeWeek.bind(this)} 
+								    	active={this.state.mode !== MODES.M}>
+								    	<Glyphicon glyph="th-list"/>
+								    </Button>
 					  			</ButtonGroup>
 					  		</div>
 						</td>
@@ -64,9 +75,9 @@ class Calendar extends React.Component {
 			<Panel header={header} className='calendar'>
 				{this.state.mode === MODES.M
 				? 
-					<CalendarMonth onDaySelect={this.onDaySelect.bind(this)} day={this.state.day} planing={this.props.planing}/> 
+					<CalendarMonth onDaySelect={this.props.onDaySelect} day={this.props.day} planing={this.props.planing}/> 
 				: 
-					<CalendarWeek onDaySelect={this.onDaySelect.bind(this)} day={this.state.day}/> 
+					<CalendarWeek onDaySelect={this.props.onDaySelect} day={this.props.day}/> 
 				}
 			</Panel>
 	    );

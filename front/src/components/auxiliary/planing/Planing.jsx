@@ -17,58 +17,50 @@ import PlaningHelper from '../../../utils/planing/PlaningHelper.js';
 
 let INITIAL_STATE ={
 	day: new DateDay(new Date()),
-	mode: 'W',
-	planing: new PlaningHelper()
+	mode: 'W'
 }
 
 class Planing extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		
 		this.state = INITIAL_STATE;
-
-		let params = { 
-			id: user.id,
-			token: user.token
-		};
-        Dispatcher.issue('GET_AUXILIARY_MISSIONS', params);
-        Dispatcher.issue('GET_AUXILIARY_ABSENCES', params);
+		this.state.user = this.props.user;
+		this.state.data = this.props.data;
+		var args = {
+			id: this.state.user.id,
+			token: this.state.user.token
+		}
+		this.loadAuxiliary(props);
+        Dispatcher.issue('GET_AUXILIARY_MISSIONS', args);
+        Dispatcher.issue('GET_AUXILIARY_ABSENCES', args);
 	}
 
-	componentDidMount() {
-        StoreRegistry.register('AUXILIARY_STORE', this, this.onAuxiliaryUpdate.bind(this));
-    }
+	componentWillReceiveProps(props) {
+		this.onAuxiliaryUpdate(props);
+	}
 
-    componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);   
-    }
-
-    onAuxiliaryUpdate() {
-    	this.loadAuxiliary();
+    onAuxiliaryUpdate(props) {
+    	this.loadAuxiliary(props);
 		this.setState(this.state);
     }
 
-    loadAuxiliary() {
-    	var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-    	var aux = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
-		var missions = aux.missions || [];
-    	var absences = aux.absences || [];
-		this.planing = new PlaningHelper({});
+    loadAuxiliary(props) {
+		var missions = props.data.missions || [];
+    	var absences = props.data.absences || [];
+		this.state.planing = new PlaningHelper({});
 		for (var i = 0; i < missions.length; i++) {
 			var mission = missions[i];
 			var date = new Date(mission.date);
 			mission.style = 'success';
-			this.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), mission);
+			this.state.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), mission);
 		}
 		for (var i = 0; i < absences.length; i++) {
 			var absence = absences[i];
 			var date = new Date(absence.date);
 			absence.style = 'warning';
-			this.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), absence);
+			this.state.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), absence);
 		}
-		this.state.planing = this.planing;
     }
 
 	onDaySelect(day) {
@@ -134,7 +126,11 @@ class Planing extends React.Component {
 				?(
 					<div>
 					<Col sm={8} md={7} lg={5}>
-						<Calendar onModeChanged={this.onModeChanged.bind(this)} onDaySelect={this.onDaySelect.bind(this)} planing={this.state.planing}/>
+						<Calendar 
+							day={this.state.day} 
+							onModeChanged={this.onModeChanged.bind(this)}
+							onDaySelect={this.onDaySelect.bind(this)} 
+							planing={this.state.planing}/>
 		    		</Col>
 		    		<Col sm={2} md={3} lg={4}>
 		    			<Panel header="Informations">
@@ -146,7 +142,11 @@ class Planing extends React.Component {
 		    		</div>
 				):(
 					<Col sm={10} md={10} lg={9}>
-						<Calendar onModeChanged={this.onModeChanged.bind(this)} onDaySelect={this.onDaySelect.bind(this)} planing={this.state.planing}/>
+						<Calendar 
+							day={this.state.day}
+							onModeChanged={this.onModeChanged.bind(this)} 
+							onDaySelect={this.onDaySelect.bind(this)} 
+							planing={this.state.planing}/>
 		    		</Col>
 				)}
 				

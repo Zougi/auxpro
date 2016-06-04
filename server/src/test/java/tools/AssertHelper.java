@@ -14,6 +14,7 @@ import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.PersonBean;
 import org.ap.web.entity.mongo.ServiceBean;
+import org.ap.web.entity.mongo.SkillsBean;
 import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 
@@ -37,6 +38,41 @@ public class AssertHelper {
 
 	/* ENTITIES */
 
+	public static void assertAbsences(AbsenceBean[] expected, AbsenceBean[] actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.length, actual.length);
+			for (int i = 0 ; i < expected.length ; i++) { assertAbsence(expected[i], actual[i]); }
+		}
+	}
+	public static void assertAbsence(AbsenceBean expected, AbsenceBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
+			TestCase.assertEquals(expected.getEndHour(), actual.getEndHour());
+			TestCase.assertEquals(expected.getStartHour(), actual.getStartHour());
+			TestCase.assertEquals(expected.getDate(), actual.getDate());
+		}
+	}
+	public static void assertAddress(AddressBean expected, AddressBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.getAddress(), actual.getAddress());
+			TestCase.assertEquals(expected.getCity(), actual.getCity());
+			TestCase.assertEquals(expected.getPostalCode(), actual.getPostalCode());
+			TestCase.assertEquals(expected.getCountry(), actual.getCountry());
+		}
+	}
+	public static void assertAuxiliary(AuxiliaryBean expected, AuxiliaryBean actual) {
+		assertUser(expected.getUser(), actual.getUser());
+		assertContact(expected.getContact(), actual.getContact());
+		assertPerson(expected.getPerson(), actual.getPerson());
+		assertSkills(expected.getSkills(), actual.getSkills());
+		TestCase.assertEquals(expected.getDiploma(), actual.getDiploma());
+	}
 	public static void assertContact(ContactBean expected, ContactBean actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
@@ -49,12 +85,17 @@ public class AssertHelper {
 			assertAddress(expected.getAddress(), actual.getAddress());
 		}
 	}
+	public static void assertCredentials(CredentialsBean expected, CredentialsBean actual) {
+		TestCase.assertEquals(expected.getName(), actual.getName());
+		TestCase.assertEquals(expected.getEmail(), actual.getEmail());
+	}
 	public static void assertCustomer(CustomerBean expected, CustomerBean actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
 			assertContact(expected.getContact(), actual.getContact());
 			assertPerson(expected.getPerson(), actual.getPerson());
+			assertSkills(expected.getSkills(), actual.getSkills());
 		}
 	}
 	public static void assertMissions(MissionBean[] expected, MissionBean[] actual) {
@@ -74,26 +115,7 @@ public class AssertHelper {
 			TestCase.assertEquals(expected.getDate(), actual.getDate());
 			assertContact(expected.getContact(), actual.getContact());
 		}
-	}
-	public static void assertAbsences(AbsenceBean[] expected, AbsenceBean[] actual) {
-		if (expected == null) {
-			TestCase.assertNull(actual);
-		} else {
-			TestCase.assertEquals(expected.length, actual.length);
-			for (int i = 0 ; i < expected.length ; i++) { assertAbsence(expected[i], actual[i]); }
-		}
-	}
-	public static void assertAbsence(AbsenceBean expected, AbsenceBean actual) {
-		if (expected == null) {
-			TestCase.assertNull(actual);
-		} else {
-			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
-			TestCase.assertEquals(expected.getEndHour(), actual.getEndHour());
-			TestCase.assertEquals(expected.getStartHour(), actual.getStartHour());
-			TestCase.assertEquals(expected.getDate(), actual.getDate());
-		}
-	}
-
+	}	
 	public static void assertPerson(PersonBean expected, PersonBean actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
@@ -102,30 +124,12 @@ public class AssertHelper {
 			TestCase.assertEquals(expected.getFirstName(), actual.getFirstName());
 			TestCase.assertEquals(expected.getLastName(), actual.getLastName());
 			TestCase.assertEquals(expected.getBirthDate(), actual.getBirthDate());
-			TestCase.assertEquals(expected.getBirthPlace(), actual.getBirthPlace());
+			TestCase.assertEquals(expected.getSocialNumber(), actual.getSocialNumber());
+			TestCase.assertEquals(expected.getNationality(), actual.getNationality());
+			TestCase.assertEquals(expected.getCiNumber(), actual.getCiNumber());
+			assertAddress(expected.getBirthPlace(), actual.getBirthPlace());
 		}
 	}
-
-	public static void assertCredentials(CredentialsBean expected, CredentialsBean actual) {
-		TestCase.assertEquals(expected.getName(), actual.getName());
-		TestCase.assertEquals(expected.getEmail(), actual.getEmail());
-	}
-
-	public static void assertUser(UserBean expected, UserBean actual) {
-		assertCredentials(expected, actual);
-		TestCase.assertEquals(expected.getActive(), actual.getActive());
-		TestCase.assertEquals(expected.getTutoSkipped(), actual.getTutoSkipped());
-		TestCase.assertEquals(expected.getType(), actual.getType());
-		TestCase.assertEquals(expected.getRegistrationDate(), actual.getRegistrationDate());
-	}
-
-	public static void assertAuxiliary(AuxiliaryBean expected, AuxiliaryBean actual) {
-		assertUser(expected.getUser(), actual.getUser());
-		assertContact(expected.getContact(), actual.getContact());
-		assertPerson(expected.getPerson(), actual.getPerson());
-		TestCase.assertEquals(expected.getDiploma(), actual.getDiploma());
-	}
-
 	public static void assertService(ServiceBean expected, ServiceBean actual) {
 		assertUser(expected.getUser(), actual.getUser());
 		assertContact(expected.getContact(), actual.getContact());
@@ -133,14 +137,24 @@ public class AssertHelper {
 		TestCase.assertEquals(expected.getSiret(), actual.getSiret());
 		TestCase.assertEquals(expected.getSocialReason(), actual.getSocialReason());
 	}
-
-	public static void assertAddress(AddressBean expected, AddressBean actual) {
+	public static void assertSkills(SkillsBean expected, SkillsBean actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
-			TestCase.assertEquals(expected.getAddress(), actual.getAddress());
-			TestCase.assertEquals(expected.getCity(), actual.getCity());
-			TestCase.assertEquals(expected.getPostalCode(), actual.getPostalCode());
+			TestCase.assertEquals(expected.getAdministrative(), actual.getAdministrative());
+			TestCase.assertEquals(expected.getChildhood(), actual.getChildhood());
+			TestCase.assertEquals(expected.getCompagny(), actual.getCompagny());
+			TestCase.assertEquals(expected.getDoityourself(), actual.getDoityourself());
+			TestCase.assertEquals(expected.getHousework(), actual.getHousework());
+			TestCase.assertEquals(expected.getNursing(), actual.getNursing());
+			TestCase.assertEquals(expected.getShopping(), actual.getShopping());
 		}
 	}
+	public static void assertUser(UserBean expected, UserBean actual) {
+		assertCredentials(expected, actual);
+		TestCase.assertEquals(expected.getActive(), actual.getActive());
+		TestCase.assertEquals(expected.getTutoSkipped(), actual.getTutoSkipped());
+		TestCase.assertEquals(expected.getType(), actual.getType());
+		TestCase.assertEquals(expected.getRegistrationDate(), actual.getRegistrationDate());
+	}	
 }
