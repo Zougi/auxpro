@@ -6,6 +6,7 @@ import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } fr
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
 // custom components
+import AuxMap from './geo/AuxMap.jsx'
 import Planing from './planing/Planing.jsx'
 import HomeAuxHead from './HomeAuxHead.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'
@@ -74,7 +75,7 @@ class HomeAux extends React.Component {
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
 							<Tab eventKey={0} title="Mon Planning"><br/><Planing user={this.state.user} data={this.state.data}/></Tab>
-							<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
+							<Tab eventKey={1} title="Ma Zone"><br/><AuxMap/></Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux data={this.state.data}/></Tab>
 							<Tab eventKey={3} title="Les Offres"><br/>Les Offres</Tab>
 						</Tabs>

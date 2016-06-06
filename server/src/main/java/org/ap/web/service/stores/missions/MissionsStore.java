@@ -22,13 +22,12 @@ public class MissionsStore implements IMissionsStore {
 	@Override
 	public MissionBean[] getAuxMissions(String id) {
 		FindIterable<Document> documents = EMongoCollection.MISSIONS_AFFECTED.getService().findAll(eq("auxiliaryId", id));
-		List<MissionBean> result = BeanConverter.convertToBean(documents, MissionBean.class);
-		
+		List<MissionBean> result = BeanConverter.convertToBean(documents, MissionBean.class);		
 		return result.toArray(new MissionBean[result.size()]);
 	}
 	@Override
 	public AbsenceBean createAuxAbsences(AbsenceBean bean) throws APException {
-		if (bean.getEndHour() <= bean.getStartHour()) throw APException.ABSENCE_HOURS_INVALID;
+		if (bean.getEndHour().getTime() <= bean.getStartHour().getTime()) throw APException.ABSENCE_HOURS_INVALID;
 		Document document = BeanConverter.convertToMongo(bean);
 		document = EMongoCollection.ABSENCES.getService().create(document);		
 		return BeanConverter.convertToBean(document, AbsenceBean.class);

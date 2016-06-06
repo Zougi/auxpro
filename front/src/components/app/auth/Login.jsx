@@ -1,4 +1,4 @@
-// Import React modules
+// react modules
 import React from 'react';
 // react-bootstrap modules
 import { Button, Panel, Nav, Navbar } from 'react-bootstrap'
@@ -7,11 +7,14 @@ import { Grid, Row, Col } from 'react-bootstrap'
 // react-router-bootstrap modules
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
-// Import Core modules
-import Dispatcher from '../../core/Dispatcher';
+// utility modules
+import Utils from '../../../utils/Utils';
+// core modules
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
 
-class RegisterAux extends React.Component {
-	
+class Login extends React.Component {
+
 	constructor(props) {
 		super(props);
         this.state = {
@@ -19,39 +22,41 @@ class RegisterAux extends React.Component {
         };
 	}
 
-	register(event) {
-		event.preventDefault();
-    	let params = {
-    		name: this.state.user, 
-    		email: this.state.user, 
-    		password: this.state.pass
-    	};
-    	Dispatcher.issue('POST_AUXILIARY', params).
-        then(function () {
-            console.log('utilisateur créé');
-            let params = {
-                user: this.state.user, 
-                pass: this.state.pass
-            };
-            Dispatcher.issue('LOGON', params);
-        }.bind(this)).
-        catch(function (error) {
-            console.log(error);
-            this.setState({ error: 'Erreur lors de la création d\'un utilisateur'});
-        }.bind(this));
+    componentDidMount() {
+        StoreRegistry.register('ERROR_STORE', this, this.onLogonError.bind(this));
+    }
+
+    componentWillUnmount() {
+        StoreRegistry.unregister('ERROR_STORE', this);   
+    }
+
+    onLogonError() {
+        let error = StoreRegistry.getStore('ERROR_STORE').getData('/logon/error');
+        if (error) {
+            this.setState({ error: 'Echec de connexion' });
+        }
+    }
+
+	login(event) {
+        event.preventDefault();
+        let params = {
+            user: this.state.user, 
+            pass: this.state.pass
+        };
+        Dispatcher.issue('LOGON', params);
 	}
 
-	handleEmailChanged(e) {  this.state.user = e.target.value; }
+    handleEmailChanged(e) { this.state.user = e.target.value; }
     handlePasswordChanged(e) { this.state.pass = e.target.value; }
 
-	render() { return (
-		<div className="container">
-			<br/>
+    render() { return (
+    	<div className='container'>
+            <br/>
             <Col smOffset={1} sm={10} mdOffset={2} md={8}>
             <Panel 
-                header={this.state.error?this.state.error:'Création compte Auxiliaire'} 
+                header={this.state.error?this.state.error:'Saisir les informations utilisateur'} 
                 bsStyle={this.state.error?'danger':'default'}>
-            <Form onSubmit={this.register.bind(this)}>
+            <Form onSubmit={this.login.bind(this)}>
                 <FormGroup controlId='user'>
                     <ControlLabel>Adresse électronique</ControlLabel>
                     <FormControl typeDISABLED='email' onChange={this.handleEmailChanged.bind(this)} placeholder='Adresse électronique'/>
@@ -63,7 +68,7 @@ class RegisterAux extends React.Component {
                 <br/>
                 <Row>
                 <Col sm={6} md={5} mdOffset={1} lg={4} lgOffset={2}>
-                    <Button type='submit' bsStyle='success' bsSize='large' block>Créer Compte</Button>
+                    <Button type='submit' bsStyle='success' bsSize='large' block>Connexion</Button>
                 </Col>
                 <br className="visible-xs-block"/>
                 <Col sm={6} md={5} lg={4}>
@@ -76,12 +81,8 @@ class RegisterAux extends React.Component {
             </Panel>
             </Col>
             <br/>
-		</div>
-	);}
+    	</div>
+    );}   
 }
 
-RegisterAux.contextTypes = {
-	router: React.PropTypes.object
-}
-
-export default RegisterAux;
+export default Login;

@@ -7,19 +7,37 @@
 /* ----------------------------------------------------------
  *                                    CALENDAR-MONTH DISPLAY
  */
-.calendar .month {
+.calendar .calendar-month {
+
+}
+.calendar .calendar-month .month {
 	background:blue;	
 }
-.calendar .week {}
-.calendar .day {
+.calendar .calendar-month .week {
+
+}
+.calendar .calendar-month .day {
 	border:0;
 }
-.calendar .day {
+.calendar .calendar-month .day {
 	border: 1px solid rgba(255,255,255,0);
 	border-radius:0px;
 	font-weight: bold;
 }
-
+.calendar .calendar-month .day.today {
+	background: #FFCCCC
+}
+.calendar .calendar-month .day.selected {
+	border: 1px solid red;
+}
+.calendar .calendar-month .day.past {
+	background: #F2F2F2;
+}
+.calendar .calendar-month .day.notmonth {
+	color: #A3A4A5;
+	font-weight: normal;
+	font-style: italic;
+}
 /*
 .calendar .day:hover {
 	background:rgba(35,35,255,0.1);
@@ -28,27 +46,12 @@
 	background:rgba(35,255,35,0.6);
 	color:#252627;
 }
-*/
-.calendar .day.active {
-	background: rgba(255,255,255,0);
-	border: 1px solid red;
-	box-shadow: unset;
-}
-/*
 .calendar .day.active.btn-success {
 	border: 1px solid red;
 	box-shadow: unset;
 }
 */
-.calendar .day.past {
-	background: #F2F2F2;
-	
-}
-.calendar .day.notmonth {
-	color: #A3A4A5;
-	font-weight: normal;
-	font-style: italic;
-}
+
 
 /* ----------------------------------------------------------
  *                                     CALENDAR-WEEK DISPLAY

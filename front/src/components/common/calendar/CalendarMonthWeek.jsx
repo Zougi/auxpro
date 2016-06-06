@@ -1,9 +1,8 @@
-// react modules
+// lib modules
 import React from 'react'
+import moment from 'moment'
 // custom components
 import CalendarMonthDay from './CalendarMonthDay.jsx';
-// custom modules
-import DAYS_SHORT from '../../../utils/date/DateConstants.js';
 
 class CalendarMonthWeek extends React.Component {
 	
@@ -11,19 +10,25 @@ class CalendarMonthWeek extends React.Component {
 		super(props);
 	}
 
-	onDaySelect(day) {
-		this.props.onDaySelect(day);
+	_buildDays(weekStart) {
+		var days = [];
+		for (let i = 0; i < 7; i++) {
+			let day = weekStart.clone();
+			day.add(i, 'days');
+			days.push(day);
+		}
+		return days;
 	}
 
 	render() {
-		var month = this.props.month;
-		var days = this.props.week.days.map(function(day) {
+		//bsSize bsStyle past notmonth selected
+		var days = this._buildDays(this.props.moment.startOf('week')).map(function(day) {
             return (
                 <CalendarMonthDay 
-                	key={day.id}
-                	month={month}
-                	day={day}
-                	planing={this.props.planing.getForDay(day.date.getFullYear(), day.date.getMonth(), day.date.getDate())}
+                	key={day.format()}
+                	moment={day}
+                	selected={this.props.selected.isSame(day, 'days')}
+                	notmonth={day.month() !== this.props.month}
                 	onDaySelect={this.props.onDaySelect}/>
             );
         }.bind(this));

@@ -1,13 +1,9 @@
-// react modules
+// lib modules
 import React from 'react'
-// react-bootstrap modules
+import moment from 'moment'
 import { Pager, PageItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 // custom components
 import CalendarMonthMonth from './CalendarMonthMonth.jsx';
-// custom modules
-import { MONTHS } from '../../../utils/date/DateConstants.js';
-import DateMonth from '../../../utils/date/DateMonth.js';
-import DateDay from '../../../utils/date/DateDay.js';
 
 class CalendarMonth extends React.Component {
 
@@ -23,36 +19,35 @@ class CalendarMonth extends React.Component {
 
 	_updateState(props) {
 		this.state = {
-			month: new DateMonth({ 
-				date: props.day,
-				start: 1
-			}),
-			day: props.day
+			moment: moment(),
+			selected: moment()
 		}
 	}
 
 	_setMonth(month) {
-		this.state.month = month;
+		this.state.moment = month;
 		this.setState(this.state);
 	}
-
 	onPreviousMonth() {
-		this._setMonth(this.state.month.previousMonth);
+		var month = this.state.moment.clone();
+		this._setMonth(month.subtract(1, 'month'));
 	}
 	onNextMonth() {
-		this._setMonth(this.state.month.nextMonth);
+		var month = this.state.moment.clone();
+		this._setMonth(month.add(1, 'month'));
 	}
 
 
 	render() { return ( 
-		<div className='calendar'>
+		<div className='calendar-month'>
 			<Pager>
 				<PageItem onClick={this.onPreviousMonth.bind(this)} previous>&larr;</PageItem>
-				<Button>{MONTHS[this.state.month.month]} {this.state.day.date.getFullYear()}</Button>
+				<Button>{this.state.moment.format('MMMM')} {this.state.moment.format('YYYY')}</Button>
 				<PageItem onClick={this.onNextMonth.bind(this)} next>&rarr;</PageItem>
 			</Pager>
 			<CalendarMonthMonth 
-				month={this.state.month} 
+				moment={this.state.moment} 
+				selected={this.state.selected}
 				planing={this.props.planing}
 				onDaySelect={this.props.onDaySelect}/>
 		</div>

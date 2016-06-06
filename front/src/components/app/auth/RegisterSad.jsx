@@ -8,7 +8,7 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
 // core modules
-import Dispatcher from '../../core/Dispatcher';
+import Dispatcher from '../../../core/Dispatcher';
 
 class RegisterSad extends React.Component {
 

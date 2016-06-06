@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"_id"})
 public class MissionBean extends MongoEntity {
 	
-	private int startHour;
-	private int endHour;
-	private Date date;
+	private Date startHour;
+	private Date endHour;
 	
 	private ContactBean contact;
 	
@@ -27,15 +26,12 @@ public class MissionBean extends MongoEntity {
 	
 	public MissionBean() {}
 	
-	public int getStartHour() { return startHour; }
-	public void setStartHour(int startHour) { this.startHour = startHour; }
+	public Date getStartHour() { return startHour; }
+	public void setStartHour(Date startHour) { this.startHour = startHour; }
 	
-	public int getEndHour() { return endHour; }
-	public void setEndHour(int endHour) { this.endHour = endHour; }
+	public Date getEndHour() { return endHour; }
+	public void setEndHour(Date endHour) { this.endHour = endHour; }
 
-	public Date getDate() { return date; }
-	public void setDate(Date date) { this.date = date; }
-	
 	public ContactBean getContact() { return contact; }
 	public void setContact(ContactBean contact) { this.contact = contact; }
 

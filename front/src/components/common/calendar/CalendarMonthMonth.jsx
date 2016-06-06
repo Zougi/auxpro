@@ -1,47 +1,65 @@
-// react modules
+// lib modules
 import React from 'react'
-// react-bootstrap modules
+import moment from 'moment'
 import { Table } from 'react-bootstrap';
 // custom components
 import CalendarMonthWeek from './CalendarMonthWeek.jsx';
-// custom modules
-import { DAYS_SHORT } from '../../../utils/date/DateConstants.js';
+
+moment.locale('fr');
+
+let DAYS = [
+	moment().startOf('week'),
+	moment().startOf('week').add(1, 'days'),
+	moment().startOf('week').add(2, 'days'),
+	moment().startOf('week').add(3, 'days'),
+	moment().startOf('week').add(4, 'days'),
+	moment().startOf('week').add(5, 'days'),
+	moment().startOf('week').add(6, 'days')
+];
+
+let DAY_FORMAT = 'dd';
 
 class CalendarMonthMonth extends React.Component {
 	
 	constructor(props) {
 		super(props);
 	}
-	onDaySelect(day) {
-		this.props.onDaySelect(day);
+
+	_buildWeeks(monthStart) {
+		var weeks = [];
+		for (let i = 0; i < 6; i++) {
+			let week = monthStart.clone();
+			week.add(i, 'week')
+			weeks.push(week);
+		}
+		return weeks;
 	}
+
 	render() { 
-		var month = this.props.month.month;
-		var weeks = this.props.month.weeks.map(function(week) {
+		let headers = DAYS.map(function(day) {
+			return (
+				<th key={day.format()} className='center'>{day.format(DAY_FORMAT)}</th>
+			);
+		});
+		let weeks = this._buildWeeks(this.props.moment.startOf('month')).map(function(week) {
             return (
                 <CalendarMonthWeek 
-                	key={week.id} 
-                	month={month} 
-                	week={week} 
-                	planing={this.props.planing}
-                	onDaySelect={this.onDaySelect.bind(this)}/>
+                	key={week.format()} 
+                	moment={week}
+                	selected={this.props.selected}
+                	month={this.props.moment.month()}
+                	onDaySelect={this.props.onDaySelect}/>
             );
         }.bind(this));
 		return (
 			<Table condensed responsive>
 	            <thead>
 	                <tr>
-	                	<th className='center'>{DAYS_SHORT[1]}</th>
-	                	<th className='center'>{DAYS_SHORT[2]}</th> 
-	                	<th className='center'>{DAYS_SHORT[3]}</th>
-	                	<th className='center'>{DAYS_SHORT[4]}</th>
-	                	<th className='center'>{DAYS_SHORT[5]}</th>
-	                	<th className='center'>{DAYS_SHORT[6]}</th>
-	                	<th className='center'>{DAYS_SHORT[0]}</th>
+	                	{headers}
 	                </tr>
 	            </thead>
 	            <tbody>
-	            {weeks}
+	            	{weeks}
 	            </tbody>
 	        </Table>
 		);
