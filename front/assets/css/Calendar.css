@@ -56,32 +56,53 @@
 /* ----------------------------------------------------------
  *                                     CALENDAR-WEEK DISPLAY
  */
-.calendar .calendar-week {
-	table-layout:fixed;
+ .calendar .calendar-week .blue {
+	background: #DEEAF6;
+}
+.calendar .calendar-week .title {
+	text-align: center;
+}
+.calendar .calendar-week .interval {
+	width: 100%;
+	height: 30px;
+	table-layout: fixed;
+}
+	.calendar .calendar-week .interval div {
+		position:relative;
+		left:-10px;
+		font-size: 8px;
+	}
+.calendar .calendar-week .head {
+	vertical-align: middle;	
+	height: 40px;
+	background: #DEEAF6;
+}
+.calendar .calendar-week .head div {
+	text-align: center;	
+	width: 35px;
+	font-size: 10px;
+	font-weight: bold;
+}
+.calendar .calendar-week .table-week {
+	table-layout: fixed;
+	width: 100%;
 }
 .calendar .calendar-week .day {
-	height: 30px;
+	height: 40px;
+	padding-bottom: 3px;
 }
 .calendar .calendar-week .day.selected {
 	border: 1px solid red;
-	margin: 1px;
-}
-.calendar .calendar-week .sep {
-	height: 7px;
 }
 .calendar .calendar-week .hour-head {
 	text-align: center;
 }
-.calendar .calendar-week .hour-b {
-	background: black;
-}
 .calendar .calendar-week .hour {
-	background: linear-gradient(to right, rgba(240, 240, 240, 1), rgba(255, 255, 255, 1));
+	border: 1px solid #F5F5F5;
 }
 .calendar .calendar-week .hour.start {
-	background: linear-gradient(to right, rgba(240, 240, 240, 1), rgba(255, 255, 255, 1));
 	border-left: dashed 1px rgb(180, 180, 180);
 }
 .calendar .calendar-week .hour:hover {
-	background: linear-gradient(to right, rgba(200, 200, 200, 1), rgba(255, 255, 255, 1));
+	background: #FAFAFA;
 }

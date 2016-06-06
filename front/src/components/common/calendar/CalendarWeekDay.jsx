@@ -1,35 +1,50 @@
-// react modules
+// lib modules
 import React from 'react'
+import moment from 'moment'
+// custom components
+import CalendarWeekTime from './CalendarWeekTime.jsx'
 
 class CalendarWeekDay extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.start = props.moment.clone().startOf('days').add(8, 'hours');
+		this.end = props.moment.clone().startOf('days').add(20, 'hours');
+		this.interval = moment.duration(30, 'minutes');
 	}
 
 	onHourClicked(event) {
-		this.props.onDaySelect(this.props.day);
+		event.preventDefault();
+		this.props.onDaySelect(this.props.moment);
+	}
+
+	_buildHours() {
+		let dayHours = [];
+		var current = this.start.clone();
+		while (current.isBefore(this.end)) {
+			let hour = current.clone();
+			dayHours.push(hour);
+			current.add(this.interval);
+		}
+		return dayHours;
 	}
 
 	render() { 
-		var classes = "day";
+		var classes = 'day';
 		if (this.props.selected) {
-			classes += " selected";
+			classes += ' selected';
 		}
-
-		let timesHours = this.props.times.map(function(time) {
-			if (time.indexOf('h30') === -1) {
-				return (<td key={time} className="hour" onClick={this.onHourClicked.bind(this)}><p/></td>);
-			} else {
-				return (<td key={time} className="hour start" onClick={this.onHourClicked.bind(this)}><p/></td>);
-			}
+		let timesHours = this._buildHours().map(function(hour) {
+			return (
+				<CalendarWeekTime key={hour.format()} onClick={this.onHourClicked.bind(this)} moment={hour}/>
+			);
 		}.bind(this));
 
 		return (
 		<tr className={classes}>
-			<td className="hour-b"><p/></td>
+			<td className='hour'><p/></td>
 			{timesHours}
-			<td className="hour-b"><p/></td>
+			<td className='hour'><p/></td>
 		</tr>
 		);
 	}

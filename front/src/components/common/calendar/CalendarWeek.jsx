@@ -1,54 +1,39 @@
-// react modules
+// lib modules
 import React from 'react'
-// react-bootstrap modules
-import { Pager, PageItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
+import moment from 'moment'
+import { Pager, PageItem, Button } from 'react-bootstrap';
 // custom components
 import CalendarWeekWeek from './CalendarWeekWeek.jsx';
-// custom modules
-import DateWeek from '../../../utils/date/DateWeek.js';
-import { D } from '../../../utils/date/DateConstants.js';
 
 
 class CalendarWeek extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this._updateState(props);
-	}
-
-	componentWillReceiveProps(props) {
-		this._updateState(props);
-		this.setState(this.state);
-	}
-
-	_updateState(props) {
 		this.state = {
-			week: new DateWeek({ 
-				date: props.day,
-				start: 1
-			}),
-			day: props.day
+			moment: this.props.selected.startOf('weeks')
 		}
 	}
 
 	setPreviousWeek() {
-		this.props.onDaySelect(this.state.day.getDayInDays(-7));
+		this.state.moment.subtract(1, 'weeks');
+		this.setState(this.state);
 	}
 	setNextWeek() {
-		this.props.onDaySelect(this.state.day.getDayInDays(7));
+		this.state.moment.add(1, 'weeks');
+		this.setState(this.state);
 	}
 
 	render() { return ( 
 		<div>
 			<Pager>
 				<PageItem onClick={this.setPreviousWeek.bind(this)} previous>&larr;</PageItem>
-				<Button>{this.state.day.value}</Button>
+				<Button>{this.props.selected.format('dddd Do MMMM YYYY')}</Button>
 				<PageItem onClick={this.setNextWeek.bind(this)} next>&rarr;</PageItem>
 			</Pager>
 			<CalendarWeekWeek
-				day={this.state.day}
-				week={this.state.week}
-				planing={this.props.planing}
+				moment={this.state.moment}
+				selected={this.props.selected}
 				onDaySelect={this.props.onDaySelect}/>
 		</div>
     );}

@@ -1,12 +1,10 @@
-// react modules
+// lib modules
 import React from 'react'
-// react-bootstrap modules
+import moment from 'moment'
 import { Panel, Grid, ButtonGroup, Button, Glyphicon, Pager, PageItem } from 'react-bootstrap';
 // custom components
 import CalendarMonth from './CalendarMonth.jsx'
 import CalendarWeek from './CalendarWeek.jsx'
-// custom modules
-import DateDay from '../../../utils/date/DateDay.js';
 
 let MODES = {
 	M: 'M',
@@ -77,7 +75,7 @@ class Calendar extends React.Component {
 				? 
 					<CalendarMonth onDaySelect={this.props.onDaySelect} day={this.props.day} planing={this.props.planing}/> 
 				: 
-					<CalendarWeek onDaySelect={this.props.onDaySelect} day={this.props.day}/> 
+					<CalendarWeek onDaySelect={this.props.onDaySelect} selected={moment()}/> 
 				}
 			</Panel>
 	    );

@@ -1,59 +1,96 @@
 // react modules
 import React from 'react'
-// react-bootstrap modules
+import moment from 'moment'
 import { Pager, PageItem, Table, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
-
 // custom components
 import CalendarWeekDay from './CalendarWeekDay.jsx';
+
+moment.locale('fr');
 
 class CalendarWeekWeek extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.start = props.moment.clone().startOf('days').add(8, 'hours');
+		this.end = props.moment.clone().startOf('days').add(20, 'hours');
+		this.interval = moment.duration(30, 'minutes');
+	}
+
+	_buildDays() {
+		let weekStart = this.props.moment.startOf('weeks').clone();
+		let days = [];
+		for (let i = 0; i < 7; i++) {
+			let day = weekStart.clone().add(i, 'days');
+			days.push(day);
+		}
+		return days;
+	}
+	_buildIntervals() {
+		let intervals = [];
+		var current = this.start.clone();
+		intervals.push(this.props.moment.clone().startOf('days'));
+		while (current.isBefore(this.end)) {
+			let hour = current.clone();
+			intervals.push(hour);
+			current.add(this.interval);
+		}
+		intervals.push(this.end);
+		return intervals;
 	}
 
 	render() { 
-		let times = [
-			'08h', '08h30', '09h', '09h30', '10h', '10h30', '11h', '11h30', '12h', '12h30', '13h', '13h30', 
-			'14h', '14h30', '15h', '15h30', '16h', '16h30', '17h', '17h30', '18h', '18h30', '19h', '19h30',
-			'20h'
-		];
-		let days = [];
-		for (let i = 0; i < this.props.week.days.length; i++) {
-			let curDay = this.props.week.days[i];
-			if (curDay.id === this.props.day.id) {
-				days.push((<CalendarWeekDay onDaySelect={this.props.onDaySelect} day={curDay} key={curDay.id} times={times} selected/>));
-			} else {
-				days.push((<CalendarWeekDay onDaySelect={this.props.onDaySelect} day={curDay} key={curDay.id} times={times}/>));
-			}
-			
-			if (i < this.props.week.days.length - 1) {
-				days.push((<tr key={curDay.id + 'sep'}><td><div className="sep"/></td></tr>));
-			}
-		}
-		let timesHeads = [];
-		for (let i = 0; i < times.length; i++) {
-			if (i%4 === 2) {
-				timesHeads.push((<th key={times[i]} className="hour-head"><p/><div className="hidden-xs">{times[i]}</div><p/></th>));
-			} else if (i%2 === 0) {
-				timesHeads.push((<th key={times[i]} className="hour-head">{times[i]}</th>));
-			}
-		}
+		var weekDays = this._buildDays();
+		let days = weekDays.map(function (day) {
+			return (<CalendarWeekDay key={day.format()} moment={day} onDaySelect={this.props.onDaySelect}/>)
+		}.bind(this));
 
+		let heads = weekDays.map(function (day) {
+			return (<tr key={day.format()} ><td className='head'><div>{day.format('dd')}<br/>{day.format('DD')}</div></td></tr>)
+		}.bind(this));
+
+		let intervals = this._buildIntervals().map(function (interval) {
+			let HH = interval.format('HH');
+			let mm = interval.format('mm');
+			let label = (HH==='00'&&mm==='00')?'':(mm==='00'?HH + 'h' + mm:'');
+			return (<td key={interval.format()}><div>{label}</div></td>)
+		}.bind(this));
+	
 		return (
-		<Panel className="calendar">
-			<table style={{width:"100%"}} className="calendar-week">
-				<thead><tr>
-					{timesHeads}
-				</tr></thead>
-			</table>
-			<table style={{width:"100%"}} className="calendar-week">
+			<table className='calendar-week'>
 				<tbody>
-					{days}		
+					<tr>
+						<td className='blue'>
+						</td>
+						<td>
+							<table className='interval blue'>
+								<tbody>
+									<tr>
+										{intervals}
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table>
+								<tbody>
+									{heads}
+								</tbody>
+							</table>
+						</td>
+						<td>
+							<table className='table-week'>
+								<tbody>
+									{days}		
+								</tbody>
+							</table>
+						</td>
+					</tr>
 				</tbody>
 			</table>
-    	</Panel>
-    );}
+		);
+	}
 } 
 
 export default CalendarWeekWeek;
