@@ -31,15 +31,15 @@ public class AbsencesPostRestTest extends RestTestBase {
 	@Test
 	public void testI_badHours() throws Exception {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(absenceAux11.getEndHour());
+		cal.setTime(absenceAux11.getEndDate());
 		cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) + 2);
-		absenceAux11.setStartHour(cal.getTime());
+		absenceAux11.setStartDate(cal.getTime());
 		Response response = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).post(write(absenceAux11));
 		AssertHelper.assertException(APException.ABSENCE_HOURS_INVALID, response);
 	}
 	@Test
 	public void testI_sameHours() throws Exception {
-		absenceAux11.setStartHour(absenceAux11.getEndHour());
+		absenceAux11.setStartDate(absenceAux11.getEndDate());
 		Response response = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).post(write(absenceAux11));
 		AssertHelper.assertException(APException.ABSENCE_HOURS_INVALID, response);
 	}
@@ -66,9 +66,9 @@ public class AbsencesPostRestTest extends RestTestBase {
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		bean.setStartHour(cal.getTime());
+		bean.setStartDate(cal.getTime());
 		cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR + 1));
-		bean.setEndHour(cal.getTime());
+		bean.setEndDate(cal.getTime());
 		Response response = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).post(write(bean));
 		TestCase.assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 		TestCase.assertTrue(response.hasEntity());
@@ -94,15 +94,15 @@ public class AbsencesPostRestTest extends RestTestBase {
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		bean1.setStartHour(cal.getTime());
+		bean1.setStartDate(cal.getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 12);
-		bean1.setEndHour(cal.getTime());
+		bean1.setEndDate(cal.getTime());
 		
 		AbsenceBean bean2 = new AbsenceBean();
 		cal.set(Calendar.HOUR_OF_DAY, 13);
-		bean2.setEndHour(cal.getTime());
+		bean2.setEndDate(cal.getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 14);
-		bean2.setEndHour(cal.getTime());
+		bean2.setEndDate(cal.getTime());
 
 		prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).post(write(bean1));
 		prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).post(write(bean2));

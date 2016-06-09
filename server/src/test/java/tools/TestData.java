@@ -65,7 +65,7 @@ public class TestData {
 //				System.out.println("   - " + path);
 				try {
 					String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-					MongoEntity obj = (MongoEntity)BeanConverter.stringToBean(content, col.getClazz());
+					MongoEntity obj = (MongoEntity)BeanConverter.localStringToBean(content, col.getClazz());
 					String id = path.replaceFirst(col.getName() + "_", "").replace(".json", "");
 					id = StringConverter.stringToHex(id);
 					obj.setId(id);

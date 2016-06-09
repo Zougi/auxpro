@@ -22,12 +22,24 @@ class CalendarMonthWeek extends React.Component {
 
 	render() {
 		//bsSize bsStyle past notmonth selected
-		var days = this._buildDays(this.props.moment.startOf('week')).map(function(day) {
+		var days = this._buildDays(this.props.display.startOf('week')).map(function(day) {
+			let planing = this.props.planing.getForDay(day.year(), day.month(), day.date()) || [];
+			let bsStyle = '';
+			for (let i = 0; i < planing.length; i++) {
+				let p = planing[i];
+				if (p.style === 'success') {
+					bsStyle = p.style;
+					break;
+				} else {
+					bsStyle = p.style;
+				}
+			}
             return (
                 <CalendarMonthDay 
                 	key={day.format()}
-                	moment={day}
+                	display={day}
                 	selected={this.props.selected.isSame(day, 'days')}
+                	bsStyle={bsStyle}
                 	notmonth={day.month() !== this.props.month}
                 	onDaySelect={this.props.onDaySelect}/>
             );

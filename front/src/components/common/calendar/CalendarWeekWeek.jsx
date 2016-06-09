@@ -4,6 +4,8 @@ import moment from 'moment'
 import { Pager, PageItem, Table, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 // custom components
 import CalendarWeekDay from './CalendarWeekDay.jsx';
+// custom modules
+import { buildWeekDays, buildDayInterval } from '../../../utils/moment/MomentHelper.js'
 
 moment.locale('fr');
 
@@ -11,49 +13,20 @@ class CalendarWeekWeek extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.start = props.moment.clone().startOf('days').add(8, 'hours');
-		this.end = props.moment.clone().startOf('days').add(20, 'hours');
-		this.interval = moment.duration(30, 'minutes');
 	}
 
-	_buildDays() {
-		let weekStart = this.props.moment.startOf('weeks').clone();
-		let days = [];
-		for (let i = 0; i < 7; i++) {
-			let day = weekStart.clone().add(i, 'days');
-			days.push(day);
-		}
-		return days;
-	}
-	_buildIntervals() {
-		let intervals = [];
-		var current = this.start.clone();
-		intervals.push(this.props.moment.clone().startOf('days'));
-		while (current.isBefore(this.end)) {
-			let hour = current.clone();
-			intervals.push(hour);
-			current.add(this.interval);
-		}
-		intervals.push(this.end);
-		return intervals;
-	}
-
-	render() { 
-		var weekDays = this._buildDays();
-		let days = weekDays.map(function (day) {
-			return (<CalendarWeekDay key={day.format()} moment={day} onDaySelect={this.props.onDaySelect}/>)
-		}.bind(this));
-
-		let heads = weekDays.map(function (day) {
-			return (<tr key={day.format()} ><td className='head'><div>{day.format('dd')}<br/>{day.format('DD')}</div></td></tr>)
-		}.bind(this));
-
-		let intervals = this._buildIntervals().map(function (interval) {
-			let HH = interval.format('HH');
-			let mm = interval.format('mm');
-			let label = (HH==='00'&&mm==='00')?'':(mm==='00'?HH + 'h' + mm:'');
-			return (<td key={interval.format()}><div>{label}</div></td>)
-		}.bind(this));
+	render() {
+		//
+		let d = buildWeekDays(this.props.display);
+		let days = this._renderDays(d);
+		let heads = this._renderDaysHeaders(d);
+		//
+		let i = buildDayInterval(
+			this.props.display, 
+			this.props.display.clone().startOf('days').add(8, 'hours'),
+			this.props.display.clone().startOf('days').add(20, 'hours'),
+			moment.duration(30, 'minutes'));
+		let intervals = this._renderIntervals(i);
 	
 		return (
 			<table className='calendar-week'>
@@ -90,6 +63,43 @@ class CalendarWeekWeek extends React.Component {
 				</tbody>
 			</table>
 		);
+	}
+	
+	_renderDays(days) {
+		return days.map(function (day) {
+			return (
+				<CalendarWeekDay 
+					key={day.format()} 
+					now={this.props.now}
+					display={day} 
+					selected={this.props.selected} 
+					planing={this.props.planing}
+					onDaySelect={this.props.onDaySelect}/>
+			);
+		}.bind(this));
+	}
+	_renderDaysHeaders(days) {
+		return days.map(function (day) {
+			return (
+				<tr key={day.format()}>
+					<td className='head'>
+						<div>
+							{day.format('dd')}
+							<br/>
+							{day.format('DD')}
+						</div>
+					</td>
+				</tr>
+			);
+		}.bind(this));
+	}
+	_renderIntervals(intervals) {
+		return intervals.map(function (interval) {
+			let HH = interval.format('HH');
+			let mm = interval.format('mm');
+			let label = (HH==='00'&&mm==='00')?'':(mm==='00'?HH + 'h' + mm:'');
+			return (<td key={interval.format()}><div>{label}</div></td>)
+		}.bind(this));
 	}
 } 
 

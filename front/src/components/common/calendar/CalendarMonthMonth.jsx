@@ -41,13 +41,14 @@ class CalendarMonthMonth extends React.Component {
 				<th key={day.format()} className='center'>{day.format(DAY_FORMAT)}</th>
 			);
 		});
-		let weeks = this._buildWeeks(this.props.moment.startOf('month')).map(function(week) {
+		let weeks = this._buildWeeks(this.props.display.startOf('month')).map(function(week) {
             return (
                 <CalendarMonthWeek 
                 	key={week.format()} 
-                	moment={week}
+                	display={week}
                 	selected={this.props.selected}
-                	month={this.props.moment.month()}
+                	month={this.props.display.month()}
+                	planing={this.props.planing}
                 	onDaySelect={this.props.onDaySelect}/>
             );
         }.bind(this));

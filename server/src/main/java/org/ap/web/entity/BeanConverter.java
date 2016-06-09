@@ -39,6 +39,9 @@ public class BeanConverter {
 			throw APException.JSON_PROCESSING_EX;
 		}
 	}
+	public static <T> T localStringToBean(String json, Class<T> clazz) throws APException {
+		return stringToBean(json, clazz, Mappers.LOCAL.getMapper());
+	}
 	public static <T> T stringToBean(String json, Class<T> clazz) throws APException {
 		return stringToBean(json, clazz, Mappers.DEFAULT.getMapper());
 	}

@@ -1,7 +1,6 @@
 {
-	"startHour":"2",
-	"endHour":"4",
-	"date":"2016-04-30",
+	"startDate":"2016-06-06T11:00:00",
+	"endDate":"2016-06-06T12:00:00",
 	"contact": {
 		"address": {
 			"address": "1 rue du premier utilisateur",

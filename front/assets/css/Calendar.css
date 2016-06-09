@@ -1,8 +1,25 @@
 /* ----------------------------------------------------------
  *                                        CALENDAR NAMESPACE
  */
-.calendar {}
+.calendar {
 
+}
+.calendar .calendar-header {
+	table-layout: fixed;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.calendar .calendar-header {
+	table-layout: fixed;
+	width: 100%;
+	margin-bottom: 10px;
+}
+	.calendar .calendar-header button {
+		border: 0;
+	}
+	.calendar .calendar-header td {
+		vertical-align: middle;
+	}
 
 /* ----------------------------------------------------------
  *                                    CALENDAR-MONTH DISPLAY
@@ -74,8 +91,10 @@
 	}
 .calendar .calendar-week .head {
 	vertical-align: middle;	
-	height: 40px;
+	height: 45px;
 	background: #DEEAF6;
+	border-top: 1px solid #F5F5F5;
+	border-bottom: 1px solid #F5F5F5;
 }
 .calendar .calendar-week .head div {
 	text-align: center;	
@@ -88,7 +107,7 @@
 	width: 100%;
 }
 .calendar .calendar-week .day {
-	height: 40px;
+	height: 45px;
 	padding-bottom: 3px;
 }
 .calendar .calendar-week .day.selected {
@@ -97,12 +116,46 @@
 .calendar .calendar-week .hour-head {
 	text-align: center;
 }
+
 .calendar .calendar-week .hour {
 	border: 1px solid #F5F5F5;
-}
-.calendar .calendar-week .hour.start {
-	border-left: dashed 1px rgb(180, 180, 180);
+	background: #FFFFFF;
 }
 .calendar .calendar-week .hour:hover {
-	background: #FAFAFA;
-}
+	background: #E6E6E6;
+}	
+	/* BSSTYLE SUCCESS */
+	.calendar .calendar-week .hour.success {
+		background: #5CB85C;
+	}
+	.calendar .calendar-week .hour.success:hover {
+		background: #449D44;
+	}
+	/* BSSTYLE INFO */
+	.calendar .calendar-week .hour.info {
+		background: #5BC0DE;
+	}
+	.calendar .calendar-week .hour.info:hover {
+		background: #31B0D5;
+	}
+	/* BSSTYLE PRIMARY */
+	.calendar .calendar-week .hour.primary {
+		background: #337AB7;
+	}
+	.calendar .calendar-week .hour.primary:hover {
+		background: #286090;
+	}
+	/* BSSTYLE WARNING */
+	.calendar .calendar-week .hour.warning {
+		background: #F0AD4E;
+	}
+	.calendar .calendar-week .hour.warning:hover {
+		background: #EC971F;
+	}
+	/* BSSTYLE ADNGER */
+	.calendar .calendar-week .hour.danger {
+		background: #D9534F;
+	}
+	.calendar .calendar-week .hour.danger:hover {
+		background: #C9302C;
+	}

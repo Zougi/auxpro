@@ -51,8 +51,8 @@ public class AssertHelper {
 			TestCase.assertNull(actual);
 		} else {
 			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
-			TestCase.assertEquals(expected.getEndHour(), actual.getEndHour());
-			TestCase.assertEquals(expected.getStartHour(), actual.getStartHour());
+			TestCase.assertEquals(expected.getEndDate(), actual.getEndDate());
+			TestCase.assertEquals(expected.getStartDate(), actual.getStartDate());
 		}
 	}
 	public static void assertAddress(AddressBean expected, AddressBean actual) {
@@ -109,8 +109,8 @@ public class AssertHelper {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
-			TestCase.assertEquals(expected.getEndHour(), actual.getEndHour());
-			TestCase.assertEquals(expected.getStartHour(), actual.getStartHour());
+			TestCase.assertEquals(expected.getEndDate(), actual.getEndDate());
+			TestCase.assertEquals(expected.getStartDate(), actual.getStartDate());
 			assertContact(expected.getContact(), actual.getContact());
 		}
 	}	

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 public enum Mappers {
 
 	DEFAULT(null, null),
+	LOCAL(new DateLocalDeserializer(), null),
 	MONGO(new DateJsonDeserializer(), null),
 	;
 	

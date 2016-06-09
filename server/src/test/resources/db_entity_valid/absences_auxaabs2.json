@@ -1,6 +1,5 @@
 {
-	"startHour":"5",
-	"endHour":"6",
-	"date":"2016-05-27",
+	"startDate":"2016-06-08T08:00:00",
+	"endDate":"2016-06-08T20:00:00",
 	"auxiliaryId":"auxa"
 }

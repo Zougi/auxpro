@@ -12,10 +12,9 @@ class CalendarMonthDay extends React.Component {
 
 	render() { 
 		let clazz = 'day';
-		clazz += this.props.notmonth ? ' notmonth' : '';
+		//clazz += this.props.notmonth ? ' notmonth' : '';
 		clazz += this.props.selected ? ' selected' : '';
-		clazz += this.props.moment.isBefore(moment().startOf('days')) ? ' past' : '';
-		clazz += this.props.moment.isSame(moment(), 'days') ? ' today' : '';
+		//clazz += this.props.display.isBefore(moment().startOf('days')) ? ' past' : '';
 		return (
 			<td>
 				<Button 
@@ -24,7 +23,7 @@ class CalendarMonthDay extends React.Component {
 					className={clazz} 
 					block 
 					onClick={this.props.onDaySelect}>
-					{this.props.moment.date()}
+					{this.props.display.date()}
 				</Button>
 			</td>
 		);

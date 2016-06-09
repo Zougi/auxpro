@@ -7,6 +7,7 @@ class CalendarWeekTime extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 	}
 
 	render() { 
@@ -14,9 +15,12 @@ class CalendarWeekTime extends React.Component {
 		if (this.props.selected) {
 			classes += ' selected';
 		}
+		if (this.props.bsStyle) {
+			classes += ' ' + this.props.bsStyle;
+		}
 		return (
-			<td className={classes} onClick={this.props.onClick}>
-				<p/>
+			<td className={classes} colSpan={this.props.colSpan || 1} onClick={this.props.onClick}>
+				{this.props.text}
 			</td>
 		);
 	}

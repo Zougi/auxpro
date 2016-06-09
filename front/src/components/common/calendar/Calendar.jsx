@@ -30,7 +30,7 @@ class Calendar extends React.Component {
 		}
 	}
 	setModeWeek() {
-		if (this.state.mode === MODES.M) {
+		if (this.state.mode !== MODES.W) {
 			this.state.mode = MODES.W;
 			this.setState(this.state);
 			this.props.onModeChanged(MODES.W);
@@ -38,45 +38,26 @@ class Calendar extends React.Component {
 	}
 
 	render() { 
-		var header = (
-			<table style={{width:'100%', tableLayout:'fixed'}}>
-				<tbody>
-					<tr>
-						<td>
-							<div style={{textAlign:'left'}}>
-								Planning
-							</div>
-						</td>
-						<td>
-							<div style={{textAlign:'right'}}>
-								<ButtonGroup>
-								    <Button 
-								    	bsSize='xsmall' 
-								    	onClick={this.setModeMonth.bind(this)} 
-								    	active={this.state.mode === MODES.M}>
-								    	<Glyphicon glyph="th"/>
-								    </Button>
-								    <Button 
-								    	bsSize='xsmall' 
-								    	onClick={this.setModeWeek.bind(this)} 
-								    	active={this.state.mode !== MODES.M}>
-								    	<Glyphicon glyph="th-list"/>
-								    </Button>
-					  			</ButtonGroup>
-					  		</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-	  	);
 		return ( 
-			<Panel header={header} className='calendar'>
-				{this.state.mode === MODES.M
-				? 
-					<CalendarMonth onDaySelect={this.props.onDaySelect} day={this.props.day} planing={this.props.planing}/> 
-				: 
-					<CalendarWeek onDaySelect={this.props.onDaySelect} selected={moment()}/> 
-				}
+			<Panel className='calendar'>
+			{this.state.mode === MODES.M
+			? 
+				<CalendarMonth 
+					now={this.props.now}
+					display={this.props.display} 
+					selected={this.props.selected} 
+					toggleMode={this.setModeWeek.bind(this)}
+					onDaySelect={this.props.onDaySelect} 
+					planing={this.props.planing}/> 
+			: 
+				<CalendarWeek 
+					now={this.props.now}
+					display={this.props.display} 
+					selected={this.props.selected} 
+					toggleMode={this.setModeMonth.bind(this)}
+					onDaySelect={this.props.onDaySelect} 
+					planing={this.props.planing}/> 
+			}
 			</Panel>
 	    );
 	}

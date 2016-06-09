@@ -1,6 +1,6 @@
-// react modules
+// lib modules
 import React from 'react'
-// react-bootstrap modules
+import moment from 'moment'
 import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 // core modules
@@ -12,11 +12,14 @@ import FormSelect from '../../common/FormSelect.jsx';
 import MissionShort from './MissionShort.jsx';
 import AbsenceShort from './AbsenceShort.jsx';
 // customs modules
-import DateDay from '../../../utils/date/DateDay.js';
 import PlaningHelper from '../../../utils/planing/PlaningHelper.js';
 
+moment.locale('fr');
+
 let INITIAL_STATE ={
-	day: new DateDay(new Date()),
+	now: moment(),
+	display: moment(),
+	selected: moment(),
 	mode: 'W'
 }
 
@@ -50,21 +53,25 @@ class Planing extends React.Component {
     	var absences = props.data.absences || [];
 		this.state.planing = new PlaningHelper({});
 		for (var i = 0; i < missions.length; i++) {
-			var mission = missions[i];
-			var date = new Date(mission.date);
-			mission.style = 'success';
-			this.state.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), mission);
+			let mission = missions[i];
+			mission.startDate = moment(mission.startDate);
+			mission.endDate = moment(mission.endDate);
+			mission.style = 'info';
+			mission.text = 'Mission';
+			this.state.planing.pushDay(mission.startDate.year(), mission.startDate.month(), mission.startDate.date(), mission);
 		}
 		for (var i = 0; i < absences.length; i++) {
-			var absence = absences[i];
-			var date = new Date(absence.date);
+			let absence = absences[i];
+			absence.startDate = moment(absence.startDate)
+			absence.endDate = moment(absence.endDate)
 			absence.style = 'warning';
-			this.state.planing.pushDay(date.getFullYear(), date.getMonth(), date.getDate(), absence);
+			absence.text = 'Absence';
+			this.state.planing.pushDay(absence.startDate.year(), absence.startDate.month(), absence.startDate.date(), absence);
 		}
     }
 
 	onDaySelect(day) {
-		this.state.day = day;
+		this.state.selected = day;
 		this.setState(this.state);
 	}
 	onModeChanged(mode) {
@@ -96,6 +103,7 @@ class Planing extends React.Component {
 	render() { 
 		var values = ['value1', 'value2', '...'];
 		var missionsValues = ['planifiees', 'realisees', 'annulees'];
+		/*
 		var date = this.state.day.date;
 		var stuff = this.state.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
 		var days = stuff.map(function(day) {
@@ -106,6 +114,7 @@ class Planing extends React.Component {
 				return (<AbsenceShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour} service={day.service}/>);
 			}
         }.bind(this));
+        */
 		return (
 		<Grid>
 			<Row>
@@ -127,7 +136,9 @@ class Planing extends React.Component {
 					<div>
 					<Col sm={8} md={7} lg={5}>
 						<Calendar 
-							day={this.state.day} 
+							now={this.state.now}
+							display={this.state.display}
+							selected={this.state.selected}
 							onModeChanged={this.onModeChanged.bind(this)}
 							onDaySelect={this.onDaySelect.bind(this)} 
 							planing={this.state.planing}/>
@@ -135,7 +146,7 @@ class Planing extends React.Component {
 		    		<Col sm={2} md={3} lg={4}>
 		    			<Panel header="Informations">
 		    				<ListGroup>
-		    					{days}
+		    					
 		    				</ListGroup>
 		    			</Panel>
 		    		</Col>
@@ -143,7 +154,9 @@ class Planing extends React.Component {
 				):(
 					<Col sm={10} md={10} lg={9}>
 						<Calendar 
-							day={this.state.day}
+							now={this.state.now}
+							display={this.state.display}
+							selected={this.state.selected}
 							onModeChanged={this.onModeChanged.bind(this)} 
 							onDaySelect={this.onDaySelect.bind(this)} 
 							planing={this.state.planing}/>

@@ -10,19 +10,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"_id"})
 public class AbsenceBean extends MongoEntity {
 
-	private Date startHour;
-	private Date endHour;
+	private Date startDate;
+	private Date endDate;
 	
 	@MongoId
 	private String auxiliaryId;
 	
 	public AbsenceBean() {}
 	
-	public Date getStartHour() { return startHour; }
-	public void setStartHour(Date startHour) { this.startHour = startHour; }
+	public Date getStartDate() { return startDate; }
+	public void setStartDate(Date startDate) { this.startDate = startDate; }
 	
-	public Date getEndHour() { return endHour; }
-	public void setEndHour(Date endHour) { this.endHour = endHour; }
+	public Date getEndDate() { return endDate; }
+	public void setEndDate(Date endDate) { this.endDate = endDate; }
 
 	public String getAuxiliaryId() { return auxiliaryId; }
 	public void setAuxiliaryId(String auxiliaryId) { this.auxiliaryId = auxiliaryId; }

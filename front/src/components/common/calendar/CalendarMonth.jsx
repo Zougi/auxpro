@@ -1,53 +1,75 @@
 // lib modules
 import React from 'react'
 import moment from 'moment'
-import { Pager, PageItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 // custom components
 import CalendarMonthMonth from './CalendarMonthMonth.jsx';
+
+moment.locale('fr');
 
 class CalendarMonth extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this._updateState(props);
-	}
-
-	componentWillReceiveProps(props) {
-		this._updateState(props);
-		this.setState(this.state);
-	}
-
-	_updateState(props) {
 		this.state = {
-			moment: moment(),
-			selected: moment()
+			display: this.props.display.startOf('month')
 		}
 	}
 
-	_setMonth(month) {
-		this.state.moment = month;
+	onPreviousMonth() {
+		this.state.display.subtract(1, 'month');
 		this.setState(this.state);
 	}
-	onPreviousMonth() {
-		var month = this.state.moment.clone();
-		this._setMonth(month.subtract(1, 'month'));
-	}
 	onNextMonth() {
-		var month = this.state.moment.clone();
-		this._setMonth(month.add(1, 'month'));
+		this.state.display.add(1, 'month');
+		this.setState(this.state);
 	}
 
 
-	render() { return ( 
+	render() { 
+		let month = this.props.display.format('MMMM');
+		month = month.charAt(0).toUpperCase() + month.slice(1);
+		return ( 
 		<div className='calendar-month'>
-			<Pager>
-				<PageItem onClick={this.onPreviousMonth.bind(this)} previous>&larr;</PageItem>
-				<Button>{this.state.moment.format('MMMM')} {this.state.moment.format('YYYY')}</Button>
-				<PageItem onClick={this.onNextMonth.bind(this)} next>&rarr;</PageItem>
-			</Pager>
+			<table className='calendar-header'>
+					<tbody>
+						<tr>
+							<td>
+								<Button bsSize='xsmall'>
+								    <Glyphicon glyph="chevron-down"/>
+								</Button>
+								{this.props.display.year()}
+								<Button bsSize='xsmall'>
+								    <Glyphicon glyph="chevron-up"/>
+								</Button>
+							</td>
+							<td>
+								<div style={{textAlign:'center'}}>
+									<Button bsSize='xsmall' onClick={this.onPreviousMonth.bind(this)}>
+									    <Glyphicon glyph="chevron-left"/>
+									</Button>
+									{month}
+									<Button bsSize='xsmall' onClick={this.onNextMonth.bind(this)}>
+									    <Glyphicon glyph="chevron-right"/>
+									</Button>
+								</div>
+							</td>
+							<td>
+								<div style={{textAlign:'right'}}>
+								    <Button bsSize='xsmall' active>
+								    	<Glyphicon glyph="th"/>
+								    </Button>
+								    <Button bsSize='xsmall' onClick={this.props.toggleMode}>
+								    	<Glyphicon glyph="th-list"/>
+								    </Button>
+						  		</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			<CalendarMonthMonth 
-				moment={this.state.moment} 
-				selected={this.state.selected}
+				display={this.state.display} 
+				selected={this.props.selected}
 				planing={this.props.planing}
 				onDaySelect={this.props.onDaySelect}/>
 		</div>

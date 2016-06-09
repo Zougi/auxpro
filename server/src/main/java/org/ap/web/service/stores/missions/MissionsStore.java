@@ -27,7 +27,7 @@ public class MissionsStore implements IMissionsStore {
 	}
 	@Override
 	public AbsenceBean createAuxAbsences(AbsenceBean bean) throws APException {
-		if (bean.getEndHour().getTime() <= bean.getStartHour().getTime()) throw APException.ABSENCE_HOURS_INVALID;
+		if (bean.getEndDate().getTime() <= bean.getStartDate().getTime()) throw APException.ABSENCE_HOURS_INVALID;
 		Document document = BeanConverter.convertToMongo(bean);
 		document = EMongoCollection.ABSENCES.getService().create(document);		
 		return BeanConverter.convertToBean(document, AbsenceBean.class);
