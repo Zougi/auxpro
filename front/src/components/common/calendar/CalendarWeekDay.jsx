@@ -57,7 +57,7 @@ class CalendarWeekDay extends React.Component {
 
 	render() { 
 		var classes = 'day';
-		if (this.props.selected.isSame(this.props.moment)) {
+		if (this.props.selected.isSame(this.props.display)) {
 			classes += ' selected';
 		}
 		let timesHours = this._buildHours().map(function(hour) {

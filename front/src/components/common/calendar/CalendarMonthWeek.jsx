@@ -24,10 +24,10 @@ class CalendarMonthWeek extends React.Component {
 		//bsSize bsStyle past notmonth selected
 		var days = this._buildDays(this.props.display.startOf('week')).map(function(day) {
 			let planing = this.props.planing.getForDay(day.year(), day.month(), day.date()) || [];
-			let bsStyle = '';
+			let bsStyle = null;
 			for (let i = 0; i < planing.length; i++) {
 				let p = planing[i];
-				if (p.style === 'success') {
+				if (p.style === 'info') {
 					bsStyle = p.style;
 					break;
 				} else {

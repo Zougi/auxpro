@@ -1,6 +1,5 @@
 // react modules
 import React from 'react';
-import d3 from 'd3';
 // react-bootstrap modules
 import { Grid, Row, Col, Panel, Button } from 'react-bootstrap'
 // core modules
@@ -37,7 +36,6 @@ class Match extends React.Component {
 				{axis:"Petit bricolage",value:4}
 			]
 		];
-		console.log(d3);
 	}
 
 	render() { 
