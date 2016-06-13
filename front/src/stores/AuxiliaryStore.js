@@ -24,8 +24,25 @@ Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 
 AuxiliaryStore.onGetAuxiliaryMissions = function (args) {
-	if (args && args.length > 0) {
-		AuxiliaryStore._content.auxiliary[args[0].auxiliaryId].missions = args;
+	let auxId = args.missions[0].auxiliaryId;
+	if (args && args.missions && args.missions.length > 0) {
+		AuxiliaryStore._content.auxiliary[auxId].missions = args.missions;
+		AuxiliaryStore._content.auxiliary[auxId].services = [];
+		if (args && args.services) {
+			for (let sId in args.services) {
+				if (args.services.hasOwnProperty(sId)) {
+					AuxiliaryStore._content.auxiliary[auxId].services.push(sId);
+				}
+			}
+		}
+		AuxiliaryStore._content.auxiliary[auxId].customers = [];
+		if (args && args.customers) {
+			for (let cId in args.customers) {
+				if (args.services.hasOwnProperty(cId)) {
+					AuxiliaryStore._content.auxiliary[auxId].customers.push(cId);
+				}
+			}
+		}
 		AuxiliaryStore.notify();
 	}	
 };

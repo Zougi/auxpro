@@ -11,6 +11,7 @@ import Planing from './planing/Planing.jsx'
 import HomeAuxHead from './HomeAuxHead.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'
 import ProfileAux from './profile/ProfileAux.jsx'
+import Offers from './offers/Offers.jsx'
 
 class HomeAux extends React.Component {
 
@@ -77,7 +78,7 @@ class HomeAux extends React.Component {
 							<Tab eventKey={0} title="Mon Planning"><br/><Planing user={this.state.user} data={this.state.data}/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/><AuxMap/></Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux data={this.state.data}/></Tab>
-							<Tab eventKey={3} title="Les Offres"><br/>Les Offres</Tab>
+							<Tab eventKey={3} title="Les Offres"><br/><Offers/></Tab>
 						</Tabs>
 					</Row>
 				</Grid>

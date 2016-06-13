@@ -53,6 +53,8 @@ public class AuxiliaryMissionsGetRestTest extends RestTestBase {
 	@Test
 	public void testV_getResponse() throws Exception {
 		Response rsp = prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get();
+		String s = prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get(String.class);
+		System.out.println(s.replace("{", "{\n").replace(",", ",\n"));
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}

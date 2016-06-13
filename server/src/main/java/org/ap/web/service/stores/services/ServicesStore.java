@@ -2,8 +2,13 @@ package org.ap.web.service.stores.services;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.in;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
@@ -24,6 +29,20 @@ public class ServicesStore implements IServicesStore {
 		FindIterable<Document> iterable = EMongoCollection.SERVICES.getService().find();
 		List<ServiceBean> result = BeanConverter.convertToBean(iterable, ServiceBean.class);
 		return result.toArray(new ServiceBean[result.size()]);
+	}
+	@Override
+	public Map<String, ServiceBean> get(Set<String> ids) throws APException {
+		Set<ObjectId> oIds = new HashSet<ObjectId>();
+		for (String id : ids) {
+			oIds.add(new ObjectId(id));
+		}
+		FindIterable<Document> iterable = EMongoCollection.SERVICES.getService().findAll(in("_id", oIds));
+		List<ServiceBean> list = BeanConverter.convertToBean(iterable, ServiceBean.class);
+		Map<String, ServiceBean> map = new HashMap<String, ServiceBean>();
+		for (ServiceBean service : list) {
+			map.put(service.getId(), service);
+		}
+		return map;
 	}
 	@Override
 	public ServiceBean[] get(int postal) throws APException {

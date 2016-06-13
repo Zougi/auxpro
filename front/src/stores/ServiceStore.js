@@ -36,4 +36,17 @@ ServiceStore.onGetService = function (args) {
 
 Dispatcher.register('GET_SERVICE', ServiceStore.onGetService);
 
+ServiceStore.onGetAuxiliaryMissions = function (args) {
+	if (args && args.services) {
+		for (let sId in args.services) {
+			 if (args.services.hasOwnProperty(sId)) {
+			 	ServiceStore._content.service[args.id] = args.services[sId];
+			 }
+		}
+	}
+	ServiceStore.notify();
+};
+
+Dispatcher.register('GET_AUXILIARY_MISSIONS', ServiceStore.onGetAuxiliaryMissions);
+
 export default ServiceStore;

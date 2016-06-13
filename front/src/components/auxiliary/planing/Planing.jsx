@@ -52,6 +52,8 @@ class Planing extends React.Component {
 		var missions = props.data.missions || [];
     	var absences = props.data.absences || [];
 		this.state.planing = new PlaningHelper({});
+		let services = [];
+		let customers = [];
 		for (var i = 0; i < missions.length; i++) {
 			let mission = missions[i];
 			mission.startDate = moment(mission.startDate);
@@ -83,10 +85,9 @@ class Planing extends React.Component {
 		window.print();
 	}
 	addAbsence() {
-		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		let params = { 
-			id: user.id,
-			token: user.token,
+			id: this.state.user.id,
+			token: this.state.user.token,
 			data: {
 				startHour: 0,
 				endHour: 24,
@@ -103,6 +104,13 @@ class Planing extends React.Component {
 	render() { 
 		var values = ['value1', 'value2', '...'];
 		var missionsValues = ['planifiees', 'realisees', 'annulees'];
+		var servicesValues = [];
+		if (this.state.data && this.state.data.services) {
+			for (let i = 0 ; i < this.state.data.services.length ; i++) {
+				servicesValues.push(StoreRegistry.getStore('SERVICE_STORE').getData('/' + this.state.data.services[i]) + '/society');
+			}
+		}
+		var customersValues = [];
 		/*
 		var date = this.state.day.date;
 		var stuff = this.state.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
@@ -124,7 +132,7 @@ class Planing extends React.Component {
 						<br/><p>Afficher mon planning par type de:</p>
 						<Form horizontal>
 							<FormSelect title='Clients' placeholder='<Tous>' values={values}/>
-							<FormSelect title='SAD' placeholder='<Tous>' values={values}/>
+							<FormSelect title='SAD' placeholder='<Tous>' values={servicesValues}/>
 							<FormSelect title='Mission' placeholder='<Tous>' values={missionsValues}/>
       					</Form>
       					<p>Total heures interventions:</p><br/>
