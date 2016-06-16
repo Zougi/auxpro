@@ -21,31 +21,26 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 
 	/* ATTRIBUTES */
 
-	private IServicesStore _sadStore;
+	private IServicesStore _serviceStore;
 
 	/* CONSTRUCTOR */
 
 	public ServicesServlet() throws APException {
-		_sadStore = new ServicesStore();
-	}
-	public ServicesServlet(IServicesStore sadStore) throws APException {
-		_sadStore = sadStore;
+		_serviceStore = new ServicesStore();
 	}
 
 	/* METHODS */
 
-	// IUserServlet Implementation //
-
 	@Override
 	public Response getServicesJSON(SecurityContext sc, int postal) {
 		try {
-			ServiceBean[] users;
+			ServiceBean[] services;
 			if (postal != 0) {
-				users = _sadStore.get(postal);
+				services = _serviceStore.get(postal);
 			} else {
-				users = _sadStore.get();
+				services = _serviceStore.get();
 			}
-			return Response.status(200).entity(users, resolveAnnotations(sc)).build();
+			return Response.status(200).entity(services, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
@@ -53,7 +48,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response createServiceJSON(SecurityContext sc, CredentialsBean bean) {
 		try {
-			ServiceBean service = _sadStore.create(bean);
+			ServiceBean service = _serviceStore.create(bean);
 			return Response.status(201).entity(service, resolveAnnotations(sc, service)).build();
 		} catch (APException e) {
 			return sendException(e);
@@ -62,7 +57,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response getServiceJSON(SecurityContext sc, String id) {
 		try {
-			ServiceBean bean = _sadStore.get(id);
+			ServiceBean bean = _serviceStore.get(id);
 			if (bean == null) return Response.status(Status.NOT_FOUND).build();
 			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
 		} catch (APException e) {
@@ -73,7 +68,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	public Response updateServiceJSON(SecurityContext sc, String id, ServiceBean bean) {
 		try {
 			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
-			bean = _sadStore.update(bean);
+			bean = _serviceStore.update(bean);
 			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
 		} catch (APException e) {
 			return sendException(e);
@@ -82,7 +77,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response deleteServiceJSON(SecurityContext sc, String id) {
 		try {
-			_sadStore.delete(id);
+			_serviceStore.delete(id);
 			return Response.status(200).build();
 		} catch (APException e) {
 			return sendException(e);

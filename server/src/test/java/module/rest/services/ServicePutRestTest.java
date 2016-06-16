@@ -1,11 +1,8 @@
 package module.rest.services;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.ap.web.entity.mongo.ServiceBean;
-import org.ap.web.internal.Mappers;
 import org.ap.web.rest.servlet.services.ServicesServlet;
 import org.junit.Test;
 
@@ -25,17 +22,17 @@ public class ServicePutRestTest extends RestTestBase {
 
 	@Test
 	public void testI_notSameUser() throws Exception {
-		Response response = prepare("/" + service1.getId(), accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/" + service1.getId(), accountAdmin.getUser()).put(write(service1));
 		TestCase.assertEquals(403, response.getStatus());
 	}
 	@Test
 	public void testI_invalidName() throws Exception {
-		Response response = prepare("/dummy", accountAdmin.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/dummy", accountAdmin.getUser()).put(write(service1));
 		TestCase.assertEquals(403, response.getStatus());
 	}
 	@Test
 	public void testI_unknownUser() throws Exception {
-		Response response = prepare("/myuser", "myuser", "myuser").post(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/myuser", "myuser", "myuser").post(write(service1));
 		TestCase.assertEquals(401, response.getStatus());
 	}
 	
@@ -47,7 +44,7 @@ public class ServicePutRestTest extends RestTestBase {
 		AssertHelper.assertService(service1, userAux);
 		
 		service1.setSiret("dummy");
-		Response response = prepare("/" + service1.getId(), service1.getUser()).put(Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(service1), MediaType.APPLICATION_JSON));
+		Response response = prepare("/" + service1.getId(), service1.getUser()).put(write(service1));
 		TestCase.assertEquals(200, response.getStatus());
 		
 		userAux = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);

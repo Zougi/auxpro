@@ -29,12 +29,12 @@ public class TestBase {
 		absenceAux22 = TestData.getFromJson("absences_aux2abs2.json", AbsenceBean.class);
 		accountAdmin = TestData.getFromJson("accounts_admin.json", AccountBean.class);
 		accountGuest = TestData.getFromJson("accounts_guest.json", AccountBean.class);
-		auxiliary1  = TestData.getFromJson("auxiliaries_aux1.json", AuxiliaryBean.class);
-		auxiliary2  = TestData.getFromJson("auxiliaries_aux2.json", AuxiliaryBean.class);
-		customer1   = TestData.getFromJson("customers_cus1.json", CustomerBean.class);
-		customer2   = TestData.getFromJson("customers_cus2.json", CustomerBean.class);
-		service1    = TestData.getFromJson("services_sad1.json", ServiceBean.class);
-		service2    = TestData.getFromJson("services_sad2.json", ServiceBean.class);
+		auxiliary1   = TestData.getFromJson("auxiliaries_aux1.json", AuxiliaryBean.class);
+		auxiliary2   = TestData.getFromJson("auxiliaries_aux2.json", AuxiliaryBean.class);
+		customer1    = TestData.getFromJson("customers_cus1.json", CustomerBean.class);
+		customer2    = TestData.getFromJson("customers_cus2.json", CustomerBean.class);
+		service1     = TestData.getFromJson("services_sad1.json", ServiceBean.class);
+		service2     = TestData.getFromJson("services_sad2.json", ServiceBean.class);
 	}
 	
 	/* TEST SETUP */

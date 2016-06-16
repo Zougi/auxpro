@@ -56,4 +56,8 @@ public interface IServicesServlet {
 	@Path("{servId}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response deleteServiceJSON(@Context SecurityContext sc, @PathParam("servId") final String id);
+
+	// CUSTOMERS
+	
+	
 }

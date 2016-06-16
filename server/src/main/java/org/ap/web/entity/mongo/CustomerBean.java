@@ -1,6 +1,7 @@
 package org.ap.web.entity.mongo;
 
 import org.ap.web.entity.MongoEntity;
+import org.ap.web.internal.annotation.MongoId;
 import org.ap.web.internal.annotation.MongoObject;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,7 +13,12 @@ public class CustomerBean extends MongoEntity {
 	private PersonBean person;
 	private ContactBean contact;
 	
+	private AddressBean[] addresses;
+	
 	private SkillsBean skills;
+	
+	@MongoId
+	private String serviceId;
 	
 	public CustomerBean() {}
 
@@ -23,5 +29,11 @@ public class CustomerBean extends MongoEntity {
 	public void setContact(ContactBean contact) { this.contact = contact; }
 
 	public SkillsBean getSkills() { return skills; }
-	public void setSkills(SkillsBean skills) { this.skills = skills; };
+	public void setSkills(SkillsBean skills) { this.skills = skills; }
+
+	public AddressBean[] getAddresses() { return addresses; }
+	public void setAddresses(AddressBean[] addresses) { this.addresses = addresses; };
+
+	public String getServiceId() { return serviceId; }
+	public void setServiceId(String serviceId) { this.serviceId = serviceId; }
 }

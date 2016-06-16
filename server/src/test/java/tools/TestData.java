@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
@@ -13,7 +14,13 @@ import javax.ws.rs.core.UriBuilder;
 import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.MongoEntity;
+import org.ap.web.entity.constant.EPersonSex;
+import org.ap.web.entity.mongo.AddressBean;
+import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.PersonBean;
+import org.ap.web.entity.mongo.SkillsBean;
 import org.ap.web.internal.EConfigProperties;
 import org.ap.web.internal.annotation.MongoId;
 import org.ap.web.service.EMongoCollection;
@@ -96,7 +103,8 @@ public class TestData {
 	
 	public static <T extends MongoEntity> T getFromJson(String path, Class<T> clazz) throws Exception {
 		String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
-		T obj = BeanConverter.stringToBean(content, clazz);
+		//T obj = BeanConverter.stringToBean(content, clazz);
+		T obj = BeanConverter.localStringToBean(content, clazz);
 		String id = path.split("_")[1].replace(".json", "");
 		id = StringConverter.stringToHex(id);
 		obj.setId(id);
@@ -114,17 +122,70 @@ public class TestData {
 		return (T)obj;
 	}
 	
-	private static String USER_NAME = "newUser";
+	private static int ADDRESS_ID = 0;
+	private static int CONTACT_ID = 0;
+	private static int CUSTOMER_ID = 0;
+	private static int PERSON_ID = 0;
+	private static int SKILL_ID = 0;
 	private static int USER_ID = 0;
 
 	public static CredentialsBean getNextCredentials() {
-		return fillNextCredentials(new CredentialsBean());
+		return next(new CredentialsBean());
 	}
-	public static CredentialsBean fillNextCredentials(CredentialsBean bean) {
-		String name = USER_NAME + USER_ID++;
+	
+	public static AddressBean next(AddressBean bean) {
+		bean.setAddress(ADDRESS_ID++ + " nouvelle rue");
+		bean.setCity("Paris");
+		bean.setCountry("France");
+		bean.setLattitude("0");
+		bean.setLongitude("0");
+		bean.setPostalCode(75000);
+		return bean;
+	}
+	public static CredentialsBean next(CredentialsBean bean) {
+		String name = "user" + USER_ID++;
 		bean.setName(name + "@" + name + ".com");
 		bean.setPassword(name);
 		bean.setEmail(name + "@" + name + ".com");
+		return bean;
+	}
+	public static ContactBean next(ContactBean bean) {
+		bean.setAddress(next(new AddressBean()));
+		bean.setAddressChecked(true);
+		bean.setEmail("contact" + CONTACT_ID++ + "@contact.com");
+		bean.setEmailChecked(true);
+		bean.setPhone("0102030405");
+		bean.setPhoneChecked(false);
+		return bean;
+	}
+	public static CustomerBean next(CustomerBean bean) {
+		bean.setAddresses(new AddressBean[] { next(new AddressBean()) });
+		bean.setContact(next(new ContactBean()));
+		bean.setId(StringConverter.stringToHex(String.valueOf(CUSTOMER_ID++)));
+		bean.setServiceId(String.valueOf(CUSTOMER_ID));
+		bean.setPerson(new PersonBean());
+		bean.setSkills(new SkillsBean());
+		return bean;
+	}
+	public static PersonBean next(PersonBean bean) {
+		bean.setBirthDate(new Date());
+		bean.setBirthPlace(next(new AddressBean()));
+		bean.setCiNumber(PERSON_ID++);
+		bean.setCivility(EPersonSex.M.getId());
+		bean.setFirstName("Prenom " + PERSON_ID);
+		bean.setLastName("Nom " + PERSON_ID);
+		bean.setNationality("Francaise");
+		bean.setSocialNumber("SecSociale " + PERSON_ID);
+		return bean;
+	}
+	public static SkillsBean next(SkillsBean bean) {
+		bean.setAdministrative(1 + SKILL_ID++);
+		bean.setChildhood(2 + SKILL_ID);
+		bean.setCompagny(3 + SKILL_ID);
+		bean.setDoityourself(4 + SKILL_ID);
+		bean.setHousework(5 + SKILL_ID);
+		bean.setNursing(6 + SKILL_ID);
+		bean.setShopping(7 + SKILL_ID);
 		return bean;
 	}
 

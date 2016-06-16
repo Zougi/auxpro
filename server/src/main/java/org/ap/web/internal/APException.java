@@ -33,6 +33,8 @@ public class APException extends Exception {
 	
 	public static final APException AUX_INFO_INVALID = new APException("AUX_INFO_INVALID", Status.BAD_REQUEST);
 	
+	public static final APException ENTITY_DOES_NOT_EXISTS = new APException("ENTITY_DOES_NOT_EXISTS", Status.BAD_REQUEST);
+	
 	// MONGO exceptions
 	
 	public static final APException MONGO_ENTITY_NOT_FOUND = new APException("MONGO_ENTITY_NOT_FOUND", Status.INTERNAL_SERVER_ERROR);
