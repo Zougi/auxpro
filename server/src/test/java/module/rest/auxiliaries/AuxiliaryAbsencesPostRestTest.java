@@ -14,13 +14,13 @@ import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
 
-public class AbsencesPostRestTest extends RestTestBase {
+public class AuxiliaryAbsencesPostRestTest extends RestTestBase {
 
 	public String getUrl(String id) {
 		return "/" + id + "/absences";
 	}
 	
-	public AbsencesPostRestTest() {
+	public AuxiliaryAbsencesPostRestTest() {
 		super(AuxiliariesServlet.PATH);
 	}
 	
@@ -67,7 +67,7 @@ public class AbsencesPostRestTest extends RestTestBase {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		bean.setStartDate(cal.getTime());
-		cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR + 1));
+		cal.set(Calendar.HOUR_OF_DAY, 1);
 		bean.setEndDate(cal.getTime());
 		Response response = prepare(getUrl(auxiliary1.getId()), auxiliary1.getUser()).post(write(bean));
 		TestCase.assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
@@ -100,7 +100,7 @@ public class AbsencesPostRestTest extends RestTestBase {
 		
 		AbsenceBean bean2 = new AbsenceBean();
 		cal.set(Calendar.HOUR_OF_DAY, 13);
-		bean2.setEndDate(cal.getTime());
+		bean2.setStartDate(cal.getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 14);
 		bean2.setEndDate(cal.getTime());
 

@@ -12,13 +12,13 @@ import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
 
-public class AbsencesGetRestTest extends RestTestBase {
+public class AuxiliaryAbsencesGetRestTest extends RestTestBase {
 	
 	public String getUrl(String id) {
 		return "/" + id + "/absences";
 	}
 	
-	public AbsencesGetRestTest() {
+	public AuxiliaryAbsencesGetRestTest() {
 		super(AuxiliariesServlet.PATH);
 	}
  

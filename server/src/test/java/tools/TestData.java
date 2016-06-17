@@ -192,5 +192,6 @@ public class TestData {
 	public static void main(String[] args) {
 		EConfigProperties.DB_NAME.setValue(TestData.DB_DEV);
 		createTestDatabase();
+		Mongo.client().close();
 	}
 }

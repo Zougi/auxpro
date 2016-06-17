@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.common.string.StringConverter;
-import org.ap.web.entity.mongo.MissionBean;
+import org.ap.web.entity.mongo.AuxiliaryDataBean;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
 import org.junit.Test;
 
@@ -53,20 +53,19 @@ public class AuxiliaryMissionsGetRestTest extends RestTestBase {
 	@Test
 	public void testV_getResponse() throws Exception {
 		Response rsp = prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get();
-		String s = prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get(String.class);
-		System.out.println(s.replace("{", "{\n").replace(",", ",\n"));
+		prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get(String.class);
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asAdmin() throws Exception {
-		MissionBean[] missions = prepare("/" + auxiliary1.getId() + "/missions", accountAdmin.getUser()).get(MissionBean[].class);
-		TestCase.assertEquals(1, missions.length);
+		AuxiliaryDataBean missions = prepare("/" + auxiliary1.getId() + "/missions", accountAdmin.getUser()).get(AuxiliaryDataBean.class);
+		TestCase.assertEquals(1, missions.getMissions().length);
 	}
 	@Test
 	public void testV_asSelf() throws Exception {
-		MissionBean[] missions = prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get(MissionBean[].class);
-		TestCase.assertEquals(1, missions.length);
+		AuxiliaryDataBean missions = prepare("/" + auxiliary1.getId() + "/missions", auxiliary1.getUser()).get(AuxiliaryDataBean.class);
+		TestCase.assertEquals(1, missions.getMissions().length);
 	}
 	
 }
