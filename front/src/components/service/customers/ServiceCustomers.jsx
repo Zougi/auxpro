@@ -1,11 +1,11 @@
 // lib modules
 import React from 'react';
-import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 // core modules
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
-import ServiceCustomer from './ServiceCustomer.jsx';
+import CustomerList from './CustomerList.jsx';
 
 class ServiceCustomers extends React.Component {
 	
@@ -43,23 +43,12 @@ class ServiceCustomers extends React.Component {
     }
 
 	render() {
-		let i = 0;
-		let customers = this.state.data.customers ? this.state.data.customers.
-		sort(function(a, b) {
-			retur
-		}).
-		map(function(cust) {
-            return (
-            	<ListGroupItem>
-                	<ServiceCustomer key={i++} data={cust}/>
-                </ListGroupItem>
-            );
-        }) : [];
-
 		return (
-			<ListGroup>
-	            {customers}
-	        </ListGroup>
+			<Panel>
+				<Button block bsStyle='info'>Saisir nouveau client</Button>
+				<br/>
+				<CustomerList customers={this.state.data.customers} />
+			</Panel>
 		);
 	}
 }
