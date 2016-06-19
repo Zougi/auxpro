@@ -38,8 +38,6 @@ Dispatcher.register('GET_SERVICE', ServiceStore.onGetService);
 
 // GET SERVICE CUSTOMERS
 ServiceStore.onGetServiceCustomers = function (args) {
-	console.log('customers');
-	console.log(args);
 	if (args && args.length) {
 		ServiceStore._content.service[args[0].serviceId].customers = args;	
 		ServiceStore.notify();

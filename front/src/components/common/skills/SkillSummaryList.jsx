@@ -2,11 +2,11 @@
 import React from 'react';
 import { Glyphicon, OverlayTrigger } from 'react-bootstrap';
 // custom modules
-import { SKILLS } from './Skills.js'
+import { SKILLS } from './SkillData.js'
 // custom components
-import SkillShort from './SkillShort.jsx'
+import SkillSummary from './SkillSummary.jsx'
 
-class SkillsShort extends React.Component {
+class SkillSummaryList extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -17,7 +17,7 @@ class SkillsShort extends React.Component {
 		if (this.props.skills) {
 			skills = SKILLS.map(function(skill) {
 				return (
-					<SkillShort 
+					<SkillSummary 
 		            	key={skill.field}
 		            	icon={skill.icon}
 		            	title={skill.title}
@@ -27,11 +27,11 @@ class SkillsShort extends React.Component {
 		}
 
 		return (
-			<div className='SkillsShort'>
+			<div className='SkillSummaryList'>
 				{skills}
 			</div>
 		);
 	}
 }
 
-export default SkillsShort;
+export default SkillSummaryList;

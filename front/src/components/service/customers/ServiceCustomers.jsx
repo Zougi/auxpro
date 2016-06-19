@@ -5,7 +5,7 @@ import { Panel, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
-import CustomerList from './CustomerList.jsx';
+import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
 
 class ServiceCustomers extends React.Component {
 	
@@ -37,18 +37,30 @@ class ServiceCustomers extends React.Component {
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
     	this.state = {
 			user: user,
-			data: data
+			data: data,
+			addCustomer: this.state ? (this.state.addCustomer || false) : false
 		};
 		return this.state;
     }
 
+    addCustomer() {
+    	this.state.addCustomer = true;
+    	this.setState(this.state);
+    }
+
 	render() {
 		return (
-			<Panel>
-				<Button block bsStyle='info'>Saisir nouveau client</Button>
-				<br/>
-				<CustomerList customers={this.state.data.customers} />
+		<Panel>
+			{this.state.addCustomer 
+			?
+			<Panel header='Nouveau client'>
 			</Panel>
+			:
+			<Button block bsStyle='info' onClick={this.addCustomer.bind(this)}>Saisir nouveau client</Button>
+			}
+			<br/>
+			<CustomerSummaryList customers={this.state.data.customers} />
+		</Panel>
 		);
 	}
 }

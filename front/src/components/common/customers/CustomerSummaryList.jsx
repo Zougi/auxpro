@@ -1,10 +1,10 @@
 // lib modules
 import React from 'react';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 // custom components
 import CustomerSummary from './CustomerSummary.jsx';
 
-class CustomerList extends React.Component {
+class CustomerSummaryList extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -21,11 +21,17 @@ class CustomerList extends React.Component {
         }) : [];
 
 		return (
-			<ListGroup>
-	            {customers}
-	        </ListGroup>
+			<Panel collapsible defaultExpanded>
+				Clients enregistrés:
+				<br/>
+				<ListGroup fill>
+		            {customers}
+		        </ListGroup>
+				Total : {customers.length} clients.
+			</Panel>
+			
 		);
 	}
 }
 
-export default CustomerList;
+export default CustomerSummaryList;

@@ -3,11 +3,11 @@ import React from 'react';
 import moment from 'moment';
 import { Glyphicon, OverlayTrigger } from 'react-bootstrap';
 // custom components
-import SkillsShort from '../../common/skills/SkillsShort.jsx'
+import SkillsShort from '../skills/SkillsShort.jsx'
 
 moment.locale('fr');
 
-class ServiceCustomer extends React.Component {
+class CustomerDetails extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -24,4 +24,4 @@ class ServiceCustomer extends React.Component {
 	}
 }
 
-export default ServiceCustomer;
+export default CustomerDetails;

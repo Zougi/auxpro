@@ -2,7 +2,7 @@
 import React from 'react';
 import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-class SkillShort extends React.Component {
+class SkillSummary extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -21,4 +21,4 @@ class SkillShort extends React.Component {
 	}
 }
 
-export default SkillShort;
+export default SkillSummary;
