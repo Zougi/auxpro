@@ -1,0 +1,43 @@
+{
+	"serviceId":"sadz",
+	"person": {
+		"civility":"Mr",
+		"firstName": "Andre",
+		"lastName": "Remy",
+		"birthDate":"1945-04-25",
+		"birthPlace": {
+			"city": "Bordeaux",
+			"country": "France"
+		},
+		"nationality": "Francaise",
+		"socialNumber": "15698685352"
+	},
+	"contact": {
+		"address": {
+			"address": "3 Avenue Victor Hugo",
+			"postalCode": 75016,
+			"city": "Paris"
+		},
+		"addressChecked": true,
+		"phone": "01 01 01 01 01",
+		"phoneChecked": true,
+		"email":"monique.martin@outlook.fr",
+		"emailChecked": true
+	},
+	"addresses": [
+		{
+			"address": "16 avenue Mozart",
+			"postalCode": 75016,
+			"city": "Paris"
+		}
+	],
+	"skills" : {
+		"housework":      2,
+		"nursing":        5,
+		"childhood":      0,
+		"shopping":       1,
+		"compagny":       3,
+		"administrative": 1,
+		"doityourself":   4
+	}	
+}

@@ -17,6 +17,7 @@ ServiceStore.getService = function (id) {
 
 /* ACTION LISTENERS */
 
+// GET SERVICES
 ServiceStore.onGetServices = function (args) {
 	ServiceStore._content.services = args;
 	let l = args.length;
@@ -26,16 +27,27 @@ ServiceStore.onGetServices = function (args) {
 	}
 	ServiceStore.notify();
 };
-
 Dispatcher.register('GET_SERVICES', ServiceStore.onGetServices);
 
+// GET SERVICE
 ServiceStore.onGetService = function (args) {
 	ServiceStore._content.service[args.id] = args;
 	ServiceStore.notify();
 };
-
 Dispatcher.register('GET_SERVICE', ServiceStore.onGetService);
 
+// GET SERVICE CUSTOMERS
+ServiceStore.onGetServiceCustomers = function (args) {
+	console.log('customers');
+	console.log(args);
+	if (args && args.length) {
+		ServiceStore._content.service[args[0].serviceId].customers = args;	
+		ServiceStore.notify();
+	}	
+};
+Dispatcher.register('GET_SERVICE_CUSTOMERS', ServiceStore.onGetServiceCustomers);
+
+// GET AUXILIARY MISSIONS
 ServiceStore.onGetAuxiliaryMissions = function (args) {
 	if (args && args.services) {
 		for (let sId in args.services) {
@@ -46,7 +58,6 @@ ServiceStore.onGetAuxiliaryMissions = function (args) {
 	}
 	ServiceStore.notify();
 };
-
 Dispatcher.register('GET_AUXILIARY_MISSIONS', ServiceStore.onGetAuxiliaryMissions);
 
 export default ServiceStore;

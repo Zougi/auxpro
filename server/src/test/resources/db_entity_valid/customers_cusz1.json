@@ -1,0 +1,43 @@
+{
+	"serviceId":"sadz",
+	"person": {
+		"civility":"Mr",
+		"firstName": "Monique",
+		"lastName": "Martin",
+		"birthDate":"1957-04-25",
+		"birthPlace": {
+			"city": "Orléans",
+			"country": "France"
+		},
+		"nationality": "Francaise",
+		"socialNumber": "15698685352"
+	},
+	"contact": {
+		"address": {
+			"address": "3 Avenue Victor Hugo",
+			"postalCode": 75016,
+			"city": "Paris"
+		},
+		"addressChecked": true,
+		"phone": "01 01 01 01 01",
+		"phoneChecked": true,
+		"email":"monique.martin@outlook.fr",
+		"emailChecked": true
+	},
+	"addresses": [
+		{
+			"address": "16 avenue Mozart",
+			"postalCode": 75016,
+			"city": "Paris"
+		}
+	],
+	"skills" : {
+		"housework":      1,
+		"nursing":        3,
+		"childhood":      2,
+		"shopping":       4,
+		"compagny":       5,
+		"administrative": 0,
+		"doityourself":   0
+	}	
+}

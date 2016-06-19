@@ -7,6 +7,7 @@ export default class RestService {
 				HEADER_TOKEN : 'Authorization'
 			};
 			reqParam.url = _CONFIG.BASE_URL + reqParam.url;
+			reqParam.method = reqParam.method || 'GET';
 			reqParam.data = reqParam.data  || {}; 
 			return new Promise(function (resolve, reject) {
 				var xhr = new XMLHttpRequest();
@@ -195,17 +196,9 @@ export default class RestService {
 		reqParam.token = args.token;
 		return RestService._request(reqParam);
 	};
-
-	   /**
-	 *
-	 * @param {object} [args]
-	 * @param {string} [args.token] valid session token to be passed as header
-	 * @param {string} [args.id] the customer id to set up in the url
-	 * @returns a Promise object 
-	 */
-	static getCustomer(args) {
+	static getServiceCustomers(args) {
 		var reqParam = {};
-		reqParam.url = '/customers/' + args.id;
+		reqParam.url = '/services/' + args.sId + '/customers/';
 		reqParam.method = 'GET';
 		reqParam.token = args.token;
 		return RestService._request(reqParam);

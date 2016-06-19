@@ -41,3 +41,14 @@ GetService.do = function (args) {
 		return RestService.getService(params);
 	}
 }
+
+// GET SERVICE CUSTOMERS
+let GetServiceCustomers = new ActionBase({ name: 'GET_SERVICE_CUSTOMERS' });
+GetServiceCustomers.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
