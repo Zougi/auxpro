@@ -1,25 +1,35 @@
 // lib modules
 import React from 'react';
-import moment from 'moment';
-import { Glyphicon, OverlayTrigger } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 // custom components
-import SkillsShort from '../skills/SkillsShort.jsx'
-
-moment.locale('fr');
+import Contact from '../entity/Contact.jsx'
+import Person from '../entity/Person.jsx'
 
 class CustomerDetails extends React.Component {
 	
 	constructor(props) {
 		super(props);
+		this.state = {
+			edit: props.edit || (props.data ? false : true),
+		};
 	}
 
 	render() {
-		let age = moment(this.props.data.person.birthDate).toNow(true);
 		return (
-			<div>
-            	{this.props.data.person.firstName} {this.props.data.person.lastName} - {age}
-            	<SkillsShort skills={this.props.data.skills}/>
-	        </div>
+			<Form horizontal>
+				<Row>
+					<Col sm={6}>
+	            		<Person 
+	            			edit={this.state.edit}
+	            			person={this.props.data ? this.props.data.person : null}/>
+	            	</Col>
+	            	<Col sm={6}>
+	            		<Contact 
+	            			edit={this.state.edit}
+	            			contact={this.props.data ? this.props.data.contact : null}/>
+	            	</Col>
+            	</Row>
+	        </Form>
 		);
 	}
 }

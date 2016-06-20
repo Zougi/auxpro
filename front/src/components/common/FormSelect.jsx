@@ -32,7 +32,8 @@ class FormSelect extends React.Component {
 					{this.props.title}
 				</Col>
 				<Col sm={8}>
-					<FormControl className={this.state.class}
+					<FormControl 
+						className={this.state.class}
 						componentClass='select' 
 						defaultValue='__ALL__' 
 						onChange={this.onSelectionChange.bind(this)}>

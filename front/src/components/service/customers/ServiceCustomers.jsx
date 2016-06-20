@@ -1,10 +1,11 @@
 // lib modules
 import React from 'react';
-import { Panel, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel, Button, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
 // core modules
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
+import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
 
 class ServiceCustomers extends React.Component {
@@ -47,6 +48,14 @@ class ServiceCustomers extends React.Component {
     	this.state.addCustomer = true;
     	this.setState(this.state);
     }
+    cancelAddCustomer() {
+    	this.state.addCustomer = false;
+    	this.setState(this.state);
+    }
+    saveCustomer() {
+    	this.state.addCustomer = false;
+    	this.setState(this.state);
+    }
 
 	render() {
 		return (
@@ -54,6 +63,17 @@ class ServiceCustomers extends React.Component {
 			{this.state.addCustomer 
 			?
 			<Panel header='Nouveau client'>
+				<CustomerDetails/>
+				<br/>
+				<Row>
+					<Col sm={6}>
+						<Button bsStyle='primary' onClick={this.cancelAddCustomer.bind(this)} block>Annuler</Button>
+					</Col>
+					<br className='hidden-sm hidden-md hidden-lg'/>
+					<Col sm={6}>
+						<Button bsStyle='success' onClick={this.saveCustomer.bind(this)} block>Enregistrer modifications</Button>
+					</Col>
+				</Row>
 			</Panel>
 			:
 			<Button block bsStyle='info' onClick={this.addCustomer.bind(this)}>Saisir nouveau client</Button>

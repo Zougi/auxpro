@@ -1,7 +1,3 @@
-
-/**
- *
- */
 export default class Utils {
 
 	/**
@@ -50,5 +46,26 @@ export default class Utils {
     		}
     	}
     	return result;
+	}
+
+	static getField(obj, path) {
+		let fields = path.split('.');
+		let result = obj;
+		for (let i = 0; i < fields.length; i++) {
+			result = result[fields[i]];
+		}
+		return result;
+	}
+
+	static setField(obj, path, value) {
+		let fields = path.split('.');
+		let result = obj;
+		for (let i = 0; i < fields.length; i++) {
+			if (i < fields.length - 1) {
+				result = result[fields[i]];
+			} else {
+				result[fields[i]] = value;
+			}
+		}
 	}
 }
