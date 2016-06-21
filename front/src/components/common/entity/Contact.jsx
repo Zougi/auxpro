@@ -4,8 +4,7 @@ import moment from 'moment';
 // custom modules
 import Utils from '../../../utils/Utils.js'
 // custom components
-import FormInputBase from '../form/FormInputBase.jsx'
-import FormSelectBase from '../form/FormSelectBase.jsx'
+import FormInput from '../form/FormInput.jsx'
 
 let DEFAULT_CONTACT = {
 	address: {
@@ -53,7 +52,7 @@ class Contact extends React.Component {
 	render() {
 		let fields = CONTACT_FIELDS.map(function(f) {
 			return (
-				<FormInputBase 
+				<FormInput 
 					static={!this.state.edit}
 					key={f.title}
 					title={f.title}

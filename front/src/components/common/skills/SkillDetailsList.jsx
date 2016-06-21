@@ -10,21 +10,30 @@ class SkillDetailsList extends React.Component {
 	
 	constructor(props) {
 		super(props);
+		this.state = {
+			skills: this.props.skills || {}
+		}
+	}
+
+	changeHandler(skill) {
+		return function (v) {
+			this.state.skills[skill.field] = v;
+			this.props.onChange(this.state.skills);
+		}.bind(this);
 	}
 
 	render() {
-		let skills = [];
-		if (this.props.skills) {
-			skills = SKILLS.map(function(skill) {
-				return (
-					<SkillDetails 
-		            	key={skill.field}
-		            	icon={skill.icon}
-		            	title={skill.title}
-		            	value={this.props.skills[skill.field]}/>
-		        );
-			}.bind(this));
-		}
+		let skills = SKILLS.map(function(skill) {
+			return (
+				<SkillDetails 
+					edit={this.props.edit}
+		           	key={skill.field}
+		           	icon={skill.icon}
+		           	title={skill.title}
+		           	value={this.state.skills[skill.field] || 0}
+		           	onChange={this.changeHandler(skill)}/>
+		       );
+		}.bind(this));
 
 		return (
 			<Col className='SkillDetailsList'>

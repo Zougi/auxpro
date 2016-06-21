@@ -4,8 +4,8 @@ import moment from 'moment';
 // custom modules
 import Utils from '../../../utils/Utils.js'
 // custom components
-import FormInputBase from '../form/FormInputBase.jsx'
-import FormSelectBase from '../form/FormSelectBase.jsx'
+import FormInput from '../form/FormInput.jsx'
+import FormSelect from '../form/FormSelect.jsx'
 
 let DEFAULT_PERSON = {
 	birthDate: '',
@@ -59,7 +59,7 @@ class Person extends React.Component {
 			switch (f.type) {
 			case 'input':
 				return (
-					<FormInputBase 
+					<FormInput
 						static={!this.state.edit}
 						key={f.title}
 						title={f.title}
@@ -68,7 +68,7 @@ class Person extends React.Component {
 				);
 			case 'select':
 				return (
-					<FormSelectBase 
+					<FormSelect 
 						static={!this.state.edit}
 						key={f.title}
 						title={f.title} 

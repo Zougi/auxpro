@@ -13,10 +13,9 @@ class ServiceCustomers extends React.Component {
 	constructor(props) {
 		super(props);
 		this.prepareState();
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		var args = {
-			sId: user.id,
-			token: user.token
+			sId: this.state.user.id,
+			token: this.state.user.token
 		}
         Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
 	}
@@ -48,13 +47,35 @@ class ServiceCustomers extends React.Component {
     	this.state.addCustomer = true;
     	this.setState(this.state);
     }
+
+	customerChanged(cust) {
+		this.state.currentCustomer = cust;
+		console.log(cust);
+	}
+
     cancelAddCustomer() {
     	this.state.addCustomer = false;
     	this.setState(this.state);
     }
     saveCustomer() {
-    	this.state.addCustomer = false;
-    	this.setState(this.state);
+    	this.state.currentCustomer.serviceId = this.state.user.id;
+    	let args = {
+    		sId: this.state.user.id,
+    		data: this.state.currentCustomer,
+			token: this.state.user.token
+    	}
+    	Dispatcher.issue('POST_SERVICE_CUSTOMER', args).
+    	then(function () {
+    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
+    	}).
+    	then(function() {
+    		this.state.addCustomer = false;
+    		this.setState(this.state);	
+    	}.bind(this)).
+    	catch(function(error) {
+    		console.log(error);
+    	});
+    	
     }
 
 	render() {
@@ -63,7 +84,7 @@ class ServiceCustomers extends React.Component {
 			{this.state.addCustomer 
 			?
 			<Panel header='Nouveau client'>
-				<CustomerDetails/>
+				<CustomerDetails onChange={this.customerChanged.bind(this)}/>
 				<br/>
 				<Row>
 					<Col sm={6}>

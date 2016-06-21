@@ -2,7 +2,7 @@
 import React from 'react';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 // custom components
-import FormBase from '../FormBase.jsx'
+import FormButtonGroup from '../form/FormButtonGroup.jsx'
 
 class SkillDetails extends React.Component {
 	
@@ -11,16 +11,13 @@ class SkillDetails extends React.Component {
 	}
 
 	render() {
-		let tooltip = (
- 			<Tooltip id="tooltip">{this.props.title}</Tooltip>
-		);
-
 		return (
-			<FormBase 
+			<FormButtonGroup 
 				static={!this.props.edit}
-				title='this.props.title' 
-				labelSize={this.props.labelSize ? this.props.labelSize : LS}
-				defaultValue={this.props.value}/>
+				title={this.props.title}
+				defaultValue={this.props.value}
+				values={[ 0, 1, 2, 3, 4, 5 ]}
+				onChange={this.props.onChange}/>
 		);
 	}
 }

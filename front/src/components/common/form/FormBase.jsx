@@ -5,7 +5,7 @@ import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 // custom modules
 import { DEFAULTS } from './FormConstants.js';
 
-class FormInputBase extends React.Component {
+class FormBase extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -14,21 +14,20 @@ class FormInputBase extends React.Component {
 		this.lgLabelSize = this.props.lgLabelSize || DEFAULTS.lgLabelSize;
 	}
 
-	_getFormControl() {
+	getFormControl() {
 		if (this.props.static) {
-			return (
-				<FormControl.Static>
-					{this.props.defaultValue}
-				</FormControl.Static>
-			);
+			return this.getFormControlStatic();	
 		} else {
-			return (
-				<FormControl 
-					type={this.props.type?this.props.type:'text'} 
-					defaultValue={this.props.defaultValue} 
-					onChange={this.props.onChange}/>
-			);
+			return this.getFormControlEditable();
 		}
+	}
+
+	getFormControlStatic() {
+		return (
+			<FormControl.Static>
+				{this.props.defaultValue}
+			</FormControl.Static>
+		);
 	}
 
 	render() { 
@@ -38,11 +37,11 @@ class FormInputBase extends React.Component {
 					{this.props.title}
 				</Col>
 				<Col sm={12 - this.smLabelSize} md={12 - this.mdLabelSize} lg={12 - this.lgLabelSize}>
-					{this._getFormControl()}
+					{this.getFormControl()}
 				</Col>
 			</FormGroup>
 		);
 	}
 }
 
-export default FormInputBase;
+export default FormBase;

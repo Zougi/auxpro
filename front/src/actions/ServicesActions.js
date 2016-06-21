@@ -52,3 +52,16 @@ GetServiceCustomers.do = function (args) {
 	};
 	return RestService._request(reqParam);
 }
+
+// GET SERVICE CUSTOMERS
+let PostServiceCustomer = new ActionBase({ name: 'POST_SERVICE_CUSTOMER' });
+PostServiceCustomer.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'data', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/',
+		method: 'POST',
+		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
