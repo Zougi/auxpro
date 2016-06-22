@@ -11,7 +11,7 @@ class CustomerDetails extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			edit: props.edit || (props.data ? false : true),
+			edit: props.edit || false,
 			data: this.props.data || {}
 		};
 	}

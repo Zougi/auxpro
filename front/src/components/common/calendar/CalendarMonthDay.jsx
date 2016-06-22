@@ -10,6 +10,13 @@ class CalendarMonthDay extends React.Component {
 		super(props);
 	}
 
+	onClick(event) {
+		event.preventDefault();
+		if (this.props.onDaySelect) {
+			this.props.onDaySelect(this.props.display);
+		}
+	}
+
 	render() { 
 		let clazz = 'day';
 		//clazz += this.props.notmonth ? ' notmonth' : '';
@@ -22,7 +29,7 @@ class CalendarMonthDay extends React.Component {
 					bsStyle={this.props.bsStyle} 
 					className={clazz} 
 					block 
-					onClick={this.props.onDaySelect}>
+					onClick={this.onClick.bind(this)}>
 					{this.props.display.date()}
 				</Button>
 			</td>

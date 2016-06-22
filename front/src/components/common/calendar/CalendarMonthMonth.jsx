@@ -48,6 +48,7 @@ class CalendarMonthMonth extends React.Component {
                 	display={week}
                 	selected={this.props.selected}
                 	month={this.props.display.month()}
+                	bsSize={this.props.bsSize}
                 	planing={this.props.planing}
                 	onDaySelect={this.props.onDaySelect}/>
             );

@@ -8,6 +8,13 @@ import StoreRegistry from '../../../core/StoreRegistry';
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
 
+let STATES = {
+	LIST: 'LIST',
+	ADD: 'ADD',
+	VIEW: 'VIEW',
+	EDIT: 'EDIT'
+}
+
 class ServiceCustomers extends React.Component {
 	
 	constructor(props) {
@@ -21,9 +28,9 @@ class ServiceCustomers extends React.Component {
 	}
 
 	componentDidMount() {
+		this.switchState()();
         StoreRegistry.register('SERVICE_STORE', this, this.onServiceUpdate.bind(this));
     }
-
     componentWillUnmount() {
         StoreRegistry.unregister('SERVICE_STORE', this);   
     }
@@ -32,30 +39,59 @@ class ServiceCustomers extends React.Component {
     	this.setState(this.prepareState());
     }
 
+    switchState(state) {
+    	return function() {
+			this.state.state = state || STATES.LIST;
+			this.setState(this.state);
+		}.bind(this);
+    }
+
     prepareState() {
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
     	this.state = {
 			user: user,
-			data: data,
-			addCustomer: this.state ? (this.state.addCustomer || false) : false
+			data: data
 		};
+		console.log(data);
 		return this.state;
-    }
-
-    addCustomer() {
-    	this.state.addCustomer = true;
-    	this.setState(this.state);
     }
 
 	customerChanged(cust) {
 		this.state.currentCustomer = cust;
-		console.log(cust);
 	}
 
-    cancelAddCustomer() {
-    	this.state.addCustomer = false;
-    	this.setState(this.state);
+    onCancel() {
+    	this.state.currentCustomer = null;
+    	this.switchState()();
+    }
+
+    onEditCustomer(customer) {
+    	this.state.currentCustomer = customer;
+    	this.switchState(STATES.EDIT)();
+    }
+    onViewCustomer(customer) {
+    	this.state.currentCustomer = customer;
+    	this.switchState(STATES.VIEW)();
+    }
+
+    editCustomer() {
+    	this.state.currentCustomer.serviceId = this.state.user.id;
+    	let args = {
+    		sId: this.state.user.id,
+    		data: this.state.currentCustomer,
+			token: this.state.user.token
+    	}
+    	Dispatcher.issue('PUT_SERVICE_CUSTOMER', args).
+    	then(function () {
+    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
+    	}).
+    	then(function() {
+    		this.switchState(STATES.LIST)();
+    	}.bind(this)).
+    	catch(function(error) {
+    		console.log(error);
+    	});    	
     }
     saveCustomer() {
     	this.state.currentCustomer.serviceId = this.state.user.id;
@@ -69,40 +105,68 @@ class ServiceCustomers extends React.Component {
     		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
     	}).
     	then(function() {
-    		this.state.addCustomer = false;
-    		this.setState(this.state);	
+    		this.switchState(STATES.LIST)();
     	}.bind(this)).
     	catch(function(error) {
     		console.log(error);
-    	});
-    	
+    	});    	
     }
 
 	render() {
-		return (
-		<Panel>
-			{this.state.addCustomer 
-			?
-			<Panel header='Nouveau client'>
-				<CustomerDetails onChange={this.customerChanged.bind(this)}/>
-				<br/>
-				<Row>
-					<Col sm={6}>
-						<Button bsStyle='primary' onClick={this.cancelAddCustomer.bind(this)} block>Annuler</Button>
-					</Col>
-					<br className='hidden-sm hidden-md hidden-lg'/>
-					<Col sm={6}>
-						<Button bsStyle='success' onClick={this.saveCustomer.bind(this)} block>Enregistrer modifications</Button>
-					</Col>
-				</Row>
-			</Panel>
-			:
-			<Button block bsStyle='info' onClick={this.addCustomer.bind(this)}>Saisir nouveau client</Button>
-			}
-			<br/>
-			<CustomerSummaryList customers={this.state.data.customers} />
-		</Panel>
-		);
+		switch (this.state.state) {
+			case STATES.ADD: return (
+				<Panel header={(<strong>Saisir nouveau client</strong>)}>
+					<CustomerDetails edit={true} onChange={this.customerChanged.bind(this)}/>
+					<br/>
+					<Row>
+						<Col sm={6}>
+							<Button bsStyle='primary' onClick={this.onCancel.bind(this)} block>Annuler</Button>
+						</Col>
+						<br className='hidden-sm hidden-md hidden-lg'/>
+						<Col sm={6}>
+							<Button bsStyle='success' onClick={this.saveCustomer.bind(this)} block>Créer client</Button>
+						</Col>
+					</Row>
+				</Panel>
+			);
+			case STATES.VIEW: return (
+				<Panel header={(<strong>Détails client</strong>)}>
+					<CustomerDetails edit={false} data={this.state.currentCustomer}/>
+					<br/>
+					<Row>
+						<Col lg={12}>
+							<Button bsStyle='primary' onClick={this.onCancel.bind(this)} block>Retour</Button>
+						</Col>
+					</Row>
+				</Panel>
+			);
+			case STATES.EDIT: return (
+				<Panel header={(<strong>Saisir nouveau client</strong>)}>
+					<CustomerDetails edit={true} data={this.state.currentCustomer} onChange={this.customerChanged.bind(this)}/>
+					<br/>
+					<Row>
+						<Col sm={6}>
+							<Button bsStyle='primary' onClick={this.onCancel.bind(this)} block>Annuler</Button>
+						</Col>
+						<br className='hidden-sm hidden-md hidden-lg'/>
+						<Col sm={6}>
+							<Button bsStyle='success' onClick={this.editCustomer.bind(this)} block>Enregistrer modifications</Button>
+						</Col>
+					</Row>
+				</Panel>
+			);
+			default: 
+				return (
+					<Panel header={(<strong>Clients enregistrés</strong>)}>
+						<Button block bsStyle='info' onClick={this.switchState(STATES.ADD)}>Saisir nouveau client</Button>
+						<br/>
+						<CustomerSummaryList 
+							customers={this.state.data.customers} 
+							onEdit={this.onEditCustomer.bind(this)}
+							onView={this.onViewCustomer.bind(this)}/>
+					</Panel>
+				);
+		}
 	}
 }
 

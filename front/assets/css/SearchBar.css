@@ -1,0 +1,17 @@
+.APSearchBar .APSearchBarInput {
+	border-right: 0;
+}
+
+.APSearchBar .APSearchBarClearGroup {
+	padding: 0;
+	background: inherit;
+	border-left: 0;
+}
+
+.APSearchBar .APSearchBarClearButton {
+	outline: none !important;
+}
+
+.APSearchBar .APSearchBarClearIcon {
+	outline: none;
+}

@@ -31,7 +31,7 @@ class Contact extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			edit: props.contact ? false : true,
+			edit: props.edit || false,
 			contact: props.contact ? props.contact : DEFAULT_CONTACT
 		};
 	}

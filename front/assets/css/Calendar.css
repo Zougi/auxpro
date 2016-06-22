@@ -9,11 +9,6 @@
 	width: 100%;
 	margin-bottom: 10px;
 }
-.calendar .calendar-header {
-	table-layout: fixed;
-	width: 100%;
-	margin-bottom: 10px;
-}
 	.calendar .calendar-header button {
 		border: 0;
 	}
@@ -24,33 +19,47 @@
 /* ----------------------------------------------------------
  *                                    CALENDAR-MONTH DISPLAY
  */
-.calendar .calendar-month {
-
+.calendar-month .calendar-header {
+	table-layout: fixed;
+	width: 100%;
+	margin-bottom: 10px;
 }
-.calendar .calendar-month .month {
+	.calendar-month .calendar-header button {
+		border: 0;
+	}
+	.calendar-month .calendar-header td {
+		vertical-align: middle;
+	}
+.calendar-month.calendar-small th {
+	padding: 3px;
+}
+.calendar-month.calendar-small td {
+	padding: 3px;
+}
+.calendar-month .month {
 	background:blue;	
 }
-.calendar .calendar-month .week {
+.calendar-month .week {
 
 }
-.calendar .calendar-month .day {
+.calendar-month .day {
 	border:0;
 }
-.calendar .calendar-month .day {
+.calendar-month .day {
 	border: 1px solid rgba(255,255,255,0);
 	border-radius:0px;
 	font-weight: bold;
 }
-.calendar .calendar-month .day.today {
+.calendar-month .day.today {
 	background: #FFCCCC
 }
-.calendar .calendar-month .day.selected {
+.calendar-month .day.selected {
 	border: 1px solid red;
 }
-.calendar .calendar-month .day.past {
+.calendar-month .day.past {
 	background: #F2F2F2;
 }
-.calendar .calendar-month .day.notmonth {
+.calendar-month .day.notmonth {
 	color: #A3A4A5;
 	font-weight: normal;
 	font-style: italic;

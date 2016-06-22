@@ -9,6 +9,7 @@ class FormBase extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.xsLabelSize = this.props.xsLabelSize || DEFAULTS.xsLabelSize;
 		this.smLabelSize = this.props.smLabelSize || DEFAULTS.smLabelSize;
 		this.mdLabelSize = this.props.mdLabelSize || DEFAULTS.mdLabelSize;
 		this.lgLabelSize = this.props.lgLabelSize || DEFAULTS.lgLabelSize;
