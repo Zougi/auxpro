@@ -17,7 +17,11 @@ export default class RestService {
 				xhr.onload = function(oEvt) {
 					if (xhr.readyState === 4) {
 						if (xhr.status === 200 || xhr.status === 201) {
-							resolve(JSON.parse(xhr.responseText));
+							if (xhr.responseText) {
+								resolve(JSON.parse(xhr.responseText));
+							} else {
+								resolve();
+							}
 						} else if (xhr.status === 401) {
 							reject({ error: 'UNAUTHORIZED', status: 401 });
 						} else if (xhr.status === 500) {

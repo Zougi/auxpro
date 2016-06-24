@@ -24,6 +24,19 @@ PostService.do = function (args) {
 	return RestService.postService(params);
 }
 
+// PUT SERVICE
+let PutService = new ActionBase({ name: 'PUT_SERVICE' });
+PutService.do = function (args) {
+	Utils.checkMembers(args, ['id', 'data', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId,
+		method: 'PUT',
+		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
 // GET SERVICE
 let GetService = new ActionBase({ name: 'GET_SERVICE' });
 GetService.do = function (args) {
@@ -53,7 +66,7 @@ GetServiceCustomers.do = function (args) {
 	return RestService._request(reqParam);
 }
 
-// GET SERVICE CUSTOMERS
+// POST SERVICE CUSTOMER
 let PostServiceCustomer = new ActionBase({ name: 'POST_SERVICE_CUSTOMER' });
 PostServiceCustomer.do = function (args) {
 	Utils.checkMembers(args, ['sId', 'data', 'token']);
@@ -61,6 +74,31 @@ PostServiceCustomer.do = function (args) {
 		url   : '/services/' + args.sId + '/customers/',
 		method: 'POST',
 		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// PUT SERVICE CUSTOMER
+let PutServiceCustomer = new ActionBase({ name: 'PUT_SERVICE_CUSTOMER' });
+PutServiceCustomer.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'data', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/' + args.data.id,
+		method: 'PUT',
+		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// DELETE SERVICE CUSTOMER
+let DeleteServiceCustomer = new ActionBase({ name: 'DELETE_SERVICE_CUSTOMER' });
+DeleteServiceCustomer.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'cId', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/' + args.cId,
+		method: 'DELETE',
 		token : args.token
 	};
 	return RestService._request(reqParam);

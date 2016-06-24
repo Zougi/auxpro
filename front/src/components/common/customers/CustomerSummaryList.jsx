@@ -10,13 +10,13 @@ class CustomerSummaryList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			customers: []
+			customers: [],
+			search: ''
 		}
 		this.updateState(props);
 	}
 
 	componentWillReceiveProps(props) {
-		console.log('update list');
 		this.updateState(props);
 		this.setState(this.state);
 	}
@@ -26,22 +26,23 @@ class CustomerSummaryList extends React.Component {
 	}
 
 	onSearch(value) {
-		if (value) {
-			this.state.customers = this.state.customers.filter(function(cust) {
-				let s = cust.person.firstName + ' ' + cust.person.lastName;
-				return s.toUpperCase().indexOf(value.toUpperCase()) !== -1;
-			});
-		} else {
-			this.state.customers = this.props.customers || [];
-		}
+		console.log('search ' + value)
+		this.state.search = value;
 		this.setState(this.state);
 	}
 
 	render() {
-		let customers = this.state.customers.map(function(cust) {
+		let customers = this.state.customers;
+		if (this.state.search) {
+			customers = this.state.customers.filter(function(cust) {
+				let s = cust.person.firstName + ' ' + cust.person.lastName;
+				return s.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
+			}.bind(this));
+		}
+		customers = customers.map(function(cust) {
             return (
             	<ListGroupItem key={cust.id}>
-                	<CustomerSummary data={cust} onView={this.props.onView} onEdit={this.props.onEdit}/>
+                	<CustomerSummary data={cust} onView={this.props.onView} onEdit={this.props.onEdit} onDelete={this.props.onDelete}/>
                 </ListGroupItem>
             );
         }.bind(this));

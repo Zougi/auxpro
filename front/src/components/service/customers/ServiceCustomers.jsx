@@ -1,12 +1,13 @@
 // lib modules
 import React from 'react';
-import { Panel, Button, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
+import { Panel, Button, ListGroup, ListGroupItem, Row, Col, Modal } from 'react-bootstrap';
 // core modules
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
+import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
 
 let STATES = {
 	LIST: 'LIST',
@@ -51,9 +52,9 @@ class ServiceCustomers extends React.Component {
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
     	this.state = {
 			user: user,
-			data: data
+			data: data,
+			showDeleteConfirm: false
 		};
-		console.log(data);
 		return this.state;
     }
 
@@ -74,7 +75,35 @@ class ServiceCustomers extends React.Component {
     	this.state.currentCustomer = customer;
     	this.switchState(STATES.VIEW)();
     }
+    onDeleteCustomer(customer) {
+    	this.state.currentCustomer = customer;
+    	this.state.showDeleteConfirm = true;
+    	this.setState(this.state);
+    }
 
+    hideDeleteConfirmation() {
+    	this.state.showDeleteConfirm = false;
+    	this.setState(this.state);
+    }
+    
+    deleteCustomer() {
+    	this.hideDeleteConfirmation();
+    	let args = {
+    		sId: this.state.user.id,
+    		cId: this.state.currentCustomer.id,
+			token: this.state.user.token
+    	}
+    	Dispatcher.issue('DELETE_SERVICE_CUSTOMER', args).
+    	then(function () {
+    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
+    	}).
+    	then(function() {
+    		this.switchState(STATES.LIST)();
+    	}.bind(this)).
+    	catch(function(error) {
+    		console.log(error);
+    	});    	
+    }
     editCustomer() {
     	this.state.currentCustomer.serviceId = this.state.user.id;
     	let args = {
@@ -91,7 +120,7 @@ class ServiceCustomers extends React.Component {
     	}.bind(this)).
     	catch(function(error) {
     		console.log(error);
-    	});    	
+    	});
     }
     saveCustomer() {
     	this.state.currentCustomer.serviceId = this.state.user.id;
@@ -157,14 +186,26 @@ class ServiceCustomers extends React.Component {
 			);
 			default: 
 				return (
-					<Panel header={(<strong>Clients enregistrés</strong>)}>
-						<Button block bsStyle='info' onClick={this.switchState(STATES.ADD)}>Saisir nouveau client</Button>
-						<br/>
-						<CustomerSummaryList 
-							customers={this.state.data.customers} 
-							onEdit={this.onEditCustomer.bind(this)}
-							onView={this.onViewCustomer.bind(this)}/>
-					</Panel>
+					<div>
+						<Panel header={(<strong>Clients enregistrés</strong>)}>
+							<Button block bsStyle='info' onClick={this.switchState(STATES.ADD)}>Saisir nouveau client</Button>
+							<br/>
+							<CustomerSummaryList 
+								customers={this.state.data.customers} 
+								onEdit={this.onEditCustomer.bind(this)}
+								onView={this.onViewCustomer.bind(this)}
+								onDelete={this.onDeleteCustomer.bind(this)}/>
+						</Panel>
+						<Modal show={this.state.showDeleteConfirm}>
+							<Modal.Header>
+								<Modal.Title>Supprimer client ?</Modal.Title>
+							</Modal.Header>
+							<Modal.Footer>
+								<Button bsStyle='danger' onClick={this.deleteCustomer.bind(this)}>Supprimer</Button>
+								<Button className='default' onClick={this.hideDeleteConfirmation.bind(this)}>Annuler</Button>
+							</Modal.Footer>
+						</Modal>
+					</div>
 				);
 		}
 	}

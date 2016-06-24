@@ -17,10 +17,14 @@ class CustomerSummary extends React.Component {
             this.props.onView(this.props.data);
         }
     }
-
     onEdit(event) {
         if (this.props.onEdit) {
             this.props.onEdit(this.props.data);
+        }
+    }
+    onDelete(event) {
+        if (this.props.onDelete) {
+            this.props.onDelete(this.props.data);
         }
     }
 
@@ -36,7 +40,7 @@ class CustomerSummary extends React.Component {
                     <Col style={{'text-align':'right'}} xs={6}>
                         <Button style={{'margin-right':'5px'}} bsSize='xsmall' bsStyle='default' onClick={this.onView.bind(this)}><Glyphicon glyph='user'/></Button>
                         <Button style={{'margin-right':'5px'}} bsSize='xsmall' bsStyle='default' onClick={this.onEdit.bind(this)}><Glyphicon glyph='pencil'/></Button>
-                        <Button bsSize='xsmall' bsStyle='danger'><Glyphicon glyph='remove'/></Button>
+                        <Button bsSize='xsmall' bsStyle='danger' onClick={this.onDelete.bind(this)}><Glyphicon glyph='remove'/></Button>
                     </Col>
                 </Row>
                 <br className='hidden-sm hidden-md hidden-lg'/>
