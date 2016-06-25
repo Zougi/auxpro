@@ -5,6 +5,10 @@ import java.io.FilenameFilter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,12 +19,20 @@ import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EPersonSex;
+import org.ap.web.entity.constant.ESadType;
+import org.ap.web.entity.constant.EUserType;
 import org.ap.web.entity.mongo.AddressBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
+import org.ap.web.entity.mongo.RecurenceBean;
+import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.SkillsBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.EConfigProperties;
 import org.ap.web.internal.annotation.MongoId;
 import org.ap.web.service.EMongoCollection;
@@ -123,9 +135,14 @@ public class TestData {
 	}
 	
 	private static int ADDRESS_ID = 0;
+	private static int AUXILIARY_ID = 0;
 	private static int CONTACT_ID = 0;
 	private static int CUSTOMER_ID = 0;
+	private static int INTERVENTION_ID = 0;
+	private static int ONETIME_ID = 0;
 	private static int PERSON_ID = 0;
+	private static int RECURENCE_ID = 0;
+	private static int SERVICE_ID = 0;
 	private static int SKILL_ID = 0;
 	private static int USER_ID = 0;
 
@@ -133,6 +150,14 @@ public class TestData {
 		return next(new CredentialsBean());
 	}
 	
+	public static AuxiliaryBean next(AuxiliaryBean bean) {
+		bean.setId(String.valueOf(AUXILIARY_ID++));
+		bean.setContact(next(new ContactBean()));
+		bean.setPerson(next(new PersonBean()));
+		bean.setSkills(next(new SkillsBean()));
+		bean.setUser(next(new UserBean(), EUserType.AUXILIARY.getId(), String.valueOf(AUXILIARY_ID)));
+		return bean;
+	}
 	public static AddressBean next(AddressBean bean) {
 		bean.setAddress(ADDRESS_ID++ + " nouvelle rue");
 		bean.setCity("Paris");
@@ -167,6 +192,25 @@ public class TestData {
 		bean.setSkills(new SkillsBean());
 		return bean;
 	}
+	public static InterventionBean next(InterventionBean bean) {
+		bean.setId(StringConverter.stringToHex(String.valueOf(INTERVENTION_ID++)));
+		bean.setAddress(next(new AddressBean()));
+		bean.setAuxiliaryId(String.valueOf(AUXILIARY_ID));
+		bean.setCustomerId(String.valueOf(CUSTOMER_ID));
+		bean.setServiceId(String.valueOf(SERVICE_ID));
+		if (INTERVENTION_ID % 2 == 0) {
+			bean.setRecurence(next(new RecurenceBean()));
+		} else {
+			bean.setOneTime(next(new OneTimeBean()));
+		}
+		return bean;
+	}
+	public static OneTimeBean next(OneTimeBean bean) {
+		bean.setDate(LocalDate.now().plusDays(ONETIME_ID++));
+		bean.setStartTime(LocalTime.of(2, 00));
+		bean.setEndTime(LocalTime.of(4, 30));
+		return bean;
+	}
 	public static PersonBean next(PersonBean bean) {
 		bean.setBirthDate(new Date());
 		bean.setBirthPlace(next(new AddressBean()));
@@ -178,6 +222,24 @@ public class TestData {
 		bean.setSocialNumber("SecSociale " + PERSON_ID);
 		return bean;
 	}
+	public static RecurenceBean next(RecurenceBean bean) {
+		bean.setStartDate(LocalDate.now().plusDays(RECURENCE_ID));
+		bean.setEndDate(LocalDate.now().plusDays(RECURENCE_ID++ + 60));
+		bean.setStartTime(LocalTime.of(2, 00));
+		bean.setEndTime(LocalTime.of(4, 30));
+		bean.setPeriod(Period.ofDays(7));
+		bean.setDays(new DayOfWeek[] { DayOfWeek.MONDAY, DayOfWeek.FRIDAY});
+		return bean;
+	}
+	public static ServiceBean next(ServiceBean bean) {
+		bean.setId(String.valueOf(SERVICE_ID++));
+		bean.setContact(next(new ContactBean()));
+		bean.setSiret("Siret " + SERVICE_ID);
+		bean.setSocialReason(ESadType.MAND.getId());
+		bean.setSociety("Societe " + SERVICE_ID);
+		bean.setUser(next(new UserBean(), EUserType.SERVICE.getId(), String.valueOf(SERVICE_ID)));
+		return bean;
+	}
 	public static SkillsBean next(SkillsBean bean) {
 		bean.setAdministrative(1 + SKILL_ID++);
 		bean.setChildhood(2 + SKILL_ID);
@@ -186,6 +248,15 @@ public class TestData {
 		bean.setHousework(5 + SKILL_ID);
 		bean.setNursing(6 + SKILL_ID);
 		bean.setShopping(7 + SKILL_ID);
+		return bean;
+	}
+	public static UserBean next(UserBean bean, String type, String id) {
+		next(bean);
+		bean.setActive(true);
+		//bean.setRegistrationDate(date);
+		bean.setTutoSkipped(true);
+		bean.setType(type);
+		bean.setId(id);
 		return bean;
 	}
 

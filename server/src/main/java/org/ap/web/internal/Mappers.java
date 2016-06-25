@@ -17,6 +17,7 @@ public enum Mappers {
 	
 	private Mappers(JsonDeserializer<Date> dateDS, JsonDeserializer<Long> longDS) {
 		_mapper = new ObjectMapper();
+		_mapper.findAndRegisterModules();
 		SimpleModule module = new SimpleModule();
 		if (dateDS != null) {
 			module.addDeserializer(Date.class, dateDS);

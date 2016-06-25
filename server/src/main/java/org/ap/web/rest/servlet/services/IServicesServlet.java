@@ -26,6 +26,10 @@ import org.ap.web.entity.mongo.ServiceBean;
  *  - /services/{servId} POST   > create a new service
  *  - /services/{servId} PUT    > update an existing service
  *  - /services/{servId} DELETE > delete a service
+ *
+ *  - /services/{servId}/interventions GET > list service interventions
+ *  - /services/{servId}/offers        GET > list service interventions
+ *  - /services/{servId}/missions      GET > list service missions
  */
 public interface IServicesServlet {
 
@@ -57,7 +61,11 @@ public interface IServicesServlet {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response deleteServiceJSON(@Context SecurityContext sc, @PathParam("servId") final String id);
 
-	// CUSTOMERS
+	// INTERVENTIONS
 	
-	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{servId}/interventions")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getInterventionsJSON(@Context SecurityContext sc, @PathParam("servId") String id);
 }

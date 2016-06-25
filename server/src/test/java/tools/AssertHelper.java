@@ -1,5 +1,7 @@
 package tools;
 
+import java.time.DayOfWeek;
+
 import javax.ws.rs.core.Response;
 
 import org.ap.web.entity.BeanConverter;
@@ -11,8 +13,11 @@ import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.MissionBean;
+import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
+import org.ap.web.entity.mongo.RecurenceBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.SkillsBean;
 import org.ap.web.entity.mongo.UserBean;
@@ -97,6 +102,21 @@ public class AssertHelper {
 			assertSkills(expected.getSkills(), actual.getSkills());
 		}
 	}
+	public static void assertDayOfWeeks(DayOfWeek[] expected, DayOfWeek[] actual) {
+		TestCase.assertEquals(expected.length, actual.length);
+	}
+	public static void assertIntervention(InterventionBean expected, InterventionBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			assertAddress(expected.getAddress(), actual.getAddress());
+			assertOneTime(expected.getOneTime(), actual.getOneTime());
+			assertRecurence(expected.getRecurence(), actual.getRecurence());
+			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
+			TestCase.assertEquals(expected.getServiceId(), actual.getServiceId());
+			TestCase.assertEquals(expected.getCustomerId(), actual.getCustomerId());
+		}
+	}
 	public static void assertMissions(MissionBean[] expected, MissionBean[] actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
@@ -114,6 +134,15 @@ public class AssertHelper {
 			assertContact(expected.getContact(), actual.getContact());
 		}
 	}	
+	public static void assertOneTime(OneTimeBean expected, OneTimeBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.getDate(), actual.getDate());
+			TestCase.assertEquals(expected.getStartTime(), actual.getStartTime());
+			TestCase.assertEquals(expected.getEndTime(), actual.getEndTime());
+		}
+	}
 	public static void assertPerson(PersonBean expected, PersonBean actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
@@ -126,6 +155,18 @@ public class AssertHelper {
 			TestCase.assertEquals(expected.getNationality(), actual.getNationality());
 			TestCase.assertEquals(expected.getCiNumber(), actual.getCiNumber());
 			assertAddress(expected.getBirthPlace(), actual.getBirthPlace());
+		}
+	}
+	public static void assertRecurence(RecurenceBean expected, RecurenceBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.getStartDate(), actual.getStartDate());
+			TestCase.assertEquals(expected.getEndDate(), actual.getEndDate());
+			TestCase.assertEquals(expected.getStartTime(), actual.getStartTime());
+			TestCase.assertEquals(expected.getEndTime(), actual.getEndTime());
+			TestCase.assertEquals(expected.getPeriod(), actual.getPeriod());
+			assertDayOfWeeks(expected.getDays(), actual.getDays());
 		}
 	}
 	public static void assertService(ServiceBean expected, ServiceBean actual) {

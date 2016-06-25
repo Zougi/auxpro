@@ -83,4 +83,14 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 			return sendException(e);
 		}
 	}
+
+	@Override
+	public Response getInterventionsJSON(SecurityContext sc, String id) {
+		try {
+			_serviceStore.delete(id);
+			return Response.status(200).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
 }
