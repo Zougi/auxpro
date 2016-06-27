@@ -5,6 +5,9 @@ import org.ap.web.internal.APException;
 import org.ap.web.service.EMongoCollection;
 import org.ap.web.service.stores.StoreBase;
 
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+
 import java.util.List;
 
 public class InterventionsStore extends StoreBase<InterventionBean> implements IInterventionsStore {
@@ -14,16 +17,19 @@ public class InterventionsStore extends StoreBase<InterventionBean> implements I
 	}
 	
 	@Override
-	public List<InterventionBean> getCustomerInterventions(String id) throws APException {
-		return getEntityByMemberId("customerId", id);
+	public InterventionBean[] getCustomerInterventions(String sId, String cId) throws APException {
+		List<InterventionBean> result = getEntityWhere(and(eq("serviceId", sId), eq("customerId", cId)));
+		return result.toArray(new InterventionBean[result.size()]);
 	}
 	@Override
-	public List<InterventionBean> getServiceInterventions(String id) throws APException {
-		return getEntityByMemberId("serviceId", id);
+	public InterventionBean[] getServiceInterventions(String id) throws APException {
+		List<InterventionBean> result = getEntityWhere(eq("serviceId", id));
+		return result.toArray(new InterventionBean[result.size()]);
 	}
 	@Override
-	public List<InterventionBean> getAuxiliaryInterventions(String id) throws APException {
-		return getEntityByMemberId("auxiliaryId", id);
+	public InterventionBean[] getAuxiliaryInterventions(String id) throws APException {
+		List<InterventionBean> result = getEntityWhere(eq("auxiliaryId", id));
+		return result.toArray(new InterventionBean[result.size()]);
 	}
 	@Override
 	public InterventionBean createIntervention(InterventionBean bean) throws APException {

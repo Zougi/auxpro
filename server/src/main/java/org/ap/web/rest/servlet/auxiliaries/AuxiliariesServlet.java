@@ -8,11 +8,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
-import org.ap.web.entity.mongo.AbsenceBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.AuxiliaryDataBean;
 import org.ap.web.entity.mongo.CredentialsBean;
-import org.ap.web.entity.mongo.MissionBean;
+import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
@@ -114,10 +113,10 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		try {
 			if (_auxiliaryStore.get(id) == null) return Response.status(Status.NOT_FOUND).build();
 			if (!sc.isUserInRole("admin") && !sc.getUserPrincipal().getName().equals(id)) return Response.status(Status.FORBIDDEN).build();
-			MissionBean[] missions = _missionsStore.getAuxMissions(id);
+			InterventionBean[] missions = _missionsStore.getAuxMissions(id);
 			Set<String> services = new HashSet<String>();
 			Set<String> customers = new HashSet<String>();
-			for (MissionBean mission : missions) {
+			for (InterventionBean mission : missions) {
 				services.add(mission.getServiceId());
 				customers.add(mission.getCustomerId());
 			}
@@ -128,33 +127,6 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			return Response.status(200).entity(bean).build();
 		} catch (APException e) {
 			return sendException(e);
-		}
-	}
-	@Override
-	public Response getAuxiliaryAbsencesJSON(SecurityContext sc, String id) {
-		try {
-			if (_auxiliaryStore.get(id) == null) return Response.status(Status.NOT_FOUND).build();
-			if (!sc.isUserInRole("admin") && !sc.getUserPrincipal().getName().equals(id)) return Response.status(Status.FORBIDDEN).build();
-			AbsenceBean[] absences = _missionsStore.getAuxAbsences(id);
-			return Response.status(200).entity(absences).build();
-		} catch (APException e) {
-			return sendException(e);
-		}
-	}
-	@Override
-	public Response createAuxiliaryAbsenceJSON(SecurityContext sc, String id, AbsenceBean absence) {
-		try {
-			String idSc = sc.getUserPrincipal().getName();
-			if (!idSc.equals(id)) return Response.status(Status.FORBIDDEN).build();
-			absence.setAuxiliaryId(id);
-			absence.setId(null);
-			absence = _missionsStore.createAuxAbsences(absence);
-			return Response.status(201).entity(absence, resolveAnnotations(sc, absence)).build();
-		} catch (APException e) {
-			return sendException(e);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.status(500).build();
 		}
 	}
 }

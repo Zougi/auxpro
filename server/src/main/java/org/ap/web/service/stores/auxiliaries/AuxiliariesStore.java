@@ -14,7 +14,7 @@ import com.mongodb.client.FindIterable;
 
 import static com.mongodb.client.model.Filters.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxiliariesStore {
@@ -38,11 +38,6 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 	@Override
 	public AuxiliaryBean get(String id) throws APException {
 		return getEntityById(id);
-		/*
-		Document document = EMongoCollection.AUXILIARIES.getService().findOne(eq("_id", new ObjectId(id)));
-		if (document == null) return null;
-		return BeanConverter.convertToBean(document, AuxiliaryBean.class);
-		*/
 	}
 	@Override
 	public AuxiliaryBean create(CredentialsBean bean) throws APException {
@@ -55,14 +50,9 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 		user.setName(bean.getName());
 		user.setEmail(bean.getEmail());
 		user.setPassword(bean.getPassword());
-		user.setRegistrationDate(new Date());
+		user.setRegistrationDate(LocalDateTime.now());
 		auxiliary.setUser(user);
 		return createEntity(auxiliary);
-		/*
-		Document document = BeanConverter.convertToMongo(auxiliary);
-		document = EMongoCollection.AUXILIARIES.getService().create(document);		
-		return BeanConverter.convertToBean(document, AuxiliaryBean.class);
-		*/
 	}
 	@Override
 	public AuxiliaryBean update(AuxiliaryBean bean) throws APException {
@@ -72,19 +62,9 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 		bean.setId(previous.getId());
 		bean.getUser().setPassword(previous.getUser().getPassword());
 		return updateEntity(bean);
-		/*
-		Document document = BeanConverter.convertToMongo(bean);
-		document = EMongoCollection.AUXILIARIES.getService().update(document);
-		return BeanConverter.convertToBean(document, AuxiliaryBean.class);
-		*/
 	}
 	@Override
 	public AuxiliaryBean delete(String id) throws APException {
 		return deleteEntity(id);
-		/*
-		Document document = EMongoCollection.AUXILIARIES.getService().deleteOne(id);
-		if (document == null) throw APException.USER_NAME_INVALID;
-		return BeanConverter.convertToBean(document, AuxiliaryBean.class);
-		*/
 	}
 }

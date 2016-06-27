@@ -3,7 +3,7 @@
 		"name":"z",
 		"password":"z",
 		"email":"z",
-		"registrationDate":"2016-02-15",
+		"registrationDate":[2016, 2, 15, 0, 0],
 		"active":true,
 		"tutoSkipped":true,
 		"type":"sad"

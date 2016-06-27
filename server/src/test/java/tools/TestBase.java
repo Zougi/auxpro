@@ -6,7 +6,10 @@ import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.ServiceBean;
+import org.ap.web.internal.EConfigProperties;
+import org.ap.web.service.Mongo;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
@@ -23,7 +26,7 @@ public class TestBase {
 	protected AuxiliaryBean auxiliary1, auxiliary2;
 	protected ServiceBean service1, service2;
 	protected CustomerBean customer1, customer2;
-	protected InterventionBean intervention1;
+	protected InterventionBean intervention1,interventionz;
 	@Before
 	public void setUpTestData() throws Exception {
 		absenceAux11  = TestData.getFromJson("absences_aux1abs1.json", AbsenceBean.class);
@@ -37,10 +40,17 @@ public class TestBase {
 		customer2     = TestData.getFromJson("customers_cus2.json", CustomerBean.class);
 		service1      = TestData.getFromJson("services_sad1.json", ServiceBean.class);
 		service2      = TestData.getFromJson("services_sad2.json", ServiceBean.class);
-		intervention1 = TestData.getFromJson("interventions_sadzcus1.json", InterventionBean.class);
+		intervention1 = TestData.getFromJson("interventions_sad1cus1.json", InterventionBean.class);
+		interventionz = TestData.getFromJson("interventions_sadzcus1.json", InterventionBean.class);
 	}
 	
 	/* TEST SETUP */
+	
+	@BeforeClass
+	public static void setUpDBClient() {
+		EConfigProperties.DB_NAME.setValue(TestData.DB_TEST);
+		Mongo.reload();
+	}
 	
 	@Rule 
 	public TestName _tcName = new TestName();

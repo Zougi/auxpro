@@ -5,6 +5,6 @@
 		"email":"admin@admin.fr",
 		"active":true,
 		"type":"admin",
-		"registrationDate":"2016-01-01"
+		"registrationDate":[2016, 1, 1, 0, 0]
 	}
 }

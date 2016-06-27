@@ -9,14 +9,15 @@ import org.ap.web.entity.MongoEntity;
 import org.ap.web.internal.APException;
 import org.ap.web.service.EMongoCollection;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
 
 public class StoreBase<T extends MongoEntity> {
 
-	private EMongoCollection _collection;
-	private Class<T> _class;
+	protected EMongoCollection _collection;
+	protected Class<T> _class;
 	
 	protected StoreBase(EMongoCollection collection, Class<T> clazz) {
 		_collection = collection;
@@ -28,9 +29,12 @@ public class StoreBase<T extends MongoEntity> {
 		if (document == null) return null; 
 		return BeanConverter.convertToBean(document, _class);
 	}
-	
+	protected List<T> getEntityWhere(Bson bson) throws APException {
+		FindIterable<Document> documents = _collection.getService().findAll(bson);
+		return BeanConverter.convertToBean(documents, _class);
+	}
 	protected List<T> getEntityByMemberId(String member, String id) throws APException {
-		FindIterable<Document> documents = _collection.getService().findAll(eq("member", id));
+		FindIterable<Document> documents = _collection.getService().findAll(member, id);
 		return BeanConverter.convertToBean(documents, _class);
 	}
 	

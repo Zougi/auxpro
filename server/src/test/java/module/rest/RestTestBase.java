@@ -10,6 +10,8 @@ import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.Mappers;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+
 import module.TestModuleBase;
 
 public abstract class RestTestBase extends TestModuleBase {
@@ -55,6 +57,6 @@ public abstract class RestTestBase extends TestModuleBase {
 				property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD, pass);
 	}
 	public Entity<String> write(Object o) throws Exception {
-		return Entity.entity(Mappers.DEFAULT.getMapper().writeValueAsString(o), MediaType.APPLICATION_JSON);
+		return Entity.entity(Mappers.CLIENT.getMapper().writer(new SimpleFilterProvider().setFailOnUnknownId(false)).writeValueAsString(o), MediaType.APPLICATION_JSON);
 	}
 }

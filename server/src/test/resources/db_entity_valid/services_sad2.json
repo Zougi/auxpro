@@ -3,7 +3,7 @@
 		"name":"society2",
 		"password":"society2pwd",
 		"email":"society2@society2.fr",
-		"registrationDate":"2015-12-15",
+		"registrationDate":[2015, 12, 15, 0, 0],
 		"active":false,
 		"tutoSkipped":false,
 		"type":"sad"

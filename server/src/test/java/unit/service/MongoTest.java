@@ -4,8 +4,9 @@ import org.ap.web.service.Mongo;
 import org.junit.Test;
 
 import junit.framework.TestCase;
+import tools.TestBase;
 
-public class MongoTest {
+public class MongoTest extends TestBase {
 
 	@Test
 	public void testV_checkTestDatabase() {

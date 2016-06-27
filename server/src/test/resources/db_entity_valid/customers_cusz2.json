@@ -4,7 +4,7 @@
 		"civility":"Mr",
 		"firstName": "Andre",
 		"lastName": "Remy",
-		"birthDate":"1945-04-25",
+		"birthDate":[1945, 4, 25],
 		"birthPlace": {
 			"city": "Bordeaux",
 			"country": "France"

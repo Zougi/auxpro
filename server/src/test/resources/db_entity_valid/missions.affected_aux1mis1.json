@@ -1,17 +1,13 @@
 {
-	"startDate":"2016-06-18T14:00:00",
-	"endDate":"2016-06-18T17:30:00",
-	"contact": {
-		"address": {
-			"address": "1 rue du premier utilisateur",
-			"postalCode": 75001,
-			"city": "Paris"
-		},
-		"addressChecked": false,
-		"phone": "01 01 01 01 01",
-		"phoneChecked": true,
-		"email":"user1@user1.fr",
-		"emailChecked": true
+	"oneTime": {
+		"date": [2016, 6, 18],
+		"startTime": [14, 0],
+		"endTime": [17, 30]
+	},
+	"address": {
+		"address": "1 rue du premier utilisateur",
+		"postalCode": 75001,
+		"city": "Paris"
 	},
 	"auxiliaryId":"aux1",
 	"customerId":"cus1",

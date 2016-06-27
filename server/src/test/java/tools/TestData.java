@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
@@ -21,6 +20,7 @@ import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EPersonSex;
 import org.ap.web.entity.constant.ESadType;
 import org.ap.web.entity.constant.EUserType;
+import org.ap.web.entity.mongo.AbsenceBean;
 import org.ap.web.entity.mongo.AddressBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
@@ -107,10 +107,11 @@ public class TestData {
 				}
 			}
 			if (objects.size() > 0) {
-//				System.out.println("  > inserting " + objects.size());
+				//System.out.println("> inserting " + objects.size() + " " + col.getName());
 				Mongo.collection(col.getName()).insertMany(objects);
 			}
-		}
+		}	
+		//System.out.println(">> DONE");
 	}
 	
 	public static <T extends MongoEntity> T getFromJson(String path, Class<T> clazz) throws Exception {
@@ -134,28 +135,39 @@ public class TestData {
 		return (T)obj;
 	}
 	
-	private static int ADDRESS_ID = 0;
-	private static int AUXILIARY_ID = 0;
-	private static int CONTACT_ID = 0;
-	private static int CUSTOMER_ID = 0;
-	private static int INTERVENTION_ID = 0;
-	private static int ONETIME_ID = 0;
-	private static int PERSON_ID = 0;
-	private static int RECURENCE_ID = 0;
-	private static int SERVICE_ID = 0;
-	private static int SKILL_ID = 0;
-	private static int USER_ID = 0;
+	public static int ABSENCE_ID = 0;
+	public static int ADDRESS_ID = 0;
+	public static int AUXILIARY_ID = 0;
+	public static int CONTACT_ID = 0;
+	public static int CUSTOMER_ID = 0;
+	public static int INTERVENTION_ID = 0;
+	public static int ONETIME_ID = 0;
+	public static int PERSON_ID = 0;
+	public static int RECURENCE_ID = 0;
+	public static int SERVICE_ID = 0;
+	public static int SKILL_ID = 0;
+	public static int USER_ID = 0;
 
 	public static CredentialsBean getNextCredentials() {
 		return next(new CredentialsBean());
 	}
 	
+	public static AbsenceBean next(AbsenceBean bean) {
+		bean.setId(StringConverter.stringToHex(String.valueOf(ABSENCE_ID++)));
+		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
+		if (ABSENCE_ID % 2 == 0) {
+			bean.setRecurence(next(new RecurenceBean()));
+		} else {
+			bean.setOneTime(next(new OneTimeBean()));
+		}
+		return bean;
+	}
 	public static AuxiliaryBean next(AuxiliaryBean bean) {
-		bean.setId(String.valueOf(AUXILIARY_ID++));
+		bean.setId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID++)));
 		bean.setContact(next(new ContactBean()));
 		bean.setPerson(next(new PersonBean()));
 		bean.setSkills(next(new SkillsBean()));
-		bean.setUser(next(new UserBean(), EUserType.AUXILIARY.getId(), String.valueOf(AUXILIARY_ID)));
+		bean.setUser(next(new UserBean(), EUserType.AUXILIARY.getId(), StringConverter.stringToHex(String.valueOf(AUXILIARY_ID))));
 		return bean;
 	}
 	public static AddressBean next(AddressBean bean) {
@@ -195,9 +207,9 @@ public class TestData {
 	public static InterventionBean next(InterventionBean bean) {
 		bean.setId(StringConverter.stringToHex(String.valueOf(INTERVENTION_ID++)));
 		bean.setAddress(next(new AddressBean()));
-		bean.setAuxiliaryId(String.valueOf(AUXILIARY_ID));
-		bean.setCustomerId(String.valueOf(CUSTOMER_ID));
-		bean.setServiceId(String.valueOf(SERVICE_ID));
+		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
+		bean.setCustomerId(StringConverter.stringToHex(String.valueOf(CUSTOMER_ID)));
+		bean.setServiceId(StringConverter.stringToHex(String.valueOf(SERVICE_ID)));
 		if (INTERVENTION_ID % 2 == 0) {
 			bean.setRecurence(next(new RecurenceBean()));
 		} else {
@@ -212,7 +224,7 @@ public class TestData {
 		return bean;
 	}
 	public static PersonBean next(PersonBean bean) {
-		bean.setBirthDate(new Date());
+		bean.setBirthDate(LocalDate.now());
 		bean.setBirthPlace(next(new AddressBean()));
 		bean.setCiNumber(PERSON_ID++);
 		bean.setCivility(EPersonSex.M.getId());
@@ -232,7 +244,7 @@ public class TestData {
 		return bean;
 	}
 	public static ServiceBean next(ServiceBean bean) {
-		bean.setId(String.valueOf(SERVICE_ID++));
+		bean.setId(StringConverter.stringToHex(String.valueOf(SERVICE_ID++)));
 		bean.setContact(next(new ContactBean()));
 		bean.setSiret("Siret " + SERVICE_ID);
 		bean.setSocialReason(ESadType.MAND.getId());
@@ -262,6 +274,7 @@ public class TestData {
 
 	public static void main(String[] args) {
 		EConfigProperties.DB_NAME.setValue(TestData.DB_DEV);
+		Mongo.reload();
 		createTestDatabase();
 		Mongo.client().close();
 	}

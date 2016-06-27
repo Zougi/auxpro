@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.in;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -73,6 +74,7 @@ public class ServicesStore implements IServicesStore {
 		user.setName(bean.getName());
 		user.setEmail(bean.getEmail());
 		user.setPassword(bean.getPassword());
+		user.setRegistrationDate(LocalDateTime.now());
 		auxiliary.setUser(user);
 		Document document = BeanConverter.convertToMongo(auxiliary);
 		document = EMongoCollection.SERVICES.getService().create(document);		

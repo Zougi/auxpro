@@ -3,7 +3,7 @@
 		"civility":"Mr",
 		"firstName": "Armand",
 		"lastName": "Dupont",
-		"birthDate":"1942-01-03"
+		"birthDate":[1942, 1, 3]
 	},
 	"contact": {
 		"address": {

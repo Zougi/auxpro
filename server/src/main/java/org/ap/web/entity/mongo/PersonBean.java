@@ -1,6 +1,6 @@
 package org.ap.web.entity.mongo;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.ap.web.entity.constant.EPersonSex;
 
@@ -15,7 +15,7 @@ public class PersonBean {
 	private String nationality;
 	private int ciNumber;
 	
-	private Date birthDate;
+	private LocalDate birthDate;
 	private AddressBean birthPlace;
 	
 	public PersonBean() {}
@@ -38,8 +38,8 @@ public class PersonBean {
 	public int getCiNumber() { return ciNumber; }
 	public void setCiNumber(int ciNumber) { this.ciNumber = ciNumber; }
 	
-	public Date getBirthDate() { return birthDate; }
-	public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
+	public LocalDate getBirthDate() { return birthDate; }
+	public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 	
 	public AddressBean getBirthPlace() { return birthPlace; }
 	public void setBirthPlace(AddressBean birthPlace) { this.birthPlace = birthPlace; }

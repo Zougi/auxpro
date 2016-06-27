@@ -1,5 +1,8 @@
 {
-	"startDate":"2016-06-01T08:00:00",
-	"endDate":"2016-06-01T14:00:00",
+	"oneTime": {
+		"date": [2016, 6, 1],
+		"startTime": [8, 0],
+		"endTime": [14, 0]
+	},
 	"auxiliaryId":"aux2"
 }

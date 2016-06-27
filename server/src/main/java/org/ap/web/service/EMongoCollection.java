@@ -5,7 +5,6 @@ import org.ap.web.entity.mongo.AccountBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
-import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.TokenBean;
 
@@ -15,8 +14,8 @@ public enum EMongoCollection {
 	AUXILIARIES       (AuxiliaryBean.class),
 	CUSTOMERS         (CustomerBean.class),
 	INTERVENTIONS     (InterventionBean.class),
-	MISSIONS_OFFERS   (MissionBean.class),
-	MISSIONS_AFFECTED (MissionBean.class),
+	MISSIONS_OFFERS   (InterventionBean.class),
+	MISSIONS_AFFECTED (InterventionBean.class),
 	SERVICES          (ServiceBean.class),
 	TOKENS            (TokenBean.class),
 	ACCOUNTS          (AccountBean.class),

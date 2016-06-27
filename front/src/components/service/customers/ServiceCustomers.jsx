@@ -1,6 +1,6 @@
 // lib modules
 import React from 'react';
-import { Panel, Button, ListGroup, ListGroupItem, Row, Col, Modal } from 'react-bootstrap';
+import { Panel, Button, Row, Col, Modal } from 'react-bootstrap';
 // core modules
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
@@ -80,56 +80,29 @@ class ServiceCustomers extends React.Component {
     	this.state.showDeleteConfirm = true;
     	this.setState(this.state);
     }
-
     hideDeleteConfirmation() {
     	this.state.showDeleteConfirm = false;
     	this.setState(this.state);
-    }
-    
+    }  
+
     deleteCustomer() {
-    	this.hideDeleteConfirmation();
+    	this._issueCustomerAction('DELETE_SERVICE_CUSTOMER');
+    }
+    editCustomer() {
+    	this._issueCustomerAction('PUT_SERVICE_CUSTOMER');
+    }
+    saveCustomer() {
+    	this._issueCustomerAction('POST_SERVICE_CUSTOMER');
+    }
+
+    _issueCustomerAction(action) {
+    	this.state.currentCustomer.serviceId = this.state.user.id;
     	let args = {
     		sId: this.state.user.id,
     		cId: this.state.currentCustomer.id,
 			token: this.state.user.token
     	}
-    	Dispatcher.issue('DELETE_SERVICE_CUSTOMER', args).
-    	then(function () {
-    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
-    	}).
-    	then(function() {
-    		this.switchState(STATES.LIST)();
-    	}.bind(this)).
-    	catch(function(error) {
-    		console.log(error);
-    	});    	
-    }
-    editCustomer() {
-    	this.state.currentCustomer.serviceId = this.state.user.id;
-    	let args = {
-    		sId: this.state.user.id,
-    		data: this.state.currentCustomer,
-			token: this.state.user.token
-    	}
-    	Dispatcher.issue('PUT_SERVICE_CUSTOMER', args).
-    	then(function () {
-    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
-    	}).
-    	then(function() {
-    		this.switchState(STATES.LIST)();
-    	}.bind(this)).
-    	catch(function(error) {
-    		console.log(error);
-    	});
-    }
-    saveCustomer() {
-    	this.state.currentCustomer.serviceId = this.state.user.id;
-    	let args = {
-    		sId: this.state.user.id,
-    		data: this.state.currentCustomer,
-			token: this.state.user.token
-    	}
-    	Dispatcher.issue('POST_SERVICE_CUSTOMER', args).
+    	Dispatcher.issue(action, args).
     	then(function () {
     		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
     	}).
@@ -196,15 +169,16 @@ class ServiceCustomers extends React.Component {
 								onView={this.onViewCustomer.bind(this)}
 								onDelete={this.onDeleteCustomer.bind(this)}/>
 						</Panel>
-						<Modal show={this.state.showDeleteConfirm}>
-							<Modal.Header>
-								<Modal.Title>Supprimer client ?</Modal.Title>
-							</Modal.Header>
-							<Modal.Footer>
-								<Button bsStyle='danger' onClick={this.deleteCustomer.bind(this)}>Supprimer</Button>
-								<Button className='default' onClick={this.hideDeleteConfirmation.bind(this)}>Annuler</Button>
-							</Modal.Footer>
-						</Modal>
+						<DialogConfirmation
+							show={this.state.showDeleteConfirm}
+							title='Supprimer client ?'
+							onConfirm={this.deleteCustomer.bind(this)}
+							confirmStyle='danger'
+							confirmText='Supprimer'
+							onCancel={this.hideDeleteConfirmation.bind(this)}
+							cancelStyle='default'
+							cancelText='Annuler'/>
+						
 					</div>
 				);
 		}

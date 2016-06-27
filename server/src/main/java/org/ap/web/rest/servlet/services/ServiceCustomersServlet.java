@@ -31,7 +31,6 @@ public class ServiceCustomersServlet extends ServletBase implements IServiceCust
 
 	/* METHODS */
 
-	// IUserServlet Implementation //
 	@Override
 	public Response getCustomersJSON(SecurityContext sc, String id) {
 		try {

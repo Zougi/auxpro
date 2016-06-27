@@ -33,20 +33,20 @@ public class BeanConverter {
 	// BEANS
 	public static String beanToString(Object o) throws APException {
 		try { 
-			return Mappers.DEFAULT.getMapper().writeValueAsString(o);
+			return Mappers.CLIENT.getMapper().writeValueAsString(o);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			throw APException.JSON_PROCESSING_EX;
 		}
 	}
 	public static <T> T localStringToBean(String json, Class<T> clazz) throws APException {
-		return stringToBean(json, clazz, Mappers.LOCAL.getMapper());
+		return stringToBean(json, clazz, Mappers.DEFAULT.getMapper());
 	}
 	public static <T> T stringToBean(String json, Class<T> clazz) throws APException {
 		return stringToBean(json, clazz, Mappers.DEFAULT.getMapper());
 	}
 	public static <T> T mongoStringToBean(String json, Class<T> clazz) throws APException {
-		return stringToBean(json, clazz, Mappers.MONGO.getMapper());
+		return stringToBean(json, clazz, Mappers.DEFAULT.getMapper());
 	}
 	public static <T> T stringToBean(String json, Class<T> clazz, ObjectMapper mapper) throws APException {
 		try { 

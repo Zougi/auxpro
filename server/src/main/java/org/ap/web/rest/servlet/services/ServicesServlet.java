@@ -6,9 +6,12 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
+import org.ap.web.service.stores.interventions.IInterventionsStore;
+import org.ap.web.service.stores.interventions.InterventionsStore;
 import org.ap.web.service.stores.services.IServicesStore;
 import org.ap.web.service.stores.services.ServicesStore;
 
@@ -22,11 +25,13 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	/* ATTRIBUTES */
 
 	private IServicesStore _serviceStore;
+	private IInterventionsStore _interventionStore;
 
 	/* CONSTRUCTOR */
 
 	public ServicesServlet() throws APException {
 		_serviceStore = new ServicesStore();
+		_interventionStore = new InterventionsStore();
 	}
 
 	/* METHODS */
@@ -77,6 +82,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response deleteServiceJSON(SecurityContext sc, String id) {
 		try {
+			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
 			_serviceStore.delete(id);
 			return Response.status(200).build();
 		} catch (APException e) {
@@ -87,8 +93,9 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response getInterventionsJSON(SecurityContext sc, String id) {
 		try {
-			_serviceStore.delete(id);
-			return Response.status(200).build();
+			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
+			InterventionBean[] interventions = _interventionStore.getServiceInterventions(id);
+			return Response.status(200).entity(interventions, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

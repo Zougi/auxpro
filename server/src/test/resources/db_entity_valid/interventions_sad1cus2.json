@@ -1,0 +1,9 @@
+{
+	"customerId":"cus2",
+	"serviceId":"sad1",
+	"oneTime": {
+		"date": [2015, 12, 25],
+		"startTime": [8, 0],
+		"endTime": [23, 0]
+	}
+}

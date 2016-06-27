@@ -4,7 +4,7 @@
 		"password":"user2pwd",
 		"email":"user2@user2.fr",
 		"active":true,
-		"registrationDate":"2016-05-01",
+		"registrationDate":[2016, 5, 1, 14, 0],
 		"tutoSkipped":false,
 		"type":"aux"
 	},
@@ -13,7 +13,7 @@
 		"civility":"Mme",
 		"firstName": "Seconde",
 		"lastName": "Auxiliaire",
-		"birthDate":"1992-05-01",
+		"birthDate":[1992, 5, 1],
 		"birthPlace": {
 			"city": "Versailles",
 			"country": "France"

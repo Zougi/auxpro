@@ -45,7 +45,7 @@ public class InterventionsStoreTest extends TestModuleBase {
 	
 	@Test
 	public void testV_getExisting() throws APException {
-		InterventionBean intervention = store.getIntervention(StringConverter.stringToHex("sadzcus1"));
+		InterventionBean intervention = store.getIntervention(StringConverter.stringToHex("sad1cus1"));
 		AssertHelper.assertIntervention(intervention1, intervention);
 	}
 	@Test
@@ -63,8 +63,18 @@ public class InterventionsStoreTest extends TestModuleBase {
 	}
 	@Test
 	public void testV_deleteExisting() throws APException {
-		InterventionBean intervention = store.deleteIntervention(StringConverter.stringToHex("sadzcus1"));
+		InterventionBean intervention = store.deleteIntervention(StringConverter.stringToHex("sad1cus1"));
 		AssertHelper.assertIntervention(intervention1, intervention);
-		TestCase.assertNull(store.getIntervention(StringConverter.stringToHex("sadzcus1")));
+		TestCase.assertNull(store.getIntervention(StringConverter.stringToHex("sad1cus1")));
+	}
+	@Test
+	public void testV_getByServiceId() throws APException {
+		InterventionBean[] interventions = store.getServiceInterventions(service1.getId());
+		TestCase.assertEquals(2, interventions.length);
+	}
+	@Test
+	public void testV_getByCustomerId() throws APException {
+		InterventionBean[] interventions = store.getCustomerInterventions(service1.getId(), customer1.getId());
+		TestCase.assertEquals(1, interventions.length);
 	}
 }

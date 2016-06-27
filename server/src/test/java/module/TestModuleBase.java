@@ -4,7 +4,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
-import org.ap.web.internal.EConfigProperties;
+import org.ap.web.internal.ObjectMapperContextResolver;
 import org.ap.web.rest.RestApplication;
 import org.ap.web.service.Mongo;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -40,18 +40,17 @@ public class TestModuleBase extends TestBase {
 	@BeforeClass
 	public static void startHttpClient() {
 		ClientConfig config = new ClientConfig();
+		//.property(EntityFilteringFeature.ENTITY_FILTERING_SCOPE, new Annotation[] {});
 		Client client = ClientBuilder.newClient(config);
 		client.register(HttpAuthenticationFeature.basicBuilder().build());
+		client.register(ObjectMapperContextResolver.class);
+		//client.register(SecurityEntityFilteringFeature.class);
+		//client.register(EntityFilteringFeature.class);
 		TARGET = client.target(TestData.BASE_URI);
 	}
 	@AfterClass
 	public static void stopHttpServer() {
 		SERVER.shutdownNow();
-	}
-	@BeforeClass
-	public static void setUpDBClient() {
-		EConfigProperties.DB_NAME.setValue(TestData.DB_TEST);
-		Mongo.reload();
 	}
 	
 	/* TEST SETUP */

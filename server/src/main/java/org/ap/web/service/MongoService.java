@@ -18,7 +18,7 @@ public class MongoService {
 	
 	/* CONSTRUCTOR */
 
-	public MongoService(EMongoCollection collection) { 
+	public MongoService(EMongoCollection collection) {
 		_collection = Mongo.collection(collection); 
 	}
 
@@ -33,6 +33,9 @@ public class MongoService {
 	}
 	public Document findOne(Bson bson) {
 		return findAll(bson).first();
+	}
+	public FindIterable<Document> findAll(String prop, String value) {
+		return findAll(eq(prop, value));
 	}
 	public FindIterable<Document> findAll(Bson bson) {
 		return _collection.find(bson);

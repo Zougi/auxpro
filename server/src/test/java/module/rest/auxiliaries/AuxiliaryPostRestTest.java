@@ -26,8 +26,8 @@ public class AuxiliaryPostRestTest extends RestTestBase {
 	private CredentialsBean bean2;
 	@Before
 	public void setUp() {
-		bean = TestData.getNextCredentials();
-		bean2 = TestData.getNextCredentials();
+		bean = TestData.next(new CredentialsBean());
+		bean2 = TestData.next(new CredentialsBean());
 	}
 	
 	/* TEST CASES */
@@ -76,6 +76,12 @@ public class AuxiliaryPostRestTest extends RestTestBase {
 	
 	/* Positive Testing */
 	
+	@Test
+	public void testV_getResponse() throws Exception {
+		String response = prepare("", accountAdmin.getUser()).post(write(bean), String.class);
+		System.out.println(response);
+		TestCase.assertNotNull(response);		
+	}
 	@Test
 	public void testV_asAdmin() throws Exception {
 		AuxiliaryBean response = prepare("", accountAdmin.getUser()).post(write(bean), AuxiliaryBean.class);

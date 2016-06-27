@@ -1,6 +1,6 @@
 package org.ap.web.entity.mongo;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -14,7 +14,7 @@ public class UserBean extends CredentialsBean {
 	
 	private boolean active;
 	private boolean tutoSkipped;
-	private Date registrationDate;
+	private LocalDateTime registrationDate;
 
 	public UserBean() {}
 	
@@ -33,6 +33,6 @@ public class UserBean extends CredentialsBean {
 	public String getType() { return type; }
 	public void setType(String type) { this.type = type; }
 	
-	public Date getRegistrationDate() { return registrationDate; }
-	public void setRegistrationDate(Date date) { this.registrationDate = date; }
+	public LocalDateTime getRegistrationDate() { return registrationDate; }
+	public void setRegistrationDate(LocalDateTime date) { this.registrationDate = date; }
 }

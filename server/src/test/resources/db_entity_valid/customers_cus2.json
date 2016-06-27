@@ -3,7 +3,7 @@
 		"civility":"Mr",
 		"firstName": "Monique",
 		"lastName": "Martin",
-		"birthDate":"1957-04-25"
+		"birthDate":[1957, 4, 25]
 	},
 	"contact": {
 		"address": {

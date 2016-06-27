@@ -18,7 +18,7 @@ class DialogConfirmation extends React.Component {
 
 	render() { 
 		return (
-			<Modal show={this.state.show}>
+			<Modal show={this.state.show} className='dialog-confirmation'>
 				<Modal.Header>
 					<Modal.Title>{this.props.title}</Modal.Title>
 				</Modal.Header>

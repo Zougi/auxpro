@@ -3,7 +3,7 @@
 		"name":"user1@user1.fr",
 		"password":"user1pwd",
 		"email":"user1@user1.fr",
-		"registrationDate":"2016-06-15",
+		"registrationDate":[2016, 6, 15, 18, 33],
 		"active":true,
 		"tutoSkipped":true,
 		"type":"aux"
@@ -12,7 +12,7 @@
 		"civility":"Mr",
 		"firstName": "Premier",
 		"lastName": "Auxiliaire",
-		"birthDate":"1980-01-03",
+		"birthDate":[1980, 1, 3],
 		"birthPlace": {
 			"city": "Paris",
 			"country":"France"
