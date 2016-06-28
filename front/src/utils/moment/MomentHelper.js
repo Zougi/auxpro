@@ -12,6 +12,13 @@ export function buildMonthWeeks(moment) {
 
 }
 
+export function toLocalDate(moment) {
+	return moment.toArray().slice(0, 3);
+}
+export function toLocalDateTime(moment) {
+	return moment.toArray().slice(0, 5);
+}
+
 /**
  * Builds an array containing moments representing days of the current week
  * @param {moment} [moment]

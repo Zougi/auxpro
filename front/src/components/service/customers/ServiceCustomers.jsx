@@ -100,7 +100,8 @@ class ServiceCustomers extends React.Component {
     	let args = {
     		sId: this.state.user.id,
     		cId: this.state.currentCustomer.id,
-			token: this.state.user.token
+			token: this.state.user.token,
+			data: this.state.currentCustomer
     	}
     	Dispatcher.issue(action, args).
     	then(function () {
