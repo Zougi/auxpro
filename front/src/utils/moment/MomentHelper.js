@@ -19,6 +19,24 @@ export function toLocalDateTime(moment) {
 	return moment.toArray().slice(0, 5);
 }
 
+export function fromLocalDate(date) {
+	return moment(getLocaleDateArray(date));
+}
+function getLocaleDateArray(date) {
+	return [date[0], date[1] - 1, date[2]];
+}
+export function fromLocalTime(date, time) {
+	return moment(getLocaleDateArray(date).concat(time));
+}
+
+
+export function toHumanDate(m) {
+	return m.format('D') + ' ' + m.format('MMMM') + ' ' + m.format('YYYY');
+}
+export function toHumanTime(m) {
+	return m.format('H') + 'h' + m.format('mm');
+}
+
 /**
  * Builds an array containing moments representing days of the current week
  * @param {moment} [moment]

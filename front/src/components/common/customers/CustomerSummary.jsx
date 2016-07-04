@@ -37,9 +37,9 @@ class CustomerSummary extends React.Component {
                     <Col xs={6}>
                         {this.props.data.person.firstName} {this.props.data.person.lastName} - {age}
                     </Col>
-                    <Col style={{'text-align':'right'}} xs={6}>
-                        <Button style={{'margin-right':'5px'}} bsSize='xsmall' bsStyle='default' onClick={this.onView.bind(this)}><Glyphicon glyph='user'/></Button>
-                        <Button style={{'margin-right':'5px'}} bsSize='xsmall' bsStyle='default' onClick={this.onEdit.bind(this)}><Glyphicon glyph='pencil'/></Button>
+                    <Col style={{textAlign:'right'}} xs={6}>
+                        <Button style={{marginRight:'5px'}} bsSize='xsmall' bsStyle='default' onClick={this.onView.bind(this)}><Glyphicon glyph='user'/></Button>
+                        <Button style={{marginRight:'5px'}} bsSize='xsmall' bsStyle='default' onClick={this.onEdit.bind(this)}><Glyphicon glyph='pencil'/></Button>
                         <Button bsSize='xsmall' bsStyle='danger' onClick={this.onDelete.bind(this)}><Glyphicon glyph='remove'/></Button>
                     </Col>
                 </Row>

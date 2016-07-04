@@ -14,7 +14,7 @@ import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
 
 @Path("/services/{servId}/customers/{custId}/interventions")
-public class ServiceCustomerInterventionsServlet extends ServletBase implements IServiceCustomerInterventionsServlet {
+public class ServiceInterventionsServlet extends ServletBase implements IServiceInterventionsServlet {
 
 	/* STATIC */
 
@@ -27,7 +27,7 @@ public class ServiceCustomerInterventionsServlet extends ServletBase implements 
 
 	/* CONSTRUCTOR */
 
-	public ServiceCustomerInterventionsServlet() throws APException {
+	public ServiceInterventionsServlet() throws APException {
 		_customerStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
 	}

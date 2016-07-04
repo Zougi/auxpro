@@ -9,6 +9,7 @@ import StoreRegistry from '../../core/StoreRegistry';
 import HomeSadHead from './HomeSadHead.jsx'
 import ServicesTuto from './ServicesTuto.jsx'
 import ServiceCustomers from './customers/ServiceCustomers.jsx'
+import ServiceInterventions from './interventions/ServiceInterventions.jsx'
 import Match from './match/Match.jsx'
 
 class HomeSad extends React.Component {
@@ -16,10 +17,10 @@ class HomeSad extends React.Component {
 	constructor(props) {
 		super(props);
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let sad = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
+		let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
 		this.state = {
-			user: sad,
-			showTuto: !sad.user.tutoSkipped,
+			user: user,
+			showTuto: !user.tutoSkipped,
 			showProfilePrompt: true
 		};
 	}
@@ -60,6 +61,7 @@ class HomeSad extends React.Component {
 							<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/>Mes Informations</Tab>
 							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers/></Tab>
+							<Tab eventKey={4} title="Mes Interventions"><br/><ServiceInterventions/></Tab>
 						</Tabs>
 					</Row>
 				</Grid>

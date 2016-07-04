@@ -24,7 +24,7 @@ import org.ap.web.entity.mongo.InterventionBean;
  *  - /services/{servId}/customers/{custId}/interventions/{interId} PUT    > update an existing intervention
  *  - /services/{servId}/customers/{custId}/interventions/{interId} DELETE > delete an intervention
  */
-public interface IServiceCustomerInterventionsServlet {
+public interface IServiceInterventionsServlet {
 
 	@GET
 	@RolesAllowed("authenticated")

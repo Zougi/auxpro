@@ -6,32 +6,16 @@ import Utils from '../utils/Utils.js';
 // Import services modules
 import RestService from '../services/rest/RestService.js';
 
+/* **
+ * SERVICES **
+ * */
+
 // GET SERVICES
 let GetServices = new ActionBase({ name: 'GET_SERVICES' });
 GetServices.do = function (args) {
 	Utils.checkMembers(args, ['token']);
-	return RestService.getServices(args);
-}
-
-// POST SERVICE
-let PostService = new ActionBase({ name: 'POST_SERVICE' });
-PostService.do = function (args) {
-	Utils.checkMembers(args, ['name', 'password', 'email']);
-	var params = {
-		token: Utils.encode('guest', 'guest'),
-		data: args
-	};
-	return RestService.postService(params);
-}
-
-// PUT SERVICE
-let PutService = new ActionBase({ name: 'PUT_SERVICE' });
-PutService.do = function (args) {
-	Utils.checkMembers(args, ['id', 'data', 'token']);
 	var reqParam = {
-		url   : '/services/' + args.sId,
-		method: 'PUT',
-		data  : args.data,
+		url   : '/services',
 		token : args.token
 	};
 	return RestService._request(reqParam);
@@ -47,13 +31,43 @@ GetService.do = function (args) {
 			resolve(service);
 		});
 	} else {
-		var params = {
-			token: args.token,
-			id: args.id
+		var reqParam = {
+			url   : '/services/' + args.id,
+			token : args.token
 		};
-		return RestService.getService(params);
+		return RestService._request(reqParam);
 	}
 }
+
+// POST SERVICE
+let PostService = new ActionBase({ name: 'POST_SERVICE' });
+PostService.do = function (args) {
+	Utils.checkMembers(args, ['name', 'password', 'email']);
+	var reqParam = {
+		url   : '/services' + args.sId + '/customers/',
+		data: args,
+		method: 'POST',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// PUT SERVICE
+let PutService = new ActionBase({ name: 'PUT_SERVICE' });
+PutService.do = function (args) {
+	Utils.checkMembers(args, ['id', 'data', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId,
+		method: 'PUT',
+		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+/* **
+ * CUSTOMERS **
+ * */
 
 // GET SERVICE CUSTOMERS
 let GetServiceCustomers = new ActionBase({ name: 'GET_SERVICE_CUSTOMERS' });
@@ -98,6 +112,70 @@ DeleteServiceCustomer.do = function (args) {
 	Utils.checkMembers(args, ['sId', 'cId', 'token']);
 	var reqParam = {
 		url   : '/services/' + args.sId + '/customers/' + args.cId,
+		method: 'DELETE',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+/* **
+ * INTERVENTIONS **
+ * */
+
+// GET SERVICE INTERVENTIONS
+let GetServiceInterventions = new ActionBase({ name: 'GET_SERVICE_INTERVENTIONS' });
+GetServiceInterventions.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/interventions/',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// GET SERVICE CUSTOMER INTERVENTIONS
+let GetServiceCustomerInterventions = new ActionBase({ name: 'GET_SERVICE_CUSTOMER_INTERVENTIONS' });
+GetServiceCustomerInterventions.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'cId', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/' + args.cId + '/interventions',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// POST SERVICE CUSTOMER INTERVENTION
+let PostServiceCustomerInterventions = new ActionBase({ name: 'POST_SERVICE_CUSTOMER_INTERVENTION' });
+PostServiceCustomerInterventions.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'cId', 'data', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/' + args.cId + '/interventions',
+		data: args.data,
+		method: 'POST',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// PUT SERVICE CUSTOMER INTERVENTION
+let PutServiceCustomerInterventions = new ActionBase({ name: 'PUT_SERVICE_CUSTOMER_INTERVENTION' });
+PutServiceCustomerInterventions.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'cId', 'iId', 'data', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/' + args.cId + '/interventions/' + args.iId,
+		data: args.data,
+		method: 'PUT',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// DELETE SERVICE CUSTOMER INTERVENTION
+let DeleteServiceCustomerInterventions = new ActionBase({ name: 'DELETE_SERVICE_CUSTOMER_INTERVENTION' });
+DeleteServiceCustomerInterventions.do = function (args) {
+	Utils.checkMembers(args, ['sId', 'cId', 'iId', 'token']);
+	var reqParam = {
+		url   : '/services/' + args.sId + '/customers/' + args.cId + '/interventions/' + args.iId,
 		method: 'DELETE',
 		token : args.token
 	};

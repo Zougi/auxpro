@@ -1,0 +1,9 @@
+{
+	"customerId":"cusz1",
+	"serviceId":"sadz",
+	"oneTime": {
+		"date": [2016, 7, 20],
+		"startTime": [10, 0],
+		"endTime": [16, 0]
+	}
+}
