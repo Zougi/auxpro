@@ -41,7 +41,7 @@ public class TestBase {
 		service1      = TestData.getFromJson("services_sad1.json", ServiceBean.class);
 		service2      = TestData.getFromJson("services_sad2.json", ServiceBean.class);
 		intervention1 = TestData.getFromJson("interventions_sad1cus1.json", InterventionBean.class);
-		interventionz = TestData.getFromJson("interventions_sadzcus1.json", InterventionBean.class);
+		interventionz = TestData.getFromJson("interventions_sad1cus2.json", InterventionBean.class);
 	}
 	
 	/* TEST SETUP */
