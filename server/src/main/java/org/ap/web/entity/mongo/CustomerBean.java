@@ -7,7 +7,7 @@ import org.ap.web.internal.annotation.MongoObject;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @MongoObject
-@JsonIgnoreProperties({"_id"})
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"_id"})
 public class CustomerBean extends MongoEntity {
 
 	private PersonBean person;

@@ -125,17 +125,17 @@ class ServiceInterventions extends React.Component {
 	render() {
 		let customers = (this.state.data.customers || []).
 		filter(function(customer) {
-			return customer.interventions && customer.interventions.length;
-		}).
+			return this.state.data.interventions && this.state.data.interventions[customer.id] && this.state.data.interventions[customer.id].length;
+		}.bind(this)).
 		map(function(customer) {
 			return (
-				<CustomerInterventionList key={customer.id} customer={customer}/>
+				<CustomerInterventionList key={customer.id} customer={customer} interventions={this.state.data.interventions[customer.id]}/>
 			);
-		});
+		}.bind(this));
 		switch (this.state.state) {
             case STATES.ADD:
                 return (
-                    <InterventionCreate/>
+                    <InterventionCreate onCancel={this.onCancel.bind(this)}/>
                 );
             default:
         		return (

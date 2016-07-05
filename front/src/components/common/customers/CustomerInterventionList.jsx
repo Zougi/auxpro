@@ -13,7 +13,7 @@ class CustomerInterventionList extends React.Component {
 	render() {
 		return (
 			<Panel header={this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}>
-				<InterventionOneTimeList interventions={this.props.customer.interventions}/>
+				<InterventionOneTimeList interventions={this.props.interventions}/>
 			</Panel>
 		);
 	}

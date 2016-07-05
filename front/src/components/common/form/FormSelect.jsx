@@ -12,12 +12,19 @@ class FormSelect extends FormBase {
 		super(props);
 	}
 
+	onChange(event) {
+		this.props.onChange(event);
+	}
+
 	getFormControlEditable() {
 		let values = this.props.values.map(function(v) {
-			return (<option key={v} value={v}>{v}</option>);
+			return (<option key={v.key} value={v.key}>{v.value}</option>);
 		})
 		return (
-			<FormControl componentClass='select' defaultValue={this.props.defaultValue}>
+			<FormControl 
+				componentClass='select' 
+				defaultValue={this.props.defaultValue} 
+				onChange={this.onChange.bind(this)}>
     			{values}
   			</FormControl>
 		);

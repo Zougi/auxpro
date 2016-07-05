@@ -22,7 +22,7 @@ let DEFAULT_PERSON = {
 }
 
 let PERSON_FIELDS = [
-	{ title: 'Civilité', path: 'civility', type: 'select', values: ['Mr', 'Mme'] },
+	{ title: 'Civilité', path: 'civility', type: 'select', values: [ { key: 'Mr', value: 'Mr' }, { key: 'Mme', value: 'Mme' } ] },
 	{ title: 'Nom', path: 'lastName', type: 'input' },
 	{ title: 'Prénom', path: 'firstName', type: 'input' },
 	{ title: 'Date de naissance', path: 'birthDate', type: 'date' },

@@ -1,0 +1,31 @@
+
+/* ----------------------------------------------------------
+ *                                       FORM-SELECT DISPLAY
+ */
+
+.form-select {
+
+}
+
+.form-select .select {
+
+}
+
+.form-select .all {
+	font-style: italic;
+	color: #A0A0A0;
+}
+
+.form-select .clear {
+	font-style: initial;
+	color: initial;
+}
+
+/* ----------------------------------------------------------
+ *                                         FORM-TIME DISPLAY
+ */
+
+.form-time select {
+	width: 65px;
+	display: inline;
+}

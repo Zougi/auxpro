@@ -1,6 +1,8 @@
 // core modules
 import Dispatcher from '../core/Dispatcher.js';
 import StoreBase from '../core/StoreBase.js';
+// custom modules
+import Utils from '../utils/Utils.js';
 
 var DEFAULT_CONTENT = { services: [], service: {} };
 
@@ -54,20 +56,12 @@ Dispatcher.register('GET_SERVICE_CUSTOMERS', ServiceStore.onGetServiceCustomers)
 ServiceStore.onGetServiceInterventions = function (args) {
 	if (args && args.length) {
 		let sId = args[0].serviceId;
-		ServiceStore._content.service[sId].interventions = args;
+		ServiceStore._content.service[sId].interventions = {};
 		for (let i = 0 ; i < args.length ; i++) {
 			let interv = args[i];
 			let cId = interv.customerId;
-			let customers = ServiceStore._content.service[sId].customers;
-			for (let c = 0 ; c < customers.length ; c++) {
-				let customer = customers[c];
-				if (customer.id === cId) {
-					customer.interventions = customer.interventions || [];
-					customer.interventions.push(interv);
-					break;
-				}
-			}
-			
+			ServiceStore._content.service[sId].interventions[cId] = ServiceStore._content.service[sId].interventions[cId] || [];
+			ServiceStore._content.service[sId].interventions[cId].push(interv);
 		}
 		ServiceStore.notify();
 		ServiceStore._content.service[sId].interventionsLoaded = true;
