@@ -9,6 +9,7 @@ import ServiceDetails from './ServiceDetails.jsx';
 import Address from '../../common/entity/Address.jsx'
 import Contact from '../../common/entity/Contact.jsx'
 import Utils from '../../../utils/Utils.js'
+import ButtonsEndDialog from '../../common/ButtonsEndDialog.jsx';
 
 class ServiceProfile extends React.Component {
 
@@ -101,15 +102,9 @@ class ServiceProfile extends React.Component {
 	        	    	</Col>
         	    	</Row>
     	        { this.state.edit ?
-					<Row>
-						<Col sm={6}>
-							<Button bsStyle='primary' onClick={this.onCancel.bind(this)} block>Annuler</Button>
-						</Col>
-						<br className='hidden-sm hidden-md hidden-lg'/>
-						<Col sm={6}>
-							<Button bsStyle='success' onClick={this.onUpdateService.bind(this)} block>Enregistrer modifications</Button>
-						</Col>
-					</Row>
+					<ButtonsEndDialog 
+						onOk={this.onUpdateService.bind(this)} okTitle='Enregistrer modifications' 
+						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				: 
 					''
 				}

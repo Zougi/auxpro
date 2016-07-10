@@ -127,15 +127,9 @@ class InterventionCreate extends React.Component {
 							}
 					</Col>
 					<br/>
-					<Row>
-						<Col sm={6}>
-							<Button bsStyle='primary' onClick={this.props.onCancel.bind(this)} block>Annuler</Button>
-						</Col>
-						<br className='hidden-sm hidden-md hidden-lg'/>
-						<Col sm={6}>
-							<Button bsStyle='success' onClick={this.onCreate.bind(this)} block>Créer demande</Button>
-						</Col>
-					</Row>
+					<ButtonsEndDialog 
+						onOk={this.onCreate.bind(this)} okTitle='Creer demande' 
+						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				</Grid>
 			</Panel>
 		);

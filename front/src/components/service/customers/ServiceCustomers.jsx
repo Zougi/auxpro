@@ -8,6 +8,7 @@ import StoreRegistry from '../../../core/StoreRegistry';
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
 import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
+import ButtonsEndDialog from '../../common/ButtonsEndDialog.jsx';
 
 let STATES = {
 	LIST: 'LIST',
@@ -121,15 +122,9 @@ class ServiceCustomers extends React.Component {
 				<Panel header={(<strong>Saisir nouveau client</strong>)}>
 					<CustomerDetails edit={true} onChange={this.customerChanged.bind(this)}/>
 					<br/>
-					<Row>
-						<Col sm={6}>
-							<Button bsStyle='primary' onClick={this.onCancel.bind(this)} block>Annuler</Button>
-						</Col>
-						<br className='hidden-sm hidden-md hidden-lg'/>
-						<Col sm={6}>
-							<Button bsStyle='success' onClick={this.saveCustomer.bind(this)} block>Créer client</Button>
-						</Col>
-					</Row>
+					<ButtonsEndDialog 
+						onOk={this.saveCustomer.bind(this)} okTitle='Creer client' 
+						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				</Panel>
 			);
 			case STATES.VIEW: return (
@@ -147,15 +142,9 @@ class ServiceCustomers extends React.Component {
 				<Panel header={(<strong>Saisir nouveau client</strong>)}>
 					<CustomerDetails edit={true} data={this.state.currentCustomer} onChange={this.customerChanged.bind(this)}/>
 					<br/>
-					<Row>
-						<Col sm={6}>
-							<Button bsStyle='primary' onClick={this.onCancel.bind(this)} block>Annuler</Button>
-						</Col>
-						<br className='hidden-sm hidden-md hidden-lg'/>
-						<Col sm={6}>
-							<Button bsStyle='success' onClick={this.editCustomer.bind(this)} block>Enregistrer modifications</Button>
-						</Col>
-					</Row>
+					<ButtonsEndDialog 
+						onOk={this.editCustomer.bind(this)} okTitle='Enregistrer modifications' 
+						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				</Panel>
 			);
 			default: 
