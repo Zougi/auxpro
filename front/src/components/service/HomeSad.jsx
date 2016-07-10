@@ -8,6 +8,7 @@ import StoreRegistry from '../../core/StoreRegistry';
 // custom components
 import HomeSadHead from './HomeSadHead.jsx'
 import ServicesTuto from './ServicesTuto.jsx'
+import ServiceProfile from './profile/ServiceProfile.jsx'
 import ServiceCustomers from './customers/ServiceCustomers.jsx'
 import ServiceInterventions from './interventions/ServiceInterventions.jsx'
 import Match from './match/Match.jsx'
@@ -59,7 +60,7 @@ class HomeSad extends React.Component {
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Smaching"><br/><Match/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
-							<Tab eventKey={2} title="Mes Informations"><br/>Mes Informations</Tab>
+							<Tab eventKey={2} title="Mes Informations"><br/><ServiceProfile/></Tab>
 							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers/></Tab>
 							<Tab eventKey={4} title="Mes Interventions"><br/><ServiceInterventions/></Tab>
 						</Tabs>
@@ -73,7 +74,7 @@ class HomeSad extends React.Component {
 					<Modal.Footer>
 						<Button className='btn btn-success' onClick={this._profilePromptClose.bind(this)}>Continuer</Button>
 						<Button className='btn btn-primary' onClick={this._profilePromptClose.bind(this)}>Pas Maintenant</Button>
-					</Modal.Footer>
+					</Modal.Footer> 
 				</Modal>
 			</div>
 		);

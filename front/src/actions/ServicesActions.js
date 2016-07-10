@@ -55,9 +55,9 @@ PostService.do = function (args) {
 // PUT SERVICE
 let PutService = new ActionBase({ name: 'PUT_SERVICE' });
 PutService.do = function (args) {
-	Utils.checkMembers(args, ['id', 'data', 'token']);
+	Utils.checkMembers(args, ['serviceId', 'data', 'token']);
 	var reqParam = {
-		url   : '/services/' + args.sId,
+		url   : '/services/' + args.serviceId,
 		method: 'PUT',
 		data  : args.data,
 		token : args.token

@@ -18,12 +18,17 @@ import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.service.EMongoCollection;
+import org.ap.web.service.stores.StoreBase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
 
-public class ServicesStore implements IServicesStore {
+public class ServicesStore extends StoreBase<ServiceBean> implements IServicesStore {
+
+	public ServicesStore() {
+		super(EMongoCollection.SERVICES, ServiceBean.class);
+	}
 
 	@Override
 	public ServiceBean[] get() throws APException {
@@ -82,10 +87,18 @@ public class ServicesStore implements IServicesStore {
 	}
 	@Override
 	public ServiceBean update(ServiceBean bean) throws APException {
+		/*
 		if (EMongoCollection.SERVICES.getService().findOne(eq("user.name", bean.getUser().getName())) == null) throw APException.USER_NAME_INVALID;
 		Document document = BeanConverter.convertToMongo(bean);
 		document = EMongoCollection.SERVICES.getService().update(document);
 		return BeanConverter.convertToBean(document, ServiceBean.class);
+		*/
+		Document initial = EMongoCollection.SERVICES.getService().findOne(eq("user.name", bean.getUser().getName()));
+		if (initial == null) throw APException.USER_NAME_INVALID;
+		ServiceBean previous = BeanConverter.convertToBean(initial, ServiceBean.class);
+		bean.setId(previous.getId());
+		bean.getUser().setPassword(previous.getUser().getPassword());
+		return updateEntity(bean);
 	}
 	@Override
 	public ServiceBean delete(String id) throws APException {

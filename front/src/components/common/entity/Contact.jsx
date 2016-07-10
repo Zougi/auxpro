@@ -32,8 +32,15 @@ class Contact extends React.Component {
 		super(props);
 		this.state = {
 			edit: props.edit || false,
-			contact: props.contact ? props.contact : DEFAULT_CONTACT
+			contact: { address: {} }
 		};
+	}
+
+	componentWillReceiveProps(props) {
+		this.state.edit = props.edit || false;
+		if (!this.state.edit) {
+			this.state.contact = { address: {} };	
+		}
 	}
 
 	notify() {
@@ -56,7 +63,7 @@ class Contact extends React.Component {
 					static={!this.state.edit}
 					key={f.title}
 					title={f.title}
-					defaultValue={Utils.getField(this.state.contact, f.path)} 
+					defaultValue={Utils.getField(this.props.contact, f.path)} 
 					onChange={this.changeHandler(f.path)}/>
 			);
 		}.bind(this));
