@@ -21,24 +21,20 @@ class ServiceCustomers extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.prepareState();
-		var args = {
-			sId: this.state.user.id,
-			token: this.state.user.token
-		}
-        Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
+	    this.state = this._buildState(props);
 	}
 
-	componentDidMount() {
-		this.switchState()();
-        StoreRegistry.register('SERVICE_STORE', this, this.onServiceUpdate.bind(this));
-    }
-    componentWillUnmount() {
-        StoreRegistry.unregister('SERVICE_STORE', this);   
+	componentWillReceiveProps(props) {
+		this.setState(this._buildState(props));
     }
 
-    onServiceUpdate() {
-    	this.setState(this.prepareState());
+    _buildState(props) {
+    	return {  
+			edit: props.edit || false,
+			state: STATES.LIST,
+			showDeleteConfirm: false,
+			customers: props.customers
+		};
     }
 
     switchState(state) {
@@ -48,26 +44,15 @@ class ServiceCustomers extends React.Component {
 		}.bind(this);
     }
 
-    prepareState() {
-    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-    	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
-    	this.state = {
-			user: user,
-			data: data,
-			showDeleteConfirm: false
-		};
-		return this.state;
-    }
-
-	customerChanged(cust) {
-		this.state.currentCustomer = cust;
-	}
-
     onCancel() {
     	this.state.currentCustomer = null;
     	this.switchState()();
     }
 
+    onAddCustomer(customer) {
+    	this.state.currentCustomer = null;
+    	this.switchState(STATES.ADD)();
+    }
     onEditCustomer(customer) {
     	this.state.currentCustomer = customer;
     	this.switchState(STATES.EDIT)();
@@ -100,9 +85,9 @@ class ServiceCustomers extends React.Component {
     	this.state.currentCustomer.serviceId = this.state.user.id;
     	let args = {
     		sId: this.state.user.id,
-    		cId: this.state.currentCustomer.id,
+    		cId: this.currentCustomer.id,
 			token: this.state.user.token,
-			data: this.state.currentCustomer
+			data: this.currentCustomer
     	}
     	Dispatcher.issue(action, args).
     	then(function () {
@@ -118,18 +103,9 @@ class ServiceCustomers extends React.Component {
 
 	render() {
 		switch (this.state.state) {
-			case STATES.ADD: return (
-				<Panel header={(<strong>Saisir nouveau client</strong>)}>
-					<CustomerDetails edit={true} onChange={this.customerChanged.bind(this)}/>
-					<br/>
-					<ButtonsEndDialog 
-						onOk={this.saveCustomer.bind(this)} okTitle='Creer client' 
-						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
-				</Panel>
-			);
 			case STATES.VIEW: return (
 				<Panel header={(<strong>Détails client</strong>)}>
-					<CustomerDetails edit={false} data={this.state.currentCustomer}/>
+					<CustomerDetails edit={false} customer={this.state.currentCustomer}/>
 					<br/>
 					<Row>
 						<Col lg={12}>
@@ -138,9 +114,18 @@ class ServiceCustomers extends React.Component {
 					</Row>
 				</Panel>
 			);
-			case STATES.EDIT: return (
+			case STATES.ADD: return (
 				<Panel header={(<strong>Saisir nouveau client</strong>)}>
-					<CustomerDetails edit={true} data={this.state.currentCustomer} onChange={this.customerChanged.bind(this)}/>
+					<CustomerDetails edit={true} customer={this.state.currentCustomer}/>
+					<br/>
+					<ButtonsEndDialog 
+						onOk={this.saveCustomer.bind(this)} okTitle='Creer client' 
+						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
+				</Panel>
+			);
+			case STATES.EDIT: return (
+				<Panel header={(<strong>Modifier informations client</strong>)}>
+					<CustomerDetails edit={true} customer={this.state.currentCustomer}/>
 					<br/>
 					<ButtonsEndDialog 
 						onOk={this.editCustomer.bind(this)} okTitle='Enregistrer modifications' 
@@ -151,10 +136,10 @@ class ServiceCustomers extends React.Component {
 				return (
 					<div>
 						<Panel header={(<strong>Clients enregistrés</strong>)}>
-							<Button block bsStyle='info' onClick={this.switchState(STATES.ADD)}>Saisir nouveau client</Button>
+							<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
 							<br/>
 							<CustomerSummaryList 
-								customers={this.state.data.customers} 
+								customers={this.state.customers} 
 								onEdit={this.onEditCustomer.bind(this)}
 								onView={this.onViewCustomer.bind(this)}
 								onDelete={this.onDeleteCustomer.bind(this)}/>

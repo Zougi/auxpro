@@ -62,7 +62,7 @@ class HomeSad extends React.Component {
 							<Tab eventKey={0} title="Smaching"><br/><Match/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/><ServicesMap/></Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/><ServiceProfile service={this.state.data.service}/></Tab>
-							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers/></Tab>
+							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers customers={this.state.data.customers}/></Tab>
 							<Tab eventKey={4} title="Mes Interventions"><br/><ServiceInterventions/></Tab>
 						</Tabs>
 					</Row>

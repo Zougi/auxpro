@@ -8,19 +8,6 @@ import FormInput from '../form/FormInput.jsx'
 import FormDate from '../form/FormDate.jsx'
 import FormSelect from '../form/FormSelect.jsx'
 
-let DEFAULT_PERSON = {
-	birthDate: '',
-	birthPlace: {
-		city: '',
-		country: ''
-	},
-	civility: 'Mr',
-	firstName: '',
-	lastName: '',
-	nationality: '',
-	socialNumber: ''
-}
-
 let PERSON_FIELDS = [
 	{ title: 'Civilité', path: 'civility', type: 'select', values: [ { key: 'Mr', value: 'Mr' }, { key: 'Mme', value: 'Mme' } ] },
 	{ title: 'Nom', path: 'lastName', type: 'input' },
@@ -36,27 +23,50 @@ class Person extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {
-			edit: props.edit || false,
-			person: props.person ? props.person : DEFAULT_PERSON
-		};
+		this.state = this._buildState(props);
 	}
+
+	componentWillReceiveProps(props) {
+		this.setState(this._buildState(props));
+		console.log(this.state);
+	}
+
+	_buildState(props) {
+    	return {  
+			edit: props.edit || false,
+			data: {
+				civility: props.civility,
+				lastName: props.lastName,
+				firstName: props.firstName,
+				birthDate: props.birthDate,
+				birthPlace: {
+					city: props.birthCity,
+					country: props.birthCountry 
+				},
+				nationality: props.nationality,
+				socialNumber: props.socialNumber
+			}
+		};
+    }
 
 	notify() {
 		if (this.props.onChange) {
-			this.props.onChange(this.state.person);
+			this.props.onChange(this.state.data);
 		}
 	}
 
 	changeHandler(field) { 
-		return function (event) {
-			Utils.setField(this.state.person, field, event.target.value); 
+		return function (value) {
+			Utils.setField(this.state.data, field, value); 
 			this.notify(); 
 		}.bind(this);
 	}
 
 	render() {
 		let fields = PERSON_FIELDS.map(function(f) {
+			//console.log(f);
+			//console.log(this.state.data);
+			//console.log(Utils.getField(this.state.data, f.path));
 			switch (f.type) {
 			case 'input':
 				return (
@@ -64,7 +74,7 @@ class Person extends React.Component {
 						static={!this.state.edit}
 						key={f.title}
 						title={f.title}
-						defaultValue={Utils.getField(this.state.person, f.path)} 
+						defaultValue={Utils.getField(this.state.data, f.path)} 
 						onChange={this.changeHandler(f.path)}/>
 				);
 			case 'select':
@@ -73,7 +83,7 @@ class Person extends React.Component {
 						static={!this.state.edit}
 						key={f.title}
 						title={f.title} 
-						defaultValue={Utils.getField(this.state.person, f.path)} 
+						defaultValue={Utils.getField(this.state.data, f.path)} 
 						values={f.values}
 						onChange={this.changeHandler(f.path)}/>
 				);
@@ -83,7 +93,7 @@ class Person extends React.Component {
 						static={!this.state.edit}
 						key={f.title}
 						title={f.title}
-						defaultValue={Utils.getField(this.state.person, f.path)} 
+						defaultValue={Utils.getField(this.state.data, f.path)} 
 						onChange={this.changeHandler(f.path)}/>
 				);
 			}
