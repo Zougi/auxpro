@@ -48,6 +48,15 @@ export default class Utils {
     	return result;
 	}
 
+	static overwrite(obj1, obj2) {
+    	if (!obj1) return obj2;
+    	if (!obj2) return obj1;
+    	for (var att2 in obj2) {
+    		obj1[att2] = obj2[att2];
+    	}
+    	return obj1;
+	}
+
 	static getField(obj, path) {
 		let fields = path.split('.');
 		let result = obj;

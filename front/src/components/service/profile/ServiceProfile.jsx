@@ -6,6 +6,7 @@ import Dispatcher from '../../../core/Dispatcher.js';
 import StoreRegistry from '../../../core/StoreRegistry.js';
 // custom components
 import ServiceDetails from './ServiceDetails.jsx';
+import Address from '../../common/entity/Address.jsx'
 import Contact from '../../common/entity/Contact.jsx'
 import Utils from '../../../utils/Utils.js'
 
@@ -40,19 +41,13 @@ class ServiceProfile extends React.Component {
     }
 
     onServiceChanged(value) {
-    	this.state.service = Utils.merge( value, this.state.service );
+    	Utils.overwrite( this.state.service, value );
     }
     onContactChanged(value) {
-    	console.log(JSON.stringify(value));
-    	let address;
-    	if (value.address) {
-    		address = Utils.merge( value.address, this.data.service.contact.address);
-    	}
-		this.state.service.contact = Utils.merge( value, this.data.service.contact);
-		if (value.address) {
-			this.state.service.contact.address = address;
-		}
-    	console.log(JSON.stringify(this.state.service.contact));
+    	Utils.overwrite( this.state.service.contact, value );
+    }
+    onAddressChanged(value) {
+    	Utils.overwrite( this.state.service.contact.address, value );
     }
 
     toEditMode() {
@@ -95,6 +90,10 @@ class ServiceProfile extends React.Component {
 	        	    			onChange={this.onServiceChanged.bind(this)}/>
 	    	        	</Col>
 		            	<Col sm={6}>
+		            		<Address 
+	            				edit={this.state.edit}
+	            				address={this.data.service.contact.address}
+	            				onChange={this.onAddressChanged.bind(this)}/>
 		            		<Contact 
 	            				edit={this.state.edit}
 	            				contact={this.data.service.contact}

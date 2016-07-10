@@ -6,22 +6,7 @@ import Utils from '../../../utils/Utils.js'
 // custom components
 import FormInput from '../form/FormInput.jsx'
 
-let DEFAULT_CONTACT = {
-	address: {
-		address: '',
-		city: '',
-		postalCode: '',
-		country: ''
-	},
-	phone: '',
-	email: '',
-};
-
 let CONTACT_FIELDS = [
-	{ title: 'Addresse', path: 'address.address', type: 'input'},
-	{ title: 'Ville', path: 'address.city', type: 'input' },
-	{ title: 'Code postal', path: 'address.postalCode', type: 'input' },
-	{ title: 'Pays', path: 'address.country', type: 'input' },
 	{ title: 'Téléphone', path: 'phone', type: 'input' },
 	{ title: 'Addresse électronique', path: 'email', type: 'input' }
 ]
@@ -32,14 +17,14 @@ class Contact extends React.Component {
 		super(props);
 		this.state = {
 			edit: props.edit || false,
-			contact: { address: {} }
+			contact: { }
 		};
 	}
 
 	componentWillReceiveProps(props) {
 		this.state.edit = props.edit || false;
 		if (!this.state.edit) {
-			this.state.contact = { address: {} };	
+			this.state.contact = { };	
 		}
 	}
 
