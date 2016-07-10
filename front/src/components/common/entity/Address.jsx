@@ -23,6 +23,42 @@ class Address extends React.Component {
 		};
 	}
 
+	componentDidMount () {		
+		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
+		this.autocomplete.addListener('place_changed', this.autocompleteChange.bind(this));
+	}
+	
+	autocompleteChange() {
+		var place = this.autocomplete.getPlace();
+		var address = {
+			address: '',
+			city: '',
+			postalCode: '',
+			country: ''
+		}
+		
+		for (var i = 0; i < place.address_components.length; i++) {
+			var addressType = place.address_components[i].types[0];
+			if (addressType == "street_number") {
+				address.address = place.address_components[i].long_name + " " + address.address;
+			}
+			else if (addressType == "route"){
+				address.address = address.address + place.address_components[i].long_name;
+			}
+			else if (addressType == "locality"){
+				address.city = place.address_components[i].long_name;
+			}
+			else if (addressType == "country"){
+				address.country = place.address_components[i].long_name;
+			}	
+			else if (addressType == "postal_code"){
+				address.postalCode = place.address_components[i].long_name;
+			}
+		};
+		this.setState({address: address});
+		this.notify(); 
+	}
+	
 	componentWillReceiveProps(props) {
 		this.state.edit = props.edit || false;
 		if (!this.state.edit) {
@@ -50,13 +86,14 @@ class Address extends React.Component {
 					static={!this.state.edit}
 					key={f.title}
 					title={f.title}
-					defaultValue={Utils.getField(this.props.address, f.path)} 
+					defaultValue={Utils.getField(this.state.address, f.path)} 
 					onChange={this.changeHandler(f.path)}/>
 			);
 		}.bind(this));
 
 		return (
 		<div>
+			<input ref="autocomplete" className='autocomplete' placeholder="Enter address"  type="text" disabled={!this.state.edit}></input>
 			{fields}
 		</div>
 		);
