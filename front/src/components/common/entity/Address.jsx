@@ -62,7 +62,7 @@ class Address extends React.Component {
 	componentWillReceiveProps(props) {
 		this.state.edit = props.edit || false;
 		if (!this.state.edit) {
-			this.state.address = {};
+			this.state.address = props.address;
 		}
 	}
 

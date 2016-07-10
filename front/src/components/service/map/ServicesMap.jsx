@@ -74,9 +74,6 @@ class ServicesMap extends React.Component {
 		}
 		
 		let customers = data.customers;
-		console.log("---------------------------------------------------DATA---------------------------------------------------");
-		console.log(data);
-		console.log(customers);
 		let marker;
 		let latLong;
 		if (customers) {

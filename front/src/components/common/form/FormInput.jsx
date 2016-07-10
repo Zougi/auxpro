@@ -11,12 +11,13 @@ class FormInput extends FormBase {
 	constructor(props) {
 		super(props);
 	}
-
+	
 	getFormControlEditable() {
 		return (
 			<FormControl 
 				type={this.props.type?this.props.type:'text'} 
-				defaultValue={this.props.defaultValue} 
+				defaultValue={this.props.defaultValue}
+				value={this.props.defaultValue}
 				onChange={this.props.onChange}/>
 		);
 	}
