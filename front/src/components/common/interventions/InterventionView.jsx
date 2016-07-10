@@ -18,7 +18,7 @@ let STATES = {
 	RECURENCE: 'Récurente'
 };
 
-class InterventionCreate extends React.Component {
+class InterventionView extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -142,4 +142,4 @@ class InterventionCreate extends React.Component {
 	}
 }
 
-export default InterventionCreate;
+export default InterventionView;

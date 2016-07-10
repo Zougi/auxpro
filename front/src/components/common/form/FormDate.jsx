@@ -28,7 +28,7 @@ class FormDate extends FormBase {
 		this.state.date = m.format('D') + ' ' + m.format('MMMM') + ' ' + m.format('YYYY');
 		this.setState(this.state);
 		if (this.props.onChange) {
-			this.props.onChange({ target: { value: toLocalDate(m) } });
+			this.props.onChange(toLocalDate(m));
 		}
 	}
 

@@ -31,11 +31,11 @@ class FormTime extends FormBase {
 	}
 
 	onHourChange(event) {
-		this.state.hour = event.target.value;
+		this.state.hour = Number(event.target.value);
 		this.onChange();
 	}
 	onMinuteChange(event) {
-		this.state.minute = event.target.value;
+		this.state.minute = Number(event.target.value);
 		this.onChange();
 	}
 

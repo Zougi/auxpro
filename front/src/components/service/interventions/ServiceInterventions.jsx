@@ -74,9 +74,24 @@ class ServiceInterventions extends React.Component {
     	this.switchState()();
     }
 
-    onEditCustomer(customer) {
-    	this.state.currentCustomer = customer;
-    	this.switchState(STATES.EDIT)();
+    onCreateIntervention(data) {
+    	console.log(data.intervention);
+        let args = {
+            sId: data.intervention.serviceId,
+            cId: data.intervention.customerId,
+            token: this.state.user.token,
+            data: data.intervention
+        }
+        Dispatcher.issue('POST_SERVICE_CUSTOMER_INTERVENTION', args).
+        then(function () {
+            Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);    
+        }).
+        then(function() {
+            this.switchState(STATES.LIST)();
+        }.bind(this)).
+        catch(function(error) {
+            console.log(error);
+        });     
     }
     onViewCustomer(customer) {
     	this.state.currentCustomer = customer;
@@ -135,7 +150,7 @@ class ServiceInterventions extends React.Component {
 		switch (this.state.state) {
             case STATES.ADD:
                 return (
-                    <InterventionCreate onCancel={this.onCancel.bind(this)}/>
+                    <InterventionCreate onCancel={this.onCancel.bind(this)} onCreate={this.onCreateIntervention.bind(this)}/>
                 );
             default:
         		return (
