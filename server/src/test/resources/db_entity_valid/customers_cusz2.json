@@ -16,7 +16,10 @@
 		"address": {
 			"address": "3 Avenue Victor Hugo",
 			"postalCode": 75016,
-			"city": "Paris"
+			"city": "Paris",
+			"country": "France",
+			"lattitude": 48.849274,
+			"longitude": 2.336302
 		},
 		"addressChecked": true,
 		"phone": "01 01 01 01 01",

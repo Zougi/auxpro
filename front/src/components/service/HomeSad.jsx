@@ -12,6 +12,7 @@ import ServiceProfile from './profile/ServiceProfile.jsx'
 import ServiceCustomers from './customers/ServiceCustomers.jsx'
 import ServiceInterventions from './interventions/ServiceInterventions.jsx'
 import Match from './match/Match.jsx'
+import ServicesMap from './map/ServicesMap.jsx'
 
 class HomeSad extends React.Component {
 
@@ -59,7 +60,7 @@ class HomeSad extends React.Component {
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Smaching"><br/><Match/></Tab>
-							<Tab eventKey={1} title="Ma Zone"><br/>Ma Zone</Tab>
+							<Tab eventKey={1} title="Ma Zone"><br/><ServicesMap/></Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/><ServiceProfile/></Tab>
 							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers/></Tab>
 							<Tab eventKey={4} title="Mes Interventions"><br/><ServiceInterventions/></Tab>

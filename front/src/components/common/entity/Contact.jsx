@@ -43,6 +43,47 @@ class Contact extends React.Component {
 		}
 	}
 
+	componentDidMount () {		
+		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
+		this.autocomplete.addListener('place_changed', this.autocompleteChange.bind(this));
+	}
+	
+	autocompleteChange() {
+		var place = this.autocomplete.getPlace();
+		var address = {
+			address: '',
+			city: '',
+			postalCode: '',
+			country: ''
+		}
+		
+		console.log(place);
+		
+		for (var i = 0; i < place.address_components.length; i++) {
+			var addressType = place.address_components[i].types[0];
+			if (addressType == "street_number") {
+				address.address = place.address_components[i].long_name + address.address;
+			}
+			else if (addressType == "route"){
+				address.address = address.address + place.address_components[i].long_name;
+			}
+			else if (addressType == "locality"){
+				address.city = place.address_components[i].long_name;
+			}
+			else if (addressType == "country"){
+				address.country = place.address_components[i].long_name;
+			}	
+			else if (addressType == "postal_code"){
+				address.postalCode = place.address_components[i].long_name;
+			}
+		};
+		var contact = this.state.contact;
+		contact.address = address;
+		console.log(contact);
+		this.setState({contact: contact});
+		console.log(this.state);
+	}
+
 	notify() {
 		if (this.props.onChange) {
 			this.props.onChange(this.state.contact);
@@ -57,6 +98,9 @@ class Contact extends React.Component {
 	}
 
 	render() {
+		console.log("RREEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNDDDDDDDDDDEEEEEEEEEEERRRRRRRRRRRRRRRRRRR");
+		console.log(this.state);
+		console.log("RREEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNDDDDDDDDDDEEEEEEEEEEERRRRRRRRRRRRRRRRRRR");
 		let fields = CONTACT_FIELDS.map(function(f) {
 			return (
 				<FormInput 
@@ -70,6 +114,7 @@ class Contact extends React.Component {
 
 		return (
 		<div>
+			<input ref="autocomplete" className='autocomplete' placeholder="Enter address"  type="text"></input>
 			{fields}
 		</div>
 		);
