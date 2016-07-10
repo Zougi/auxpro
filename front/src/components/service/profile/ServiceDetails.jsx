@@ -18,62 +18,63 @@ class ServiceDetails extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {
-			edit: props.edit || false,
-			service: {}
-		};
-		this.componentWillReceiveProps(props);
+		this.state = this._buildState(props);
 	}
 
 	componentWillReceiveProps(props) {
-		this.state.edit = props.edit || false;
-		if (!this.state.edit) {
-			this.state.service = {};	
-		}
+		this.setState(this._buildState(props));
 	}
+
+	_buildState(props) {
+    	return {  
+			edit: props.edit || false,
+			data: {
+				society: props.society,
+				socialReason: props.socialReason,
+				siret: props.siret
+			}
+		};
+    }
 
 	notify() {
 		if (this.props.onChange) {
-			this.props.onChange(this.state.service);
+			this.props.onChange(this.state.data);
 		}
+		this.setState(this.state);
 	}
 
-	changeHandler(field) { 
-		return function (event) {
-			Utils.setField(this.state.service, field, event.target.value); 
-			this.notify(); 
-		}.bind(this);
+	onSocietyChanged(value) {
+		this.state.data.society = value;
+		this.notify();
+	}
+	onSocialReasonChanged(value) {
+		this.state.data.socialReason = value;
+		this.notify();
+	}
+	onSiretChanged(value) {
+		this.state.data.siret = value;
+		this.notify();
 	}
 
 	render() {
-		let fields = SERVICE_FIELDS.map(function(f) { 
-			switch (f.type) {
-			case 'input':
-				return (
-					<FormInput
-						static={!this.state.edit}
-						key={f.title}
-						title={f.title}
-						defaultValue={Utils.getField(this.props.service, f.path)} 
-						onChange={this.changeHandler(f.path)}/>
-				);
-			case 'select':
-				return (
-					<FormSelect 
-						static={!this.state.edit}
-						key={f.title}
-						title={f.title} 
-						defaultValue={Utils.getField(this.props.service, f.path)} 
-						values={f.values}
-						onChange={this.changeHandler(f.path)}/>
-				);
-			}
-		}.bind(this));
-		
-
 		return (
 			<div>
-				{fields}
+				<FormInput
+					static={!this.state.edit}
+					title='Société'
+					defaultValue={this.state.data.society} 
+					onChange={this.onSocietyChanged.bind(this)}/>
+				<FormSelect 
+					static={!this.state.edit}
+					title='Raison sociale' 
+					defaultValue={this.state.data.socialReason} 
+					values={[ { key: 'mand', value: 'Mandataire' }, { key: 'prest', value: 'Prestataire' } ]}
+					onChange={this.onSocialReasonChanged.bind(this)}/>
+				<FormInput
+					static={!this.state.edit}
+					title='N° Siret'
+					defaultValue={this.state.data.siret} 
+					onChange={this.onSiretChanged.bind(this)}/>
 			</div>
 		);
 	}

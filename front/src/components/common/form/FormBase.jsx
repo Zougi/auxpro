@@ -26,7 +26,7 @@ class FormBase extends React.Component {
 	getFormControlStatic() {
 		return (
 			<FormControl.Static>
-				{this.props.defaultValue}
+				{this.props.defaultValue || this.props.value}
 			</FormControl.Static>
 		);
 	}

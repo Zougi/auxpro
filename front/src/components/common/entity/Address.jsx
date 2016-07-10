@@ -17,11 +17,24 @@ class Address extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			edit: props.edit || false,
-			address: {}
-		};
+			this.state = this._buildState(props);
 	}
+
+	componentWillReceiveProps(props) {
+		this.setState(this._buildState(props));
+	}
+
+	_buildState(props) {
+    	return {  
+			edit: props.edit || false,
+			data: {
+				address: props.address,
+				city: props.city,
+				postalCode: props.postalCode,
+				country: props.country
+			}
+		};
+    }
 
 	componentDidMount () {		
 		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
@@ -30,71 +43,80 @@ class Address extends React.Component {
 	
 	autocompleteChange() {
 		var place = this.autocomplete.getPlace();
-		var address = {
-			address: '',
-			city: '',
-			postalCode: '',
-			country: ''
-		}
-		
+
+		this.state.data.address = '';
+
 		for (var i = 0; i < place.address_components.length; i++) {
-			var addressType = place.address_components[i].types[0];
-			if (addressType == "street_number") {
-				address.address = place.address_components[i].long_name + " " + address.address;
-			}
-			else if (addressType == "route"){
-				address.address = address.address + place.address_components[i].long_name;
-			}
-			else if (addressType == "locality"){
-				address.city = place.address_components[i].long_name;
-			}
-			else if (addressType == "country"){
-				address.country = place.address_components[i].long_name;
-			}	
-			else if (addressType == "postal_code"){
-				address.postalCode = place.address_components[i].long_name;
+			let comp = place.address_components[i];
+			switch(comp.types[0]) {
+				case 'street_number':
+					this.state.data.address = comp.long_name + ' ' + this.state.data.address;
+					break;
+				case 'route':
+					this.state.data.address = this.state.data.address + ' ' + comp.long_name;
+					break;
+				case 'locality':
+					this.state.data.city = comp.long_name;
+					break;
+				case 'country':
+					this.state.data.country = comp.long_name;
+					break;
+				case 'postal_code':
+					this.state.data.postalCode = comp.long_name;
+					break;
 			}
 		};
-		this.setState({address: address});
 		this.notify(); 
 	}
 	
-	componentWillReceiveProps(props) {
-		this.state.edit = props.edit || false;
-		if (!this.state.edit) {
-			this.state.address = props.address;
-		}
-	}
-
 	notify() {
+		this.setState(this.state);
 		if (this.props.onChange) {
-			this.props.onChange(this.state.address);
+			this.props.onChange(this.state.data);
 		}
 	}
 
-	changeHandler(field) { 
-		return function (event) {
-			Utils.setField(this.state.address, field, event.target.value); 
-			this.notify(); 
-		}.bind(this);
+	onAddressChanged(value) {
+		this.state.data.address = value;
+		this.notify();
+	}
+	onCityChanged(value) {
+		this.state.data.city = value;
+		this.notify();
+	}
+	onPostalCodeChanged(value) {
+		this.state.data.postalCode = value;
+		this.notify();
+	}
+	onCountryChanged(value) {
+		this.state.data.country = value;
+		this.notify();
 	}
 
 	render() {
-		let fields = FIELDS.map(function(f) {
-			return (
-				<FormInput 
-					static={!this.state.edit}
-					key={f.title}
-					title={f.title}
-					defaultValue={Utils.getField(this.state.address, f.path)} 
-					onChange={this.changeHandler(f.path)}/>
-			);
-		}.bind(this));
-
 		return (
 		<div>
 			<input ref="autocomplete" className='autocomplete' placeholder="Enter address"  type="text" disabled={!this.state.edit}></input>
-			{fields}
+			<FormInput 
+				static={!this.state.edit}
+				title='Address'
+				value={this.state.data.address} 
+				onChange={this.onAddressChanged.bind(this)}/>
+			<FormInput 
+				static={!this.state.edit}
+				title='Ville'
+				value={this.state.data.city} 
+				onChange={this.onCityChanged.bind(this)}/>
+			<FormInput 
+				static={!this.state.edit}
+				title='Code postal'
+				value={this.state.data.postalCode} 
+				onChange={this.onPostalCodeChanged.bind(this)}/>
+			<FormInput 
+				static={!this.state.edit}
+				title='Pays'
+				value={this.state.data.country} 
+				onChange={this.onCountryChanged.bind(this)}/>
 		</div>
 		);
 	}	

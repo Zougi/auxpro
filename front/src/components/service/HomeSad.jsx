@@ -19,11 +19,11 @@ class HomeSad extends React.Component {
 	constructor(props) {
 		super(props);
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
 		this.state = {
 			user: user,
 			showTuto: !user.tutoSkipped,
-			showProfilePrompt: true
+			showProfilePrompt: true,
+			data: StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id)
 		};
 	}
 
@@ -55,13 +55,13 @@ class HomeSad extends React.Component {
 				<br/>
 				<Grid>
 					<Row>
-						<HomeSadHead sad={this.state.data}/>
+						<HomeSadHead sad={this.state.service}/>
 					</Row>
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Smaching"><br/><Match/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/><ServicesMap/></Tab>
-							<Tab eventKey={2} title="Mes Informations"><br/><ServiceProfile/></Tab>
+							<Tab eventKey={2} title="Mes Informations"><br/><ServiceProfile service={this.state.data.service}/></Tab>
 							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers/></Tab>
 							<Tab eventKey={4} title="Mes Interventions"><br/><ServiceInterventions/></Tab>
 						</Tabs>

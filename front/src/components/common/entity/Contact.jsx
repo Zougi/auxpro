@@ -6,56 +6,56 @@ import Utils from '../../../utils/Utils.js'
 // custom components
 import FormInput from '../form/FormInput.jsx'
 
-let CONTACT_FIELDS = [
-	{ title: 'Téléphone', path: 'phone', type: 'input' },
-	{ title: 'Addresse électronique', path: 'email', type: 'input' }
-]
-
 class Contact extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {
-			edit: props.edit || false,
-			contact: { }
-		};
+		this.state = this._buildState(props);
 	}
 
 	componentWillReceiveProps(props) {
-		this.state.edit = props.edit || false;
-		if (!this.state.edit) {
-			this.state.contact = { };	
-		}
+		this.setState(this._buildState(props));
 	}
+
+	_buildState(props) {
+    	return {  
+			edit: props.edit || false,
+			data: {
+				phone: props.phone,
+				email: props.email
+			}
+		};
+    }
 
 	notify() {
 		if (this.props.onChange) {
-			this.props.onChange(this.state.contact);
+			this.props.onChange(this.state.data);
 		}
+		this.setState(this.state);
 	}
 
-	changeHandler(field) { 
-		return function (event) {
-			Utils.setField(this.state.contact, field, event.target.value); 
-			this.notify(); 
-		}.bind(this);
+	onPhoneChanged(value) {
+		this.state.data.phone = value;
+		this.notify();
+	}
+	onEmailChanged(value) {
+		this.state.data.email = value;
+		this.notify();
 	}
 
 	render() {
-		let fields = CONTACT_FIELDS.map(function(f) {
-			return (
-				<FormInput 
-					static={!this.state.edit}
-					key={f.title}
-					title={f.title}
-					defaultValue={Utils.getField(this.props.contact, f.path)} 
-					onChange={this.changeHandler(f.path)}/>
-			);
-		}.bind(this));
-
 		return (
 		<div>
-			{fields}
+			<FormInput 
+				static={!this.state.edit}
+				title='Téléphone'
+				defaultValue={this.state.data.phone} 
+				onChange={this.onPhoneChanged.bind(this)}/>
+			<FormInput 
+				static={!this.state.edit}
+				title='Addresse électronique'
+				defaultValue={this.state.data.email} 
+				onChange={this.onEmailChanged.bind(this)}/>
 		</div>
 		);
 	}

@@ -58,6 +58,7 @@ export default class Utils {
 	}
 
 	static getField(obj, path) {
+		if (!obj) return null;
 		let fields = path.split('.');
 		let result = obj;
 		for (let i = 0; i < fields.length; i++) {

@@ -15,63 +15,51 @@ class ServiceProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { 
-			edit: false,
-			service: {}
-		};
-		this.data = {
-			service: {
-				contact: {
-					address: {}
-				}
-			}
-		};
+		this.state = this._buildState(props);
 	}
 
-	componentDidMount() {
-		this.loadData();
-		StoreRegistry.register('SERVICE_STORE', this, this.loadData.bind(this));
+	componentWillReceiveProps(props) {
+		this.setState(this._buildState(props));
     }
-    componentWillUnmount() {
-        StoreRegistry.unregister('SERVICE_STORE', this);   
-    }
-	loadData() {
-    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-    	this.data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
-    	this.state.service = this.data.service;
+
+    _buildState(props) {
+    	return {  
+			edit: props.edit || false,
+			service: props.service
+		};
     }
 
     onServiceChanged(value) {
     	Utils.overwrite( this.state.service, value );
     }
     onContactChanged(value) {
-    	Utils.overwrite( this.state.service.contact, value );
+        Utils.overwrite( this.state.service.contact, value );
     }
     onAddressChanged(value) {
+    	console.log(value)
     	Utils.overwrite( this.state.service.contact.address, value );
     }
 
+    onCancel() {
+    	this.toViewMode();
+    	this.state.service = this.props.service;
+    }
+
     toEditMode() {
-    	this.state.edit = true;
-    	this.setState(this.state);
+    	this.setState({ edit: true });
+    }
+    toViewMode() {
+    	this.setState({ edit: false });
     }
 
     onUpdateService() {
-    	this.state.edit = false;
+    	this.toViewMode();
     	let args = {
 			serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
         	data: this.state.service,
         	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
     	};
     	Dispatcher.issue('PUT_SERVICE', args);
-    	this.data.service = this.state.service;
-    	this.setState(this.state);
-    }
-
-    onCancel() {
-    	this.state.edit = false;
-    	this.state.service = this.data.service;
-    	this.setState(this.state);
     }
 
 	render() { 
@@ -87,17 +75,23 @@ class ServiceProfile extends React.Component {
 						<Col sm={6}>
 	            			<ServiceDetails 
 	            				edit={this.state.edit}
-	            				service={this.data.service}
+	            				society={this.state.service.society}
+	            				socialReason={this.state.service.socialReason}
+	            				siret={this.state.service.siret}
 	        	    			onChange={this.onServiceChanged.bind(this)}/>
 	    	        	</Col>
 		            	<Col sm={6}>
 		            		<Address 
 	            				edit={this.state.edit}
-	            				address={this.data.service.contact.address}
+	            				address={this.state.service ? this.state.service.contact.address.address : null}
+	            				city={this.state.service ? this.state.service.contact.address.city : null}
+	            				postalCode={this.state.service ? this.state.service.contact.address.postalCode : null}
+	            				country={this.state.service ? this.state.service.contact.address.country : null}
 	            				onChange={this.onAddressChanged.bind(this)}/>
 		            		<Contact 
 	            				edit={this.state.edit}
-	            				contact={this.data.service.contact}
+	            				phone={this.state.service ? this.state.service.contact.phone : null}
+	            				email={this.state.service ? this.state.service.contact.email : null}
 	            				onChange={this.onContactChanged.bind(this)}/>
 	        	    	</Col>
         	    	</Row>
