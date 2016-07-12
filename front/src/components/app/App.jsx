@@ -32,7 +32,7 @@ class App extends React.Component {
 				then(toHome.bind(this));
 				break;
 			case 'sad':
-				Dispatcher.issue("GET_SERVICE", user).
+				Dispatcher.issue("GET_SERVICE", { serviceId: user.id, token: user.token }).
 				then(toHome.bind(this));
 				break;
 			default:

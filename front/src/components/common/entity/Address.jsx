@@ -17,24 +17,8 @@ class Address extends React.Component {
 
 	constructor(props) {
 		super(props);
-			this.state = this._buildState(props);
+		this.state = {};
 	}
-
-	componentWillReceiveProps(props) {
-		this.setState(this._buildState(props));
-	}
-
-	_buildState(props) {
-    	return {  
-			edit: props.edit || false,
-			data: {
-				address: props.address,
-				city: props.city,
-				postalCode: props.postalCode,
-				country: props.country
-			}
-		};
-    }
 
 	componentDidMount () {		
 		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
@@ -44,25 +28,25 @@ class Address extends React.Component {
 	autocompleteChange() {
 		var place = this.autocomplete.getPlace();
 
-		this.state.data.address = '';
+		this.state.address = '';
 
 		for (var i = 0; i < place.address_components.length; i++) {
 			let comp = place.address_components[i];
 			switch(comp.types[0]) {
 				case 'street_number':
-					this.state.data.address = comp.long_name + ' ' + this.state.data.address;
+					this.state.address = comp.long_name + ' ' + this.state.address;
 					break;
 				case 'route':
-					this.state.data.address = this.state.data.address + ' ' + comp.long_name;
+					this.state.address = this.state.address + ' ' + comp.long_name;
 					break;
 				case 'locality':
-					this.state.data.city = comp.long_name;
+					this.state.city = comp.long_name;
 					break;
 				case 'country':
-					this.state.data.country = comp.long_name;
+					this.state.country = comp.long_name;
 					break;
 				case 'postal_code':
-					this.state.data.postalCode = comp.long_name;
+					this.state.postalCode = comp.long_name;
 					break;
 			}
 		};
@@ -70,52 +54,56 @@ class Address extends React.Component {
 	}
 	
 	notify() {
-		this.setState(this.state);
 		if (this.props.onChange) {
-			this.props.onChange(this.state.data);
+			this.props.onChange({
+				address: this.state.address || this.props.address || '',
+				city: this.state.city || this.props.city || '',
+				postalCode: this.state.postalCode || this.props.postalCode || '',
+				country: this.state.country || this.props.country || ''
+			});
 		}
 	}
 
 	onAddressChanged(value) {
-		this.state.data.address = value;
+		this.state.address = value;
 		this.notify();
 	}
 	onCityChanged(value) {
-		this.state.data.city = value;
+		this.state.city = value;
 		this.notify();
 	}
 	onPostalCodeChanged(value) {
-		this.state.data.postalCode = value;
+		this.state.postalCode = value;
 		this.notify();
 	}
 	onCountryChanged(value) {
-		this.state.data.country = value;
+		this.state.country = value;
 		this.notify();
 	}
 
 	render() {
 		return (
 		<div>
-			<input ref="autocomplete" className='autocomplete' placeholder="Enter address"  type="text" disabled={!this.state.edit}></input>
+			<input ref="autocomplete" className='autocomplete' placeholder="Enter address"  type="text" disabled={!this.props.edit}></input>
 			<FormInput 
-				static={!this.state.edit}
+				static={!this.props.edit}
 				title='Address'
-				value={this.state.data.address} 
+				defaultValue={this.props.address} 
 				onChange={this.onAddressChanged.bind(this)}/>
 			<FormInput 
-				static={!this.state.edit}
+				static={!this.props.edit}
 				title='Ville'
-				value={this.state.data.city} 
+				defaultValue={this.props.city} 
 				onChange={this.onCityChanged.bind(this)}/>
 			<FormInput 
-				static={!this.state.edit}
+				static={!this.props.edit}
 				title='Code postal'
-				value={this.state.data.postalCode} 
+				defaultValue={this.props.postalCode} 
 				onChange={this.onPostalCodeChanged.bind(this)}/>
 			<FormInput 
-				static={!this.state.edit}
+				static={!this.props.edit}
 				title='Pays'
-				value={this.state.data.country} 
+				defaultValue={this.props.country} 
 				onChange={this.onCountryChanged.bind(this)}/>
 		</div>
 		);

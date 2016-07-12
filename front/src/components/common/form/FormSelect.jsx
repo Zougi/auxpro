@@ -13,7 +13,7 @@ class FormSelect extends FormBase {
 	}
 
 	onChange(event) {
-		this.props.onChange(event);
+		this.props.onChange(event.target.value);
 	}
 
 	getFormControlEditable() {

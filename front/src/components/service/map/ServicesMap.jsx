@@ -52,7 +52,7 @@ class ServicesMap extends React.Component {
 		
 		if (this.myMap == null) {
 			let address = data.service.contact.address;
-			if (address.lattitude) {
+			if (address && address.lattitude) {
 				this.defaultCenter.mapCenterLat = address.longitude;
 				this.defaultCenter.mapCenterLng = address.lattitude;
 			}
@@ -81,7 +81,7 @@ class ServicesMap extends React.Component {
 				let address =  customers[i].contact.address;
 				console.log(customers[i]);
 				
-				if (address.lattitude) {
+				if (address && address.lattitude) {
 					latLong = new google.maps.LatLng(address.lattitude, address.longitude);
 					marker  = new google.maps.Marker({position: latLong, title: 'Info', map: this.myMap});
 					marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')

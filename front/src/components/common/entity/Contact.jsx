@@ -4,57 +4,59 @@ import moment from 'moment';
 // custom modules
 import Utils from '../../../utils/Utils.js'
 // custom components
+import Address from './Address.jsx'
 import FormInput from '../form/FormInput.jsx'
 
 class Contact extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = this._buildState(props);
+		this.state = {};
 	}
-
-	componentWillReceiveProps(props) {
-		this.setState(this._buildState(props));
-	}
-
-	_buildState(props) {
-    	return {  
-			edit: props.edit || false,
-			data: {
-				phone: props.phone,
-				email: props.email
-			}
-		};
-    }
 
 	notify() {
 		if (this.props.onChange) {
-			this.props.onChange(this.state.data);
+			this.props.onChange({
+				address: this.state.address || this.props.address || '',
+				phone: this.state.phone || this.props.phone || '',
+				email: this.state.email || this.props.email || ''
+			});
 		}
 		this.setState(this.state);
 	}
 
+	onAddressChanged(value) {
+    	this.state.address = value;
+    	this.notify();
+    }
 	onPhoneChanged(value) {
-		this.state.data.phone = value;
+		this.state.phone = value;
 		this.notify();
 	}
 	onEmailChanged(value) {
-		this.state.data.email = value;
+		this.state.email = value;
 		this.notify();
 	}
 
 	render() {
 		return (
 		<div>
+			<Address 
+				edit={this.props.edit}
+				address={this.props.address ? this.props.address.address : null}
+				city={this.props.address ? this.props.address.city : null}
+				postalCode={this.props.address ? this.props.address.postalCode : null}
+				country={this.props.address ? this.props.address.country : null}
+				onChange={this.onAddressChanged.bind(this)}/>
 			<FormInput 
-				static={!this.state.edit}
+				static={!this.props.edit}
 				title='Téléphone'
-				defaultValue={this.state.data.phone} 
+				defaultValue={this.props.phone} 
 				onChange={this.onPhoneChanged.bind(this)}/>
 			<FormInput 
-				static={!this.state.edit}
+				static={!this.props.edit}
 				title='Addresse électronique'
-				defaultValue={this.state.data.email} 
+				defaultValue={this.props.email} 
 				onChange={this.onEmailChanged.bind(this)}/>
 		</div>
 		);

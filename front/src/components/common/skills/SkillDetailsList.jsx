@@ -10,15 +10,21 @@ class SkillDetailsList extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {
-			skills: this.props.skills || {}
-		}
+		this.state = {}
 	}
 
 	changeHandler(skill) {
 		return function (v) {
-			this.state.skills[skill.field] = v;
-			this.props.onChange(this.state.skills);
+			this.state[skill.field] = v;
+			this.props.onChange({
+				housework: this.state.housework || (this.props.skills ? this.props.skills.housework : 0),
+				childhood: this.state.childhood || (this.props.skills ? this.props.skills.childhood : 0),
+				shopping: this.state.shopping || (this.props.skills ? this.props.skills.shopping : 0),
+				nursing: this.state.nursing || (this.props.skills ? this.props.skills.nursing : 0),
+				compagny: this.state.compagny || (this.props.skills ? this.props.skills.compagny : 0),
+				administrative: this.state.administrative || (this.props.skills ? this.props.skills.administrative : 0),
+				doityourself: this.state.doityourself || (this.props.skills ? this.props.skills.doityourself : 0)
+			});
 		}.bind(this);
 	}
 
@@ -30,7 +36,7 @@ class SkillDetailsList extends React.Component {
 		           	key={skill.field}
 		           	icon={skill.icon}
 		           	title={skill.title}
-		           	value={this.state.skills[skill.field] || 0}
+		           	value={this.props.skills ? this.props.skills[skill.field] : 0}
 		           	onChange={this.changeHandler(skill)}/>
 		       );
 		}.bind(this));

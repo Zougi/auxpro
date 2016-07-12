@@ -18,41 +18,29 @@ class ServiceDetails extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = this._buildState(props);
+		this.state = {};
 	}
-
-	componentWillReceiveProps(props) {
-		this.setState(this._buildState(props));
-	}
-
-	_buildState(props) {
-    	return {  
-			edit: props.edit || false,
-			data: {
-				society: props.society,
-				socialReason: props.socialReason,
-				siret: props.siret
-			}
-		};
-    }
 
 	notify() {
 		if (this.props.onChange) {
-			this.props.onChange(this.state.data);
+			this.props.onChange({
+				society: this.state.society || this.props.society || '',
+				socialReason: this.state.socialReason || this.props.socialReason || '',
+				siret: this.state.siret || this.props.siret || ''
+			});
 		}
-		this.setState(this.state);
 	}
 
 	onSocietyChanged(value) {
-		this.state.data.society = value;
+		this.state.society = value;
 		this.notify();
 	}
 	onSocialReasonChanged(value) {
-		this.state.data.socialReason = value;
+		this.state.socialReason = value;
 		this.notify();
 	}
 	onSiretChanged(value) {
-		this.state.data.siret = value;
+		this.state.siret = value;
 		this.notify();
 	}
 
@@ -60,20 +48,20 @@ class ServiceDetails extends React.Component {
 		return (
 			<div>
 				<FormInput
-					static={!this.state.edit}
+					static={!this.props.edit}
 					title='Société'
-					defaultValue={this.state.data.society} 
+					defaultValue={this.props.society} 
 					onChange={this.onSocietyChanged.bind(this)}/>
 				<FormSelect 
-					static={!this.state.edit}
+					static={!this.props.edit}
 					title='Raison sociale' 
-					defaultValue={this.state.data.socialReason} 
+					defaultValue={this.props.socialReason} 
 					values={[ { key: 'mand', value: 'Mandataire' }, { key: 'prest', value: 'Prestataire' } ]}
 					onChange={this.onSocialReasonChanged.bind(this)}/>
 				<FormInput
-					static={!this.state.edit}
+					static={!this.props.edit}
 					title='N° Siret'
-					defaultValue={this.state.data.siret} 
+					defaultValue={this.props.siret} 
 					onChange={this.onSiretChanged.bind(this)}/>
 			</div>
 		);

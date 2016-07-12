@@ -13,8 +13,8 @@ let PERSON_FIELDS = [
 	{ title: 'Nom', path: 'lastName', type: 'input' },
 	{ title: 'Prénom', path: 'firstName', type: 'input' },
 	{ title: 'Date de naissance', path: 'birthDate', type: 'date' },
-	{ title: 'Ville de naissance', path: 'birthPlace.city', type: 'input' },
-	{ title: 'Pays de naissance', path: 'birthPlace.country', type: 'input' },
+	{ title: 'Ville de naissance', path: 'birthCity', type: 'input' },
+	{ title: 'Pays de naissance', path: 'birthCountry', type: 'input' },
 	{ title: 'Nationnalité', path: 'nationality', type: 'input' },
 	{ title: 'N° sécurité sociale', path: 'socialNumber', type: 'input' }
 ]
@@ -23,77 +23,62 @@ class Person extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = this._buildState(props);
+		this.state = {};
 	}
-
-	componentWillReceiveProps(props) {
-		this.setState(this._buildState(props));
-		console.log(this.state);
-	}
-
-	_buildState(props) {
-    	return {  
-			edit: props.edit || false,
-			data: {
-				civility: props.civility,
-				lastName: props.lastName,
-				firstName: props.firstName,
-				birthDate: props.birthDate,
-				birthPlace: {
-					city: props.birthCity,
-					country: props.birthCountry 
-				},
-				nationality: props.nationality,
-				socialNumber: props.socialNumber
-			}
-		};
-    }
 
 	notify() {
 		if (this.props.onChange) {
-			this.props.onChange(this.state.data);
+			this.props.onChange({
+				civility: this.state.civility || this.props.civility || null,
+				lastName: this.state.lastName || this.props.lastName || null,
+				firstName: this.state.firstName || this.props.firstName || null,
+				birthDate: this.state.birthDate || this.props.birthDate || null,
+				birthPlace: {
+					city: this.state.birthCity || this.props.birthCity || null,
+					country: this.state.birthCountry || this.props.birthCountry || null 
+				},
+				nationality: this.state.nationality || this.props.nationality || null,
+				socialNumber: this.state.socialNumber || this.props.socialNumber || null
+			});
 		}
 	}
 
 	changeHandler(field) { 
 		return function (value) {
-			Utils.setField(this.state.data, field, value); 
+			Utils.setField(this.state, field, value); 
 			this.notify(); 
 		}.bind(this);
 	}
 
 	render() {
 		let fields = PERSON_FIELDS.map(function(f) {
-			//console.log(f);
-			//console.log(this.state.data);
-			//console.log(Utils.getField(this.state.data, f.path));
 			switch (f.type) {
 			case 'input':
 				return (
 					<FormInput
-						static={!this.state.edit}
+						static={!this.props.edit}
 						key={f.title}
 						title={f.title}
-						defaultValue={Utils.getField(this.state.data, f.path)} 
+						defaultValue={Utils.getField(this.props, f.path)} 
 						onChange={this.changeHandler(f.path)}/>
 				);
 			case 'select':
 				return (
 					<FormSelect 
-						static={!this.state.edit}
+						static={!this.props.edit}
 						key={f.title}
 						title={f.title} 
-						defaultValue={Utils.getField(this.state.data, f.path)} 
+						defaultValue={Utils.getField(this.props, f.path)} 
 						values={f.values}
 						onChange={this.changeHandler(f.path)}/>
 				);
 			case 'date':
 				return (
 					<FormDate
-						static={!this.state.edit}
+						static={!this.props.edit}
 						key={f.title}
 						title={f.title}
-						defaultValue={Utils.getField(this.state.data, f.path)} 
+						defaultValue={Utils.getField(this.props, f.path)} 
 						onChange={this.changeHandler(f.path)}/>
 				);
 			}

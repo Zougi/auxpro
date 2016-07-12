@@ -18,14 +18,49 @@ class HomeSad extends React.Component {
 
 	constructor(props) {
 		super(props);
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		this.user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		this.state = {
-			user: user,
-			showTuto: !user.tutoSkipped,
+			user: this.user,
+			showTuto: !this.user.tutoSkipped,
 			showProfilePrompt: true,
 			data: StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id)
 		};
+		console.log(JSON.stringify(this.state));
 	}
+
+	componentDidMount() {
+        StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+    	
+    	let args = {
+    		serviceId: this.user.id,
+			token: this.user.token
+    	}
+
+        Dispatcher.issue('GET_SERVICE', args).
+        then(function() {
+        	Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
+        }).
+        then(function() {
+        	Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
+        }).
+        catch(function() {
+        	console.log('erreur au chargement du service');
+        });
+    }
+    componentWillUnmount() {
+        StoreRegistry.unregister('SERVICE_STORE', this);   
+    }
+	
+    onStoreUpdate(first) {
+    	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + this.user.id);
+    	this.state = {
+			user: this.user,
+			data: data,
+			showTuto: first?!this.user.tutoSkipped:this.state.showTuto,
+			showProfilePrompt: first?true:this.state.showProfilePrompt
+		};
+		this.setState(this.state);
+    }
 
 	 _tutoClose() {
     	this.state.showTuto = false;
@@ -58,6 +93,7 @@ class HomeSad extends React.Component {
 						<HomeSadHead sad={this.state.service}/>
 					</Row>
 					<Row>
+					{ this.state.data ? 
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Smaching"><br/><Match/></Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/><ServicesMap/></Tab>
@@ -65,6 +101,9 @@ class HomeSad extends React.Component {
 							<Tab eventKey={3} title="Mes Clients"><br/><ServiceCustomers customers={this.state.data.customers}/></Tab>
 							<Tab eventKey={4} title="Mes Interventions"><br/><ServiceInterventions/></Tab>
 						</Tabs>
+					:
+						''
+					}
 					</Row>
 				</Grid>
 				<br/>

@@ -32,8 +32,9 @@ export default class RestService {
 					} else {
 					}
 				};
-				console.log(JSON.stringify(reqParam.data));
-				xhr.send(JSON.stringify(reqParam.data));
+				let data = JSON.stringify(reqParam.data);
+				console.log(data);
+				xhr.send(data);
 			});
 		};
 	
@@ -155,56 +156,4 @@ export default class RestService {
         reqParam.token = args.token;
         return RestService._request(reqParam);
     };
-	
-
-	/**
-	 *
-	 * @param {object} [args]
-	 * @param {string} [args.token] valid session token to be passed as header
-	 * @returns a Promise object 
-	 */
-	static getServices(args) {
-		var reqParam = {};
-		reqParam.url = '/services';
-		reqParam.method = 'GET';
-		reqParam.token = args.token;
-		return RestService._request(reqParam);
-	};
-
-	/**
-     *
-     * @param {object} [args]
-     * @param {object} [args.data]
-     * @returns a Promise object 
-     */
-    static postService(args) {
-        var reqParam = {};
-        reqParam.url = '/services';
-        reqParam.method = 'POST';
-        reqParam.data = args.data;
-        reqParam.token = args.token;
-        return RestService._request(reqParam);
-    };
-
-    /**
-	 *
-	 * @param {object} [args]
-	 * @param {string} [args.token] valid session token to be passed as header
-	 * @param {string} [args.id] the service id to set up in the url
-	 * @returns a Promise object 
-	 */
-	static getService(args) {
-		var reqParam = {};
-		reqParam.url = '/services/' + args.id;
-		reqParam.method = 'GET';
-		reqParam.token = args.token;
-		return RestService._request(reqParam);
-	};
-	static getServiceCustomers(args) {
-		var reqParam = {};
-		reqParam.url = '/services/' + args.sId + '/customers/';
-		reqParam.method = 'GET';
-		reqParam.token = args.token;
-		return RestService._request(reqParam);
-	};
 }

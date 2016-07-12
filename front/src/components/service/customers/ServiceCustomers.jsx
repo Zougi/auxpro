@@ -21,26 +21,13 @@ class ServiceCustomers extends React.Component {
 	
 	constructor(props) {
 		super(props);
-	    this.state = this._buildState(props);
+	    this.state = {};
 	}
-
-	componentWillReceiveProps(props) {
-		this.setState(this._buildState(props));
-    }
-
-    _buildState(props) {
-    	return {  
-			edit: props.edit || false,
-			state: STATES.LIST,
-			showDeleteConfirm: false,
-			customers: props.customers
-		};
-    }
 
     switchState(state) {
     	return function() {
-			this.state.state = state || STATES.LIST;
-			this.setState(this.state);
+			//this.state.state = state || STATES.LIST;
+			this.setState({ state: state || STATES.LIST });
 		}.bind(this);
     }
 
@@ -67,12 +54,17 @@ class ServiceCustomers extends React.Component {
     	this.setState(this.state);
     }
     hideDeleteConfirmation() {
-    	this.state.showDeleteConfirm = false;
-    	this.setState(this.state);
+    	this.setState({showDeleteConfirm: false});
     }  
+
+    onCustomerChange(customer) {
+    	console.log(customer)
+    	this.state.customer = customer;
+    }
 
     deleteCustomer() {
     	this._issueCustomerAction('DELETE_SERVICE_CUSTOMER');
+    	this.hideDeleteConfirmation();
     }
     editCustomer() {
     	this._issueCustomerAction('PUT_SERVICE_CUSTOMER');
@@ -82,16 +74,18 @@ class ServiceCustomers extends React.Component {
     }
 
     _issueCustomerAction(action) {
-    	this.state.currentCustomer.serviceId = this.state.user.id;
+    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+    	this.state.customer.serviceId = user.id;
+    	this.state.customer.id = this.state.currentCustomer ? this.state.currentCustomer.id : null;
     	let args = {
-    		sId: this.state.user.id,
-    		cId: this.currentCustomer.id,
-			token: this.state.user.token,
-			data: this.currentCustomer
+    		serviceId: user.id,
+    		customerId: this.state.customer.id,
+			token: user.token,
+			data: this.state.customer
     	}
     	Dispatcher.issue(action, args).
     	then(function () {
-    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
+    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
     	}).
     	then(function() {
     		this.switchState(STATES.LIST)();
@@ -116,7 +110,7 @@ class ServiceCustomers extends React.Component {
 			);
 			case STATES.ADD: return (
 				<Panel header={(<strong>Saisir nouveau client</strong>)}>
-					<CustomerDetails edit={true} customer={this.state.currentCustomer}/>
+					<CustomerDetails edit={true} customer={this.state.currentCustomer} onChange={this.onCustomerChange.bind(this)}/>
 					<br/>
 					<ButtonsEndDialog 
 						onOk={this.saveCustomer.bind(this)} okTitle='Creer client' 
@@ -125,7 +119,7 @@ class ServiceCustomers extends React.Component {
 			);
 			case STATES.EDIT: return (
 				<Panel header={(<strong>Modifier informations client</strong>)}>
-					<CustomerDetails edit={true} customer={this.state.currentCustomer}/>
+					<CustomerDetails edit={true} customer={this.state.currentCustomer} onChange={this.onCustomerChange.bind(this)}/>
 					<br/>
 					<ButtonsEndDialog 
 						onOk={this.editCustomer.bind(this)} okTitle='Enregistrer modifications' 
@@ -139,7 +133,7 @@ class ServiceCustomers extends React.Component {
 							<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
 							<br/>
 							<CustomerSummaryList 
-								customers={this.state.customers} 
+								customers={this.props.customers} 
 								onEdit={this.onEditCustomer.bind(this)}
 								onView={this.onViewCustomer.bind(this)}
 								onDelete={this.onDeleteCustomer.bind(this)}/>

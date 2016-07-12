@@ -22,17 +22,6 @@ class ServiceInterventions extends React.Component {
 	constructor(props) {
 		super(props);
 		this.prepareState();
-		var args = {
-			sId: this.state.user.id,
-			token: this.state.user.token
-		}
-		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args).
-		then(function () {
-			Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);	
-		}).
-		catch(function () {
-			console.log('erreur chargement données');
-		});        
 	}
 
 	componentDidMount() {
@@ -77,8 +66,8 @@ class ServiceInterventions extends React.Component {
     onCreateIntervention(data) {
     	console.log(data.intervention);
         let args = {
-            sId: data.intervention.serviceId,
-            cId: data.intervention.customerId,
+            serviceId: data.intervention.serviceId,
+            customerId: data.intervention.customerId,
             token: this.state.user.token,
             data: data.intervention
         }
@@ -120,8 +109,8 @@ class ServiceInterventions extends React.Component {
     _issueCustomerAction(action) {
     	this.state.currentCustomer.serviceId = this.state.user.id;
     	let args = {
-    		sId: this.state.user.id,
-    		cId: this.state.currentCustomer.id,
+    		serviceId: this.state.user.id,
+    		customerId: this.state.currentCustomer.id,
 			token: this.state.user.token,
 			data: this.state.currentCustomer
     	}
