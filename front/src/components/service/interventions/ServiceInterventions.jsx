@@ -20,106 +20,56 @@ let STATES = {
 class ServiceInterventions extends React.Component {
 	
 	constructor(props) {
-		super(props);
-		this.prepareState();
-	}
-
-	componentDidMount() {
-		this.switchState()();
-        StoreRegistry.register('SERVICE_STORE', this, this.onServiceUpdate.bind(this));
+        super(props);
+        this.state = {};
     }
-    componentWillUnmount() {
-        StoreRegistry.unregister('SERVICE_STORE', this);   
-    }
-
-    onServiceUpdate() {
-    	this.setState(this.prepareState());
-    }
-
-    switchState(state) {
-    	return function() {
-			this.state.state = state || STATES.LIST;
-			this.setState(this.state);
-		}.bind(this);
-    }
-
-    prepareState() {
-    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-    	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
-    	this.state = {
-			user: user,
-			data: data,
-			showDeleteConfirm: false
-		};
-		return this.state;
-    }
-
-	customerChanged(cust) {
-		this.state.currentCustomer = cust;
-	}
 
     onCancel() {
-    	this.state.currentCustomer = null;
-    	this.switchState()();
+        this.setState({ intervention: null });
+        this.setState({ state: STATES.LIST });
+    }   
+    onViewIntervention(intervention) {
+        this.setState({ intervention: intervention });
+        this.setState({ state: STATES.VIEW });
     }
-
-    onCreateIntervention(data) {
-    	console.log(data.intervention);
-        let args = {
-            serviceId: data.intervention.serviceId,
-            customerId: data.intervention.customerId,
-            token: this.state.user.token,
-            data: data.intervention
-        }
-        Dispatcher.issue('POST_SERVICE_CUSTOMER_INTERVENTION', args).
-        then(function () {
-            Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);    
-        }).
-        then(function() {
-            this.switchState(STATES.LIST)();
-        }.bind(this)).
-        catch(function(error) {
-            console.log(error);
-        });     
+    onAddIntervention(intervention) {
+        this.setState({ state: STATES.ADD });
     }
-    onViewCustomer(customer) {
-    	this.state.currentCustomer = customer;
-    	this.switchState(STATES.VIEW)();
+    onEditIntervention(intervention) {
+        this.setState({ intervention: intervention });
+        this.setState({ state: STATES.EDIT });
     }
-    onDeleteCustomer(customer) {
-    	this.state.currentCustomer = customer;
-    	this.state.showDeleteConfirm = true;
-    	this.setState(this.state);
+    onDeleteIntervention(intervention) {
+        this.setState({ intervention: intervention });
+        this.setState({ showDeleteConfirm: true });
     }
     hideDeleteConfirmation() {
-    	this.state.showDeleteConfirm = false;
-    	this.setState(this.state);
-    }  
-
-    deleteCustomer() {
-    	this._issueCustomerAction('DELETE_SERVICE_CUSTOMER');
-    }
-    editCustomer() {
-    	this._issueCustomerAction('PUT_SERVICE_CUSTOMER');
-    }
-    saveCustomer() {
-    	this._issueCustomerAction('POST_SERVICE_CUSTOMER');
+    	this.setState({ showDeleteConfirm: false });
     }
 
-    _issueCustomerAction(action) {
-    	this.state.currentCustomer.serviceId = this.state.user.id;
+    onCreateIntervention(intervention) {
+        this._issueInterventionAction('POST_SERVICE_CUSTOMER_INTERVENTION', intervention);
+    }
+    onSaveIntervention(intervention) {
+    	this._issueInterventionAction('PUT_SERVICE_CUSTOMER_INTERVENTION', intervention);
+    }
+    onDeleteIntervention(intervention) {
+        this._issueInterventionAction('DELETE_SERVICE_CUSTOMER_INTERVENTION', intervention);
+    }
+
+    _issueInterventionAction(action, intervention) {
     	let args = {
-    		serviceId: this.state.user.id,
-    		customerId: this.state.currentCustomer.id,
-			token: this.state.user.token,
-			data: this.state.currentCustomer
-    	}
+            serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+            customerId: intervention.customerId,
+            token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+            data: intervention
+        }
     	Dispatcher.issue(action, args).
     	then(function () {
-    		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);	
+    		Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);	
     	}).
     	then(function() {
-    		this.switchState(STATES.LIST)();
+    		this.setState({ state: STATES.LIST });
     	}.bind(this)).
     	catch(function(error) {
     		console.log(error);
@@ -127,25 +77,28 @@ class ServiceInterventions extends React.Component {
     }
 
 	render() {
-		let customers = (this.state.data.customers || []).
+		let customers = (this.props.customers || []).
 		filter(function(customer) {
-			return this.state.data.interventions && this.state.data.interventions[customer.id] && this.state.data.interventions[customer.id].length;
+			return this.props.interventions && this.props.interventions[customer.id] && this.props.interventions[customer.id].length;
 		}.bind(this)).
 		map(function(customer) {
 			return (
-				<CustomerInterventionList key={customer.id} customer={customer} interventions={this.state.data.interventions[customer.id]}/>
+				<CustomerInterventionList key={customer.id} customer={customer} interventions={this.props.interventions[customer.id]}/>
 			);
 		}.bind(this));
 		switch (this.state.state) {
             case STATES.ADD:
                 return (
-                    <InterventionCreate onCancel={this.onCancel.bind(this)} onCreate={this.onCreateIntervention.bind(this)}/>
+                    <InterventionCreate 
+                        customers={this.props.customers || []}
+                        onCancel={this.onCancel.bind(this)} 
+                        onCreate={this.onCreateIntervention.bind(this)}/>
                 );
             default:
         		return (
         			<div>
         				<Panel header={(<strong>Interventions en cours</strong>)}>
-        					<Button block bsStyle='info' onClick={this.switchState(STATES.ADD)}>Saisir nouvelle intervention</Button>
+        					<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>Saisir nouvelle intervention</Button>
         					<br/>
         					{customers}
         				</Panel>				

@@ -10,6 +10,7 @@ import { fromLocalDate, toHumanDate, fromLocalTime, toHumanTime, ControlLabel } 
 import InterventionEditOneTime from './InterventionEditOneTime.jsx'
 import InterventionEditRecurence from './InterventionEditRecurence.jsx'
 import FormSelect from '../form/FormSelect.jsx'
+import ButtonsEndDialog from '../ButtonsEndDialog.jsx';
 
 moment.locale('fr');
 
@@ -23,42 +24,22 @@ class InterventionCreate extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			customers: [],
-			mode: (props.intervention && props.intervention.recurence) ? STATES.RECURENCE : STATES.ONE_TIME
-		};
-		this.data = {
-			intervention: {
-				oneTime: {},
-				recurence: {}
-			}
+			mode: this.props.intervention ? (this.props.intervention.recurence?STATES.RECURENCE:STATES.ONE_TIME) : STATES.ONE_TIME
 		};
 	}
 
-	componentDidMount() {
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-        this.state.customers = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id + '/customers');
-        this.state.mode = this.props.recurence?STATES.RECURENCE:STATES.ONE_TIME;
-        this.setState(this.state);
-        this.data.intervention.customerId = this.state.customers.length ? this.state.customers[0].id : null;
-        this.data.intervention.serviceId = user.id;
-    }
-
-    
 	onSelectType(event) {
-		this.state.mode = STATES[event.target.value];
-		this.setState(this.state);
+		this.setState({ mode: STATES[event.target.value] });
 	}
 
-	onCustomerSelected(event) {
-    	this.data.intervention.customerId = event.target.value;
-    	this.setState(this.state);
+	onCustomerChanged(customer) {
+    	this.setState({ customerId: customer });
     }
-	onOneTimeChanged(value) {
-		console.log(value)
-		this.data.intervention.oneTime = value;
+	onOneTimeChanged(oneTime) {
+		this.setState({ oneTime: oneTime });
 	}
 	onRecurenceChanged(value) {
-		this.data.intervention.recurence = value;
+		this.setState({ recurence: recurence });
 	}
 
 	onCancel() {
@@ -67,23 +48,27 @@ class InterventionCreate extends React.Component {
 		}
 	}
 	onCreate() {
+		let data = { 
+			customerId: this.state.customerId || ((this.props.customers && this.props.customers.length) ? this.props.customers[0].id : ''),
+			serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id')
+		};
 		switch (this.state.mode) {
 			case STATES.ONE_TIME:
-			delete this.data.intervention.recurence;
+				data.oneTime = this.state.oneTime || (this.props.intervention ? this.props.intervention.oneTime : null);
 				break;
 			case STATES.RECURENCE:
-				delete this.data.intervention.oneTime;
+				data.recurence = this.state.recurence || (this.props.intervention ? this.props.intervention.recurence : null);
 				break;
 		}
 		if (this.props.onCreate) {
-			this.props.onCreate(this.data);
+			this.props.onCreate(data);
 		}
 	}
 
 
 
 	render() {
-		let customers = this.state.customers.map(function(customer) {
+		let customers = this.props.customers.map(function(customer) {
 			return {
 				key: customer.id,
 				value: customer.person.lastName + ' ' + customer.person.firstName
@@ -103,7 +88,7 @@ class InterventionCreate extends React.Component {
 								title='Choisir clients'
 								defaultValue={customers.length ? customers[0] : 'Pas de clients'} 
 								values={customers}
-								onChange={this.onCustomerSelected.bind(this)}/>
+								onChange={this.onCustomerChanged.bind(this)}/>
 						</Col>
 					</Row>
 					<br/>
@@ -121,9 +106,13 @@ class InterventionCreate extends React.Component {
 					<Col sm={11}>
 							{this.state.mode === STATES.ONE_TIME
 							?
-								<InterventionEditOneTime onChange={this.onOneTimeChanged.bind(this)} oneTime={this.data.intervention.oneTime}/>
+								<InterventionEditOneTime 
+									onChange={this.onOneTimeChanged.bind(this)} 
+									oneTime={this.props.intervention ? this.props.intervention.oneTime : null}/>
 							:
-								<InterventionEditRecurence onChange={this.onRecurenceChanged.bind(this)}/>
+								<InterventionEditRecurence 
+									onChange={this.onRecurenceChanged.bind(this)}
+									recurence={this.props.intervention ? this.props.intervention.recurence : null}/>
 							}
 					</Col>
 					<br/>
