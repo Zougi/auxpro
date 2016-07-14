@@ -4,10 +4,14 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import { Button, Panel, Nav, Navbar } from 'react-bootstrap'
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 
+import Dispatcher from '../../../core/Dispatcher';
+import StoreRegistry from '../../../core/StoreRegistry';
+
 class AuxiliaryMap extends React.Component {
 
   constructor(props) {
     super(props);
+
 	this.myMap = null;
 	this.initialZoom = 12;
 	this.defaultCenter = {
@@ -29,7 +33,7 @@ class AuxiliaryMap extends React.Component {
 	}
   
 	componentDidMount () {
-        
+ 		
 		var mapOptions = {
             center: new google.maps.LatLng(this.defaultCenter.mapCenterLat, this.defaultCenter.mapCenterLng),
             zoom: this.initialZoom
@@ -45,7 +49,7 @@ class AuxiliaryMap extends React.Component {
 		
 		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
 		this.autocomplete.addListener('place_changed', this.autocompleteChange.bind(this));
-	}
+	}	
 	
 	addMarker(location, title) {
 		return new google.maps.Marker({
@@ -145,10 +149,39 @@ class AuxiliaryMap extends React.Component {
 	}
   
   validCircle(){
+	  console.log("###########################################INFO###########################################");
+	  console.log(this.circleMarker);
+	  console.log(this.myCircle);
+	  console.log( this.refs.autocomplete.value);
+	  console.log(this.circleMarker.position.lat());
+	  console.log("##########################################################################################");
+	  
+	var data = {
+		
+	}
+	  
 	 this.setState({areas: this.state.areas.concat({type: "circle", adress: this.refs.autocomplete.value, marker: this.circleMarker, circle: this.myCircle})});
 	 this.circleMarker = null;
 	 this.myCircle = null;
 	 this.desactiveCircle();
+	 
+	 
+		// event.preventDefault();
+		// this.state.edit = false;
+		// this.setState(this.state);
+		// var data = {
+			// person: this.state.data.person,
+			// contact: this.state.data.contact,
+			// user: this.state.data.user,
+			// diploma: this.state.data.diploma,
+		// }
+		// let params = {
+			// id: this.state.user.id,
+        	// data: data,
+        	// token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
+        // }
+        // console.log(params);
+        // Dispatcher.issue('PUT_AUXILIARY', params);
   }
   
   deleteArea(index){

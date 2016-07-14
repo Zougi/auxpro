@@ -156,4 +156,36 @@ export default class RestService {
         reqParam.token = args.token;
         return RestService._request(reqParam);
     };
+	
+	
+	/**
+	*
+	* @param {object} [args]
+	* @param {string} [args.id] auxiliary id
+	* @param {string} [args.token] valid session token to be passed as header
+	* @returns a Promise object 
+	*/
+	static getAuxiliaryGeoZones(args) {
+		var reqParam = {};
+		reqParam.url = '/auxiliaries/' + args.id + '/geozones';
+		reqParam.method = 'GET';
+		reqParam.token = args.token;
+		return RestService._request(reqParam);
+	};
+	
+	/**
+	*
+	* @param {object} [args]
+	* @param {object} [args.data]
+	* @param {object} [args.token]
+	* @returns a Promise object 
+	*/
+    static postAuxiliaryGeoZone(args) {
+        var reqParam = {};
+        reqParam.url = '/auxiliaries/' + args.id + '/geozones';
+        reqParam.method = 'POST';
+        reqParam.data = args.data;
+        reqParam.token = args.token;
+        return RestService._request(reqParam);
+    };
 }

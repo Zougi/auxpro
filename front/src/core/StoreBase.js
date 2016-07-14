@@ -6,37 +6,85 @@ export default class StoreBase extends ObjectBase {
 	constructor(props) {
 		super(props);
 		this._content = props.content || {};
-		this._callbacks = [];
+		this._callbacks = {callbacks: []};
 		StoreRegistry.registerStore(this);
 	}
 
 	notify() {
-		let length = this._callbacks.length;
+		let length = this._callbacks.callbacks.length;
 		for (let i = 0 ; i < length ; i++) {
-			let current = this._callbacks[i];
+			let current = this._callbacks.callbacks[i];
 			current.callback();
 		}
 	}
+	
+	notifyPath(path) {
+		this.notify();
+		path = path.split("/");
+		var temp = this._callbacks;
+		for (var i = 0; i < path.length; i++) {
+			temp = temp[path[i]];
+			if (temp) {
+				for (let i = 0 ; i < temp.callbacks.length ; i++) {
+					let current = temp.callbacks[i];
+					current.callback();
+				}
+			}
+			else {
+				break;
+			}
+			
+		}
+	}
+	
+	register(path, controller, callback) {
 
-	register(controller, callback) {
-		if (controller && callback) {
-			this._callbacks.push({
+		if (path.length == 0) {
+			this._callbacks.callbacks.push({
+				controller: controller,
+				callback: callback
+			})
+		}
+		else {
+			var temp = this._callbacks;
+			for (var i = 0; i < path.length; i++) {
+				temp[path[i]] = temp[path[i]] || {};
+				temp = temp[path[i]];
+			}
+			temp["callbacks"] = temp["callbacks"] || [];
+			temp["callbacks"].push({
 				controller: controller,
 				callback: callback
 			})
 		}
 	}
-
-	unregister(controller) {
-		let length = this._callbacks.length;
+	
+	
+	deleteCallBacks(callBacks, controller){
+		let length = callBacks.length;
 		for (let i = 0 ; i < length ; i++) {
-			let current = this._callbacks[i];
+			let current = callBacks[i];
 			if (current.controller === controller) {
-				this._callbacks.splice(i, 1);
+				callBacks.splice(i, 1);
 				i--;
 				length--;
 			}
 		}
+	}
+	
+	unregisterRecurse(node, controller){
+		for (var prop in node) {
+			if (prop == "callbacks") {
+				this.deleteCallBacks(node[prop], controller);
+			}
+			else {
+				this.unregisterRecurse(node[prop], controller);
+			}
+		}
+	}
+	
+	unregister(controller) {
+		this.unregisterRecurse(this._callbacks, controller);
 	}
 
 	getData(path) {

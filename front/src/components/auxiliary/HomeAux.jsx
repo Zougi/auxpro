@@ -22,6 +22,7 @@ class HomeAux extends React.Component {
 
 	componentDidMount() {
         StoreRegistry.register('AUXILIARY_STORE', this, this.onAuxiliaryUpdate.bind(this));
+		StoreRegistry.register('AUXILIARY_STORE/auxiliary/geoZones', this, this.onAuxiliaryGeoZonesUpdate.bind(this));
     }
     componentWillUnmount() {
         StoreRegistry.unregister('AUXILIARY_STORE', this);   
@@ -31,6 +32,11 @@ class HomeAux extends React.Component {
     	this.loadAuxiliary(false);
 		this.setState(this.state);
     }
+	
+	onAuxiliaryGeoZonesUpdate() {
+		
+    }
+	
     loadAuxiliary(first) {
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
     	let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
@@ -76,7 +82,7 @@ class HomeAux extends React.Component {
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
 							<Tab eventKey={0} title="Mon Planning"><br/><Planing user={this.state.user} data={this.state.data}/></Tab>
-							<Tab eventKey={1} title="Ma Zone"><br/><AuxMap/></Tab>
+							<Tab eventKey={1} title="Ma Zone"><br/><AuxMap user={this.state.user}/></Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux data={this.state.data}/></Tab>
 							<Tab eventKey={3} title="Les Offres"><br/><Offers/></Tab>
 						</Tabs>

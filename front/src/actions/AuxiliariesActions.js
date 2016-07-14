@@ -55,3 +55,17 @@ PostAuxiliaryAbsence.do = function (args) {
 	Utils.checkMembers(args, ['token', 'id', 'data']);
 	return RestService.postAuxiliaryAbsence(args);
 }
+
+// GEOZONES
+
+let GetAuxiliaryGeoZones = new ActionBase({ name: 'GET_AUXILIARY_GEOZONES' });
+GetAuxiliaryGeoZones.do = function (args) {
+	Utils.checkMembers(args, ['token', 'id']);
+	return RestService.getAuxiliaryGeoZones(args);
+}
+
+let PostAuxiliaryGeoZone = new ActionBase({ name: 'POST_AUXILIARY_GEOZONE' });
+PostAuxiliaryGeoZone.do = function (args) {
+	Utils.checkMembers(args, ['token', 'id', 'data']);
+	return RestService.postAuxiliaryGeoZone(args);
+}

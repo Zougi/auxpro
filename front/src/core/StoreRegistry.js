@@ -16,8 +16,11 @@ class StoreRegistry extends ObjectBase {
 		}
 	}
 
-	register (store, object, callback) {
-		this._getStore(store).register(object, callback);
+	register (path, object, callback) {
+		path = path.split("/");
+		var store = path[0];
+		path.splice(0, 1);
+		this._getStore(store).register(path, object, callback);
 	}
 
 	unregister (store, object) {

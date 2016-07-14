@@ -58,4 +58,14 @@ AuxiliaryStore.onGetAuxiliaryAbsences = function (args) {
 
 Dispatcher.register('GET_AUXILIARY_ABSENCES', AuxiliaryStore.onGetAuxiliaryAbsences);
 
+
+AuxiliaryStore.onGetAuxiliaryGeoZones = function (args) {
+	if (args && args.length > 0) {
+		AuxiliaryStore._content.auxiliary[args[0].auxiliaryId].geoZones = args;
+		AuxiliaryStore.notifyPath('/auxiliary/geoZones');
+	}	
+};
+
+Dispatcher.register('GET_AUXILIARY_GEOZONES', AuxiliaryStore.onGetAuxiliaryGeoZones);
+
 export default AuxiliaryStore;
