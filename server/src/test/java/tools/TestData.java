@@ -26,6 +26,7 @@ import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.GeoZoneBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
@@ -147,6 +148,7 @@ public class TestData {
 	public static int SERVICE_ID = 0;
 	public static int SKILL_ID = 0;
 	public static int USER_ID = 0;
+	public static int GEOZONE_ID = 0;
 
 	public static CredentialsBean getNextCredentials() {
 		return next(new CredentialsBean());
@@ -269,6 +271,13 @@ public class TestData {
 		bean.setTutoSkipped(true);
 		bean.setType(type);
 		bean.setId(id);
+		return bean;
+	}
+	public static GeoZoneBean next(GeoZoneBean bean) {
+		bean.setRadius("500");
+		bean.setLattitude("0");
+		bean.setLongitude("0");
+		bean.setPostalCode(75000);
 		return bean;
 	}
 

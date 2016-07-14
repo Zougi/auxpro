@@ -6,7 +6,7 @@ import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } fr
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
 // custom components
-import AuxMap from './geo/AuxMap.jsx'
+import AuxMap from './map/AuxiliaryMap.jsx'
 import Planing from './planing/Planing.jsx'
 import HomeAuxHead from './HomeAuxHead.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'

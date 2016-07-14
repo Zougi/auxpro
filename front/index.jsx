@@ -18,7 +18,7 @@ import Contact       from './src/components/app/static/Contact.jsx'
 import Login         from './src/components/app/auth/Login.jsx'
 import RegisterAux   from './src/components/app/auth/RegisterAux.jsx'
 import RegisterSad   from './src/components/app/auth/RegisterSad.jsx'
-import Map           from './src/components/map/Map.jsx'
+import Map           from './src/components/auxiliary/map/AuxiliaryMap.jsx'
 
 moment.locale('fr');
 

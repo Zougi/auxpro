@@ -1,5 +1,7 @@
 package org.ap.web.entity.mongo;
 
+import java.awt.List;
+
 import org.ap.web.entity.MongoEntity;
 import org.ap.web.internal.annotation.MongoObject;
 
@@ -14,6 +16,7 @@ public class AuxiliaryBean extends MongoEntity {
 	private ContactBean contact;
 	private SkillsBean skills;
 	private String diploma;
+	private GeoZoneBean[] geoZones;
 	
 	public AuxiliaryBean() { }
 	
@@ -31,4 +34,7 @@ public class AuxiliaryBean extends MongoEntity {
 
 	public SkillsBean getSkills() { return skills; }
 	public void setSkills(SkillsBean skills) { this.skills = skills; }
+	
+	public GeoZoneBean[] getGeoZones() { return geoZones; }
+	public void setGeoZones(GeoZoneBean[] geoZones) { this.geoZones = geoZones; }
 }
