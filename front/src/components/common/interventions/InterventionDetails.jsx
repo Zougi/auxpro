@@ -7,8 +7,8 @@ import StoreRegistry from '../../../core/StoreRegistry';
 // custom modules
 import { fromLocalDate, toHumanDate, fromLocalTime, toHumanTime, ControlLabel } from '../../../utils/moment/MomentHelper.js'
 // custom components
-import InterventionEditOneTime from './InterventionEditOneTime.jsx'
-import InterventionEditRecurence from './InterventionEditRecurence.jsx'
+import InterventionDetailsOneTime from './InterventionDetailsOneTime.jsx'
+import InterventionDetailsRecurence from './InterventionDetailsRecurence.jsx'
 import FormSelect from '../form/FormSelect.jsx'
 import ButtonsEndDialog from '../ButtonsEndDialog.jsx';
 
@@ -19,7 +19,7 @@ let STATES = {
 	RECURENCE: 'Récurente'
 };
 
-class InterventionCreate extends React.Component {
+class InterventionDetails extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -49,7 +49,8 @@ class InterventionCreate extends React.Component {
 	}
 	onCreate() {
 		let data = { 
-			customerId: this.state.customerId || ((this.props.customers && this.props.customers.length) ? this.props.customers[0].id : ''),
+			id: this.props.intervention ? this.props.intervention.id : null,
+			customerId: this.state.customerId || (this.props.intervention ? this.props.intervention.customerId : null) || ((this.props.customers && this.props.customers.length) ? this.props.customers[0].id : ''),
 			serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id')
 		};
 		switch (this.state.mode) {
@@ -68,12 +69,16 @@ class InterventionCreate extends React.Component {
 
 
 	render() {
-		let customers = this.props.customers.map(function(customer) {
+		let currentCustomer = null;
+		let customers = (this.props.customers || []).map(function(customer) {
+			if (this.props.intervention && this.props.intervention.customerId === customer.id) {
+				currentCustomer = customer.person.lastName + ' ' + customer.person.firstName;
+			}
 			return {
 				key: customer.id,
 				value: customer.person.lastName + ' ' + customer.person.firstName
 			};
-		});
+		}.bind(this));
 		let modes = [
 			{ key: 'ONE_TIME', value: STATES.ONE_TIME },
 			{ key: 'RECURENCE', value: STATES.RECURENCE }
@@ -84,9 +89,9 @@ class InterventionCreate extends React.Component {
 					<Row>
 						<Col sm={8} md={7} lg={6}>
 							<FormSelect 
-								static={false}
-								title='Choisir clients'
-								defaultValue={customers.length ? customers[0] : 'Pas de clients'} 
+								static={this.props.intervention ? true : false}
+								title={this.props.intervention ? 'Client' : 'Choisir client'}
+								defaultValue={currentCustomer || (customers.length ? customers[0].id : 'Pas de clients')} 
 								values={customers}
 								onChange={this.onCustomerChanged.bind(this)}/>
 						</Col>
@@ -95,7 +100,7 @@ class InterventionCreate extends React.Component {
 					<Row>
 						<Col sm={8} md={7} lg={6}>
 							<FormSelect 
-								static={false}
+								static={!this.props.edit}
 								title='Type de demande'
 								defaultValue={this.state.mode} 
 								values={modes}
@@ -106,18 +111,20 @@ class InterventionCreate extends React.Component {
 					<Col sm={11}>
 							{this.state.mode === STATES.ONE_TIME
 							?
-								<InterventionEditOneTime 
+								<InterventionDetailsOneTime 
+									edit={this.props.edit}
 									onChange={this.onOneTimeChanged.bind(this)} 
 									oneTime={this.props.intervention ? this.props.intervention.oneTime : null}/>
 							:
-								<InterventionEditRecurence 
+								<InterventionDetailsRecurence
+									edit={this.props.edit}
 									onChange={this.onRecurenceChanged.bind(this)}
 									recurence={this.props.intervention ? this.props.intervention.recurence : null}/>
 							}
 					</Col>
 					<br/>
 					<ButtonsEndDialog 
-						onOk={this.onCreate.bind(this)} okTitle='Creer demande' 
+						onOk={this.onCreate.bind(this)} okTitle={this.props.intervention ? 'Modifier intervention' : 'Creer intervention'}
 						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				</Grid>
 			</Panel>
@@ -125,4 +132,4 @@ class InterventionCreate extends React.Component {
 	}
 }
 
-export default InterventionCreate;
+export default InterventionDetails;

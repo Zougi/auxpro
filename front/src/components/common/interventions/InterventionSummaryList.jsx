@@ -12,9 +12,14 @@ class InterventionSummaryList extends React.Component {
 	_buildInterventions() {
 		return (this.props.interventions || []).map(function(intervention) {
             return (
-               	<InterventionSummary key={intervention.id} intervention={intervention}/>
+               	<InterventionSummary 
+               		key={intervention.id} 
+               		intervention={intervention}
+               		onEdit={this.props.onEdit}
+					onMatch={this.props.onMatch}
+					onDelete={this.props.onDelete}/>
             );
-        });
+        }.bind(this));
 	}
 
 	render() {

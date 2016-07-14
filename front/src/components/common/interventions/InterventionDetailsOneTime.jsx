@@ -5,15 +5,15 @@ import { Panel } from 'react-bootstrap';
 import FormDate from '../form/FormDate.jsx'
 import FormTime from '../form/FormTime.jsx'
 
-class InterventionEditOneTime extends React.Component {
+class InterventionDetailsOneTime extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.data = {
 			oneTime: {
 				date: props.oneTime ? props.oneTime.date : null,
-				startTime: props.oneTime ? props.oneTime.startTime : null,
-				endTime: props.oneTime ? props.oneTime.endTime : null
+				startTime: props.oneTime ? props.oneTime.startTime : [0, 0],
+				endTime: props.oneTime ? props.oneTime.endTime : [0, 0]
 			}
 		}
 	}
@@ -41,19 +41,19 @@ class InterventionEditOneTime extends React.Component {
 			<Panel>
 				<FormDate
 					defaultValue={this.data.oneTime.date}
-					static={false}
+					static={!this.props.edit}
 					title='Date'
 					onChange={this.onDateChanged.bind(this)}/>
 				<br/><br/>
 				<FormTime
 					defaultValue={this.data.oneTime.startTime}
-					static={false}
+					static={!this.props.edit}
 					title='Début'
 					onChange={this.onStartTimeChanged.bind(this)}/>
 				<br/><br/>
 				<FormTime
 					defaultValue={this.data.oneTime.endTime}
-					static={false}
+					static={!this.props.edit}
 					title='Fin'
 					onChange={this.onEndTimeChanged.bind(this)}/>
 			</Panel>
@@ -61,4 +61,4 @@ class InterventionEditOneTime extends React.Component {
 	}
 }
 
-export default InterventionEditOneTime;
+export default InterventionDetailsOneTime;

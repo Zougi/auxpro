@@ -19,8 +19,8 @@ class InterventionSummary extends React.Component {
 		}
 	}
 	onDelete() {
-		if (this.props.onMatch) {
-			this.props.onMatch(this.props.intervention);
+		if (this.props.onDelete) {
+			this.props.onDelete(this.props.intervention);
 		}
 	}
 

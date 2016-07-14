@@ -6,15 +6,16 @@ import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
-import InterventionCreate from '../../common/interventions/InterventionCreate.jsx';
-import CustomerInterventionList from '../../common/customers/CustomerInterventionList.jsx';
+import InterventionDetails from '../../common/interventions/InterventionDetails.jsx';
+import ServiceCustomerInterventions from './ServiceCustomerInterventions.jsx';
 import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
 
 let STATES = {
 	LIST: 'LIST',
 	ADD: 'ADD',
 	VIEW: 'VIEW',
-	EDIT: 'EDIT'
+	EDIT: 'EDIT',
+    MATCH: 'MATCH'
 }
 
 class ServiceInterventions extends React.Component {
@@ -39,6 +40,10 @@ class ServiceInterventions extends React.Component {
         this.setState({ intervention: intervention });
         this.setState({ state: STATES.EDIT });
     }
+    onMatchIntervention(intervention) {
+        this.setState({ intervention: intervention });
+        this.setState({ state: STATES.MATCH });
+    }
     onDeleteIntervention(intervention) {
         this.setState({ intervention: intervention });
         this.setState({ showDeleteConfirm: true });
@@ -47,29 +52,36 @@ class ServiceInterventions extends React.Component {
     	this.setState({ showDeleteConfirm: false });
     }
 
-    onCreateIntervention(intervention) {
+    createIntervention(intervention) {
         this._issueInterventionAction('POST_SERVICE_CUSTOMER_INTERVENTION', intervention);
     }
-    onSaveIntervention(intervention) {
+    saveIntervention(intervention) {
     	this._issueInterventionAction('PUT_SERVICE_CUSTOMER_INTERVENTION', intervention);
     }
-    onDeleteIntervention(intervention) {
-        this._issueInterventionAction('DELETE_SERVICE_CUSTOMER_INTERVENTION', intervention);
+    deleteIntervention() {
+        this._issueInterventionAction('DELETE_SERVICE_CUSTOMER_INTERVENTION', this.state.intervention);
     }
 
     _issueInterventionAction(action, intervention) {
-    	let args = {
+        console.log('==================')
+        console.log(intervention)
+        console.log('==================')
+    	Dispatcher.issue(action, {
             serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
             customerId: intervention.customerId,
+            interventionId: intervention.id,
             token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
             data: intervention
-        }
-    	Dispatcher.issue(action, args).
+        }).
     	then(function () {
-    		Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);	
+    		Dispatcher.issue('GET_SERVICE_INTERVENTIONS', {
+                serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+                token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
+            });
     	}).
     	then(function() {
-    		this.setState({ state: STATES.LIST });
+            this.hideDeleteConfirmation();
+    		this.onCancel();
     	}.bind(this)).
     	catch(function(error) {
     		console.log(error);
@@ -83,16 +95,32 @@ class ServiceInterventions extends React.Component {
 		}.bind(this)).
 		map(function(customer) {
 			return (
-				<CustomerInterventionList key={customer.id} customer={customer} interventions={this.props.interventions[customer.id]}/>
+				<ServiceCustomerInterventions 
+                    key={customer.id} 
+                    customer={customer} 
+                    interventions={this.props.interventions[customer.id]}
+                    onEdit={this.onEditIntervention.bind(this)}
+                    onMatch={this.onMatchIntervention.bind(this)}
+                    onDelete={this.onDeleteIntervention.bind(this)}/>
 			);
 		}.bind(this));
 		switch (this.state.state) {
             case STATES.ADD:
                 return (
-                    <InterventionCreate 
-                        customers={this.props.customers || []}
+                    <InterventionDetails 
+                        edit={true}
+                        customers={this.props.customers}
                         onCancel={this.onCancel.bind(this)} 
-                        onCreate={this.onCreateIntervention.bind(this)}/>
+                        onCreate={this.createIntervention.bind(this)}/>
+                );
+            case STATES.EDIT:
+                return (
+                    <InterventionDetails 
+                        edit={true}
+                        customers={this.props.customers}
+                        intervention={this.state.intervention}
+                        onCancel={this.onCancel.bind(this)} 
+                        onCreate={this.saveIntervention.bind(this)}/>
                 );
             default:
         		return (
@@ -102,6 +130,15 @@ class ServiceInterventions extends React.Component {
         					<br/>
         					{customers}
         				</Panel>				
+                        <DialogConfirmation
+                            show={this.state.showDeleteConfirm}
+                            title='Supprimer intervention ?'
+                            onConfirm={this.deleteIntervention.bind(this)}
+                            confirmStyle='danger'
+                            confirmText='Supprimer'
+                            onCancel={this.hideDeleteConfirmation.bind(this)}
+                            cancelStyle='default'
+                            cancelText='Annuler'/>
         			</div>
         		);
         }

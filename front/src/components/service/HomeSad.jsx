@@ -21,7 +21,7 @@ class HomeSad extends React.Component {
 		this.state = {
 			user: this.user,
 			showTuto: !this.user.tutoSkipped,
-			showProfilePrompt: true,
+			showProfilePrompt: false,
 			data: StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id)
 		};
 		console.log(JSON.stringify(this.state));
@@ -93,7 +93,7 @@ class HomeSad extends React.Component {
 					</Row>
 					<Row>
 					{ this.state.data ? 
-						<Tabs defaultActiveKey={this.props.defaultTab || 10} id="sadTabs">
+						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Mes Informations">
 								<br/><ServiceProfile service={this.state.data.service}/>
 							</Tab>

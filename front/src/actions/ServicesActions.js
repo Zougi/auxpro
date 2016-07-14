@@ -35,8 +35,8 @@ GetServices.do = function (args) {
 	var reqParam = {
 		url   : getServiceUrl(),
 		token : args.token
-	};
-	return RestService._request(reqParam);
+	}; RestService._request(reqParam);
+	return
 }
 
 // GET SERVICE

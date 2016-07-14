@@ -2,7 +2,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 
-class InterventionEditRecurence extends React.Component {
+class InterventionDetailsRecurence extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -17,4 +17,4 @@ class InterventionEditRecurence extends React.Component {
 	}
 }
 
-export default InterventionEditRecurence;
+export default InterventionDetailsRecurence;
