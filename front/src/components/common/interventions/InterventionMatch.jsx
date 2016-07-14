@@ -1,12 +1,8 @@
-// react modules
 import React from 'react';
-// react-bootstrap modules
 import { Grid, Row, Col, Panel, Button } from 'react-bootstrap'
-// core modules
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import ButtonsEndDialog from '../ButtonsEndDialog.jsx';
 
-class InterventionsSmatch extends React.Component {
+class InterventionsMatch extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -14,19 +10,15 @@ class InterventionsSmatch extends React.Component {
 
 	render() { 
 		return(
-		<Grid>
+		<Panel header='Envoyer offre'>
 			<Row>
-				<Col sm={2}>
-					<Button block>Entrer un usager</Button>
-					<Button block bsStyle='warning'>Smatching</Button>
-				</Col>
 				<Col sm={4}>
 					<Panel header='Information usager' bsStyle='info'>
 					</Panel>
 					<Panel header='Demande Initiale' bsStyle='info'>
 					</Panel>
 				</Col>
-				<Col sm={2}>
+				<Col sm={4}>
 					<Panel header='Plannification' bsStyle='primary'>
 					</Panel>
 				</Col>
@@ -35,9 +27,14 @@ class InterventionsSmatch extends React.Component {
 					</Panel>
 				</Col>
 			</Row>
-		</Grid>
+			<ButtonsEndDialog 
+				onOk={this.props.onSend} 
+				okTitle='Envoyer'
+				onCancel={this.props.onCancel} 
+				cancelTitle='Annuler'/>
+		</Panel>
 		);
 	}
 }
 
-export default InterventionsSmatch;
+export default InterventionsMatch;

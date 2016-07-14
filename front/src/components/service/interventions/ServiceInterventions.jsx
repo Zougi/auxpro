@@ -7,6 +7,7 @@ import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import InterventionDetails from '../../common/interventions/InterventionDetails.jsx';
+import InterventionMatch from '../../common/interventions/InterventionMatch.jsx';
 import ServiceCustomerInterventions from './ServiceCustomerInterventions.jsx';
 import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
 
@@ -61,11 +62,11 @@ class ServiceInterventions extends React.Component {
     deleteIntervention() {
         this._issueInterventionAction('DELETE_SERVICE_CUSTOMER_INTERVENTION', this.state.intervention);
     }
+    sendIntervention(intervention) {
+        console.log('not implemented');
+    }
 
     _issueInterventionAction(action, intervention) {
-        console.log('==================')
-        console.log(intervention)
-        console.log('==================')
     	Dispatcher.issue(action, {
             serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
             customerId: intervention.customerId,
@@ -101,7 +102,7 @@ class ServiceInterventions extends React.Component {
                     interventions={this.props.interventions[customer.id]}
                     onEdit={this.onEditIntervention.bind(this)}
                     onMatch={this.onMatchIntervention.bind(this)}
-                    onDelete={this.onDeleteIntervention.bind(this)}/>
+                    onDelete={this.onDeleteIntervention.bind(this)} />
 			);
 		}.bind(this));
 		switch (this.state.state) {
@@ -111,7 +112,7 @@ class ServiceInterventions extends React.Component {
                         edit={true}
                         customers={this.props.customers}
                         onCancel={this.onCancel.bind(this)} 
-                        onCreate={this.createIntervention.bind(this)}/>
+                        onCreate={this.createIntervention.bind(this)} />
                 );
             case STATES.EDIT:
                 return (
@@ -120,13 +121,21 @@ class ServiceInterventions extends React.Component {
                         customers={this.props.customers}
                         intervention={this.state.intervention}
                         onCancel={this.onCancel.bind(this)} 
-                        onCreate={this.saveIntervention.bind(this)}/>
+                        onCreate={this.saveIntervention.bind(this)} />
+                );
+            case STATES.MATCH:
+                return (
+                    <InterventionMatch 
+                        onCancel={this.onCancel.bind(this)}
+                        onSend={this.sendIntervention.bind(this)} />
                 );
             default:
         		return (
         			<div>
         				<Panel header={(<strong>Interventions en cours</strong>)}>
-        					<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>Saisir nouvelle intervention</Button>
+        					<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>
+                                Saisir nouvelle intervention
+                            </Button>
         					<br/>
         					{customers}
         				</Panel>				
@@ -138,7 +147,7 @@ class ServiceInterventions extends React.Component {
                             confirmText='Supprimer'
                             onCancel={this.hideDeleteConfirmation.bind(this)}
                             cancelStyle='default'
-                            cancelText='Annuler'/>
+                            cancelText='Annuler' />
         			</div>
         		);
         }
