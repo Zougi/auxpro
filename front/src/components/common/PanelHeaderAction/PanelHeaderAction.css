@@ -1,0 +1,12 @@
+.ap-panel-header-action {
+
+} 
+
+.ap-panel-header-action .ap-column {
+	padding: 0;
+	text-align: right;
+} 
+
+.ap-panel-header-action .ap-column .ap-button {
+	margin-right: 5px;
+}

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 // Custom modules
-import InterventionOneTimeList from '../interventions/InterventionOneTimeList.jsx';
+import InterventionSummaryList from '../interventions/InterventionSummaryList.jsx';
 
 class CustomerInterventionList extends React.Component {
 	
@@ -13,7 +13,7 @@ class CustomerInterventionList extends React.Component {
 	render() {
 		return (
 			<Panel header={this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}>
-				<InterventionOneTimeList interventions={this.props.interventions}/>
+				<InterventionSummaryList interventions={this.props.interventions}/>
 			</Panel>
 		);
 	}

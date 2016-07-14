@@ -26,7 +26,6 @@ class ServiceCustomers extends React.Component {
 
     switchState(state) {
     	return function() {
-			//this.state.state = state || STATES.LIST;
 			this.setState({ state: state || STATES.LIST });
 		}.bind(this);
     }
@@ -58,7 +57,6 @@ class ServiceCustomers extends React.Component {
     }  
 
     onCustomerChange(customer) {
-    	console.log(customer)
     	this.state.customer = customer;
     }
 
@@ -92,7 +90,7 @@ class ServiceCustomers extends React.Component {
     	}.bind(this)).
     	catch(function(error) {
     		console.log(error);
-    	});    	
+    	});
     }
 
 	render() {
