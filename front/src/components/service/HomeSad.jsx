@@ -42,6 +42,9 @@ class HomeSad extends React.Component {
         then(function() {
         	Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
         }).
+        then(function() {
+        	Dispatcher.issue('GET_SERVICE_OFFERS', args);
+        }).
         catch(function() {
         	console.log('erreur au chargement du service');
         });

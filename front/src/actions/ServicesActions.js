@@ -23,6 +23,9 @@ function getInterventionUrl(serviceId, customerId, interventionId) {
 		return '/services/' + serviceId + '/interventions/' + (interventionId ? interventionId : '');
 	}
 }
+function getOfferUrl(offerId) {
+	return '/offers/' + (offerId ? offerId  : '');
+}
 
 /* **
  * SERVICES **
@@ -194,6 +197,60 @@ DeleteServiceCustomerInterventions.do = function (args) {
 	Utils.checkMembers(args, ['serviceId', 'customerId', 'interventionId', 'token']);
 	var reqParam = {
 		url   : getInterventionUrl(args.serviceId, args.customerId, args.interventionId),
+		method: 'DELETE',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+
+/* **
+ * OFFERS **
+ * */
+
+// GET SERVICE OFFERS
+let GetServiceOffers = new ActionBase({ name: 'GET_SERVICE_OFFERS' });
+GetServiceOffers.do = function (args) {
+	Utils.checkMembers(args, ['serviceId', 'token']);
+	var reqParam = {
+		url   : getServiceUrl(args.serviceId) + '/offers',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// POST OFFER
+let PostOffer = new ActionBase({ name: 'POST_OFFER' });
+PostOffer.do = function (args) {
+	Utils.checkMembers(args, ['data', 'token']);
+	var reqParam = {
+		url   : getOfferUrl(),
+		data  : args.data,
+		method: 'POST',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// PUT OFFER
+let PutOffer = new ActionBase({ name: 'PUT_OFFER' });
+PutOffer.do = function (args) {
+	Utils.checkMembers(args, ['offerId', 'data', 'token']);
+	var reqParam = {
+		url   : getOfferUrl(args.offerId),
+		data  : args.data,
+		method: 'PUT',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
+// DELETE OFFER
+let DeleteOffer = new ActionBase({ name: 'DELETE_OFFER' });
+DeleteOffer.do = function (args) {
+	Utils.checkMembers(args, ['offerId', 'token']);
+	var reqParam = {
+		url   : getOfferUrl(args.offerId),
 		method: 'DELETE',
 		token : args.token
 	};

@@ -84,8 +84,9 @@ public class TestData {
 				}
 			}))	{
 //				System.out.println("   - " + path);
+				String content = "";
 				try {
-					String content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
+					content = loadJsonRef(TEST_RSC_ENTITY_VALID + path);
 					MongoEntity obj = (MongoEntity)BeanConverter.localStringToBean(content, col.getClazz());
 					String id = path.replaceFirst(col.getName() + "_", "").replace(".json", "");
 					id = StringConverter.stringToHex(id);
@@ -104,6 +105,7 @@ public class TestData {
 					Document document = BeanConverter.convertToMongo(obj);
 					objects.add(document);
 				} catch (Exception e) {
+					System.out.println(content);
 					e.printStackTrace();
 					break;
 				}

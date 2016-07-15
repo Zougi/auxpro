@@ -1,6 +1,5 @@
-package org.ap.web.rest.servlet.services;
+package org.ap.web.rest.servlet.interventions;
 
-import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -13,8 +12,7 @@ import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
 
-@Path("/services/{servId}/customers/{custId}/interventions")
-public class ServiceInterventionsServlet extends ServletBase implements IServiceInterventionsServlet {
+public class InterventionsServlet extends ServletBase implements IInterventionsServlet {
 
 	/* STATIC */
 
@@ -27,7 +25,7 @@ public class ServiceInterventionsServlet extends ServletBase implements IService
 
 	/* CONSTRUCTOR */
 
-	public ServiceInterventionsServlet() throws APException {
+	public InterventionsServlet() throws APException {
 		_customerStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
 	}
@@ -79,5 +77,9 @@ public class ServiceInterventionsServlet extends ServletBase implements IService
 		} catch (APException e) {
 			return sendException(e);
 		}
+	}
+	@Override
+	public Response getInterventionMatchJSON(SecurityContext sc, String iId) {
+		return null;
 	}
 }
