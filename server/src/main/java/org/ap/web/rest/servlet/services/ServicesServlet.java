@@ -7,11 +7,14 @@ import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
+import org.ap.web.service.stores.offers.IOffersStore;
+import org.ap.web.service.stores.offers.OffersStore;
 import org.ap.web.service.stores.services.IServicesStore;
 import org.ap.web.service.stores.services.ServicesStore;
 
@@ -26,12 +29,14 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 
 	private IServicesStore _serviceStore;
 	private IInterventionsStore _interventionStore;
+	private IOffersStore _offersStore;
 
 	/* CONSTRUCTOR */
 
 	public ServicesServlet() throws APException {
 		_serviceStore = new ServicesStore();
 		_interventionStore = new InterventionsStore();
+		_offersStore = new OffersStore();
 	}
 
 	/* METHODS */
@@ -96,6 +101,17 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
 			InterventionBean[] interventions = _interventionStore.getServiceInterventions(id);
 			return Response.status(200).entity(interventions, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+
+	@Override
+	public Response getOffersJSON(SecurityContext sc, String serviceId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(serviceId)) return Response.status(403).build();
+			OfferBean[] offers = _offersStore.getServiceOffers(serviceId);
+			return Response.status(200).entity(offers, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

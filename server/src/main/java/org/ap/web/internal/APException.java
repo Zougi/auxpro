@@ -31,9 +31,14 @@ public class APException extends Exception {
 	public static final APException ABSENCE_HOURS_INVALID = new APException("ABSENCE_HOURS_INVALID", Status.BAD_REQUEST);
 	public static final APException ABSENCE_INVALID_AUX = new APException("ABSENCE_INVALID_AUX", Status.BAD_REQUEST);
 	
+	public static final APException OFFER_NOT_FOUND = new APException("OFFER_NOT_FOUND", Status.NOT_FOUND);
+
 	public static final APException AUX_INFO_INVALID = new APException("AUX_INFO_INVALID", Status.BAD_REQUEST);
 	
 	public static final APException ENTITY_DOES_NOT_EXISTS = new APException("ENTITY_DOES_NOT_EXISTS", Status.BAD_REQUEST);
+
+	public static final APException INVALID_REQUEST_DATA = new APException("INVALID_REQUEST_DATA", Status.BAD_REQUEST);
+	public static final APException OPERATION_NOT_ALLOWED = new APException("OPERATION_NOT_ALLOWED", Status.FORBIDDEN);
 	
 	// MONGO exceptions
 	

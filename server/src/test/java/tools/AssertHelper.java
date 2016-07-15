@@ -121,6 +121,8 @@ public class AssertHelper {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
+			TestCase.assertEquals(expected.getServiceId(), actual.getServiceId());
+			TestCase.assertEquals(expected.getCustomerId(), actual.getCustomerId());
 			TestCase.assertEquals(expected.getInterventionId(), actual.getInterventionId());
 			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
 			TestCase.assertEquals(expected.getCreationDate(), actual.getCreationDate());

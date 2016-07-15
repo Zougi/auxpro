@@ -68,4 +68,13 @@ public interface IServicesServlet {
 	@Path("{servId}/interventions")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getInterventionsJSON(@Context SecurityContext sc, @PathParam("servId") String id);
+
+	// OFFERS
+
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{servId}/offers")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getOffersJSON(@Context SecurityContext sc, @PathParam("servId") String id);
+
 }
