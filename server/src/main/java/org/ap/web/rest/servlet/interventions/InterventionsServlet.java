@@ -3,10 +3,13 @@ package org.ap.web.rest.servlet.interventions;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
+import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
+import org.ap.web.service.stores.auxiliaries.IAuxiliariesStore;
 import org.ap.web.service.stores.customers.CustomersStore;
 import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
@@ -22,12 +25,14 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 
 	private ICustomersStore _customerStore;
 	private IInterventionsStore _interventionsStore;
+	private IAuxiliariesStore _auxiliaryStore;
 
 	/* CONSTRUCTOR */
 
 	public InterventionsServlet() throws APException {
 		_customerStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
+		_auxiliaryStore = new AuxiliariesStore();
 	}
 
 	/* METHODS */
@@ -80,6 +85,11 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 	}
 	@Override
 	public Response getInterventionMatchJSON(SecurityContext sc, String iId) {
-		return null;
+		try {
+			AuxiliaryBean[] users = _auxiliaryStore.get();
+			return Response.status(200).entity(users, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
 	}
 }
