@@ -28,6 +28,7 @@ import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.GeoZoneBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
 import org.ap.web.entity.mongo.RecurenceBean;
@@ -142,6 +143,7 @@ public class TestData {
 	public static int CONTACT_ID = 0;
 	public static int CUSTOMER_ID = 0;
 	public static int INTERVENTION_ID = 0;
+	public static int OFFER_ID = 0;
 	public static int ONETIME_ID = 0;
 	public static int PERSON_ID = 0;
 	public static int RECURENCE_ID = 0;
@@ -223,6 +225,14 @@ public class TestData {
 		bean.setDate(LocalDate.now().plusDays(ONETIME_ID++));
 		bean.setStartTime(LocalTime.of(2, 00));
 		bean.setEndTime(LocalTime.of(4, 30));
+		return bean;
+	}
+	public static OfferBean next(OfferBean bean) {
+		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
+		bean.setInterventionId(StringConverter.stringToHex(String.valueOf(INTERVENTION_ID)));
+		bean.setCreationDate(LocalDate.now().plusDays(ONETIME_ID++));
+		bean.setExpiryDate(LocalDate.now().plusDays(ONETIME_ID + 2));
+		bean.setStatus("PENDING");
 		return bean;
 	}
 	public static PersonBean next(PersonBean bean) {

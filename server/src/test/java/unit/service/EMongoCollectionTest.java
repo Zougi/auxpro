@@ -15,7 +15,7 @@ public class EMongoCollectionTest {
 		TestCase.assertEquals(EMongoCollection.CUSTOMERS.getName(), "customers");
 		TestCase.assertEquals(EMongoCollection.INTERVENTIONS.getName(), "interventions");
 		TestCase.assertEquals(EMongoCollection.MISSIONS_AFFECTED.getName(), "missions.affected");
-		TestCase.assertEquals(EMongoCollection.MISSIONS_OFFERS.getName(), "missions.offers");
+		TestCase.assertEquals(EMongoCollection.OFFERS.getName(), "offers");
 		TestCase.assertEquals(EMongoCollection.TOKENS.getName(), "tokens");
 		TestCase.assertEquals(EMongoCollection.SERVICES.getName(), "services");
 	}

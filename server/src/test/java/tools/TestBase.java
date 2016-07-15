@@ -5,6 +5,7 @@ import org.ap.web.entity.mongo.AccountBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.internal.EConfigProperties;
 import org.ap.web.service.Mongo;
@@ -27,6 +28,7 @@ public class TestBase {
 	protected ServiceBean service1, service2;
 	protected CustomerBean customer1, customer2;
 	protected InterventionBean intervention1,interventionz;
+	protected OfferBean offer1;
 	@Before
 	public void setUpTestData() throws Exception {
 		absenceAux11  = TestData.getFromJson("absences_aux1abs1.json", AbsenceBean.class);
@@ -42,6 +44,7 @@ public class TestBase {
 		service2      = TestData.getFromJson("services_sad2.json", ServiceBean.class);
 		intervention1 = TestData.getFromJson("interventions_sad1cus1.json", InterventionBean.class);
 		interventionz = TestData.getFromJson("interventions_sad1cus2.json", InterventionBean.class);
+		offer1        = TestData.getFromJson("offers_sad1cus1aux1.json", OfferBean.class);
 	}
 	
 	/* TEST SETUP */

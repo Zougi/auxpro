@@ -14,6 +14,7 @@ import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
 import org.ap.web.entity.mongo.RecurenceBean;
@@ -114,6 +115,17 @@ public class AssertHelper {
 			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
 			TestCase.assertEquals(expected.getServiceId(), actual.getServiceId());
 			TestCase.assertEquals(expected.getCustomerId(), actual.getCustomerId());
+		}
+	}
+	public static void assertOffer(OfferBean expected, OfferBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.getInterventionId(), actual.getInterventionId());
+			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
+			TestCase.assertEquals(expected.getCreationDate(), actual.getCreationDate());
+			TestCase.assertEquals(expected.getExpiryDate(), actual.getExpiryDate());
+			TestCase.assertEquals(expected.getStatus(), actual.getStatus());
 		}
 	}
 	public static void assertOneTime(OneTimeBean expected, OneTimeBean actual) {

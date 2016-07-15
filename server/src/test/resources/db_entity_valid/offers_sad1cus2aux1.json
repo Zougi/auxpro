@@ -1,0 +1,9 @@
+{
+	"serviceId": "sad1",
+	"customerId": "cus2",
+	"interventionId": "sad1cus2",
+	"auxiliaryId": "aux1",
+	"creationDate": [2016, 6, 28],
+	"expiryDate": [2016, 6, 29],
+	"status": "PENDING"
+}
