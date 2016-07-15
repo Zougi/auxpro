@@ -6,6 +6,7 @@ import StoreRegistry from './StoreRegistry';
 // Import Actions
 import AuxiliariesActions from '../actions/AuxiliariesActions';
 import AuthActions from '../actions/AuthActions';
+import InterventionsActions from '../actions/InterventionsActions';
 import ServicesActions from '../actions/ServicesActions';
 
 // Import Stores

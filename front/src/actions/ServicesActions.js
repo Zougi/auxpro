@@ -1,9 +1,6 @@
-// Import core modules
 import ActionBase from '../core/ActionBase.js';
 import StoreRegistry from '../core/StoreRegistry';
-// Import utilities module
 import Utils from '../utils/Utils.js';
-// Import services modules
 import RestService from '../services/rest/RestService.js';
 
 /* **
