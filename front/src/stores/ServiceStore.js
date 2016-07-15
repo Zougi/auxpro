@@ -101,4 +101,16 @@ ServiceStore.onGetAuxiliaryMissions = function (args) {
 };
 Dispatcher.register('GET_AUXILIARY_MISSIONS', ServiceStore.onGetAuxiliaryMissions);
 
+// GET INTERVENTION AUXILIARY
+ServiceStore.onGetInterventionAuxiliary = function (args) {
+	console.log("###############################INTERVENTION####################################");
+	console.log(args);
+	console.log(ServiceStore._content.service);
+	console.log("#############################################################################");
+	if (args && args.length > 0) {
+	}
+	ServiceStore.notify();
+};
+Dispatcher.register('GET_INTERVENTION_MATCH', ServiceStore.onGetInterventionAuxiliary);
+
 export default ServiceStore;

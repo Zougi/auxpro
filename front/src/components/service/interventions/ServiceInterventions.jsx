@@ -42,8 +42,20 @@ class ServiceInterventions extends React.Component {
         this.setState({ state: STATES.EDIT });
     }
     onMatchIntervention(intervention) {
-        this.setState({ intervention: intervention });
-        this.setState({ state: STATES.MATCH });
+        let params = {
+			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+			interventionId: intervention.id
+		}
+		Dispatcher.issue('GET_INTERVENTION_MATCH', params);
+		
+		this.setState({ 
+			intervention: intervention,
+			matchesAux: [],
+			state: STATES.MATCH	
+		});
+		console.log("###########################################INTERVENTION#############################################");
+		console.log(intervention);
+		console.log("##################################################################################################");
     }
     onDeleteIntervention(intervention) {
         this.setState({ intervention: intervention });

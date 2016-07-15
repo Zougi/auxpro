@@ -54,7 +54,7 @@ public interface IInterventionsServlet {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response deleteInterventionJSON(@Context SecurityContext sc, @PathParam("servId") String sId, @PathParam("custId") String cId, @PathParam("interId") String iId);
 	
-	@DELETE
+	@GET
 	@RolesAllowed("authenticated")
 	@Path("/interventions/{interId}/match")
 	@Produces({MediaType.APPLICATION_JSON})

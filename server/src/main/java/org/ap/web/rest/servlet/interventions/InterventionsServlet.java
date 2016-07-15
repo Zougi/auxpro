@@ -1,5 +1,6 @@
 package org.ap.web.rest.servlet.interventions;
 
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -15,6 +16,7 @@ import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
 
+@Path("")
 public class InterventionsServlet extends ServletBase implements IInterventionsServlet {
 
 	/* STATIC */

@@ -64,7 +64,7 @@ class Dispatcher extends ObjectBase {
 						var callbacks = this._callbacks[a.getName()] || [];
 						var length = callbacks.length;
 						for (var i = 0 ; i < length ; i++) {
-							callbacks[i](result);
+							callbacks[i](result, param);
 						}
 						resolve({ action: action, status: 'ok' });
 					}).
