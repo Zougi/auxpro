@@ -69,3 +69,15 @@ PostAuxiliaryGeoZone.do = function (args) {
 	Utils.checkMembers(args, ['token', 'id', 'data']);
 	return RestService.postAuxiliaryGeoZone(args);
 }
+
+let DeleteAuxiliaryGeoZone = new ActionBase({ name: 'DELETE_AUXILIARY_GEOZONE' });
+DeleteAuxiliaryGeoZone.do = function (args) {
+	Utils.checkMembers(args, ['id', 'data', 'token']);
+	var reqParam = {
+		url   : '/auxiliaries/' + args.id + '/geozones',
+		method: 'DELETE',
+		token : args.token,
+		data: args.data
+	};
+	return RestService._request(reqParam);
+}

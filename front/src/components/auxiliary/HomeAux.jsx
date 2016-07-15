@@ -34,6 +34,10 @@ class HomeAux extends React.Component {
     }
 	
 	onAuxiliaryGeoZonesUpdate() {
+		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
+		this.setState({data: data});
+
 		
     }
 	
@@ -46,7 +50,37 @@ class HomeAux extends React.Component {
 			showTuto: first?!data.user.tutoSkipped:this.state.showTuto,
 			showProfilePrompt: first?true:this.state.showProfilePrompt
 		};
+		
+		var args = {
+			id: this.state.user.id,
+			token: this.state.user.token
+		}
+		if (first)
+			Dispatcher.issue('GET_AUXILIARY_GEOZONES', args);	
     }
+	
+	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
+	
+	sendGeoZone(geoZone){
+		let params = { 
+			id: this.state.user.id,
+			token: this.state.user.token,
+			data : geoZone
+		};
+		console.log("################################POST GEOZONE#######################################")
+		Dispatcher.issue('POST_AUXILIARY_GEOZONE', params);
+	}
+	
+	deleteGeoZone(geoZone) {
+		let params = { 
+			id: this.state.user.id,
+			token: this.state.user.token,
+			data : geoZone
+		};
+		console.log("################################DELETE GEOZONE#######################################")
+		Dispatcher.issue('DELETE_AUXILIARY_GEOZONE', params);
+	}
+	
 
     _tutoClose() {
     	this.state.showTuto = false;
@@ -82,7 +116,7 @@ class HomeAux extends React.Component {
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
 							<Tab eventKey={0} title="Mon Planning"><br/><Planing user={this.state.user} data={this.state.data}/></Tab>
-							<Tab eventKey={1} title="Ma Zone"><br/><AuxMap user={this.state.user}/></Tab>
+							<Tab eventKey={1} title="Ma Zone"><br/><AuxMap user={this.state.user} geoZones={this.state.data.geoZones} sendGeoZone={this.sendGeoZone.bind(this)} deleteGeoZone={this.deleteGeoZone.bind(this)}/></Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/><ProfileAux data={this.state.data}/></Tab>
 							<Tab eventKey={3} title="Les Offres"><br/><Offers/></Tab>
 						</Tabs>

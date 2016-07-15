@@ -1,7 +1,5 @@
 package org.ap.web.entity.mongo;
 
-import java.awt.List;
-
 import org.ap.web.entity.MongoEntity;
 import org.ap.web.internal.annotation.MongoObject;
 

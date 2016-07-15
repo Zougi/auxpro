@@ -3,6 +3,7 @@ package org.ap.web.service.stores;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.List;
+import java.util.Map;
 
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.MongoEntity;
@@ -13,6 +14,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.model.Projections;
 
 public class StoreBase<T extends MongoEntity> {
 
@@ -26,6 +28,11 @@ public class StoreBase<T extends MongoEntity> {
 
 	protected T getEntityById(String id) throws APException {
 		Document document = _collection.getService().findOne(eq("_id", new ObjectId(id)));
+		if (document == null) return null; 
+		return BeanConverter.convertToBean(document, _class);
+	}
+	protected T getEntityById(String id, List<String> projections) throws APException {
+		Document document = _collection.getService().findOne(eq("_id", new ObjectId(id)), Projections.include(projections));
 		if (document == null) return null; 
 		return BeanConverter.convertToBean(document, _class);
 	}
@@ -55,5 +62,16 @@ public class StoreBase<T extends MongoEntity> {
 		Document document = _collection.getService().deleteOne(id);
 		if (document == null) throw APException.MONGO_ENTITY_NOT_FOUND;
 		return BeanConverter.convertToBean(document, _class);
-	}	
+	}
+	
+	protected T pushToEntity(String id, String field, Document document) throws APException {
+		document = _collection.getService().push(id, field, document);
+		return BeanConverter.convertToBean(document, _class);
+	}
+	
+	protected T deleteFromArray(String id, Map<String, String> matchingfields) throws APException {
+		Document document = _collection.getService().deleteFromArray(id, matchingfields);
+		if (document == null) throw APException.MONGO_ENTITY_NOT_FOUND;
+		return BeanConverter.convertToBean(document, _class);
+	}
 }
