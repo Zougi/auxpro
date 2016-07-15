@@ -11,7 +11,6 @@ class AuxiliaryMap extends React.Component {
 
   constructor(props) {
     super(props);
-
 	this.myMap = null;
 	this.initialZoom = 12;
 	this.defaultCenter = {
@@ -27,13 +26,12 @@ class AuxiliaryMap extends React.Component {
   
 	componentWillMount () {
 		this.setState({
-				editMode: null,
-				areas: []
-				});
+					editMode: null,
+					areas: []
+					});		
 	}
   
 	componentDidMount () {
- 		
 		var mapOptions = {
             center: new google.maps.LatLng(this.defaultCenter.mapCenterLat, this.defaultCenter.mapCenterLng),
             zoom: this.initialZoom
@@ -49,6 +47,17 @@ class AuxiliaryMap extends React.Component {
 		
 		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
 		this.autocomplete.addListener('place_changed', this.autocompleteChange.bind(this));
+		
+		let areas = [];
+		for (let i = 0; i < this.props.geoZones.length; i++) {
+			let location = new google.maps.LatLng(this.props.geoZones[i].lattitude, this.props.geoZones[i].longitude);
+			let marker = this.addMarker(location, "zone");
+			let circle = this.addCircle(location, parseFloat(this.props.geoZones[i].radius));
+			let geozone = {type: "circle", adress: "No adress", marker: marker, circle: circle}
+			areas.push(geozone);;
+		}
+		
+		this.setState({areas: areas});
 	}	
 	
 	addMarker(location, title) {
@@ -156,38 +165,23 @@ class AuxiliaryMap extends React.Component {
 	  console.log(this.circleMarker.position.lat());
 	  console.log("##########################################################################################");
 	  
-	var data = {
-		
-	}
+	  
+	 let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
+	 this.props.sendGeoZone(geoZone);
 	  
 	 this.setState({areas: this.state.areas.concat({type: "circle", adress: this.refs.autocomplete.value, marker: this.circleMarker, circle: this.myCircle})});
 	 this.circleMarker = null;
 	 this.myCircle = null;
 	 this.desactiveCircle();
-	 
-	 
-		// event.preventDefault();
-		// this.state.edit = false;
-		// this.setState(this.state);
-		// var data = {
-			// person: this.state.data.person,
-			// contact: this.state.data.contact,
-			// user: this.state.data.user,
-			// diploma: this.state.data.diploma,
-		// }
-		// let params = {
-			// id: this.state.user.id,
-        	// data: data,
-        	// token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
-        // }
-        // console.log(params);
-        // Dispatcher.issue('PUT_AUXILIARY', params);
   }
   
   deleteArea(index){
-	console.log(index);
-	this.deleteMarker(this.state.areas[index].marker);
-	this.deleteCircle(this.state.areas[index].circle);
+	let marker = this.state.areas[index].marker;
+	let circle =  this.state.areas[index].circle;
+	let geoZone = {lattitude: marker.position.lat(), longitude: marker.position.lng(), radius: circle.radius};
+	this.props.deleteGeoZone(geoZone);
+	this.deleteMarker(marker);
+	this.deleteCircle(circle);
 	this.state.areas.splice(index, 1);
 	this.setState({areas: this.state.areas});
   }

@@ -25,10 +25,11 @@ export default class StoreBase extends ObjectBase {
 		for (var i = 0; i < path.length; i++) {
 			temp = temp[path[i]];
 			if (temp) {
-				for (let i = 0 ; i < temp.callbacks.length ; i++) {
-					let current = temp.callbacks[i];
-					current.callback();
-				}
+				if (temp.callbacks)
+					for (let j = 0 ; j < temp.callbacks.length ; j++) {
+						let current = temp.callbacks[j];
+						current.callback();
+					}
 			}
 			else {
 				break;
@@ -38,7 +39,6 @@ export default class StoreBase extends ObjectBase {
 	}
 	
 	register(path, controller, callback) {
-
 		if (path.length == 0) {
 			this._callbacks.callbacks.push({
 				controller: controller,

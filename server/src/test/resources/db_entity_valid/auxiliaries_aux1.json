@@ -30,5 +30,8 @@
 		"email":"user1@user1.fr",
 		"emailChecked": true
 	},
-	"diploma":"Diplome de trucmuche"
+	"diploma":"Diplome de trucmuche",
+	"geoZones": [
+	{"lattitude": "48.849274", "longitude": "2.336302", "radius":"500"}
+	]
 }

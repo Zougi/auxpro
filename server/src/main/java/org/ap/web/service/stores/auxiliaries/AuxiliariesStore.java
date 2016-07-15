@@ -4,6 +4,7 @@ import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.GeoZoneBean;
 import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.service.EMongoCollection;
@@ -15,7 +16,11 @@ import com.mongodb.client.FindIterable;
 import static com.mongodb.client.model.Filters.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxiliariesStore {
 
@@ -66,5 +71,26 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 	@Override
 	public AuxiliaryBean delete(String id) throws APException {
 		return deleteEntity(id);
+	}
+
+	@Override
+	public AuxiliaryBean getGeoZones(String id) throws APException {
+		List<String> projections = new ArrayList<String>();
+		projections.add("geoZones");
+		AuxiliaryBean auxiliary = getEntityById(id, projections);
+		return auxiliary;
+	}
+	
+	@Override
+	public AuxiliaryBean createGeoZone(String id, GeoZoneBean bean) throws APException {
+		return pushToEntity(id, "geoZones", BeanConverter.convertToMongo(bean));
+	}
+	
+	@Override
+	public AuxiliaryBean deleteGeoZone(String id, GeoZoneBean bean) throws APException {
+		Map<String, String> matchingfields = new LinkedHashMap<String, String>();
+		matchingfields.put("lattitude", bean.getLattitude());
+		matchingfields.put("longitude", bean.getLongitude());
+		return deleteFromArray(id, matchingfields);
 	}
 }

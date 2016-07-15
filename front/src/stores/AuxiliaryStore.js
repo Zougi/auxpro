@@ -1,5 +1,6 @@
 import Dispatcher from '../core/Dispatcher.js';
 import StoreBase from '../core/StoreBase.js';
+import StoreRegistry from '../core/StoreRegistry';
 
 var DEFAULT_CONTENT = { auxiliaries: [],  auxiliary: {}};
 
@@ -60,9 +61,10 @@ Dispatcher.register('GET_AUXILIARY_ABSENCES', AuxiliaryStore.onGetAuxiliaryAbsen
 
 
 AuxiliaryStore.onGetAuxiliaryGeoZones = function (args) {
-	if (args && args.length > 0) {
-		AuxiliaryStore._content.auxiliary[args[0].auxiliaryId].geoZones = args;
-		AuxiliaryStore.notifyPath('/auxiliary/geoZones');
+	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+	if (args.geoZones && args.geoZones.length > 0) {
+		AuxiliaryStore._content.auxiliary[user.id].geoZones = args.geoZones;
+		AuxiliaryStore.notifyPath('auxiliary/geoZones');
 	}	
 };
 
