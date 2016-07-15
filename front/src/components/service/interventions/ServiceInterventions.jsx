@@ -100,6 +100,7 @@ class ServiceInterventions extends React.Component {
                     key={customer.id} 
                     customer={customer} 
                     interventions={this.props.interventions[customer.id]}
+                    offers={this.props.offers || {}}
                     onEdit={this.onEditIntervention.bind(this)}
                     onMatch={this.onMatchIntervention.bind(this)}
                     onDelete={this.onDeleteIntervention.bind(this)} />

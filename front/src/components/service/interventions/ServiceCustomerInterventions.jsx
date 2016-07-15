@@ -14,6 +14,7 @@ class ServiceCustomerInterventions extends React.Component {
 			<Panel header={this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}>
 				<InterventionSummaryList 
 					interventions={this.props.interventions}
+					offers={this.props.offers}
 					onEdit={this.props.onEdit}
 					onMatch={this.props.onMatch}
 					onDelete={this.props.onDelete}/>

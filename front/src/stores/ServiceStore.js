@@ -69,6 +69,25 @@ ServiceStore.onGetServiceInterventions = function (args) {
 };
 Dispatcher.register('GET_SERVICE_INTERVENTIONS', ServiceStore.onGetServiceInterventions);
 
+// GET SERVICE OFFERS
+ServiceStore.onGetServiceOffers = function (args) {
+	if (args && args.length) {
+		let serviceId = args[0].serviceId;
+		let service = ServiceStore._content.service[serviceId];
+		service.offers = {};
+		for (let i = 0 ; i < args.length ; i++) {
+			let offer = args[i];
+			let interventionId = offer.interventionId;
+			service.offers[interventionId] = service.offers[interventionId] || [];
+			service.offers[interventionId].push(offer);
+		}
+		ServiceStore.notify();
+		service.offersLoaded = true;
+	}
+};
+Dispatcher.register('GET_SERVICE_OFFERS', ServiceStore.onGetServiceOffers);
+
+
 // GET AUXILIARY MISSIONS
 ServiceStore.onGetAuxiliaryMissions = function (args) {
 	if (args && args.services) {

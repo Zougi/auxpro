@@ -37,13 +37,16 @@ class HomeSad extends React.Component {
 
         Dispatcher.issue('GET_SERVICE', args).
         then(function() {
-        	Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
+        	return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
         }).
         then(function() {
-        	Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
+        	return Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
         }).
         then(function() {
-        	Dispatcher.issue('GET_SERVICE_OFFERS', args);
+        	return Dispatcher.issue('GET_SERVICE_OFFERS', args);
+        }).
+        then(function() {
+        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
         }).
         catch(function() {
         	console.log('erreur au chargement du service');
@@ -107,7 +110,10 @@ class HomeSad extends React.Component {
 								<br/><ServiceCustomers customers={this.state.data.customers}/>
 							</Tab>
 							<Tab eventKey={3} title="Mes Interventions">
-								<br/><ServiceInterventions customers={this.state.data.customers} interventions={this.state.data.interventions}/>
+								<br/><ServiceInterventions 
+										customers={this.state.data.customers} 
+										interventions={this.state.data.interventions}
+										offers={this.state.data.offers} />
 							</Tab>
 						</Tabs>
 					:

@@ -15,6 +15,7 @@ class InterventionSummaryList extends React.Component {
                	<InterventionSummary 
                		key={intervention.id} 
                		intervention={intervention}
+               		offers={this.props.offers[intervention.id]}
                		onEdit={this.props.onEdit}
 					onMatch={this.props.onMatch}
 					onDelete={this.props.onDelete}/>
