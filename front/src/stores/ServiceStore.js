@@ -1,6 +1,7 @@
 // core modules
 import Dispatcher from '../core/Dispatcher.js';
 import StoreBase from '../core/StoreBase.js';
+import StoreRegistry from '../core/StoreRegistry';
 // custom modules
 import Utils from '../utils/Utils.js';
 
@@ -102,14 +103,14 @@ ServiceStore.onGetAuxiliaryMissions = function (args) {
 Dispatcher.register('GET_AUXILIARY_MISSIONS', ServiceStore.onGetAuxiliaryMissions);
 
 // GET INTERVENTION AUXILIARY
-ServiceStore.onGetInterventionAuxiliary = function (args) {
-	console.log("###############################INTERVENTION####################################");
-	console.log(args);
-	console.log(ServiceStore._content.service);
-	console.log("#############################################################################");
+ServiceStore.onGetInterventionAuxiliary = function (args, actionParams) {
 	if (args && args.length > 0) {
+		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		let service = ServiceStore._content.service[user.id];
+		service.matches = service.matches || {};
+		service.matches[actionParams.interventionId] = args;
+		ServiceStore.notifyPath("service/matches");
 	}
-	ServiceStore.notify();
 };
 Dispatcher.register('GET_INTERVENTION_MATCH', ServiceStore.onGetInterventionAuxiliary);
 

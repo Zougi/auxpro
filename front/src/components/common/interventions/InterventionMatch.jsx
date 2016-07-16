@@ -8,7 +8,17 @@ class InterventionsMatch extends React.Component {
 		super(props);
 	}
 
-	render() { 
+	render() {
+		let matches = "NO MATCHES";
+		if(this.props.matches) {
+			matches = this.props.matches.map(function(match) {
+				return (
+					<p>{match.person.firstName} {match.person.lastName}</p>
+				);
+			}.bind(this));
+		}
+			
+		
 		return(
 		<Panel header='Envoyer offre'>
 			<Row>
@@ -24,6 +34,7 @@ class InterventionsMatch extends React.Component {
 				</Col>
 				<Col sm={4}>
 					<Panel header='Résultats Smatching' bsStyle='warning'>
+					{matches}
 					</Panel>
 				</Col>
 			</Row>
@@ -38,3 +49,25 @@ class InterventionsMatch extends React.Component {
 }
 
 export default InterventionsMatch;
+
+
+			// {this.state.areas.map((area, index) => {
+              // return (
+				// <Panel onClick={this.deleteArea.bind(this, index)}>
+					// Type: {area.type} Adresse: {area.adress} Radius: {area.circle.radius}
+				// </Panel> 
+              // );
+            // })}
+			
+			// map(function(customer) {
+			// return (
+				// <ServiceCustomerInterventions 
+                    // key={customer.id} 
+                    // customer={customer} 
+                    // interventions={this.props.interventions[customer.id]}
+                    // offers={this.props.offers || {}}
+                    // onEdit={this.onEditIntervention.bind(this)}
+                    // onMatch={this.onMatchIntervention.bind(this)}
+                    // onDelete={this.onDeleteIntervention.bind(this)} />
+			// );
+		// }.bind(this));

@@ -24,7 +24,15 @@ class ServiceInterventions extends React.Component {
 	constructor(props) {
         super(props);
         this.state = {};
+		
+		StoreRegistry.register('SERVICE_STORE/service/matches', this, this.onServiceMatches.bind(this));
     }
+	
+	onServiceMatches() {
+		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
+		this.setState({ matches: data.matches[this.state.intervention.id] });
+	}
 
     onCancel() {
         this.setState({ intervention: null });
@@ -50,12 +58,8 @@ class ServiceInterventions extends React.Component {
 		
 		this.setState({ 
 			intervention: intervention,
-			matchesAux: [],
 			state: STATES.MATCH	
 		});
-		console.log("###########################################INTERVENTION#############################################");
-		console.log(intervention);
-		console.log("##################################################################################################");
     }
     onDeleteIntervention(intervention) {
         this.setState({ intervention: intervention });
@@ -140,7 +144,8 @@ class ServiceInterventions extends React.Component {
                 return (
                     <InterventionMatch 
                         onCancel={this.onCancel.bind(this)}
-                        onSend={this.sendIntervention.bind(this)} />
+                        onSend={this.sendIntervention.bind(this)} 
+						matches={this.state.matches} />
                 );
             default:
         		return (
