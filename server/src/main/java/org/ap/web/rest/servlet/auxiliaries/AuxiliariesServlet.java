@@ -1,5 +1,6 @@
 package org.ap.web.rest.servlet.auxiliaries;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -135,10 +136,14 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	public Response getCustomersJSON(SecurityContext sc, String auxiliaryId) {
 		try {
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;			
-			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
 			Set<String> customerIds = new HashSet<String>();
+			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
 			for (InterventionBean mission : interventions) {
 				customerIds.add(mission.getCustomerId());
+			}
+			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
+			for (OfferBean offer: offers) {
+				customerIds.add(offer.getCustomerId());
 			}
 			Map<String, CustomerBean> customers = _customersStore.get(customerIds);
 			CustomerBean[] result = customers.values().toArray(new CustomerBean[customers.size()]);
@@ -152,8 +157,21 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	public Response getInterventionsJSON(SecurityContext sc, String auxiliaryId) {
 		try {
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			Set<String> interventionsIds = new HashSet<String>();
+			
+			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
+			for (OfferBean offer : offers) {
+				interventionsIds.add(offer.getInterventionId());
+			}
 			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
-			return Response.status(Status.OK).entity(interventions, resolveAnnotations(sc)).build();
+			for (InterventionBean inter: interventions) {
+				interventionsIds.add(inter.getId());
+			}
+			
+			Map<String, InterventionBean> resultMap = _interventionsStore.get(interventionsIds);
+			InterventionBean[] result = resultMap.values().toArray(new InterventionBean[resultMap.size()]);
+
+			return Response.status(Status.OK).entity(result, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

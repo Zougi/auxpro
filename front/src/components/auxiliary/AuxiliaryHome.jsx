@@ -36,6 +36,7 @@ class AuxiliaryHome extends React.Component {
         then(function() {
         	var promises = []
         	promises.push(Dispatcher.issue('GET_AUXILIARY_GEOZONES', args));
+        	promises.push(Dispatcher.issue('GET_AUXILIARY_SERVICES', args));
         	promises.push(Dispatcher.issue('GET_AUXILIARY_CUSTOMERS', args));
         	return Promise.all(promises);
         }).
@@ -49,7 +50,8 @@ class AuxiliaryHome extends React.Component {
         	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
 			StoreRegistry.register('AUXILIARY_STORE/auxiliary/geoZones', this, this.onAuxiliaryGeoZonesUpdate.bind(this));
 			this.onStoreUpdate();
-        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
+			console.log('****************************************');
+        	console.log(this.state.data);
         }.bind(this)).
         catch(function() {
         	console.log('erreur au chargement du service');

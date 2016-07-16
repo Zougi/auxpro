@@ -42,6 +42,6 @@ public class AuxiliaryGetServicesRestTest extends RestTestBase {
 	@Test
 	public void testV_asService() throws Exception {
 		CustomerBean[] rsp = prepare(getUrlBase(), auxiliary1.getUser()).get(CustomerBean[].class);
-		TestCase.assertEquals(1, rsp.length);
+		TestCase.assertEquals(2, rsp.length);
 	}
 }

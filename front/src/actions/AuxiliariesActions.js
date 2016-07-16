@@ -62,12 +62,23 @@ PutAuxiliary.do = function (args) {
 	return RestService._request(reqParam);
 }
 
+// GET AUXILIARY SERVICES
+let GetAuxiliaryServices = new ActionBase({ name: 'GET_AUXILIARY_SERVICES' });
+GetAuxiliaryServices.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/services',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
 // GET AUXILIARY CUSTOMERS
 let GetAuxiliaryCustomers = new ActionBase({ name: 'GET_AUXILIARY_CUSTOMERS' });
 GetAuxiliaryCustomers.do = function (args) {
 	Utils.checkMembers(args, ['auxiliaryId', 'token']);
 	var reqParam = {
-		url   : getAuxiliaryUrl(args.auxiliaryId) + '/indisponibilities',
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/customers',
 		token : args.token
 	};
 	return RestService._request(reqParam);
