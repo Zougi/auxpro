@@ -1,5 +1,4 @@
 import ActionBase from '../core/ActionBase.js';
-import StoreRegistry from '../core/StoreRegistry';
 import Utils from '../utils/Utils.js';
 import RestService from '../services/rest/RestService.js';
 

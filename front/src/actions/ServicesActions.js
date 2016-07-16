@@ -1,5 +1,4 @@
 import ActionBase from '../core/ActionBase.js';
-import StoreRegistry from '../core/StoreRegistry';
 import Utils from '../utils/Utils.js';
 import RestService from '../services/rest/RestService.js';
 
@@ -30,18 +29,11 @@ GetServices.do = function (args) {
 let GetService = new ActionBase({ name: 'GET_SERVICE' });
 GetService.do = function (args) {
 	Utils.checkMembers(args, ['serviceId', 'token']);
-	let service = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + args.serviceId);
-	if (service && !args.refresh) {
-		return new Promise(function(resolve) {
-			resolve(service);
-		});
-	} else {
-		var reqParam = {
-			url   : getServiceUrl(args.serviceId),
-			token : args.token
-		};
-		return RestService._request(reqParam);
-	}
+	var reqParam = {
+		url   : getServiceUrl(args.serviceId),
+		token : args.token
+	};
+	return RestService._request(reqParam);
 }
 
 // POST SERVICE

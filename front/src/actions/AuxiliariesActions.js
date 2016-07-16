@@ -2,79 +2,140 @@ import ActionBase from '../core/ActionBase.js';
 import Utils from '../utils/Utils.js';
 import RestService from '../services/rest/RestService.js';
 
-// AUXILIARIES
+/* **
+ * HELPERS **
+ * */
 
+function getAuxiliaryUrl(auxiliaryId) {
+	return '/auxiliaries/' + (auxiliaryId ? auxiliaryId  : '');
+}
+
+/* **
+ * SERVICES **
+ * */
+
+// GET AUXILIARIES
 let GetAuxiliaries = new ActionBase({ name: 'GET_AUXILIARIES' });
 GetAuxiliaries.do = function (args) {
 	Utils.checkMembers(args, ['token']);
-	return RestService.getAuxiliaries(args);
+	var reqParam = {
+		url   : getAuxiliaryUrl(),
+		token : args.token
+	}; 
+	return RestService._request(reqParam);
 }
 
-// AUXILIARY
-
+// GET AUXILIARY
 let GetAuxiliary = new ActionBase({ name: 'GET_AUXILIARY' });
 GetAuxiliary.do = function (args) {
-	Utils.checkMembers(args, ['token', 'id']);
-	return RestService.getAuxiliary(args);
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId),
+		token : args.token
+	};
+	return RestService._request(reqParam);
 }
 
+// POST AUXILIARY
 let PostAuxiliary = new ActionBase({ name: 'POST_AUXILIARY' });
 PostAuxiliary.do = function (args) {
 	Utils.checkMembers(args, ['name', 'password', 'email']);
-	var params = {
-		token: Utils.encode('guest', 'guest'),
-		data: args
+	var reqParam = {
+		url   : getAuxiliaryUrl(),
+		method: 'POST',
+		data: args,
+		token : args.token
 	};
-	return RestService.postAuxiliary(params);	
+	return RestService._request(reqParam);
 }
 
+// PUT AUXILIARY
 let PutAuxiliary = new ActionBase({ name: 'PUT_AUXILIARY' });
 PutAuxiliary.do = function (args) {
-	Utils.checkMembers(args, ['id', 'data', 'token']);
-	return RestService.putAuxiliary(args);	
+	Utils.checkMembers(args, ['auxiliaryId', 'data', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId),
+		method: 'PUT',
+		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
 }
 
-// MISSIONS
-
-let GetAuxiliaryMissions = new ActionBase({ name: 'GET_AUXILIARY_MISSIONS' });
-GetAuxiliaryMissions.do = function (args) {
-	Utils.checkMembers(args, ['token', 'id']);
-	return RestService.getAuxiliaryMissions(args);
+// GET AUXILIARY CUSTOMERS
+let GetAuxiliaryCustomers = new ActionBase({ name: 'GET_AUXILIARY_CUSTOMERS' });
+GetAuxiliaryCustomers.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/indisponibilities',
+		token : args.token
+	};
+	return RestService._request(reqParam);
 }
 
-// ABSENCES
-
-let GetAuxiliaryAbsences = new ActionBase({ name: 'GET_AUXILIARY_ABSENCES' });
-GetAuxiliaryAbsences.do = function (args) {
-	Utils.checkMembers(args, ['token', 'id']);
-	return RestService.getAuxiliaryAbsences(args);
+// GET AUXILIARY INDISPONIBILITIES
+let GetAuxiliaryIndisponibilities = new ActionBase({ name: 'GET_AUXILIARY_INDISPONIBILITIES' });
+GetAuxiliaryIndisponibilities.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/indisponibilities',
+		token : args.token
+	};
+	return RestService._request(reqParam);
 }
 
-let PostAuxiliaryAbsence = new ActionBase({ name: 'POST_AUXILIARY_ABSENCE' });
-PostAuxiliaryAbsence.do = function (args) {
-	Utils.checkMembers(args, ['token', 'id', 'data']);
-	return RestService.postAuxiliaryAbsence(args);
+// GET AUXILIARY INTERVENTIONS
+let GetAuxiliaryInterventions = new ActionBase({ name: 'GET_AUXILIARY_INTERVENTIONS' });
+GetAuxiliaryInterventions.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/interventions',
+		token : args.token
+	};
+	return RestService._request(reqParam);
 }
 
-// GEOZONES
+// GET AUXILIARY OFFERS
+let GetAuxiliaryOffers = new ActionBase({ name: 'GET_AUXILIARY_OFFERS' });
+GetAuxiliaryOffers.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/offers',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
 
+// GET GEOZONES
 let GetAuxiliaryGeoZones = new ActionBase({ name: 'GET_AUXILIARY_GEOZONES' });
 GetAuxiliaryGeoZones.do = function (args) {
-	Utils.checkMembers(args, ['token', 'id']);
-	return RestService.getAuxiliaryGeoZones(args);
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : '/auxiliaries/' + args.auxiliaryId + '/geozones',
+		token : args.token,
+	};
+	return RestService._request(reqParam);
 }
 
+// POST GEO ZONE
 let PostAuxiliaryGeoZone = new ActionBase({ name: 'POST_AUXILIARY_GEOZONE' });
 PostAuxiliaryGeoZone.do = function (args) {
-	Utils.checkMembers(args, ['token', 'id', 'data']);
-	return RestService.postAuxiliaryGeoZone(args);
+	Utils.checkMembers(args, ['auxiliaryId', 'data', 'token']);
+	var reqParam = {
+		url   : '/auxiliaries/' + args.auxiliaryId + '/geozones',
+		method: 'POST',
+		token : args.token,
+		data: args.data
+	};
+	return RestService._request(reqParam);
 }
 
+// DELETE GEO ZONE
 let DeleteAuxiliaryGeoZone = new ActionBase({ name: 'DELETE_AUXILIARY_GEOZONE' });
 DeleteAuxiliaryGeoZone.do = function (args) {
-	Utils.checkMembers(args, ['id', 'data', 'token']);
+	Utils.checkMembers(args, ['auxiliaryId', 'data', 'token']);
 	var reqParam = {
-		url   : '/auxiliaries/' + args.id + '/geozones',
+		url   : '/auxiliaries/' + args.auxiliaryId + '/geozones',
 		method: 'DELETE',
 		token : args.token,
 		data: args.data
