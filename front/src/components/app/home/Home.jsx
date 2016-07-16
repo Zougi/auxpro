@@ -4,7 +4,7 @@ import React from 'react';
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom modules
-import HomeAux from '../../auxiliary/HomeAux.jsx'
+import AuxiliaryHome from '../../auxiliary/AuxiliaryHome.jsx'
 import HomeSad from '../../service/HomeSad.jsx'
 
 class Home extends React.Component {
@@ -32,7 +32,7 @@ class Home extends React.Component {
 			case 'aux' : 
 				return (
 					<div className='container'>
-						<HomeAux/>
+						<AuxiliaryHome/>
 					</div>
 				);
 			 case 'admin' :

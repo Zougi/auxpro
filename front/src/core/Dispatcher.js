@@ -26,12 +26,12 @@ class Dispatcher extends ObjectBase {
 		var a = ActionRegistry.getAction(action);
 		if (a) {
 			if (callback) {
-				console.log('Registered callback on action: ' + action);
+				//console.log('Registered callback on action: ' + action);
 				this._callbacks[a.getName()] = this._callbacks[a.getName()] || [];
 				this._callbacks[a.getName()].push(callback);
 			}
 			if (error) {
-				console.log('Registered error callback on action: ' + action);
+				//console.log('Registered error callback on action: ' + action);
 				this._errors[a.getName()] = this._errors[a.getName()] || [];
 				this._errors[a.getName()].push(error);
 			}

@@ -21,9 +21,7 @@ class FormSelect extends React.Component {
 	}
 
 	render() { 
-		console.log(this.props.values);
 		let values = this.props.values.map(function(v) {
-			console.log(v);
             return (
                 <option className='clear' key={v.key} value={v.value}>{v.value}</option>
             );

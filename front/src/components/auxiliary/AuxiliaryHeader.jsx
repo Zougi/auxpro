@@ -5,7 +5,7 @@ import { Row, Col, Table, Panel, Image } from 'react-bootstrap'
 // core modules
 import StoreRegistry from '../../core/StoreRegistry';
 
-class HomeAuxHead extends React.Component {
+class AuxiliaryHeader extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -45,4 +45,4 @@ class HomeAuxHead extends React.Component {
 	);}
 }
 
-export default HomeAuxHead;
+export default AuxiliaryHeader;

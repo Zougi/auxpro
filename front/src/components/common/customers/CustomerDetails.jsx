@@ -15,17 +15,14 @@ class CustomerDetails extends React.Component {
 	}
 
 	onPersonChanged(person) {
-		console.log(person)
 		this.state.person = person;
 		this.notify();
 	}
 	onContactChanged(contact) {
-		console.log(contact)
 		this.state.contact = contact;	
 		this.notify();
 	}
 	onSkillsChanged(skills) {
-		console.log(skills)
 		this.state.skills = skills;
 		this.notify();
 	}

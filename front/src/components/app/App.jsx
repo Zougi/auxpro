@@ -28,7 +28,7 @@ class App extends React.Component {
 		if (user.logged) {
 			switch (user.type) {
 			case 'aux':
-				Dispatcher.issue("GET_AUXILIARY", user).
+				Dispatcher.issue("GET_AUXILIARY", { auxiliaryId: user.id, token: user.token }).
 				then(toHome.bind(this));
 				break;
 			case 'sad':

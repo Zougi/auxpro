@@ -9,7 +9,7 @@ class StoreRegistry extends ObjectBase {
 
 	registerStore (store) {
 		if (store.getName()) {
-			console.log('StoreRegistry.register: ' + store.getName());
+			//console.log('StoreRegistry.register: ' + store.getName());
 			this._stores[store.getName().toLowerCase()] = store;
 		} else {
 			console.log('StoreRegistry.register: cannot registerr store with no name');

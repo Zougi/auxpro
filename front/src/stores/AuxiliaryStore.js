@@ -9,57 +9,43 @@ var AuxiliaryStore = new StoreBase ({
 	content: DEFAULT_CONTENT
 });
 
+// GET AUXILIARIES
 AuxiliaryStore.onGetAuxiliaries = function (args) {
 	AuxiliaryStore._content.auxiliaries = args;
 	AuxiliaryStore.notify();
 };
-
 Dispatcher.register('GET_AUXILIARIES', AuxiliaryStore.onGetAuxiliaries);
 
+// GET AUXILIARY
+// PUT AUXILIARY
 AuxiliaryStore.onGetAuxiliary = function (args) {
 	AuxiliaryStore._content.auxiliary[args.id] = args;
 	AuxiliaryStore.notify();
 };
-
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 
-AuxiliaryStore.onGetAuxiliaryMissions = function (args) {
-	let auxId = args.missions[0].auxiliaryId;
-	if (args && args.missions && args.missions.length > 0) {
-		AuxiliaryStore._content.auxiliary[auxId].missions = args.missions;
-		AuxiliaryStore._content.auxiliary[auxId].services = [];
-		if (args && args.services) {
-			for (let sId in args.services) {
-				if (args.services.hasOwnProperty(sId)) {
-					AuxiliaryStore._content.auxiliary[auxId].services.push(sId);
-				}
-			}
-		}
-		AuxiliaryStore._content.auxiliary[auxId].customers = [];
-		if (args && args.customers) {
-			for (let cId in args.customers) {
-				if (args.services.hasOwnProperty(cId)) {
-					AuxiliaryStore._content.auxiliary[auxId].customers.push(cId);
-				}
-			}
-		}
-		AuxiliaryStore.notify();
-	}	
-};
+// GET AUXILIARY CUSTOMERS
+AuxiliaryStore.onGetAuxiliaryCustomers = function (result, param) {
+}
+Dispatcher.register('GET_AUXILIARY_CUSTOMERS', AuxiliaryStore.onGetAuxiliaryCustomers);
 
-Dispatcher.register('GET_AUXILIARY_MISSIONS', AuxiliaryStore.onGetAuxiliaryMissions);
+// GET AUXILIARY OFFERS
+AuxiliaryStore.onGetAuxiliaryOffers = function (result, param) {
+}
+Dispatcher.register('GET_AUXILIARY_OFFERS', AuxiliaryStore.onGetAuxiliaryOffers);
 
-AuxiliaryStore.onGetAuxiliaryAbsences = function (args) {
-	if (args && args.length > 0) {
-		AuxiliaryStore._content.auxiliary[args[0].auxiliaryId].absences = args;
-		AuxiliaryStore.notify();
-	}	
-};
+// GET AUXILIARY INTERVENTIONS
+AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
+}
+Dispatcher.register('GET_AUXILIARY_INTERVENTIONS', AuxiliaryStore.onGetAuxiliaryInterventions);
 
-Dispatcher.register('GET_AUXILIARY_ABSENCES', AuxiliaryStore.onGetAuxiliaryAbsences);
+// GET AUXILIARY INDISPONIBILITIES
+AuxiliaryStore.onGetAuxiliaryIndisponibilities = function (result, param) {
+}
+Dispatcher.register('GET_AUXILIARY_INDISPONIBILITIES', AuxiliaryStore.onGetAuxiliaryIndisponibilities);
 
-
+// GET AUXILIARY GEOZONES
 AuxiliaryStore.onGetAuxiliaryGeoZones = function (args) {
 	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 	if (args.geoZones && args.geoZones.length > 0) {
@@ -67,7 +53,6 @@ AuxiliaryStore.onGetAuxiliaryGeoZones = function (args) {
 		AuxiliaryStore.notifyPath('auxiliary/geoZones');
 	}	
 };
-
 Dispatcher.register('GET_AUXILIARY_GEOZONES', AuxiliaryStore.onGetAuxiliaryGeoZones);
 
 export default AuxiliaryStore;

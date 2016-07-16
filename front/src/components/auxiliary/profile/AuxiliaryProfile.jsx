@@ -8,7 +8,7 @@ import FormBase from '../../common/FormBase.jsx'
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 
-class ProfileAux extends React.Component {
+class AuxiliaryProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -180,4 +180,4 @@ class ProfileAux extends React.Component {
 	}
 }
 		
-export default ProfileAux;
+export default AuxiliaryProfile;

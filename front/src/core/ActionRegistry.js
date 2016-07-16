@@ -19,7 +19,7 @@ class ActionRegistry extends ObjectBase {
      */
     registerAction (action) {
         if (action.getName()) {
-            console.log("ActionRegistry.register: " + action.getName());
+            //console.log("ActionRegistry.register: " + action.getName());
             this._actions[action.getName().toUpperCase()] = action;
         } else {
             console.log("ActionRegistry.register: cannot register action with no name");

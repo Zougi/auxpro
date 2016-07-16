@@ -24,7 +24,6 @@ class HomeSad extends React.Component {
 			showProfilePrompt: false,
 			data: StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id)
 		};
-		console.log(JSON.stringify(this.state));
 	}
 
 	componentDidMount() {

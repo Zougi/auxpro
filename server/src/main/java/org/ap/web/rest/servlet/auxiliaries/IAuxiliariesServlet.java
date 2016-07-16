@@ -28,10 +28,11 @@ import org.ap.web.entity.mongo.CredentialsBean;
  *  - /auxiliaries/{auxId} PUT    > update an existing auxiliary
  *  - /auxiliaries/{auxId} DELETE > delete an auxiliary
  *  
- *  - /auxiliaries/{auxId}/customers         GET > retrieve missions of an auxiliary
- *  - /auxiliaries/{auxId}/offers            GET > retrieve missions of an auxiliary
- *  - /auxiliaries/{auxId}/interventions     GET  > retrieve missions of an auxiliary
- *  - /auxiliaries/{auxId}/indisponibilities GET  > retrieve missions of an auxiliary
+ *  - /auxiliaries/{auxId}/services          GET > retrieve services of an auxiliary
+ *  - /auxiliaries/{auxId}/customers         GET > retrieve customers of an auxiliary
+ *  - /auxiliaries/{auxId}/offers            GET > retrieve offers of an auxiliary
+ *  - /auxiliaries/{auxId}/interventions     GET > retrieve interventions of an auxiliary
+ *  - /auxiliaries/{auxId}/indisponibilities GET > retrieve indisponibilities of an auxiliary
  */
 public interface IAuxiliariesServlet {
 
@@ -66,6 +67,14 @@ public interface IAuxiliariesServlet {
 	@Path("{auxiliaryId}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response deleteAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+
+	// SERVICES
+	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{auxiliaryId}/services")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getServicesJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
 
 	// CUSTOMERS
 	

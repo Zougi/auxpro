@@ -158,13 +158,14 @@ class AuxiliaryMap extends React.Component {
 	}
   
   validCircle(){
+  	/*
 	  console.log("###########################################INFO###########################################");
 	  console.log(this.circleMarker);
 	  console.log(this.myCircle);
 	  console.log( this.refs.autocomplete.value);
 	  console.log(this.circleMarker.position.lat());
 	  console.log("##########################################################################################");
-	  
+	  */
 	  
 	 let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
 	 this.props.sendGeoZone(geoZone);
@@ -187,7 +188,6 @@ class AuxiliaryMap extends React.Component {
   }
   
   render() {
-	console.log(this.state);
       return (
 		<Row>
 			<Col sm={2}>

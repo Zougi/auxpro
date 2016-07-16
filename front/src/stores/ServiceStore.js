@@ -88,22 +88,8 @@ ServiceStore.onGetServiceOffers = function (args) {
 };
 Dispatcher.register('GET_SERVICE_OFFERS', ServiceStore.onGetServiceOffers);
 
-
-// GET AUXILIARY MISSIONS
-ServiceStore.onGetAuxiliaryMissions = function (args) {
-	if (args && args.services) {
-		for (let sId in args.services) {
-			 if (args.services.hasOwnProperty(sId)) {
-			 	ServiceStore._content.service[args.id] = args.services[sId];
-			 }
-		}
-	}
-	ServiceStore.notify();
-};
-Dispatcher.register('GET_AUXILIARY_MISSIONS', ServiceStore.onGetAuxiliaryMissions);
-
-// GET INTERVENTION AUXILIARY
-ServiceStore.onGetInterventionAuxiliary = function (args, actionParams) {
+// GET INTERVENTION MATCH
+ServiceStore.onGetInterventionMatch = function (args, actionParams) {
 	if (args && args.length > 0) {
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		let service = ServiceStore._content.service[user.id];
@@ -112,6 +98,6 @@ ServiceStore.onGetInterventionAuxiliary = function (args, actionParams) {
 		ServiceStore.notifyPath("service/matches");
 	}
 };
-Dispatcher.register('GET_INTERVENTION_MATCH', ServiceStore.onGetInterventionAuxiliary);
+Dispatcher.register('GET_INTERVENTION_MATCH', ServiceStore.onGetInterventionMatch);
 
 export default ServiceStore;

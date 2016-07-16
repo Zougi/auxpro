@@ -15,6 +15,7 @@ import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
+import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
@@ -27,6 +28,8 @@ import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
 import org.ap.web.service.stores.offers.IOffersStore;
 import org.ap.web.service.stores.offers.OffersStore;
+import org.ap.web.service.stores.services.IServicesStore;
+import org.ap.web.service.stores.services.ServicesStore;
 
 @Path("/auxiliaries")
 public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServlet {
@@ -38,6 +41,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	/* ATTRIBUTES */
 
 	private IAuxiliariesStore _auxiliaryStore;
+	private IServicesStore _servicesStore;
 	private ICustomersStore _customersStore;
 	private IOffersStore _offersStore;
 	private IInterventionsStore _interventionsStore;
@@ -47,6 +51,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 
 	public AuxiliariesServlet() throws APException {
 		_auxiliaryStore = new AuxiliariesStore();
+		_servicesStore = new ServicesStore();
 		_offersStore = new OffersStore();
 		_customersStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
@@ -104,6 +109,28 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		}
 	}
 
+
+	@Override
+	public Response getServicesJSON(SecurityContext sc, String auxiliaryId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;			
+			Set<String> servicesIds = new HashSet<String>();
+			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
+			for (InterventionBean intervention: interventions) {
+				servicesIds.add(intervention.getServiceId());
+			}
+			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
+			for (OfferBean offer: offers) {
+				servicesIds.add(offer.getServiceId());
+			}
+			Map<String, ServiceBean> services = _servicesStore.get(servicesIds);
+			ServiceBean[] result = services.values().toArray(new ServiceBean[services.size()]);
+			return Response.status(Status.OK).entity(result, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	
 	@Override
 	public Response getCustomersJSON(SecurityContext sc, String auxiliaryId) {
 		try {

@@ -26,7 +26,6 @@ class CustomerSummaryList extends React.Component {
 	}
 
 	onSearch(value) {
-		console.log('search ' + value)
 		this.state.search = value;
 		this.setState(this.state);
 	}

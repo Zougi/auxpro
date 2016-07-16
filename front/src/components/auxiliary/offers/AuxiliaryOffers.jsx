@@ -2,7 +2,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 
-class Offers extends React.Component {
+class AuxiliaryOffers extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -17,4 +17,4 @@ class Offers extends React.Component {
 	}
 }
 
-export default Offers;
+export default AuxiliaryOffers;

@@ -23,7 +23,7 @@ let INITIAL_STATE ={
 	mode: 'W'
 }
 
-class Planing extends React.Component {
+class AuxiliaryPlaning extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -35,8 +35,6 @@ class Planing extends React.Component {
 			token: this.state.user.token
 		}
 		this.loadAuxiliary(props);
-        Dispatcher.issue('GET_AUXILIARY_MISSIONS', args);
-        Dispatcher.issue('GET_AUXILIARY_ABSENCES', args);
 	}
 
 	componentWillReceiveProps(props) {
@@ -177,4 +175,4 @@ class Planing extends React.Component {
 	}
 }
 
-export default Planing;
+export default AuxiliaryPlaning;
