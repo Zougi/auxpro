@@ -51,7 +51,7 @@ class AuxiliaryHome extends React.Component {
 			StoreRegistry.register('AUXILIARY_STORE/auxiliary/geoZones', this, this.onAuxiliaryGeoZonesUpdate.bind(this));
 			this.onStoreUpdate();
 			console.log('****************************************');
-        	console.log(this.state.data);
+        	console.log(this.state);
         }.bind(this)).
         catch(function() {
         	console.log('erreur au chargement du service');
@@ -64,12 +64,7 @@ class AuxiliaryHome extends React.Component {
 	
 	onStoreUpdate(first) {
     	let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + this.user.id);
-		this.setState({
-			user: this.user,
-			data: data,
-			showTuto: first?!this.user.tutoSkipped:this.state.showTuto,
-			showProfilePrompt: first?true:this.state.showProfilePrompt
-		});
+		this.setState({ data: data });
     }
 	
 	onAuxiliaryGeoZonesUpdate() {
