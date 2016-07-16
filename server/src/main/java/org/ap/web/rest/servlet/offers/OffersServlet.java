@@ -1,5 +1,7 @@
 package org.ap.web.rest.servlet.offers;
 
+import java.time.LocalDate;
+
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -36,8 +38,16 @@ public class OffersServlet extends ServletBase implements IOffersServlet {
 		_interventionsStore = new InterventionsStore();
 		_offersStore = new OffersStore();
 	}
+	
+	public void checkOffer(String id, OfferBean offer) throws APException {
+		try {
+			checkServiceOffer(id, offer);
+		} catch (APException e) {
+			checkAuxiliaryOffer(id, offer);
+		}
+	}
 
-	public void checkOffer(String serviceId, OfferBean offer) throws APException {
+	public void checkServiceOffer(String serviceId, OfferBean offer) throws APException {
 		if (offer.getServiceId() == null) throw APException.INVALID_REQUEST_DATA;
 		if (!serviceId.equals(offer.getServiceId())) throw APException.OPERATION_NOT_ALLOWED;
 
@@ -52,6 +62,11 @@ public class OffersServlet extends ServletBase implements IOffersServlet {
 		if (!customer.getId().equals(intervention.getCustomerId())) throw APException.INVALID_REQUEST_DATA;
 		if (!serviceId.equals(intervention.getServiceId())) throw APException.OPERATION_NOT_ALLOWED;
 	}
+	
+	public void checkAuxiliaryOffer(String auxiliaryId, OfferBean offer) throws APException {
+		if (offer.getAuxiliaryId() == null) throw APException.INVALID_REQUEST_DATA;
+		if (!auxiliaryId.equals(offer.getAuxiliaryId())) throw APException.OPERATION_NOT_ALLOWED;
+	}
 
 	/* METHODS */
 
@@ -59,7 +74,8 @@ public class OffersServlet extends ServletBase implements IOffersServlet {
 	public Response createOfferJSON(SecurityContext sc, OfferBean offer) {
 		try {
 			offer.setServiceId(sc.getUserPrincipal().getName());
-			checkOffer(sc.getUserPrincipal().getName(), offer);
+			checkServiceOffer(sc.getUserPrincipal().getName(), offer);
+			offer.setCreationDate(LocalDate.now());
 			offer = _offersStore.createOffer(offer);
 			return Response.status(200).entity(offer, resolveAnnotations(sc)).build();
 		} catch (APException e) {
@@ -80,6 +96,7 @@ public class OffersServlet extends ServletBase implements IOffersServlet {
 	@Override
 	public Response updateOfferJSON(SecurityContext sc, String offerId, OfferBean offer) {
 		try {
+			
 			checkOffer(sc.getUserPrincipal().getName(), offer);
 			
 			OfferBean previousOffer = _offersStore.getOffer(offerId);
@@ -99,7 +116,7 @@ public class OffersServlet extends ServletBase implements IOffersServlet {
 		try {
 			OfferBean offer = _offersStore.getOffer(offerId);
 			if (offer == null) throw APException.OFFER_NOT_FOUND;
-			checkOffer(sc.getUserPrincipal().getName(), offer);
+			checkServiceOffer(sc.getUserPrincipal().getName(), offer);
 			_offersStore.deleteOffer(offerId);
 			return Response.status(200).build();
 		} catch (APException e) {

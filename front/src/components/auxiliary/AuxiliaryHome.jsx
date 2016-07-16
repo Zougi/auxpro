@@ -50,8 +50,7 @@ class AuxiliaryHome extends React.Component {
         	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
 			StoreRegistry.register('AUXILIARY_STORE/auxiliary/geoZones', this, this.onAuxiliaryGeoZonesUpdate.bind(this));
 			this.onStoreUpdate();
-			console.log('****************************************');
-        	console.log(this.state);
+			console.log(this.state.data);
         }.bind(this)).
         catch(function() {
         	console.log('erreur au chargement du service');
@@ -143,6 +142,8 @@ class AuxiliaryHome extends React.Component {
 							</Tab>
 							<Tab eventKey={3} title="Les Offres"><br/>
 								<AuxiliaryOffers 
+									services={this.state.data.services}
+									customers={this.state.data.customers}
 									interventions={this.state.data.interventions}
 									offers={this.state.data.offers}/>
 							</Tab>

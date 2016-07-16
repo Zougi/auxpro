@@ -29,7 +29,11 @@ Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 AuxiliaryStore.onGetAuxiliaryServices = function (result, param) {
 	if (result && result.length) {
 		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.services = result;	
+		auxiliary.services = {};
+		for (let i = 0; i < result.length; i++) {
+			let service = result[i];
+			auxiliary.services[service.id] = service;
+		}
 		auxiliary.servicesLoaded = true;
 		AuxiliaryStore.notify();
 	}
@@ -40,7 +44,11 @@ Dispatcher.register('GET_AUXILIARY_SERVICES', AuxiliaryStore.onGetAuxiliaryServi
 AuxiliaryStore.onGetAuxiliaryCustomers = function (result, param) {
 	if (result && result.length) {
 		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.customers = result;	
+		auxiliary.customers = {};
+		for (let i = 0; i < result.length; i++) {
+			let customer = result[i];
+			auxiliary.customers[customer.id] = customer;
+		}
 		auxiliary.customersLoaded = true;
 		AuxiliaryStore.notify();
 	}
@@ -51,7 +59,11 @@ Dispatcher.register('GET_AUXILIARY_CUSTOMERS', AuxiliaryStore.onGetAuxiliaryCust
 AuxiliaryStore.onGetAuxiliaryOffers = function (result, param) {
 	if (result && result.length) {
 		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.offers = result;	
+		auxiliary.offers = {};
+		for (let i = 0; i < result.length; i++) {
+			let offer = result[i];
+			auxiliary.offers[offer.id] = offer;
+		}
 		auxiliary.offersLoaded = true;
 		AuxiliaryStore.notify();
 	}
@@ -62,7 +74,11 @@ Dispatcher.register('GET_AUXILIARY_OFFERS', AuxiliaryStore.onGetAuxiliaryOffers)
 AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
 	if (result && result.length) {
 		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.interventions = result;	
+		auxiliary.interventions = {};
+		for (let i = 0; i < result.length; i++) {
+			let intervention = result[i];
+			auxiliary.interventions[intervention.id] = intervention;
+		}
 		auxiliary.interventionsLoaded = true;
 		AuxiliaryStore.notify();
 	}
@@ -73,7 +89,11 @@ Dispatcher.register('GET_AUXILIARY_INTERVENTIONS', AuxiliaryStore.onGetAuxiliary
 AuxiliaryStore.onGetAuxiliaryIndisponibilities = function (result, param) {
 	if (result && result.length) {
 		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.indisponibilities = result;	
+		auxiliary.indisponibilities = {};
+		for (let i = 0; i < result.length; i++) {
+			let indisponibility = result[i];
+			auxiliary.indisponibilities[indisponibility.id] = indisponibility;
+		}
 		auxiliary.indisponibilitiesLoaded = true;
 		AuxiliaryStore.notify();
 	}

@@ -9,12 +9,12 @@ class OfferSummary extends React.Component {
 
 	onAccept() {
 		if (this.props.onAccept) {
-			this.props.onEdit(this.props.offer);
+			this.props.onAccept(this.props.offer);
 		}
 	}
 	onReject() {
 		if (this.props.onReject) {
-			this.props.onMatch(this.props.offer);
+			this.props.onReject(this.props.offer);
 		}
 	}
 	onView() {
@@ -26,10 +26,10 @@ class OfferSummary extends React.Component {
 	render() {
 		return (
 			<OfferSummaryRenderer 
-				offer={this.props.offer}
-				service={this.props.service}
-				customer={this.props.customer}
-				intervention={this.props.intervention}
+				offer={this.props.offer || {}}
+				service={this.props.service || {}}
+				customer={this.props.customer || {}}
+				intervention={this.props.intervention || {}}
 				onAccept={this.onAccept.bind(this)}
 				onReject={this.onReject.bind(this)}
 				onView={this.onView.bind(this)}/>

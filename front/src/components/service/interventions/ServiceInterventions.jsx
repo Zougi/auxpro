@@ -97,8 +97,7 @@ class ServiceInterventions extends React.Component {
         Promise.all(promises).then(function () {
             this.onCancel();
             this.props.listUpdate(false);    
-        }.bind(this))
-		
+        }.bind(this))	
     }
 
     _issueInterventionAction(action, intervention) {

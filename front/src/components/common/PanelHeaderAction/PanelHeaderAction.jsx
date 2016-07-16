@@ -48,7 +48,7 @@ class PanelHeaderAction extends React.Component {
 		);
 
 		return (
-			<Panel header={header} className='ap-panel-header-action'>
+			<Panel bsStyle={this.props.bsStyle} header={header} className='ap-panel-header-action'>
 				{this.props.children}
 			</Panel>
 		);

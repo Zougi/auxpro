@@ -26,6 +26,14 @@ export default class Utils {
 		}
 	}
 
+	static map(object, callback) {
+		let result = [];
+		for (let member in object) {
+			result.push(callback(object[member]));
+		}
+		return result;
+	}
+
 	/**
      * 
 	 * @param {object} [obj1]

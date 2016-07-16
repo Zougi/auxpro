@@ -1,6 +1,5 @@
 package org.ap.web.rest.servlet.auxiliaries;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -158,7 +157,6 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		try {
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
 			Set<String> interventionsIds = new HashSet<String>();
-			
 			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
 			for (OfferBean offer : offers) {
 				interventionsIds.add(offer.getInterventionId());
@@ -167,10 +165,8 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			for (InterventionBean inter: interventions) {
 				interventionsIds.add(inter.getId());
 			}
-			
 			Map<String, InterventionBean> resultMap = _interventionsStore.get(interventionsIds);
 			InterventionBean[] result = resultMap.values().toArray(new InterventionBean[resultMap.size()]);
-
 			return Response.status(Status.OK).entity(result, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
