@@ -78,8 +78,23 @@ class ServiceInterventions extends React.Component {
     deleteIntervention() {
         this._issueInterventionAction('DELETE_SERVICE_CUSTOMER_INTERVENTION', this.state.intervention);
     }
-    sendIntervention(intervention) {
-        console.log('not implemented');
+    sendIntervention(intervention){
+		for (let i = 0; i < this.state.matches.length; i++) {
+			let data = {
+				serviceId: intervention.serviceId,
+				customerId: intervention.customerId,
+				interventionId: intervention.id,
+				auxiliaryId: this.state.matches[i].id,
+				status: "PENDING"
+			}
+			let params = {
+				 token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+				 data: data
+			}
+			Dispatcher.issue('POST_OFFER', params);
+		}
+		this.onCancel();
+		this.props.listUpdate(false);
     }
 
     _issueInterventionAction(action, intervention) {
@@ -142,9 +157,10 @@ class ServiceInterventions extends React.Component {
                 );
             case STATES.MATCH:
                 return (
-                    <InterventionMatch 
+                    <InterventionMatch
                         onCancel={this.onCancel.bind(this)}
-                        onSend={this.sendIntervention.bind(this)} 
+                        onSend={this.sendIntervention.bind(this)}
+						intervention={this.state.intervention}
 						matches={this.state.matches} />
                 );
             default:

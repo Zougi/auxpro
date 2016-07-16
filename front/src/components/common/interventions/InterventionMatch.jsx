@@ -8,6 +8,12 @@ class InterventionsMatch extends React.Component {
 		super(props);
 	}
 
+	onSend() {
+		if (this.props.onSend) {
+			this.props.onSend(this.props.intervention);
+		}
+	}
+	
 	render() {
 		let matches = "NO MATCHES";
 		if(this.props.matches) {
@@ -17,8 +23,6 @@ class InterventionsMatch extends React.Component {
 				);
 			}.bind(this));
 		}
-			
-		
 		return(
 		<Panel header='Envoyer offre'>
 			<Row>
@@ -39,7 +43,7 @@ class InterventionsMatch extends React.Component {
 				</Col>
 			</Row>
 			<ButtonsEndDialog 
-				onOk={this.props.onSend} 
+				onOk={this.onSend.bind(this)} 
 				okTitle='Envoyer'
 				onCancel={this.props.onCancel} 
 				cancelTitle='Annuler'/>
@@ -49,25 +53,3 @@ class InterventionsMatch extends React.Component {
 }
 
 export default InterventionsMatch;
-
-
-			// {this.state.areas.map((area, index) => {
-              // return (
-				// <Panel onClick={this.deleteArea.bind(this, index)}>
-					// Type: {area.type} Adresse: {area.adress} Radius: {area.circle.radius}
-				// </Panel> 
-              // );
-            // })}
-			
-			// map(function(customer) {
-			// return (
-				// <ServiceCustomerInterventions 
-                    // key={customer.id} 
-                    // customer={customer} 
-                    // interventions={this.props.interventions[customer.id]}
-                    // offers={this.props.offers || {}}
-                    // onEdit={this.onEditIntervention.bind(this)}
-                    // onMatch={this.onMatchIntervention.bind(this)}
-                    // onDelete={this.onDeleteIntervention.bind(this)} />
-			// );
-		// }.bind(this));

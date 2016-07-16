@@ -56,6 +56,14 @@ class HomeSad extends React.Component {
         StoreRegistry.unregister('SERVICE_STORE', this);   
     }
 	
+	updateOffers(){
+		let args = {
+				 token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+				 serviceId: this.state.data.service.id
+			}
+		Dispatcher.issue('GET_SERVICE_OFFERS', args);
+	}
+	
     onStoreUpdate(first) {
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + this.user.id);
     	this.state = {
@@ -80,7 +88,7 @@ class HomeSad extends React.Component {
     	this.setState(this.state);
     }
 
-	render() { 
+	render() { 	
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>
@@ -113,7 +121,8 @@ class HomeSad extends React.Component {
 								<br/><ServiceInterventions 
 										customers={this.state.data.customers} 
 										interventions={this.state.data.interventions}
-										offers={this.state.data.offers} />
+										offers={this.state.data.offers} 
+										listUpdate = {this.updateOffers.bind(this)}/>
 							</Tab>
 						</Tabs>
 					:
