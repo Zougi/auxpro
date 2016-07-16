@@ -61,14 +61,14 @@ class ServiceCustomers extends React.Component {
     }
 
     deleteCustomer() {
-    	this._issueCustomerAction('DELETE_SERVICE_CUSTOMER');
+    	this._issueCustomerAction('DELETE_CUSTOMER');
     	this.hideDeleteConfirmation();
     }
     editCustomer() {
-    	this._issueCustomerAction('PUT_SERVICE_CUSTOMER');
+    	this._issueCustomerAction('PUT_CUSTOMER');
     }
     saveCustomer() {
-    	this._issueCustomerAction('POST_SERVICE_CUSTOMER');
+    	this._issueCustomerAction('POST_CUSTOMER');
     }
 
     _issueCustomerAction(action) {

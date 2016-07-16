@@ -70,13 +70,13 @@ class ServiceInterventions extends React.Component {
     }
 
     createIntervention(intervention) {
-        this._issueInterventionAction('POST_SERVICE_CUSTOMER_INTERVENTION', intervention);
+        this._issueInterventionAction('POST_INTERVENTION', intervention);
     }
     saveIntervention(intervention) {
-    	this._issueInterventionAction('PUT_SERVICE_CUSTOMER_INTERVENTION', intervention);
+    	this._issueInterventionAction('PUT_INTERVENTION', intervention);
     }
     deleteIntervention() {
-        this._issueInterventionAction('DELETE_SERVICE_CUSTOMER_INTERVENTION', this.state.intervention);
+        this._issueInterventionAction('DELETE_INTERVENTION', this.state.intervention);
     }
     sendIntervention(intervention){
 		for (let i = 0; i < this.state.matches.length; i++) {
@@ -99,8 +99,6 @@ class ServiceInterventions extends React.Component {
 
     _issueInterventionAction(action, intervention) {
     	Dispatcher.issue(action, {
-            serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-            customerId: intervention.customerId,
             interventionId: intervention.id,
             token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
             data: intervention
