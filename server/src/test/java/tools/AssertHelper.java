@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.error.ErrorBean;
 import org.ap.web.entity.error.ErrorDetailsBean;
-import org.ap.web.entity.mongo.AbsenceBean;
+import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.AddressBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
@@ -43,21 +43,12 @@ public class AssertHelper {
 
 	/* ENTITIES */
 
-	public static void assertAbsences(AbsenceBean[] expected, AbsenceBean[] actual) {
+	public static void assertAbsences(IndisponibilityBean[] expected, IndisponibilityBean[] actual) {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
 			TestCase.assertEquals(expected.length, actual.length);
-			for (int i = 0 ; i < expected.length ; i++) { assertAbsence(expected[i], actual[i]); }
-		}
-	}
-	public static void assertAbsence(AbsenceBean expected, AbsenceBean actual) {
-		if (expected == null) {
-			TestCase.assertNull(actual);
-		} else {
-			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
-			assertOneTime(expected.getOneTime(), actual.getOneTime());
-			assertRecurence(expected.getRecurence(), actual.getRecurence());
+			for (int i = 0 ; i < expected.length ; i++) { assertIndisponibility(expected[i], actual[i]); }
 		}
 	}
 	public static void assertAddress(AddressBean expected, AddressBean actual) {
@@ -104,6 +95,15 @@ public class AssertHelper {
 	}
 	public static void assertDayOfWeeks(DayOfWeek[] expected, DayOfWeek[] actual) {
 		TestCase.assertEquals(expected.length, actual.length);
+	}
+	public static void assertIndisponibility(IndisponibilityBean expected, IndisponibilityBean actual) {
+		if (expected == null) {
+			TestCase.assertNull(actual);
+		} else {
+			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
+			assertOneTime(expected.getOneTime(), actual.getOneTime());
+			assertRecurence(expected.getRecurence(), actual.getRecurence());
+		}
 	}
 	public static void assertIntervention(InterventionBean expected, InterventionBean actual) {
 		if (expected == null) {

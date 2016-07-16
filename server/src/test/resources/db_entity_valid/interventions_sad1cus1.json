@@ -1,5 +1,6 @@
 {
 	"customerId":"cus1",
+	"auxiliaryId":"aux1",
 	"serviceId":"sad1",
 	"oneTime": {
 		"date": [2016, 6, 28],

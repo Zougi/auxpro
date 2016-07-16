@@ -2,6 +2,7 @@ package org.ap.web.rest.servlet.interventions;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
@@ -16,80 +17,100 @@ import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
 
-@Path("")
+@Path("/interventions")
 public class InterventionsServlet extends ServletBase implements IInterventionsServlet {
 
 	/* STATIC */
 
-	public static final String PATH = "/services";
+	public static final String PATH = "/interventions";
 
 	/* ATTRIBUTES */
 
-	private ICustomersStore _customerStore;
+	private IAuxiliariesStore _auxiliariesStore;
+	private ICustomersStore _customersStore;
 	private IInterventionsStore _interventionsStore;
-	private IAuxiliariesStore _auxiliaryStore;
 
 	/* CONSTRUCTOR */
 
 	public InterventionsServlet() throws APException {
-		_customerStore = new CustomersStore();
+		_auxiliariesStore = new AuxiliariesStore();
+		_customersStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
-		_auxiliaryStore = new AuxiliariesStore();
 	}
 
 	/* METHODS */
+	
+	public InterventionBean checkIntervention(String serviceId, String interventionId) throws APException {
+		return checkIntervention(serviceId, _interventionsStore.getIntervention(interventionId));
+	}
+	public InterventionBean checkIntervention(String serviceId, InterventionBean intervention) throws APException {
+		return checkIntervention(serviceId, intervention, false);
+	}
+	public InterventionBean checkIntervention(String serviceId, InterventionBean intervention, boolean create) throws APException {
+		if (intervention == null) throw APException.INTERVENTION_NOT_FOUND;
+		if (intervention.getServiceId() == null) throw APException.INTERVENTION_SERVICE_MISSING;
+		if (!serviceId.equals(intervention.getServiceId())) {
+			if (create) throw APException.INTERVENTION_SERVICE_INVALID;
+			else throw APException.INTERVENTION_NOT_FOUND;
+		}
 
-	@Override
-	public Response getInterventionsJSON(SecurityContext sc, String sId, String cId) {
-		try {
-			if (!sc.getUserPrincipal().getName().equals(sId)) return Response.status(403).build();
-			InterventionBean[] interventions = _interventionsStore.getCustomerInterventions(sId, cId);
-			return Response.status(200).entity(interventions, resolveAnnotations(sc)).build();
-		} catch (APException e) {
-			return sendException(e);
-		}
+		if (intervention.getCustomerId() == null) throw APException.INTERVENTION_CUSTOMER_MISSING;
+		CustomerBean customer = _customersStore.getCustomer(intervention.getCustomerId());
+		if (customer == null) throw APException.INTERVENTION_CUSTOMER_INVALID;
+		if (!serviceId.equals(customer.getServiceId())) throw APException.INTERVENTION_CUSTOMER_INVALID;
+		
+		return intervention;
 	}
+	
 	@Override
-	public Response createInterventionJSON(SecurityContext sc, String sId, String cId, InterventionBean intervention) {
+	public Response createInterventionJSON(SecurityContext sc, InterventionBean intervention) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(sId)) return Response.status(403).build();
-			CustomerBean customer = _customerStore.getCustomer(cId);
-			if (customer == null || !customer.getServiceId().equals(sId)) return Response.status(403).build();
+			checkIntervention(sc.getUserPrincipal().getName(), intervention, true);
 			intervention = _interventionsStore.createIntervention(intervention);
-			return Response.status(200).entity(intervention, resolveAnnotations(sc)).build();
+			return Response.status(Status.CREATED).entity(intervention, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response updateInterventionJSON(SecurityContext sc, String sId, String cId, String iId, InterventionBean intervention) {
+	public Response getInterventionJSON(SecurityContext sc, String interventionId) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(sId)) return Response.status(403).build();
-			InterventionBean bean = _interventionsStore.getIntervention(iId);
-			if (bean == null || !bean.getServiceId().equals(sId) || !bean.getCustomerId().equals(cId)) return Response.status(403).build();
+			InterventionBean intervention = checkIntervention(sc.getUserPrincipal().getName(), interventionId);
+			return Response.status(Status.OK).entity(intervention, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	@Override
+	public Response updateInterventionJSON(SecurityContext sc, String interventionId, InterventionBean intervention) {
+		try {
+			checkIntervention(sc.getUserPrincipal().getName(), intervention, true);
+			InterventionBean previousIntervention = _interventionsStore.getIntervention(interventionId);		
+			if (previousIntervention == null) throw APException.INTERVENTION_NOT_FOUND;
+			if (!previousIntervention.getServiceId().equals(intervention.getServiceId())) throw APException.INTERVENTION_NOT_FOUND;
+			if (!previousIntervention.getCustomerId().equals(intervention.getCustomerId())) throw APException.INTERVENTION_CUSTOMER_INVALID;
 			intervention = _interventionsStore.updateIntervention(intervention);
-			return Response.status(200).entity(intervention, resolveAnnotations(sc)).build();
+			return Response.status(Status.OK).entity(intervention, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response deleteInterventionJSON(SecurityContext sc, String sId, String cId, String iId) {
+	public Response deleteInterventionJSON(SecurityContext sc, String interventionId) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(sId)) return Response.status(403).build();
-			InterventionBean bean = _interventionsStore.getIntervention(iId);
-			if (bean == null || !bean.getServiceId().equals(sId) || !bean.getCustomerId().equals(cId)) return Response.status(403).build();
-			_interventionsStore.deleteIntervention(iId);
-			return Response.status(200).build();
+			checkIntervention(sc.getUserPrincipal().getName(), interventionId);
+			_interventionsStore.deleteIntervention(interventionId);
+			return Response.status(Status.OK).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response getInterventionMatchJSON(SecurityContext sc, String iId) {
+	public Response getInterventionMatchJSON(SecurityContext sc, String interventionId) {
 		try {
-			AuxiliaryBean[] users = _auxiliaryStore.get();
-			return Response.status(200).entity(users, resolveAnnotations(sc)).build();
+			checkIntervention(sc.getUserPrincipal().getName(), interventionId);
+			AuxiliaryBean[] users = _auxiliariesStore.get();
+			return Response.status(Status.OK).entity(users, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

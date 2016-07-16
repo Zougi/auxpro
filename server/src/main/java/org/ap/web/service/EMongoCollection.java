@@ -1,6 +1,6 @@
 package org.ap.web.service;
 
-import org.ap.web.entity.mongo.AbsenceBean;
+import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.AccountBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
@@ -11,11 +11,10 @@ import org.ap.web.entity.mongo.TokenBean;
 
 public enum EMongoCollection {
 
-	ABSENCES          (AbsenceBean.class),
 	AUXILIARIES       (AuxiliaryBean.class),
 	CUSTOMERS         (CustomerBean.class),
+	INDISPONIBILITIES (IndisponibilityBean.class),
 	INTERVENTIONS     (InterventionBean.class),
-	MISSIONS_AFFECTED (InterventionBean.class),
 	OFFERS            (OfferBean.class),
 	SERVICES          (ServiceBean.class),
 	TOKENS            (TokenBean.class),

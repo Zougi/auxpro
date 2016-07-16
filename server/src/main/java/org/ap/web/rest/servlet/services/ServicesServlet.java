@@ -6,11 +6,14 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
+import org.ap.web.service.stores.customers.CustomersStore;
+import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
 import org.ap.web.service.stores.offers.IOffersStore;
@@ -27,28 +30,30 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 
 	/* ATTRIBUTES */
 
-	private IServicesStore _serviceStore;
-	private IInterventionsStore _interventionStore;
+	private IServicesStore _servicesStore;
+	private ICustomersStore _customersStore;
+	private IInterventionsStore _interventionsStore;
 	private IOffersStore _offersStore;
 
 	/* CONSTRUCTOR */
 
 	public ServicesServlet() throws APException {
-		_serviceStore = new ServicesStore();
-		_interventionStore = new InterventionsStore();
+		_servicesStore = new ServicesStore();
+		_customersStore = new CustomersStore();
+		_interventionsStore = new InterventionsStore();
 		_offersStore = new OffersStore();
 	}
 
 	/* METHODS */
-
+	
 	@Override
 	public Response getServicesJSON(SecurityContext sc, int postal) {
 		try {
 			ServiceBean[] services;
 			if (postal != 0) {
-				services = _serviceStore.get(postal);
+				services = _servicesStore.get(postal);
 			} else {
-				services = _serviceStore.get();
+				services = _servicesStore.get();
 			}
 			return Response.status(200).entity(services, resolveAnnotations(sc)).build();
 		} catch (APException e) {
@@ -58,49 +63,60 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response createServiceJSON(SecurityContext sc, CredentialsBean bean) {
 		try {
-			ServiceBean service = _serviceStore.create(bean);
-			return Response.status(201).entity(service, resolveAnnotations(sc, service)).build();
+			ServiceBean service = _servicesStore.create(bean);
+			return Response.status(Status.CREATED).entity(service, resolveAnnotations(sc, service)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response getServiceJSON(SecurityContext sc, String id) {
+	public Response getServiceJSON(SecurityContext sc, String serviceId) {
 		try {
-			ServiceBean bean = _serviceStore.get(id);
-			if (bean == null) return Response.status(Status.NOT_FOUND).build();
-			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
+			ServiceBean service = _servicesStore.get(serviceId);
+			if (service == null) throw APException.SERVICE_NOT_FOUND;
+			return Response.status(Status.OK).entity(service, resolveAnnotations(sc, service)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response updateServiceJSON(SecurityContext sc, String id, ServiceBean bean) {
+	public Response updateServiceJSON(SecurityContext sc, String serviceId, ServiceBean service) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
-			bean = _serviceStore.update(bean);
-			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
+			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
+			if (!service.getId().equals(serviceId)) throw APException.SERVICE_INVALID;
+			service = _servicesStore.update(service);
+			return Response.status(Status.OK).entity(service, resolveAnnotations(sc, service)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response deleteServiceJSON(SecurityContext sc, String id) {
+	public Response deleteServiceJSON(SecurityContext sc, String serviceId) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
-			_serviceStore.delete(id);
-			return Response.status(200).build();
+			_servicesStore.delete(serviceId);
+			return Response.status(Status.OK).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 
 	@Override
-	public Response getInterventionsJSON(SecurityContext sc, String id) {
+	public Response getCustomersJSON(SecurityContext sc, String serviceId) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
-			InterventionBean[] interventions = _interventionStore.getServiceInterventions(id);
-			return Response.status(200).entity(interventions, resolveAnnotations(sc)).build();
+			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
+			CustomerBean[] customers = _customersStore.getServiceCustomers(serviceId);
+			return Response.status(Status.OK).entity(customers, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	
+	@Override
+	public Response getInterventionsJSON(SecurityContext sc, String serviceId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
+			InterventionBean[] interventions = _interventionsStore.getServiceInterventions(serviceId);
+			return Response.status(Status.OK).entity(interventions, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
@@ -109,9 +125,9 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	@Override
 	public Response getOffersJSON(SecurityContext sc, String serviceId) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(serviceId)) return Response.status(403).build();
+			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
 			OfferBean[] offers = _offersStore.getServiceOffers(serviceId);
-			return Response.status(200).entity(offers, resolveAnnotations(sc)).build();
+			return Response.status(Status.OK).entity(offers, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

@@ -62,7 +62,7 @@ public class CustomersStore implements ICustomersStore {
 	}
 
 	@Override
-	public CustomerBean[] getByService(String id) throws APException {
+	public CustomerBean[] getServiceCustomers(String id) throws APException {
 		FindIterable<Document> documents = EMongoCollection.CUSTOMERS.getService().findAll(eq("serviceId", id));
 		List<CustomerBean> result = BeanConverter.convertToBean(documents, CustomerBean.class);
 		return result.toArray(new CustomerBean[result.size()]);

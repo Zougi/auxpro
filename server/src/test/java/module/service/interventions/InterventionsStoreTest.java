@@ -70,11 +70,11 @@ public class InterventionsStoreTest extends TestModuleBase {
 	@Test
 	public void testV_getByServiceId() throws APException {
 		InterventionBean[] interventions = store.getServiceInterventions(service1.getId());
-		TestCase.assertEquals(2, interventions.length);
+		TestCase.assertEquals(3, interventions.length);
 	}
 	@Test
 	public void testV_getByCustomerId() throws APException {
 		InterventionBean[] interventions = store.getCustomerInterventions(service1.getId(), customer1.getId());
-		TestCase.assertEquals(1, interventions.length);
+		TestCase.assertEquals(2, interventions.length);
 	}
 }

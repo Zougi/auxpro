@@ -1,6 +1,7 @@
 package org.ap.web.rest.servlet.auxiliaries;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Path;
@@ -9,19 +10,23 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.AuxiliaryDataBean;
 import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
 import org.ap.web.service.stores.auxiliaries.IAuxiliariesStore;
 import org.ap.web.service.stores.customers.CustomersStore;
 import org.ap.web.service.stores.customers.ICustomersStore;
-import org.ap.web.service.stores.missions.IMissionsStore;
-import org.ap.web.service.stores.missions.MissionsStore;
-import org.ap.web.service.stores.services.IServicesStore;
-import org.ap.web.service.stores.services.ServicesStore;
+import org.ap.web.service.stores.indisponibilities.IIndisponibilitiesStore;
+import org.ap.web.service.stores.indisponibilities.IndisponibilitiesStore;
+import org.ap.web.service.stores.interventions.IInterventionsStore;
+import org.ap.web.service.stores.interventions.InterventionsStore;
+import org.ap.web.service.stores.offers.IOffersStore;
+import org.ap.web.service.stores.offers.OffersStore;
 
 @Path("/auxiliaries")
 public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServlet {
@@ -33,22 +38,22 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	/* ATTRIBUTES */
 
 	private IAuxiliariesStore _auxiliaryStore;
-	private IServicesStore _servicesStore;
 	private ICustomersStore _customersStore;
-	private IMissionsStore _missionsStore;
+	private IOffersStore _offersStore;
+	private IInterventionsStore _interventionsStore;
+	private IIndisponibilitiesStore _indiponibilitiesStore;
 
 	/* CONSTRUCTOR */
 
 	public AuxiliariesServlet() throws APException {
 		_auxiliaryStore = new AuxiliariesStore();
-		_missionsStore = new MissionsStore();
+		_offersStore = new OffersStore();
 		_customersStore = new CustomersStore();
-		_servicesStore = new ServicesStore();
+		_interventionsStore = new InterventionsStore();
+		_indiponibilitiesStore = new IndisponibilitiesStore();
 	}
 
 	/* METHODS */
-
-	// IUserServlet Implementation //
 
 	@Override
 	public Response getAuxiliariesJSON(SecurityContext sc) {
@@ -63,68 +68,86 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	public Response createAuxiliaryJSON(SecurityContext sc, CredentialsBean bean) {
 		try {
 			AuxiliaryBean auxiliary = _auxiliaryStore.create(bean);
-			return Response.status(201).entity(auxiliary, resolveAnnotations(sc, auxiliary)).build();
-		} catch (APException e) {
-			return sendException(e);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.status(500).build();
-		}
-	}
-	@Override
-	public Response getAuxiliaryJSON(SecurityContext sc, String id) {
-		try {
-			AuxiliaryBean bean = _auxiliaryStore.get(id);
-			if (bean == null) return Response.status(Status.NOT_FOUND).build();
-			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
+			return Response.status(Status.CREATED).entity(auxiliary, resolveAnnotations(sc, auxiliary)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response updateAuxiliaryJSON(SecurityContext sc, String id, AuxiliaryBean bean) {
+	public Response getAuxiliaryJSON(SecurityContext sc, String auxiliaryId) {
 		try {
-			if (!sc.getUserPrincipal().getName().equals(id)) return Response.status(403).build();
-			bean = _auxiliaryStore.update(bean);
-			return Response.status(200).entity(bean, resolveAnnotations(sc, bean)).build();
+			AuxiliaryBean bean = _auxiliaryStore.get(auxiliaryId);
+			if (bean == null) throw APException.AUXILIARY_NOT_FOUND;
+			return Response.status(Status.OK).entity(bean, resolveAnnotations(sc, bean)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response deleteAuxiliaryJSON(SecurityContext sc, String id) {
+	public Response updateAuxiliaryJSON(SecurityContext sc, String auxiliaryId, AuxiliaryBean auxiliary) {
 		try {
-			_auxiliaryStore.delete(id);
-			return Response.status(200).build();
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			if (!auxiliary.getId().equals(auxiliaryId)) throw APException.AUXILIARY_INVALID;
+			auxiliary = _auxiliaryStore.update(auxiliary);
+			return Response.status(Status.OK).entity(auxiliary, resolveAnnotations(sc, auxiliary)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
 	@Override
-	public Response postAuxiliaryIDCard(SecurityContext sc, String id) {
+	public Response deleteAuxiliaryJSON(SecurityContext sc, String auxiliaryId) {
 		try {
-			throw APException.NOT_IMPLEMENTED;
+			_auxiliaryStore.delete(auxiliaryId);
+			return Response.status(Status.OK).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
 	}
+
 	@Override
-	public Response getAuxiliaryMissionsJSON(SecurityContext sc, String id) {
+	public Response getCustomersJSON(SecurityContext sc, String auxiliaryId) {
 		try {
-			if (_auxiliaryStore.get(id) == null) return Response.status(Status.NOT_FOUND).build();
-			if (!sc.isUserInRole("admin") && !sc.getUserPrincipal().getName().equals(id)) return Response.status(Status.FORBIDDEN).build();
-			InterventionBean[] missions = _missionsStore.getAuxMissions(id);
-			Set<String> services = new HashSet<String>();
-			Set<String> customers = new HashSet<String>();
-			for (InterventionBean mission : missions) {
-				services.add(mission.getServiceId());
-				customers.add(mission.getCustomerId());
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;			
+			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
+			Set<String> customerIds = new HashSet<String>();
+			for (InterventionBean mission : interventions) {
+				customerIds.add(mission.getCustomerId());
 			}
-			AuxiliaryDataBean bean = new AuxiliaryDataBean();
-			bean.setMissions(missions);
-			bean.setServices(_servicesStore.get(services));
-			bean.setCustomers(_customersStore.get(customers));
-			return Response.status(200).entity(bean).build();
+			Map<String, CustomerBean> customers = _customersStore.get(customerIds);
+			CustomerBean[] result = customers.values().toArray(new CustomerBean[customers.size()]);
+			return Response.status(Status.OK).entity(result, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	
+	@Override
+	public Response getInterventionsJSON(SecurityContext sc, String auxiliaryId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
+			return Response.status(Status.OK).entity(interventions, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+
+	@Override
+	public Response getOffersJSON(SecurityContext sc, String auxiliaryId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
+			return Response.status(Status.OK).entity(offers, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	@Override
+	public Response getIndisponibilitiesJSON(SecurityContext sc, String auxiliaryId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			IndisponibilityBean[] indisponibilities = _indiponibilitiesStore.getAuxIndisponibilities(auxiliaryId);
+			return Response.status(Status.OK).entity(indisponibilities, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

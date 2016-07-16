@@ -22,5 +22,5 @@ public interface ICustomersStore {
 	
 	public Map<String, CustomerBean> get(Set<String> ids) throws APException;
 
-	public CustomerBean[] getByService(String id) throws APException;
+	public CustomerBean[] getServiceCustomers(String id) throws APException;
 }

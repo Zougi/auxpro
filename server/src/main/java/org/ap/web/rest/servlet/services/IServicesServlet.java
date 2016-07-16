@@ -21,21 +21,27 @@ import org.ap.web.entity.mongo.ServiceBean;
 /**
  * This interface describes the services servlet features.
  * The following actions are available:
- *  - /services          GET    > list existing services
- *  - /services/{servId} GET    > retrieve a service details
- *  - /services/{servId} POST   > create a new service
- *  - /services/{servId} PUT    > update an existing service
- *  - /services/{servId} DELETE > delete a service
+ * 
+ *  - /services GET > list existing services
+ *  
+ *  - /services/{serviceId} GET    > retrieve a service details
+ *  - /services/{serviceId} POST   > create a new service
+ *  - /services/{serviceId} PUT    > update an existing service
+ *  - /services/{serviceId} DELETE > delete a service
  *
- *  - /services/{servId}/interventions GET > list service interventions
- *  - /services/{servId}/offers        GET > list service interventions
- *  - /services/{servId}/missions      GET > list service missions
+ *  - /services/{serviceId}/customers     GET > list service customers
+ *  - /services/{serviceId}/interventions GET > list service interventions
+ *  - /services/{serviceId}/offers        GET > list service interventions
  */
 public interface IServicesServlet {
 
+	// SERVICES
+	
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getServicesJSON(@Context SecurityContext sc, @QueryParam("postal") int postal);
+	
+	// SERVICE
 	
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
@@ -44,37 +50,45 @@ public interface IServicesServlet {
 	
 	@GET
 	@RolesAllowed("authenticated")
-	@Path("{servId}")
+	@Path("{serviceId}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getServiceJSON(@Context SecurityContext sc, @PathParam("servId") final String id);
+	public Response getServiceJSON(@Context SecurityContext sc, @PathParam("serviceId") final String serviceId);
 
 	@PUT
 	@RolesAllowed("authenticated")
-	@Path("{servId}")
+	@Path("{serviceId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response updateServiceJSON(@Context SecurityContext sc, @PathParam("servId") final String id, ServiceBean service);
+	public Response updateServiceJSON(@Context SecurityContext sc, @PathParam("serviceId") final String serviceId, ServiceBean service);
 	
 	@DELETE
 	@RolesAllowed("admin")
-	@Path("{servId}")
+	@Path("{serviceId}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response deleteServiceJSON(@Context SecurityContext sc, @PathParam("servId") final String id);
+	public Response deleteServiceJSON(@Context SecurityContext sc, @PathParam("serviceId") final String serviceId);
 
+	// CUSTOMERS 
+	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{serviceId}/customers")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getCustomersJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
+	
 	// INTERVENTIONS
 	
 	@GET
 	@RolesAllowed("authenticated")
-	@Path("{servId}/interventions")
+	@Path("{serviceId}/interventions")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getInterventionsJSON(@Context SecurityContext sc, @PathParam("servId") String id);
+	public Response getInterventionsJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
 
 	// OFFERS
 
 	@GET
 	@RolesAllowed("authenticated")
-	@Path("{servId}/offers")
+	@Path("{serviceId}/offers")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getOffersJSON(@Context SecurityContext sc, @PathParam("servId") String id);
+	public Response getOffersJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
 
 }

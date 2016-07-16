@@ -1,6 +1,7 @@
 package module.rest.auxiliaries;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CredentialsBean;
@@ -90,6 +91,6 @@ public class AuxiliaryPostRestTest extends RestTestBase {
 	@Test
 	public void testV_asGuest() throws Exception {
 		Response response = prepare("", accountGuest.getUser()).post(write(bean));
-		TestCase.assertEquals(201, response.getStatus());
+		TestCase.assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 	}
 }

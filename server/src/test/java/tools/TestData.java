@@ -20,7 +20,7 @@ import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EPersonSex;
 import org.ap.web.entity.constant.ESadType;
 import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.mongo.AbsenceBean;
+import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.AddressBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
@@ -158,7 +158,7 @@ public class TestData {
 		return next(new CredentialsBean());
 	}
 	
-	public static AbsenceBean next(AbsenceBean bean) {
+	public static IndisponibilityBean next(IndisponibilityBean bean) {
 		bean.setId(StringConverter.stringToHex(String.valueOf(ABSENCE_ID++)));
 		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
 		if (ABSENCE_ID % 2 == 0) {

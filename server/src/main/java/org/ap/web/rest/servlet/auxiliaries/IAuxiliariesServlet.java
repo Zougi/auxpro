@@ -23,19 +23,25 @@ import org.ap.web.entity.mongo.CredentialsBean;
  * 
  *  - /auxiliaries GET > list system auxiliaries
  *  
- *  - /auxiliaries/{auxId} GET    > retrieve an auxiliary details
  *  - /auxiliaries/{auxId} POST   > create a new auxiliary 
+ *  - /auxiliaries/{auxId} GET    > retrieve an auxiliary details
  *  - /auxiliaries/{auxId} PUT    > update an existing auxiliary
  *  - /auxiliaries/{auxId} DELETE > delete an auxiliary
  *  
- *  - /auxiliaries/{auxId}/missions GET > retrieve missions of an auxiliary
- *  - /auxiliaries/{auxId}/absences GET > retrieve absences of an auxiliary
+ *  - /auxiliaries/{auxId}/customers         GET > retrieve missions of an auxiliary
+ *  - /auxiliaries/{auxId}/offers            GET > retrieve missions of an auxiliary
+ *  - /auxiliaries/{auxId}/interventions     GET  > retrieve missions of an auxiliary
+ *  - /auxiliaries/{auxId}/indisponibilities GET  > retrieve missions of an auxiliary
  */
 public interface IAuxiliariesServlet {
 
+	// AUXILIARIES
+	
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getAuxiliariesJSON(@Context SecurityContext sc);
+	
+	// AUXILIARY
 	
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
@@ -44,31 +50,53 @@ public interface IAuxiliariesServlet {
 	
 	@GET
 	@RolesAllowed("authenticated")
-	@Path("{auxId}")
+	@Path("{auxiliaryId}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxId") final String id);
+	public Response getAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
 	
 	@PUT
 	@RolesAllowed("authenticated")
-	@Path("{auxId}")
+	@Path("{auxiliaryId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response updateAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxId") final String id, AuxiliaryBean auxiliary);
+	public Response updateAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId, AuxiliaryBean auxiliary);
 	
 	@DELETE
 	@RolesAllowed("admin")
-	@Path("{auxId}")
+	@Path("{auxiliaryId}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response deleteAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxId") final String id);
+	public Response deleteAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
 
+	// CUSTOMERS
+	
 	@GET
 	@RolesAllowed("authenticated")
-	@Path("{auxId}/missions")
+	@Path("{auxiliaryId}/customers")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getAuxiliaryMissionsJSON(@Context SecurityContext sc, @PathParam("auxId") final String id);
+	public Response getCustomersJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
 	
-	@POST
-	@Path("{auxId}/idcard")
-	@Consumes({MediaType.MULTIPART_FORM_DATA})
-	public Response postAuxiliaryIDCard(@Context SecurityContext sc, @PathParam("auxId") final String id);
+	// OFFERS
+	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{auxiliaryId}/offers")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getOffersJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+	
+	// INTERVENTIONS
+	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{auxiliaryId}/interventions")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getInterventionsJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+	
+	// INDISPONIBILITIES
+	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{auxiliaryId}/indisponibilities")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getIndisponibilitiesJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+	
 }

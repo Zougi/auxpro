@@ -1,6 +1,7 @@
 package module.rest.offers;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.common.string.StringConverter;
 import org.ap.web.rest.servlet.offers.OffersServlet;
@@ -15,33 +16,37 @@ public class OfferDeleteRestTest extends RestTestBase {
 		super(OffersServlet.PATH);
 	}
 
+	public String getBaseUrl() {
+		return "/" + offer1.getId();
+	}
+	
 	/* TEST CASES */
 
 	/* Negative Testing */
 	
 	@Test
 	public void testI_asUnknownUser() throws Exception {
-		Response response = prepare("/" + offer1.getId(), "dummy", "dummy").delete();
-		TestCase.assertEquals(401, response.getStatus());
+		Response response = prepare(getBaseUrl(), "dummy", "dummy").delete();
+		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
 		TestCase.assertFalse(response.hasEntity());
 	}
 	@Test
 	public void testI_deleteUnknown() throws Exception {
 		Response response = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).delete();
-		TestCase.assertEquals(404, response.getStatus());
+		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
 	
 	/* Positive Testing */
 	
 	@Test
 	public void testV_checkResponse() throws Exception {
-		Response response = prepare("/" + offer1.getId(), service1.getUser()).get();
-		TestCase.assertEquals(200, response.getStatus());
+		Response response = prepare(getBaseUrl(), service1.getUser()).get();
+		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		response = prepare("/" + offer1.getId(), service1.getUser()).delete();
-		TestCase.assertEquals(200, response.getStatus());
+		response = prepare(getBaseUrl(), service1.getUser()).delete();
+		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		response = prepare("/" + offer1.getId(), service1.getUser()).get();
-		TestCase.assertEquals(404, response.getStatus());
+		response = prepare(getBaseUrl(), service1.getUser()).get();
+		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
 }

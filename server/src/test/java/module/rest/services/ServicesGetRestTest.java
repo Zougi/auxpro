@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.rest.servlet.services.ServicesServlet;
@@ -25,7 +26,7 @@ public class ServicesGetRestTest extends RestTestBase {
 	@Test
 	public void testI_asUnknownUser() {
 		Response response = prepare("", "dummy", "dummy").get();
-		TestCase.assertEquals(401, response.getStatus());
+		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
 		TestCase.assertFalse(response.hasEntity());
 	}
 	
@@ -33,9 +34,9 @@ public class ServicesGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asAdmin_checkStatus() throws Exception {
-		Response rsp = prepare("", accountAdmin.getUser()).get();
-		TestCase.assertEquals(200, rsp.getStatus());
-		TestCase.assertTrue(rsp.hasEntity());
+		Response response = prepare("", accountAdmin.getUser()).get();
+		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		TestCase.assertTrue(response.hasEntity());
 	}
 	@Test
 	public void testV_asAdmin_withFilter() throws Exception {

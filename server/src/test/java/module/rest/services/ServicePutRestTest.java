@@ -1,8 +1,10 @@
 package module.rest.services;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.ServiceBean;
+import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.services.ServicesServlet;
 import org.junit.Test;
 
@@ -16,38 +18,47 @@ public class ServicePutRestTest extends RestTestBase {
 		super(ServicesServlet.PATH);
 	}
 	
+	public String getBaseUrl() {
+		return "/" + service1.getId();
+	}
+	
 	/* TEST CASES */
 	
 	/* Negative Testing */
 
 	@Test
+	public void testI_unknownUser() throws Exception {
+		Response response = prepare(getBaseUrl(), "dummy", "dummy").post(write(service1));
+		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
+	}
+	@Test
 	public void testI_notSameUser() throws Exception {
-		Response response = prepare("/" + service1.getId(), accountAdmin.getUser()).put(write(service1));
-		TestCase.assertEquals(403, response.getStatus());
+		Response response = prepare(getBaseUrl(), service2.getUser()).put(write(service1));
+		AssertHelper.assertException(APException.SERVICE_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_invalidName() throws Exception {
-		Response response = prepare("/dummy", accountAdmin.getUser()).put(write(service1));
-		TestCase.assertEquals(403, response.getStatus());
+		Response response = prepare("/dummy", service1.getUser()).put(write(service1));
+		AssertHelper.assertException(APException.SERVICE_NOT_FOUND, response);
 	}
 	@Test
-	public void testI_unknownUser() throws Exception {
-		Response response = prepare("/myuser", "myuser", "myuser").post(write(service1));
-		TestCase.assertEquals(401, response.getStatus());
+	public void testI_invalidService() throws Exception {
+		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(service2));
+		AssertHelper.assertException(APException.SERVICE_INVALID, response);
 	}
 	
 	/* Positive Testing */
 	
 	@Test
 	public void testV_update() throws Exception {
-		ServiceBean userAux = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);
+		ServiceBean userAux = prepare(getBaseUrl(), service1.getUser()).get(ServiceBean.class);
 		AssertHelper.assertService(service1, userAux);
 		
 		service1.setSiret("dummy");
-		Response response = prepare("/" + service1.getId(), service1.getUser()).put(write(service1));
-		TestCase.assertEquals(200, response.getStatus());
+		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(service1));
+		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		userAux = prepare("/" + service1.getId(), service1.getUser()).get(ServiceBean.class);
+		userAux = prepare(getBaseUrl(), service1.getUser()).get(ServiceBean.class);
 		AssertHelper.assertService(service1, userAux);
 	}
 }

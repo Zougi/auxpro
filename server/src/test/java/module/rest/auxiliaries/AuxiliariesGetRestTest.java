@@ -1,6 +1,7 @@
 package module.rest.auxiliaries;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
@@ -20,9 +21,9 @@ public class AuxiliariesGetRestTest extends RestTestBase {
 	/* Negative Testing */
 		
 	@Test
-	public void testI_getUsers_UnknownUser() {
+	public void testI_UnknownUser() {
 		Response response = prepare("", "dummy", "dummy").get();
-		TestCase.assertEquals(401, response.getStatus());
+		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
 		TestCase.assertFalse(response.hasEntity());
 	}
 	
@@ -36,13 +37,13 @@ public class AuxiliariesGetRestTest extends RestTestBase {
 	@Test
 	public void testV_asGuest() throws Exception {
 		Response rsp = prepare("", accountGuest.getUser()).get();
-		TestCase.assertEquals(200, rsp.getStatus());
+		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asAdmin_responseStatus() throws Exception {
 		Response rsp = prepare("", accountAdmin.getUser()).get();
-		TestCase.assertEquals(200, rsp.getStatus());
+		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 }

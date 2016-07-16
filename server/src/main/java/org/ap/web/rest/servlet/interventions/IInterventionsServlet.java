@@ -17,46 +17,49 @@ import javax.ws.rs.core.SecurityContext;
 import org.ap.web.entity.mongo.InterventionBean;
 
 /**
- * This interface describes the services customer interventions servlet features.
+ * This interface describes the interventions servlet features.
  * The following actions are available:
- *  - /services/{servId}/customers/{custId}/interventions           GET    > list interventions for the customer
- *  - /services/{servId}/customers/{custId}/interventions           POST   > create a new intervention for this customer
- *  - /services/{servId}/customers/{custId}/interventions/{interId} PUT    > update an existing intervention
- *  - /services/{servId}/customers/{custId}/interventions/{interId} DELETE > delete an intervention
+ * 
+ *  - /interventions           POST      > create a new intervention
+ *  - /interventions/{interId} GET       > get an intervention details
+ *  - /interventions/{interId} PUT       > update an existing intervention
+ *  - /interventions/{interId} DELETE    > delete an intervention
  *  
- *  - /interventions/{interId}/match GET   > returns the best auxiliary match for a given intervention
+ *  - /interventions/{interId}/match GET > returns the best auxiliary match for an intervention
  */
 public interface IInterventionsServlet {
 
-	@GET
-	@RolesAllowed("authenticated")
-	@Produces({MediaType.APPLICATION_JSON})
-	@Path("/services/{servId}/customers/{custId}/interventions/")
-	public Response getInterventionsJSON(@Context SecurityContext sc, @PathParam("servId") String sId, @PathParam("custId") String cId);
+	
 	
 	@POST
 	@RolesAllowed("authenticated")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	@Path("/services/{servId}/customers/{custId}/interventions/")
-	public Response createInterventionJSON(@Context SecurityContext sc, @PathParam("servId") String sId, @PathParam("custId") String cId, InterventionBean intervention);
+	@Path("/")
+	public Response createInterventionJSON(@Context SecurityContext sc, InterventionBean intervention);
 
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("/{interventionId}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getInterventionJSON(@Context SecurityContext sc, @PathParam("interventionId") String interventionId);
+	
 	@PUT
 	@RolesAllowed("authenticated")
-	@Path("/services/{servId}/customers/{custId}/interventions/{interId}")
+	@Path("/{interventionId}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response updateInterventionJSON(@Context SecurityContext sc, @PathParam("servId") String sId, @PathParam("custId") String cId, @PathParam("interId") String iId, InterventionBean customer);
+	public Response updateInterventionJSON(@Context SecurityContext sc, @PathParam("interventionId") String interventionId, InterventionBean customer);
 
 	@DELETE
 	@RolesAllowed("authenticated")
-	@Path("/services/{servId}/customers/{custId}/interventions/{interId}")
+	@Path("/{interventionId}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response deleteInterventionJSON(@Context SecurityContext sc, @PathParam("servId") String sId, @PathParam("custId") String cId, @PathParam("interId") String iId);
+	public Response deleteInterventionJSON(@Context SecurityContext sc, @PathParam("interventionId") String interventionId);
 	
 	@GET
 	@RolesAllowed("authenticated")
-	@Path("/interventions/{interId}/match")
+	@Path("/{interventionId}/match")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getInterventionMatchJSON(@Context SecurityContext sc, @PathParam("interId") String iId);
+	public Response getInterventionMatchJSON(@Context SecurityContext sc, @PathParam("interventionId") String interventionId);
 }

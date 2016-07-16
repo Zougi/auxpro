@@ -1,6 +1,7 @@
 package module.rest.offers;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.mongo.OfferBean;
@@ -17,6 +18,10 @@ public class OfferGetRestTest extends RestTestBase {
 		super(OffersServlet.PATH);
 	}
 
+	public String getBaseUrl() {
+		return "/" + offer1.getId();
+	}
+	
 	/* TEST CASES */
 
 	/* Negative Testing */
@@ -24,18 +29,18 @@ public class OfferGetRestTest extends RestTestBase {
 	@Test
 	public void testI_getUnknown() throws Exception {
 		Response rsp = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).get();
-		TestCase.assertEquals(404, rsp.getStatus());
+		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), rsp.getStatus());
 	}
 	@Test
 	public void testI_asUnknownUser() throws Exception {
-		Response rsp = prepare("/" + offer1.getId(), "dummy", "dummy").get();
-		TestCase.assertEquals(401, rsp.getStatus());
+		Response rsp = prepare(getBaseUrl(), "dummy", "dummy").get();
+		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_invalidPassword() throws Exception {
-		Response rsp = prepare("/" + offer1.getId(), service1.getUser().getName(), "dummy").get();
-		TestCase.assertEquals(401, rsp.getStatus());
+		Response rsp = prepare(getBaseUrl(), service1.getUser().getName(), "dummy").get();
+		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 
@@ -43,13 +48,13 @@ public class OfferGetRestTest extends RestTestBase {
 
 	@Test
 	public void testV_getResponse() throws Exception {
-		Response rsp = prepare("/" + offer1.getId(), service1.getUser()).get();
-		TestCase.assertEquals(200, rsp.getStatus());
+		Response rsp = prepare(getBaseUrl(), service1.getUser()).get();
+		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asSelf() throws Exception {
-		OfferBean offer = prepare("/" + offer1.getId(), service1.getUser()).get(OfferBean.class);
+		OfferBean offer = prepare(getBaseUrl(), service1.getUser()).get(OfferBean.class);
 		AssertHelper.assertOffer(offer1, offer);
 	}
 }

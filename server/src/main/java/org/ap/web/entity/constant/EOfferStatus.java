@@ -5,6 +5,7 @@ public enum EOfferStatus {
 	PENDING  ("PENDING"),
 	REJECTED ("REJECTED"),
 	ACCEPTED ("ACCEPTED"),
+	EXPIRED  ("EXPIRED"),
 	;
 	
 	private String _id;

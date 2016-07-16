@@ -1,0 +1,21 @@
+{
+	"person": {
+		"civility":"Mr",
+		"firstName": "Client",
+		"lastName": "Numero3",
+		"birthDate":[2003, 3, 3]
+	},
+	"contact": {
+		"address": {
+			"address": "3 rue des Trois",
+			"postalCode": 75003,
+			"city": "Paris"
+		},
+		"addressChecked": true,
+		"phone": "03 03 03 03 03",
+		"phoneChecked": true,
+		"email":"trois@trois.fr",
+		"emailChecked": true
+	},
+	"serviceId":"sad2"
+}

@@ -11,10 +11,10 @@ public class EMongoCollectionTest {
 	
 	@Test
 	public void testV_checkCollectionsName() {
-		TestCase.assertEquals(EMongoCollection.AUXILIARIES.getName(), "auxiliaries");
 		TestCase.assertEquals(EMongoCollection.CUSTOMERS.getName(), "customers");
+		TestCase.assertEquals(EMongoCollection.AUXILIARIES.getName(), "auxiliaries");
 		TestCase.assertEquals(EMongoCollection.INTERVENTIONS.getName(), "interventions");
-		TestCase.assertEquals(EMongoCollection.MISSIONS_AFFECTED.getName(), "missions.affected");
+		TestCase.assertEquals(EMongoCollection.INDISPONIBILITIES.getName(), "indisponibilities");
 		TestCase.assertEquals(EMongoCollection.OFFERS.getName(), "offers");
 		TestCase.assertEquals(EMongoCollection.TOKENS.getName(), "tokens");
 		TestCase.assertEquals(EMongoCollection.SERVICES.getName(), "services");
