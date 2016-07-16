@@ -79,22 +79,26 @@ class ServiceInterventions extends React.Component {
         this._issueInterventionAction('DELETE_INTERVENTION', this.state.intervention);
     }
     sendIntervention(intervention){
-		for (let i = 0; i < this.state.matches.length; i++) {
-			let data = {
-				serviceId: intervention.serviceId,
-				customerId: intervention.customerId,
-				interventionId: intervention.id,
-				auxiliaryId: this.state.matches[i].id,
-				status: "PENDING"
-			}
-			let params = {
-				 token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-				 data: data
-			}
-			Dispatcher.issue('POST_OFFER', params);
+		var promises = [];
+        for (let i = 0; i < this.state.matches.length; i++) {
+            let data = {
+                serviceId: intervention.serviceId,
+                customerId: intervention.customerId,
+                interventionId: intervention.id,
+                auxiliaryId: this.state.matches[i].id,
+                status: "PENDING"
+            }
+            let params = {
+                 token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+                 data: data
+            }
+            promises.push(Dispatcher.issue('POST_OFFER', params));
 		}
-		this.onCancel();
-		this.props.listUpdate(false);
+        Promise.all(promises).then(function () {
+            this.onCancel();
+            this.props.listUpdate(false);    
+        }.bind(this))
+		
     }
 
     _issueInterventionAction(action, intervention) {
