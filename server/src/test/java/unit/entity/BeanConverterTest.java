@@ -25,14 +25,14 @@ public class BeanConverterTest {
 	
 	@Test
 	public void testV_UserBean2String() throws Exception {
-		UserBean expected = TestData.next(new UserBean(), EUserType.AUXILIARY.getId(), "dummy");
+		UserBean expected = TestData.next(new UserBean(), EUserType.AUX.getId(), "dummy");
 		String s = BeanConverter.beanToString(expected);
 		UserBean actual = BeanConverter.stringToBean(s, UserBean.class);
 		AssertHelper.assertUser(expected, actual);
 	}
 	@Test
 	public void testV_UserBean2Mongo() throws Exception {
-		UserBean expected = TestData.next(new UserBean(), EUserType.AUXILIARY.getId(), "dummy");
+		UserBean expected = TestData.next(new UserBean(), EUserType.AUX.getId(), "dummy");
 		Document doc = BeanConverter.convertToMongo(expected);
 		UserBean actual = BeanConverter.convertToBean(doc, UserBean.class);
 		AssertHelper.assertUser(expected, actual);

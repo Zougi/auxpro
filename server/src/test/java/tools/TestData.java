@@ -173,7 +173,7 @@ public class TestData {
 		bean.setContact(next(new ContactBean()));
 		bean.setPerson(next(new PersonBean()));
 		bean.setSkills(next(new SkillsBean()));
-		bean.setUser(next(new UserBean(), EUserType.AUXILIARY.getId(), StringConverter.stringToHex(String.valueOf(AUXILIARY_ID))));
+		bean.setUser(next(new UserBean(), EUserType.AUX.getId(), StringConverter.stringToHex(String.valueOf(AUXILIARY_ID))));
 		return bean;
 	}
 	public static AddressBean next(AddressBean bean) {
@@ -263,7 +263,7 @@ public class TestData {
 		bean.setSiret("Siret " + SERVICE_ID);
 		bean.setSocialReason(ESadType.MAND.getId());
 		bean.setSociety("Societe " + SERVICE_ID);
-		bean.setUser(next(new UserBean(), EUserType.SERVICE.getId(), String.valueOf(SERVICE_ID)));
+		bean.setUser(next(new UserBean(), EUserType.SAD.getId(), String.valueOf(SERVICE_ID)));
 		return bean;
 	}
 	public static SkillsBean next(SkillsBean bean) {
