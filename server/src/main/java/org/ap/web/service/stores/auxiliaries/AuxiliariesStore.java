@@ -2,6 +2,7 @@ package org.ap.web.service.stores.auxiliaries;
 
 import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
+import org.ap.web.entity.constant.EUserType;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.GeoZoneBean;
@@ -55,6 +56,7 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 		if (EMongoCollection.AUXILIARIES.getService().findOne(eq("user.email", bean.getEmail())) != null) throw APException.USER_EMAIL_INUSE;
 		AuxiliaryBean auxiliary = new AuxiliaryBean();
 		UserBean user = new UserBean();
+		user.setType(EUserType.AUX.getId());
 		user.setName(bean.getName());
 		user.setEmail(bean.getEmail());
 		user.setPassword(bean.getPassword());

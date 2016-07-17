@@ -6,8 +6,8 @@ public enum EUserType {
 	
 	ADMIN,
 	GUEST,
-	AUXILIARY,
-	SERVICE,
+	AUX,
+	SAD,
 	;
 	
 	/* ATTRIBUTES */

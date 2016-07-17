@@ -9,6 +9,12 @@ var AuxiliaryStore = new StoreBase ({
 	content: DEFAULT_CONTENT
 });
 
+// LOGOUT
+AuxiliaryStore.onLogout = function (result, param) {
+	AuxiliaryStore._content = DEFAULT_CONTENT;
+};
+Dispatcher.register('LOGOUT', AuxiliaryStore.onLogout);
+
 // GET AUXILIARIES
 AuxiliaryStore.onGetAuxiliaries = function (args) {
 	AuxiliaryStore._content.auxiliaries = args;

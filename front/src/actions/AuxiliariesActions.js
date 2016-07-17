@@ -44,7 +44,7 @@ PostAuxiliary.do = function (args) {
 		url   : getAuxiliaryUrl(),
 		method: 'POST',
 		data: args,
-		token : args.token
+		token : Utils.encode('guest', 'guest')
 	};
 	return RestService._request(reqParam);
 }

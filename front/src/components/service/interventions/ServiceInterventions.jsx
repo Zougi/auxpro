@@ -189,7 +189,7 @@ class ServiceInterventions extends React.Component {
                 );
             case STATES.VIEW:
                 let offers = Utils.filter(this.props.offers, function(offer) {
-                    offer.interventionId === this.state.intervention.id;
+                    return offer.interventionId === this.state.intervention.id;
                 }.bind(this));
                 return (
                     <InterventionMatch

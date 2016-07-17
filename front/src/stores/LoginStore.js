@@ -13,16 +13,21 @@ var LoginStore = new StoreBase ({
 LoginStore.setToken = function (token) {
 	LoginStore._content = Utils.merge(LoginStore._content, { token: token }, true);
 }
-LoginStore.onLogon = function (args) {
-	args.logged = true;
-	LoginStore._content = Utils.merge(LoginStore._content, args, true);
+
+// LOGON
+LoginStore.onLogon = function (result, param) {
+	result.logged = true;
+	result.token = Utils.encode(param.user, param.pass);
+	LoginStore._content = result;
 	LoginStore.notify();
 };
-LoginStore.reset = function () {
+Dispatcher.register('LOGON', LoginStore.onLogon);
+
+// LOGOUT
+LoginStore.onLogout = function (result, param) {
 	LoginStore._content = DEFAULT_CONTENT;
 	LoginStore.notify();
 };
-
-Dispatcher.register('LOGON', LoginStore.onLogon);
+Dispatcher.register('LOGOUT', LoginStore.onLogout);
 
 export default LoginStore;

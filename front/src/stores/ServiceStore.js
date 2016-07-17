@@ -20,6 +20,12 @@ ServiceStore.getService = function (id) {
 
 /* ACTION LISTENERS */
 
+// LOGOUT
+ServiceStore.onLogout = function (result, param) {
+	ServiceStore._content = DEFAULT_CONTENT;
+};
+Dispatcher.register('LOGOUT', ServiceStore.onLogout);
+
 // GET SERVICES
 ServiceStore.onGetServices = function (args) {
 	ServiceStore._content.services = args;
@@ -111,7 +117,6 @@ Dispatcher.register('GET_SERVICE_OFFERS', ServiceStore.onGetServiceOffers);
 
 // GET SERVICE AUXILIARIES
 ServiceStore.onGetServiceAuxiliries = function (result, param) {
-	console.log('here');
 	if (result && result.length) {
 		let service = ServiceStore._content.service[param.serviceId];
 		service.auxiliaries = {};

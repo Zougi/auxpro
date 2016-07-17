@@ -36,8 +36,6 @@ class InterventionSummary extends React.Component {
 				<InterventionSummaryOfferRenderer 
 					intervention={this.props.intervention}
 					offers={this.props.offers}
-					onEdit={this.onEdit.bind(this)}
-					onMatch={this.onMatch.bind(this)}
 					onViewOffers={this.onViewOffers.bind(this)}/>
 			);
 		} else {

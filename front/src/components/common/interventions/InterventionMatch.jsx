@@ -1,5 +1,7 @@
 import React from 'react';
-import { Grid, Row, Col, Panel, Button } from 'react-bootstrap'
+import { Grid, Row, Col, Panel, Button, Glyphicon } from 'react-bootstrap'
+
+import StoreRegistry from '../../../core/StoreRegistry';
 
 import CustomerSummary from '../customers/CustomerSummary.jsx'
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
@@ -20,6 +22,8 @@ class InterventionsMatch extends React.Component {
 	render() {
 		let title = 'Résultats Matching';
 		let matches = 'NO MATCHES';
+		console.log('')
+		console.log(this.props)
 		if(this.props.matches) {
 			matches = this.props.matches.map(function(match) {
 				return (
@@ -30,10 +34,19 @@ class InterventionsMatch extends React.Component {
 			}.bind(this));
 		} else if (this.props.offers) {
 			matches = this.props.offers.map(function(offer) {
+				let auxiliary = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + offer.serviceId + '/auxiliaries/' + offer.auxiliaryId);
 				return (
-					<p key={match.id}>
-						{match.person.firstName} {match.person.lastName}
-					</p>
+					<Col key={offer.id}>
+						{offer.status === 'PENDING'  ? <Glyphicon glyph='question-sign'/> : '' }
+						{offer.status === 'ACCEPTED' ? <Glyphicon glyph='ok-circle'/> : '' }
+						{offer.status === 'REJECTED' ? <Glyphicon glyph='remove-circle'/> : '' }
+						{offer.status === 'EXPIRED'  ? <Glyphicon glyph='option-horizontal'/> : '' }
+						&nbsp;{auxiliary.person.firstName} {auxiliary.person.lastName} 
+						{offer.status === 'PENDING'  ? ' (en attente)' : '' }
+						{offer.status === 'ACCEPTED' ? ' (acceptée)' : '' }
+						{offer.status === 'REJECTED' ? ' (rejectée)' : '' }
+						{offer.status === 'EXPIRED'  ? ' (expirée)' : '' }
+					</Col>
 				);
 			}.bind(this));
 		}

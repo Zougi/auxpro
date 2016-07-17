@@ -44,7 +44,7 @@ PostService.do = function (args) {
 		url   : getServiceUrl(),
 		method: 'POST',
 		data: args,
-		token : args.token
+		token : Utils.encode('guest', 'guest')
 	};
 	return RestService._request(reqParam);
 }

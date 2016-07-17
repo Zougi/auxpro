@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
+import org.ap.web.entity.constant.EUserType;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
@@ -76,6 +77,7 @@ public class ServicesStore extends StoreBase<ServiceBean> implements IServicesSt
 		if (EMongoCollection.SERVICES.getService().findOne(eq("user.email", bean.getEmail())) != null) throw APException.USER_EMAIL_INUSE;
 		ServiceBean auxiliary = new ServiceBean();
 		UserBean user = new UserBean();
+		user.setType(EUserType.SAD.getId());
 		user.setName(bean.getName());
 		user.setEmail(bean.getEmail());
 		user.setPassword(bean.getPassword());
