@@ -1,7 +1,7 @@
 import ObjectBase from './ObjectBase.js';
 import ActionRegistry from './ActionRegistry.js';
 
-let DEBUG = true;
+let DEBUG = false;
 
 function log(msg) {
 	if (DEBUG) {

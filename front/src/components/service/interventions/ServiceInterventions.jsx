@@ -9,6 +9,7 @@ import Utils from '../../../utils/Utils.js'
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import InterventionDetails from '../../common/interventions/InterventionDetails.jsx';
 import InterventionMatch from '../../common/interventions/InterventionMatch.jsx';
+import InterventionOffers from '../../common/interventions/InterventionOffers.jsx';
 import ServiceCustomerInterventions from './ServiceCustomerInterventions.jsx';
 import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
 
@@ -24,18 +25,8 @@ class ServiceInterventions extends React.Component {
 	
 	constructor(props) {
         super(props);
-        this.state = {};		
+        this.state = { state: STATES.LIST };		
     }
-
-    componentDidMount() {
-        StoreRegistry.register('SERVICE_STORE/service/matches', this, this.onServiceMatches.bind(this));   
-    }
-	
-	onServiceMatches() {
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
-		this.setState({ matches: data.matches[this.state.intervention.id] });
-	}
 
     onCancel() {
         this.setState({ 
@@ -59,16 +50,19 @@ class ServiceInterventions extends React.Component {
         });
     }
     onMatchIntervention(intervention) {
-        let params = {
-			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-			interventionId: intervention.id
-		}
-		Dispatcher.issue('GET_INTERVENTION_MATCH', params);
+        this.interventionId = intervention.id
+		Dispatcher.issue('GET_INTERVENTION_MATCH', {
+            token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+            interventionId: intervention.id
+        }).then(function() {
+            this.setState({ state: STATES.MATCH });
+        }.bind(this)).
+        catch(function (error) {
+            console.log('Unable to load matches:');
+            console.log(error);
+        });
 		
-		this.setState({ 
-			intervention: intervention,
-			state: STATES.MATCH	
-		});
+		
     }
     onDeleteIntervention(intervention) {
         this.setState({ 
@@ -89,14 +83,14 @@ class ServiceInterventions extends React.Component {
     deleteIntervention() {
         this._issueInterventionAction('DELETE_INTERVENTION', this.state.intervention);
     }
-    sendIntervention(intervention){
+    sendIntervention(intervention) {
 		var promises = [];
-        for (let i = 0; i < this.state.matches.length; i++) {
+        for (let i = 0; i < intervention.matches.length; i++) {
             let data = {
                 serviceId: intervention.serviceId,
                 customerId: intervention.customerId,
                 interventionId: intervention.id,
-                auxiliaryId: this.state.matches[i].id,
+                auxiliaryId: intervention.matches[i].id,
                 status: "PENDING"
             }
             let params = {
@@ -160,6 +154,9 @@ class ServiceInterventions extends React.Component {
     }
 
 	render() {
+        console.log('=============================================')
+        console.log(this.props)
+        console.log(this.state.state)
 		switch (this.state.state) {
             case STATES.ADD:
                 return (
@@ -179,11 +176,12 @@ class ServiceInterventions extends React.Component {
                         onCreate={this.saveIntervention.bind(this)} />
                 );
             case STATES.MATCH:
+                let intervention = this.props.interventions[this.interventionId];
                 return (
                     <InterventionMatch
-                        customer={this.props.customers[this.state.intervention.customerId]}
-                        intervention={this.state.intervention}
-                        matches={this.state.matches}
+                        customer={this.props.customers[intervention.customerId]}
+                        intervention={intervention}
+                        matches={intervention.matches}
                         onCancel={this.onCancel.bind(this)}
                         onSend={this.sendIntervention.bind(this)} />
                 );
@@ -192,12 +190,11 @@ class ServiceInterventions extends React.Component {
                     return offer.interventionId === this.state.intervention.id;
                 }.bind(this));
                 return (
-                    <InterventionMatch
+                    <InterventionOffers
                         customer={this.props.customers[this.state.intervention.customerId]}
                         intervention={this.state.intervention}
                         offers={offers}
-                        onCancel={this.onCancel.bind(this)}
-                        onSend={this.sendIntervention.bind(this)} />
+                        onCancel={this.onCancel.bind(this)} />
                 );
             default:
                 let customers = this._buildCustomers();

@@ -32,8 +32,30 @@ class App extends React.Component {
 				then(toHome.bind(this));
 				break;
 			case 'sad':
-				Dispatcher.issue("GET_SERVICE", { serviceId: user.id, token: user.token }).
-				then(toHome.bind(this));
+				let args = {
+		    		serviceId: user.id,
+					token: user.token
+		    	}
+				Dispatcher.issue("GET_SERVICE", args).
+		        then(function() {
+		        	return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
+		        }).
+		        then(function() {
+		        	return Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
+		        }).
+		        then(function() {
+		        	return Dispatcher.issue('GET_SERVICE_OFFERS', args);
+		        }).
+		        then(function() {
+		        	return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
+		        }).
+		        then(function() {
+		        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
+		        }).
+		        then(toHome.bind(this)).
+		        catch(function() {
+		        	console.log('erreur au chargement du service');
+		        });				
 				break;
 			default:
 				toHome();

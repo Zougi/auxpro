@@ -17,48 +17,17 @@ class ServiceHome extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		this.state = {
-			user: this.user,
-			showTuto: !this.user.tutoSkipped,
-			showProfilePrompt: false,
-			data: StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id)
-		};
+		this.onStoreUpdate(true);
 	}
 
 	componentDidMount() {
         StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
-    	
-    	let args = {
-    		serviceId: this.user.id,
-			token: this.user.token
-    	}
-
-        Dispatcher.issue('GET_SERVICE', args).
-        then(function() {
-        	return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
-        }).
-        then(function() {
-        	return Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
-        }).
-        then(function() {
-        	return Dispatcher.issue('GET_SERVICE_OFFERS', args);
-        }).
-        then(function() {
-        	return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
-        }).
-        then(function() {
-        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
-        }).
-        catch(function() {
-        	console.log('erreur au chargement du service');
-        });
     }
     componentWillUnmount() {
         StoreRegistry.unregister('SERVICE_STORE', this);   
     }
 	
-	updateOffers(){
+	updateOffers() {
 		let args = {
 			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
 			serviceId: this.state.data.service.id
@@ -67,13 +36,18 @@ class ServiceHome extends React.Component {
 	}
 	
     onStoreUpdate(first) {
-    	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + this.user.id);
-		this.setState({
-			user: this.user,
+    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+    	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
+    	this.state = {
+			user: user,
 			data: data,
-			showTuto: first?!this.user.tutoSkipped:this.state.showTuto,
+			showTuto: first?!user.tutoSkipped:this.state.showTuto,
 			showProfilePrompt: first?true:this.state.showProfilePrompt
-		});
+		};
+		if (!first) {
+			this.setState(this.state); 
+		}
+		console.log(data)
     }
 
 	 _tutoClose() {
@@ -101,25 +75,25 @@ class ServiceHome extends React.Component {
 				<br/>
 				<Grid>
 					<Row>
-						<ServiceHeader service={this.state.data}/>
+						<ServiceHeader service={this.state.data || {}}/>
 					</Row>
 					<Row>
 					{ this.state.data ? 
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Mes Informations"><br/>
-								<ServiceProfile service={this.state.data.service}/>
+								<ServiceProfile service={this.state.data.service || {}}/>
 							</Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>
 								<ServicesMap/>
 							</Tab>							
 							<Tab eventKey={2} title="Mes Clients"><br/>
-								<ServiceCustomers customers={this.state.data.customers}/>
+								<ServiceCustomers customers={this.state.data.customers || {}}/>
 							</Tab>
 							<Tab eventKey={3} title="Mes Interventions"><br/>
 								<ServiceInterventions 
-									customers={this.state.data.customers} 
-									interventions={this.state.data.interventions}
-									offers={this.state.data.offers} 
+									customers={this.state.data.customers || {}} 
+									interventions={this.state.data.interventions || {}}
+									offers={this.state.data.offers || {}} 
 									listUpdate={this.updateOffers.bind(this)}/>
 							</Tab>
 						</Tabs>

@@ -66,11 +66,10 @@ class ServiceProfile extends React.Component {
 		return(
 			<Panel>
 				<Form>
-				{ this.state.edit ?
-					''
-				:
+				{ !this.state.edit ?
 					<Button bsStyle='info' onClick={this.toEditMode.bind(this)} block>Modifier mes informations</Button>
-				}
+				: '' }
+                { this.props.service ?
 					<Row>
 						<Col sm={6}>
 	            			<ServiceDetails 
@@ -83,19 +82,18 @@ class ServiceProfile extends React.Component {
 		            	<Col sm={6}>
 		            		<Contact 
 	            				edit={this.state.edit}
-	            				address={this.props.service.contact.address}
-	            				phone={this.props.service.contact.phone}
-	            				email={this.props.service.contact.email}
+	            				address={this.props.service.contact ? this.props.service.contact.address : {}}
+	            				phone={this.props.service.contact ? this.props.service.contact.phone : ''}
+	            				email={this.props.service.contact ? this.props.service.contact.email : ''}
 	            				onChange={this.onContactChanged.bind(this)}/>
 	        	    	</Col>
         	    	</Row>
+                : '' }
     	        { this.state.edit ?
 					<ButtonsEndDialog 
 						onOk={this.onUpdateService.bind(this)} okTitle='Enregistrer modifications' 
 						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
-				: 
-					''
-				}
+				: '' }
 			</Form>
             </Panel>
 		);

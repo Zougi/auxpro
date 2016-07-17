@@ -50,10 +50,11 @@ Dispatcher.register('GET_SERVICE', ServiceStore.onGetService);
 
 // GET SERVICE CUSTOMERS
 ServiceStore.onGetServiceCustomers = function (result, param) {
+	let service = ServiceStore._content.service[param.serviceId];
+	let previous = service.customers || {};
+	service.customers = {};
 	if (result && result.length) {
-		let service = ServiceStore._content.service[param.serviceId];
-		let previous = service.customers || {};
-		service.customers = {};
+		
 		for (let i = 0; i < result.length; i++) {
 			let customer = result[i];
 			// store customer
@@ -63,18 +64,18 @@ ServiceStore.onGetServiceCustomers = function (result, param) {
 				service.customers[customer.id].interventions = previous[customer.id].interventions;
 			}
 		}
-		service.customersLoaded = true;
-		ServiceStore.notify();
 	}
+	service.customersLoaded = true;
+	ServiceStore.notify();
 };
 Dispatcher.register('GET_SERVICE_CUSTOMERS', ServiceStore.onGetServiceCustomers);
 
 // GET SERVICE INTERVENTIONS
 ServiceStore.onGetServiceInterventions = function (result, param) {
+	let service = ServiceStore._content.service[param.serviceId];
+	let previous = service.interventions || {};
+	service.interventions = {};
 	if (result && result.length) {
-		let service = ServiceStore._content.service[param.serviceId];
-		let previous = service.interventions || {};
-		service.interventions = {};
 		for (let i = 0; i < result.length; i++) {
 			let intervention = result[i];
 			// Store intervention
@@ -87,17 +88,17 @@ ServiceStore.onGetServiceInterventions = function (result, param) {
 				service.intervention[intervention.id].offer = previous[intervention.id].offers;
 			}
 		}
-		service.interventionsLoaded = true;
-		ServiceStore.notify();
 	}
+	service.interventionsLoaded = true;
+	ServiceStore.notify();
 };
 Dispatcher.register('GET_SERVICE_INTERVENTIONS', ServiceStore.onGetServiceInterventions);
 
 // GET SERVICE OFFERS
 ServiceStore.onGetServiceOffers = function (result, param) {
+	let service = ServiceStore._content.service[param.serviceId];
+	service.offers = {};
 	if (result && result.length) {
-		let service = ServiceStore._content.service[param.serviceId];
-		service.offers = {};
 		for (let i = 0; i < result.length; i++) {
 			let offer = result[i];
 			// store offer
@@ -109,36 +110,38 @@ ServiceStore.onGetServiceOffers = function (result, param) {
 				intervention.offers.push(offer.id);
 			}
 		}
-		service.offersLoaded = true;
-		ServiceStore.notify();
 	}
+	service.offersLoaded = true;
+	ServiceStore.notify();
+
 };
 Dispatcher.register('GET_SERVICE_OFFERS', ServiceStore.onGetServiceOffers);
 
 // GET SERVICE AUXILIARIES
 ServiceStore.onGetServiceAuxiliries = function (result, param) {
+	let service = ServiceStore._content.service[param.serviceId];
+	service.auxiliaries = {};
 	if (result && result.length) {
-		let service = ServiceStore._content.service[param.serviceId];
-		service.auxiliaries = {};
 		for (let i = 0; i < result.length; i++) {
 			let auxiliary = result[i];
 			// store auxiliary
 			service.auxiliaries[auxiliary.id] = auxiliary;
 		}
-		service.auxiliariesLoaded = true;
-		ServiceStore.notify();
 	}
+	service.auxiliariesLoaded = true;
+	ServiceStore.notify();
 };
 Dispatcher.register('GET_SERVICE_AUXILIARIES', ServiceStore.onGetServiceAuxiliries);
 
 // GET INTERVENTION MATCH
 ServiceStore.onGetInterventionMatch = function (result, param) {
+	let service = ServiceStore._content.service[StoreRegistry.getStore('LOGIN_STORE').getData('/id')];
 	if (result && result.length > 0) {
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let service = ServiceStore._content.service[user.id];
-		service.matches = service.matches || {};
-		service.matches[param.interventionId] = result;
-		ServiceStore.notifyPath("service/matches");
+		// Store link in intervention
+		let intervention = service.interventions[param.interventionId];
+		if (intervention) {
+			intervention.matches = result;
+		}
 	}
 };
 Dispatcher.register('GET_INTERVENTION_MATCH', ServiceStore.onGetInterventionMatch);
