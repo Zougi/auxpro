@@ -1,7 +1,5 @@
-// lib modules
 import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
-
 	
 class ButtonsEndDialog extends React.Component {
 	constructor(props) {

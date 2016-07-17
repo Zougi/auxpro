@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 
-import PanelHeaderAction from '../PanelHeaderAction/PanelHeaderAction.jsx'
+import PanelHeaderAction from '../../../components-lib/PanelHeaderAction/PanelHeaderAction.jsx'
 
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
 import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
@@ -15,7 +15,7 @@ class InterventionSummaryOfferRenderer extends React.Component {
 				tooltip: 'Etat des offres',
 				bsStyle: 'info', 
 				glyph: 'cloud-upload', 
-				callback: props.onViewOffer 
+				callback: props.onViewOffers 
 			}
 		];
 	}

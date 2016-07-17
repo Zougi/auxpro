@@ -137,8 +137,8 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;			
 			Set<String> customerIds = new HashSet<String>();
 			InterventionBean[] interventions = _interventionsStore.getAuxiliaryInterventions(auxiliaryId);
-			for (InterventionBean mission : interventions) {
-				customerIds.add(mission.getCustomerId());
+			for (InterventionBean intervention : interventions) {
+				customerIds.add(intervention.getCustomerId());
 			}
 			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
 			for (OfferBean offer: offers) {

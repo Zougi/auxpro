@@ -20,6 +20,7 @@ Dispatcher.register('GET_AUXILIARIES', AuxiliaryStore.onGetAuxiliaries);
 // PUT AUXILIARY
 AuxiliaryStore.onGetAuxiliary = function (args) {
 	AuxiliaryStore._content.auxiliary[args.id] = args;
+	AuxiliaryStore._content.auxiliaryLoaded = true;
 	AuxiliaryStore.notify();
 };
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);

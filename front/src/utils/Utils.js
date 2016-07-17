@@ -29,7 +29,21 @@ export default class Utils {
 	static map(object, callback) {
 		let result = [];
 		for (let member in object) {
-			result.push(callback(object[member]));
+			if (callback) {
+				result.push(callback(object[member]));
+			} else {
+				result.push(object[member]);
+			}
+		}
+		return result;
+	}
+	static filter(object, callback) {
+		let result = [];
+		for (let member in object) {
+			let obj = object[member];
+			if (callback(obj)) {
+				result.push(obj);
+			}
 		}
 		return result;
 	}

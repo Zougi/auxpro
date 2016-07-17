@@ -11,8 +11,8 @@
 	"diploma":"Diplome de foufou",
 	"person": {
 		"civility":"Mme",
-		"firstName": "Seconde",
-		"lastName": "Auxiliaire",
+		"firstName": "Julie",
+		"lastName": "Legrand",
 		"birthDate":[1992, 5, 1],
 		"birthPlace": {
 			"city": "Versailles",

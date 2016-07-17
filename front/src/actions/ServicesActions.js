@@ -94,3 +94,14 @@ GetServiceOffers.do = function (args) {
 	};
 	return RestService._request(reqParam);
 }
+
+// GET SERVICE AUXILIARIES
+let GetServiceAuxiliaries = new ActionBase({ name: 'GET_SERVICE_AUXILIARIES' });
+GetServiceAuxiliaries.do = function (args) {
+	Utils.checkMembers(args, ['serviceId', 'token']);
+	var reqParam = {
+		url   : getServiceUrl(args.serviceId) + '/auxiliaries',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}

@@ -25,7 +25,9 @@ class InterventionSummary extends React.Component {
 		}
 	}
 	onViewOffers() {
-		console.log(this.props.offers);
+		if (this.props.onViewOffers) {
+			this.props.onViewOffers(this.props.intervention);
+		}
 	}
 
 	render() {

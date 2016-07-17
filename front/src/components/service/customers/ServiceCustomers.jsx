@@ -8,7 +8,7 @@ import StoreRegistry from '../../../core/StoreRegistry';
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
 import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
-import ButtonsEndDialog from '../../common/ButtonsEndDialog.jsx';
+import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 let STATES = {
 	LIST: 'LIST',
@@ -24,36 +24,41 @@ class ServiceCustomers extends React.Component {
 	    this.state = {};
 	}
 
-    switchState(state) {
-    	return function() {
-			this.setState({ state: state || STATES.LIST });
-		}.bind(this);
-    }
-
     onCancel() {
-    	this.state.currentCustomer = null;
-    	this.switchState()();
+    	this.setState({ 
+    		currentCustomer: null,
+    		state: STATES.LIST 
+    	});
     }
 
     onAddCustomer(customer) {
-    	this.state.currentCustomer = null;
-    	this.switchState(STATES.ADD)();
+    	this.setState({ 
+    		currentCustomer: null,
+    		state: STATES.ADD 
+    	});
     }
     onEditCustomer(customer) {
-    	this.state.currentCustomer = customer;
-    	this.switchState(STATES.EDIT)();
+    	this.setState({ 
+    		currentCustomer: customer,
+    		state: STATES.EDIT 
+    	});
     }
     onViewCustomer(customer) {
-    	this.state.currentCustomer = customer;
-    	this.switchState(STATES.VIEW)();
+    	this.setState({ 
+    		currentCustomer: customer,
+    		state: STATES.VIEW 
+    	});
     }
     onDeleteCustomer(customer) {
-    	this.state.currentCustomer = customer;
-    	this.state.showDeleteConfirm = true;
-    	this.setState(this.state);
+    	this.setState({ 
+    		currentCustomer: customer,
+    		showDeleteConfirm: true
+    	});
     }
     hideDeleteConfirmation() {
-    	this.setState({showDeleteConfirm: false});
+    	this.setState({
+    		showDeleteConfirm: false
+    	});
     }  
 
     onCustomerChange(customer) {
@@ -73,6 +78,7 @@ class ServiceCustomers extends React.Component {
 
     _issueCustomerAction(action) {
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+    	this.state.customer = this.state.customer || {};
     	this.state.customer.serviceId = user.id;
     	this.state.customer.id = this.state.currentCustomer ? this.state.currentCustomer.id : null;
     	let args = {
@@ -86,7 +92,10 @@ class ServiceCustomers extends React.Component {
     		Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
     	}).
     	then(function() {
-    		this.switchState(STATES.LIST)();
+    		this.setState({ 
+	    		currentCustomer: null,
+	    		state: STATES.LIST
+	    	});
     	}.bind(this)).
     	catch(function(error) {
     		console.log(error);

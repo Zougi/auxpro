@@ -4,6 +4,7 @@ import { Panel, Button, Row, Col, Modal } from 'react-bootstrap';
 // core modules
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
+import Utils from '../../../utils/Utils.js'
 // custom components
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import InterventionDetails from '../../common/interventions/InterventionDetails.jsx';
@@ -23,9 +24,11 @@ class ServiceInterventions extends React.Component {
 	
 	constructor(props) {
         super(props);
-        this.state = {};
-		
-		StoreRegistry.register('SERVICE_STORE/service/matches', this, this.onServiceMatches.bind(this));
+        this.state = {};		
+    }
+
+    componentDidMount() {
+        StoreRegistry.register('SERVICE_STORE/service/matches', this, this.onServiceMatches.bind(this));   
     }
 	
 	onServiceMatches() {
@@ -35,19 +38,25 @@ class ServiceInterventions extends React.Component {
 	}
 
     onCancel() {
-        this.setState({ intervention: null });
-        this.setState({ state: STATES.LIST });
+        this.setState({ 
+            intervention: null,
+            state: STATES.LIST 
+        });
     }   
     onViewIntervention(intervention) {
-        this.setState({ intervention: intervention });
-        this.setState({ state: STATES.VIEW });
+        this.setState({ 
+            intervention: intervention,
+            state: STATES.VIEW 
+        });
     }
     onAddIntervention(intervention) {
         this.setState({ state: STATES.ADD });
     }
     onEditIntervention(intervention) {
-        this.setState({ intervention: intervention });
-        this.setState({ state: STATES.EDIT });
+        this.setState({ 
+            intervention: intervention,
+            state: STATES.EDIT 
+        });
     }
     onMatchIntervention(intervention) {
         let params = {
@@ -62,8 +71,10 @@ class ServiceInterventions extends React.Component {
 		});
     }
     onDeleteIntervention(intervention) {
-        this.setState({ intervention: intervention });
-        this.setState({ showDeleteConfirm: true });
+        this.setState({ 
+            intervention: intervention,
+            showDeleteConfirm: true 
+        });
     }
     hideDeleteConfirmation() {
     	this.setState({ showDeleteConfirm: false });
@@ -121,29 +132,40 @@ class ServiceInterventions extends React.Component {
     	});    	
     }
 
+    _buildCustomers() {
+        let customers = Utils.filter(this.props.customers || [], this._filterCustomer.bind(this));
+        return customers.map(this._buildCustomer.bind(this));
+    }
+    _filterCustomer(customer) {
+        return customer.interventions && customer.interventions.length;
+    }
+    _buildCustomer(customer) {
+        let interventions = Utils.filter(this.props.interventions, function(intervention) {
+            return intervention.customerId === customer.id;
+        });
+        let offers = Utils.filter(this.props.offers, function(offer) {
+            return offer.customerId === customer.id;
+        });
+        return (
+            <ServiceCustomerInterventions 
+                key={customer.id} 
+                customer={customer} 
+                interventions={interventions}
+                offers={offers}
+                onEdit={this.onEditIntervention.bind(this)}
+                onMatch={this.onMatchIntervention.bind(this)}
+                onDelete={this.onDeleteIntervention.bind(this)}
+                onViewOffers={this.onViewIntervention.bind(this)} />
+        );
+    }
+
 	render() {
-		let customers = (this.props.customers || []).
-		filter(function(customer) {
-			return this.props.interventions && this.props.interventions[customer.id] && this.props.interventions[customer.id].length;
-		}.bind(this)).
-		map(function(customer) {
-			return (
-				<ServiceCustomerInterventions 
-                    key={customer.id} 
-                    customer={customer} 
-                    interventions={this.props.interventions[customer.id]}
-                    offers={this.props.offers || {}}
-                    onEdit={this.onEditIntervention.bind(this)}
-                    onMatch={this.onMatchIntervention.bind(this)}
-                    onDelete={this.onDeleteIntervention.bind(this)} />
-			);
-		}.bind(this));
 		switch (this.state.state) {
             case STATES.ADD:
                 return (
                     <InterventionDetails 
                         edit={true}
-                        customers={this.props.customers}
+                        customers={Utils.map(this.props.customers)}
                         onCancel={this.onCancel.bind(this)} 
                         onCreate={this.createIntervention.bind(this)} />
                 );
@@ -151,7 +173,7 @@ class ServiceInterventions extends React.Component {
                 return (
                     <InterventionDetails 
                         edit={true}
-                        customers={this.props.customers}
+                        customers={Utils.map(this.props.customers)}
                         intervention={this.state.intervention}
                         onCancel={this.onCancel.bind(this)} 
                         onCreate={this.saveIntervention.bind(this)} />
@@ -159,12 +181,26 @@ class ServiceInterventions extends React.Component {
             case STATES.MATCH:
                 return (
                     <InterventionMatch
+                        customer={this.props.customers[this.state.intervention.customerId]}
+                        intervention={this.state.intervention}
+                        matches={this.state.matches}
                         onCancel={this.onCancel.bind(this)}
-                        onSend={this.sendIntervention.bind(this)}
-						intervention={this.state.intervention}
-						matches={this.state.matches} />
+                        onSend={this.sendIntervention.bind(this)} />
+                );
+            case STATES.VIEW:
+                let offers = Utils.filter(this.props.offers, function(offer) {
+                    offer.interventionId === this.state.intervention.id;
+                }.bind(this));
+                return (
+                    <InterventionMatch
+                        customer={this.props.customers[this.state.intervention.customerId]}
+                        intervention={this.state.intervention}
+                        offers={offers}
+                        onCancel={this.onCancel.bind(this)}
+                        onSend={this.sendIntervention.bind(this)} />
                 );
             default:
+                let customers = this._buildCustomers();
         		return (
         			<div>
         				<Panel header={(<strong>Interventions en cours</strong>)}>

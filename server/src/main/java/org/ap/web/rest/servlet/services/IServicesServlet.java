@@ -31,23 +31,24 @@ import org.ap.web.entity.mongo.ServiceBean;
  *
  *  - /services/{serviceId}/customers     GET > list service customers
  *  - /services/{serviceId}/interventions GET > list service interventions
- *  - /services/{serviceId}/offers        GET > list service interventions
+ *  - /services/{serviceId}/offers        GET > list service offers
+ *  - /services/{serviceId}/auxiliaries   GET > list service auxiliaries
  */
 public interface IServicesServlet {
 
 	// SERVICES
-	
+
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getServicesJSON(@Context SecurityContext sc, @QueryParam("postal") int postal);
-	
+
 	// SERVICE
-	
+
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response createServiceJSON(@Context SecurityContext sc, CredentialsBean credentials);
-	
+
 	@GET
 	@RolesAllowed("authenticated")
 	@Path("{serviceId}")
@@ -60,7 +61,7 @@ public interface IServicesServlet {
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response updateServiceJSON(@Context SecurityContext sc, @PathParam("serviceId") final String serviceId, ServiceBean service);
-	
+
 	@DELETE
 	@RolesAllowed("admin")
 	@Path("{serviceId}")
@@ -68,15 +69,15 @@ public interface IServicesServlet {
 	public Response deleteServiceJSON(@Context SecurityContext sc, @PathParam("serviceId") final String serviceId);
 
 	// CUSTOMERS 
-	
+
 	@GET
 	@RolesAllowed("authenticated")
 	@Path("{serviceId}/customers")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getCustomersJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
-	
+
 	// INTERVENTIONS
-	
+
 	@GET
 	@RolesAllowed("authenticated")
 	@Path("{serviceId}/interventions")
@@ -91,4 +92,11 @@ public interface IServicesServlet {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getOffersJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
 
+	// AUXILIARIES
+
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{serviceId}/auxiliaries")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getAuxiliariesJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
 }

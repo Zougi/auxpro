@@ -17,7 +17,8 @@ class ServiceCustomerInterventions extends React.Component {
 					offers={this.props.offers}
 					onEdit={this.props.onEdit}
 					onMatch={this.props.onMatch}
-					onDelete={this.props.onDelete}/>
+					onDelete={this.props.onDelete}
+					onViewOffers={this.props.onViewOffers} />
 			</Panel>
 		);
 	}

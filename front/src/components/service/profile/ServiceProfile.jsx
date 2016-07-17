@@ -8,7 +8,7 @@ import StoreRegistry from '../../../core/StoreRegistry.js';
 import ServiceDetails from './ServiceDetails.jsx';
 import Contact from '../../common/entity/Contact.jsx'
 import Utils from '../../../utils/Utils.js'
-import ButtonsEndDialog from '../../common/ButtonsEndDialog.jsx';
+import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class ServiceProfile extends React.Component {
 

@@ -10,6 +10,7 @@ import org.ap.web.internal.APException;
 import org.ap.web.service.EMongoCollection;
 import org.ap.web.service.stores.StoreBase;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
 
@@ -17,9 +18,12 @@ import static com.mongodb.client.model.Filters.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxiliariesStore {
 
@@ -70,6 +74,20 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 	@Override
 	public AuxiliaryBean delete(String id) throws APException {
 		return deleteEntity(id);
+	}
+	@Override
+	public Map<String, AuxiliaryBean> get(Set<String> ids) throws APException {
+		Set<ObjectId> oIds = new HashSet<ObjectId>();
+		for (String id : ids) {
+			oIds.add(new ObjectId(id));
+		}
+		FindIterable<Document> iterable = EMongoCollection.AUXILIARIES.getService().findAll(in("_id", oIds));
+		List<AuxiliaryBean> list = BeanConverter.convertToBean(iterable, AuxiliaryBean.class);
+		Map<String, AuxiliaryBean> map = new HashMap<String, AuxiliaryBean>();
+		for (AuxiliaryBean auxiliary : list) {
+			map.put(auxiliary.getId(), auxiliary);
+		}
+		return map;
 	}
 
 	@Override

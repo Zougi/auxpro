@@ -10,7 +10,7 @@ import { fromLocalDate, toHumanDate, fromLocalTime, toHumanTime, ControlLabel } 
 import InterventionDetailsOneTime from './InterventionDetailsOneTime.jsx'
 import InterventionDetailsRecurence from './InterventionDetailsRecurence.jsx'
 import FormSelect from '../form/FormSelect.jsx'
-import ButtonsEndDialog from '../ButtonsEndDialog.jsx';
+import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 moment.locale('fr');
 

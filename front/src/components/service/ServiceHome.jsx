@@ -6,14 +6,14 @@ import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } fr
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
 // custom components
-import HomeSadHead from './HomeSadHead.jsx'
+import ServiceHeader from './ServiceHeader.jsx'
 import ServicesTuto from './ServicesTuto.jsx'
 import ServiceProfile from './profile/ServiceProfile.jsx'
 import ServiceCustomers from './customers/ServiceCustomers.jsx'
 import ServiceInterventions from './interventions/ServiceInterventions.jsx'
 import ServicesMap from './map/ServicesMap.jsx'
 
-class HomeSad extends React.Component {
+class ServiceHome extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -45,6 +45,9 @@ class HomeSad extends React.Component {
         	return Dispatcher.issue('GET_SERVICE_OFFERS', args);
         }).
         then(function() {
+        	return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
+        }).
+        then(function() {
         	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
         }).
         catch(function() {
@@ -57,34 +60,30 @@ class HomeSad extends React.Component {
 	
 	updateOffers(){
 		let args = {
-				 token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-				 serviceId: this.state.data.service.id
-			}
+			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+			serviceId: this.state.data.service.id
+		}
 		Dispatcher.issue('GET_SERVICE_OFFERS', args);
 	}
 	
     onStoreUpdate(first) {
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + this.user.id);
-    	this.state = {
+		this.setState({
 			user: this.user,
 			data: data,
 			showTuto: first?!this.user.tutoSkipped:this.state.showTuto,
 			showProfilePrompt: first?true:this.state.showProfilePrompt
-		};
-		this.setState(this.state);
+		});
     }
 
 	 _tutoClose() {
-    	this.state.showTuto = false;
-    	this.setState(this.state);
+    	this.setState({ showTuto: false });
     }
     _tutoSkip() {
-    	this.state.showTuto = false;
-    	this.setState(this.state);
+    	this.setState({ showTuto: false });
     }
     _profilePromptClose() {
-    	this.state.showProfilePrompt = false;
-    	this.setState(this.state);
+    	this.setState({ showProfilePrompt: false });
     }
 
 	render() { 	
@@ -102,26 +101,26 @@ class HomeSad extends React.Component {
 				<br/>
 				<Grid>
 					<Row>
-						<HomeSadHead sad={this.state.service}/>
+						<ServiceHeader service={this.state.data}/>
 					</Row>
 					<Row>
 					{ this.state.data ? 
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
-							<Tab eventKey={0} title="Mes Informations">
-								<br/><ServiceProfile service={this.state.data.service}/>
+							<Tab eventKey={0} title="Mes Informations"><br/>
+								<ServiceProfile service={this.state.data.service}/>
 							</Tab>
-							<Tab eventKey={1} title="Ma Zone">
-								<br/><ServicesMap/>
+							<Tab eventKey={1} title="Ma Zone"><br/>
+								<ServicesMap/>
 							</Tab>							
-							<Tab eventKey={2} title="Mes Clients">
-								<br/><ServiceCustomers customers={this.state.data.customers}/>
+							<Tab eventKey={2} title="Mes Clients"><br/>
+								<ServiceCustomers customers={this.state.data.customers}/>
 							</Tab>
-							<Tab eventKey={3} title="Mes Interventions">
-								<br/><ServiceInterventions 
-										customers={this.state.data.customers} 
-										interventions={this.state.data.interventions}
-										offers={this.state.data.offers} 
-										listUpdate = {this.updateOffers.bind(this)}/>
+							<Tab eventKey={3} title="Mes Interventions"><br/>
+								<ServiceInterventions 
+									customers={this.state.data.customers} 
+									interventions={this.state.data.interventions}
+									offers={this.state.data.offers} 
+									listUpdate={this.updateOffers.bind(this)}/>
 							</Tab>
 						</Tabs>
 					:
@@ -144,8 +143,4 @@ class HomeSad extends React.Component {
 	}
 }
 
-HomeSad.contextTypes = {
-	router: React.PropTypes.object
-}
-
-export default HomeSad;
+export default ServiceHome;

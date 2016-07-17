@@ -66,7 +66,6 @@ class ServicesMap extends React.Component {
 			
 			this.centerMarker  = new google.maps.Marker({position: mapOptions.center, title: 'Ma Position', map: this.myMap});
 			google.maps.event.addListener(this.centerMarker , 'click', function() {
-				console.log(data);
 				that.fillInfoPanel(data.service);
 				that.setState({InfoPanel: that.infoPanel});
 			});
@@ -79,8 +78,6 @@ class ServicesMap extends React.Component {
 		if (customers) {
 			for (let i = 0; i < customers.length; i++) {
 				let address =  customers[i].contact.address;
-				console.log(customers[i]);
-				
 				if (address && address.lattitude) {
 					latLong = new google.maps.LatLng(address.lattitude, address.longitude);
 					marker  = new google.maps.Marker({position: latLong, title: 'Info', map: this.myMap});

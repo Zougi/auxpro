@@ -1,4 +1,12 @@
 
+let DEBUG = false;
+
+function log(msg) {
+	if (DEBUG) {
+		console.log(msg);
+	}
+}
+
 export default class RestService {
 
 	static _request(reqParam) {
@@ -33,7 +41,7 @@ export default class RestService {
 					}
 				};
 				let data = JSON.stringify(reqParam.data);
-				console.log(data);
+				log(data);
 				xhr.send(data);
 			});
 		};

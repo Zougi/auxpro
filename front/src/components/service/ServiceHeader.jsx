@@ -5,7 +5,7 @@ import { Row, Col, Table, Panel, Image } from 'react-bootstrap'
 // core modules
 import StoreRegistry from '../../core/StoreRegistry';
 
-class HomeSadHead extends React.Component {
+class ServiceHeader extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -23,4 +23,4 @@ class HomeSadHead extends React.Component {
 	);}
 }
 
-export default HomeSadHead;
+export default ServiceHeader;

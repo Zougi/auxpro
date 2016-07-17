@@ -1,7 +1,7 @@
-// lib modules
 import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 // custom components
+import Utils from '../../../utils/Utils.js'
 import CustomerSummary from './CustomerSummary.jsx';
 import SearchBar from '../form/SearchBar.jsx';
 
@@ -30,22 +30,27 @@ class CustomerSummaryList extends React.Component {
 		this.setState(this.state);
 	}
 
-	render() {
-		let customers = this.state.customers;
+	_buildCustomers() {
+		let customers = Utils.filter(this.state.customers || [], this._filterCustomer.bind(this));
+		return customers.map(this._buildCustomer.bind(this));
+	}
+	_filterCustomer(customer) {
 		if (this.state.search) {
-			customers = this.state.customers.filter(function(cust) {
-				let s = cust.person.firstName + ' ' + cust.person.lastName;
-				return s.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
-			}.bind(this));
+			let s = customer.person.firstName + ' ' + customer.person.lastName;
+			return s.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
 		}
-		customers = customers.map(function(cust) {
-            return (
-            	<ListGroupItem key={cust.id}>
-                	<CustomerSummary data={cust} onView={this.props.onView} onEdit={this.props.onEdit} onDelete={this.props.onDelete}/>
-                </ListGroupItem>
-            );
-        }.bind(this));
+		return true;
+	}
+	_buildCustomer(customer) {
+		return (
+        	<ListGroupItem key={customer.id}>
+            	<CustomerSummary customer={customer} onView={this.props.onView} onEdit={this.props.onEdit} onDelete={this.props.onDelete}/>
+            </ListGroupItem>
+        );
+	}
 
+	render() {
+		let customers = this._buildCustomers();
 		return (
 			<div>
 				<SearchBar onChange={this.onSearch.bind(this)}/>

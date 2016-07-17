@@ -1,6 +1,14 @@
 import ObjectBase from './ObjectBase.js';
 import ActionRegistry from './ActionRegistry.js';
 
+let DEBUG = false;
+
+function log(msg) {
+	if (DEBUG) {
+		console.log(msg);
+	}
+}
+
 /**
  * The dispatcher receives actions request, triggers the actions and notify the registered stores.
  * Note: actions with no registered stores will NOT be executed.
@@ -49,7 +57,7 @@ class Dispatcher extends ObjectBase {
 		if (a && a.do) {
 			let execId = JSON.stringify(action) + JSON.stringify(param);
 			if (this._onGoing[execId]) {
-				console.log("Dispatcher.issue >> ONGOING " + action + " (" + JSON.stringify(param) + ")");
+				log("Dispatcher.issue >> ONGOING " + action + " (" + JSON.stringify(param) + ")");
 				return new Promise(function(resolve, reject) {
 					resolve({ action: action, status: 'ongoing' });
 				});
@@ -59,8 +67,8 @@ class Dispatcher extends ObjectBase {
 					a.do(param).
 					then( (result) => {
 						delete this._onGoing[execId];
-						console.log("Dispatcher.issue >> OK " + action + " (" + JSON.stringify(param) + ")");
-						console.log(result);
+						log("Dispatcher.issue >> OK " + action + " (" + JSON.stringify(param) + ")");
+						log(result);
 						var callbacks = this._callbacks[a.getName()] || [];
 						var length = callbacks.length;
 						for (var i = 0 ; i < length ; i++) {
@@ -70,8 +78,8 @@ class Dispatcher extends ObjectBase {
 					}).
 					catch( (error) => {
 						delete this._onGoing[execId];
-						console.log("Dispatcher.issue >> ERR " + action + " (" + JSON.stringify(param) + ")");
-						console.log(error);
+						log("Dispatcher.issue >> ERR " + action + " (" + JSON.stringify(param) + ")");
+						log(error);
 						var errors = this._errors[a.getName()] || [];
 						var length = errors.length;
 						for (var i = 0 ; i < length ; i++) {

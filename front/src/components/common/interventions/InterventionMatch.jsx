@@ -1,6 +1,9 @@
 import React from 'react';
 import { Grid, Row, Col, Panel, Button } from 'react-bootstrap'
-import ButtonsEndDialog from '../ButtonsEndDialog.jsx';
+
+import CustomerSummary from '../customers/CustomerSummary.jsx'
+import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
+import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class InterventionsMatch extends React.Component {
 
@@ -15,30 +18,39 @@ class InterventionsMatch extends React.Component {
 	}
 	
 	render() {
-		let matches = "NO MATCHES";
+		let title = 'Résultats Matching';
+		let matches = 'NO MATCHES';
 		if(this.props.matches) {
 			matches = this.props.matches.map(function(match) {
 				return (
-					<p>{match.person.firstName} {match.person.lastName}</p>
+					<p key={match.id}>
+						{match.person.firstName} {match.person.lastName}
+					</p>
+				);
+			}.bind(this));
+		} else if (this.props.offers) {
+			matches = this.props.offers.map(function(offer) {
+				return (
+					<p key={match.id}>
+						{match.person.firstName} {match.person.lastName}
+					</p>
 				);
 			}.bind(this));
 		}
 		return(
 		<Panel header='Envoyer offre'>
 			<Row>
-				<Col sm={4}>
+				<Col sm={6}>
 					<Panel header='Information usager' bsStyle='info'>
+						<CustomerSummary customer={this.props.customer}/>
 					</Panel>
-					<Panel header='Demande Initiale' bsStyle='info'>
-					</Panel>
-				</Col>
-				<Col sm={4}>
-					<Panel header='Plannification' bsStyle='primary'>
+					<Panel header='Plannification' bsStyle='info'>
+						<InterventionSummaryOneTime oneTime={this.props.intervention.oneTime}/>
 					</Panel>
 				</Col>
-				<Col sm={4}>
-					<Panel header='Résultats Smatching' bsStyle='warning'>
-					{matches}
+				<Col sm={6} >
+					<Panel header={title} bsStyle='warning'>
+						{matches}
 					</Panel>
 				</Col>
 			</Row>
