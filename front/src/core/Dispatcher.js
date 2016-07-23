@@ -1,7 +1,7 @@
 import ObjectBase from './ObjectBase.js';
 import ActionRegistry from './ActionRegistry.js';
 
-let DEBUG = false;
+let DEBUG = true;
 
 function log(msg) {
 	if (DEBUG) {
@@ -58,7 +58,7 @@ class Dispatcher extends ObjectBase {
 		if (a && a.do) {
 			let execId = JSON.stringify(action) + JSON.stringify(param);
 			if (this._onGoing[execId]) {
-				log("Dispatcher >> ONGOING " + action + " (" + JSON.stringify(param) + ")");
+				log("Dispatcher >> ONGOING " + action);
 				return new Promise(function(resolve, reject) {
 					resolve({ action: action, status: 'ongoing' });
 				});
@@ -68,7 +68,7 @@ class Dispatcher extends ObjectBase {
 					a.do(param).
 					then( (result) => {
 						delete this._onGoing[execId];
-						log("Dispatcher >> OK " + action + " (" + JSON.stringify(param) + ")");
+						log("Dispatcher >> OK " + action);
 						log(result);
 						var callbacks = this._callbacks[a.getName()] || [];
 						var length = callbacks.length;
@@ -79,7 +79,7 @@ class Dispatcher extends ObjectBase {
 					}).
 					catch( (error) => {
 						delete this._onGoing[execId];
-						log("Dispatcher >> ERR " + action + " (" + JSON.stringify(param) + ")");
+						log("Dispatcher >> ERR ");
 						log(error);
 						var errors = this._errors[a.getName()] || [];
 						var length = errors.length;

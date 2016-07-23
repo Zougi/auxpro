@@ -17,7 +17,12 @@ public class AuxiliaryBean extends MongoEntity {
 	private String diploma;
 	private GeoZoneBean[] geoZones;
 	
-	public AuxiliaryBean() { }
+	public AuxiliaryBean() {
+		user = new UserBean();
+		person = new PersonBean();
+		contact = new ContactBean();
+		skills = new SkillsBean();
+	}
 	
 	public UserBean getUser() { return user; }
 	public void setUser(UserBean user) { this.user = user; }

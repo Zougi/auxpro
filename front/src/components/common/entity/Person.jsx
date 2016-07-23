@@ -23,29 +23,33 @@ class Person extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.onComponentWillReceiveProps(props);
+	}
+
+	onComponentWillReceiveProps(props) {
+		this.person = {};
 	}
 
 	notify() {
 		if (this.props.onChange) {
 			this.props.onChange({
-				civility: this.state.civility || this.props.civility || null,
-				lastName: this.state.lastName || this.props.lastName || null,
-				firstName: this.state.firstName || this.props.firstName || null,
-				birthDate: this.state.birthDate || this.props.birthDate || null,
+				civility: this.person.civility || this.props.civility || null,
+				lastName: this.person.lastName || this.props.lastName || null,
+				firstName: this.person.firstName || this.props.firstName || null,
+				birthDate: this.person.birthDate || this.props.birthDate || null,
 				birthPlace: {
-					city: this.state.birthCity || this.props.birthCity || null,
-					country: this.state.birthCountry || this.props.birthCountry || null 
+					city: this.person.birthCity || this.props.birthCity || null,
+					country: this.person.birthCountry || this.props.birthCountry || null 
 				},
-				nationality: this.state.nationality || this.props.nationality || null,
-				socialNumber: this.state.socialNumber || this.props.socialNumber || null
+				nationality: this.person.nationality || this.props.nationality || null,
+				socialNumber: this.person.socialNumber || this.props.socialNumber || null
 			});
 		}
 	}
 
 	changeHandler(field) { 
 		return function (value) {
-			Utils.setField(this.state, field, value); 
+			Utils.setField(this.person, field, value); 
 			this.notify(); 
 		}.bind(this);
 	}

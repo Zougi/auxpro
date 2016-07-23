@@ -18,7 +18,9 @@ public class PersonBean {
 	private LocalDate birthDate;
 	private AddressBean birthPlace;
 	
-	public PersonBean() {}
+	public PersonBean() {
+		birthPlace = new AddressBean();
+	}
 	
 	public String getCivility() { return civility.getId(); }
 	public void setCivility(String civility) { this.civility = EPersonSex.fromString(civility); }

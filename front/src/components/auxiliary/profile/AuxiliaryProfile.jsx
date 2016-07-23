@@ -1,177 +1,116 @@
-// react modules
 import React from 'react';
-// react-bootstrap modules
 import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
-// cuistom components
-import FormBase from '../../common/FormBase.jsx'
 // core modules
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
+// cuistom components
+import AuxiliaryDetails from './AuxiliaryDetails.jsx'
+import AuxiliaryQuestionnary from './AuxiliaryQuestionnary.jsx'
+import Person from '../../common/entity/Person.jsx'
+import Contact from '../../common/entity/Contact.jsx'
+
+let STATES = {
+	VIEW: 'VIEW',
+	EDIT: 'EDIT',
+	QUESTIONS: 'QUESTIONS'
+};
 
 class AuxiliaryProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
-		this.state = {
-			edit: false,
-			data: data,
-			user: user
-		};
+		this.onComponentWillReceiveProps(props);
+		this.state = { state: STATES.VIEW };
 	}
 
-	handleChangePassword(e) { this.state.data.user.password = e.target.value; }
-
-	handleChangeCivility(e) { this.state.data.person.civility = e.target.value; }
-	handleChangeLastName(e) { this.state.data.person.lastName = e.target.value; }
-	handleChangeFirstName(e) { this.state.data.person.firstName = e.target.value; }
-	handleChangeBirthDate(e) { this.state.data.person.birthDate = e.target.value; }
-
-	handleChangeSocialNumber(e) { this.state.data.person.socialNumber = e.target.value; }
-	handleChangeCINumber(e) { this.state.data.person.ciNumber = e.target.value; }
-	handleChangeNationality(e) { this.state.data.person.nationality = e.target.value; }
-
-	handleChangeBirthCity(e) { this.state.data.person.birthPlace.city = e.target.value; }
-	handleChangeBirthCountry(e) { this.state.data.person.birthPlace.country = e.target.value; }
-
-	handleChangePhone(e) { this.state.data.contact.phone = e.target.value; }
-	handleChangeEmail(e) { this.state.data.contact.email = e.target.value; }
-	handleChangeAddress(e) { this.state.data.contact.address.address = e.target.value; }
-	handleChangePostal(e) { this.state.data.contact.address.postalCode = e.target.value; }
-	handleChangeCity(e) { this.state.data.contact.address.city = e.target.value; }
-
-	handleChangeDiploma(e) { this.state.data.diploma = e.target.value; }
-
-	editProfile(event) {
-		event.preventDefault();
-		this.state.edit = true;
-		this.setState(this.state);
+	onComponentWillReceiveProps(props) {
+		this.auxiliary = {};
 	}
+
+	setStateView(event) {
+		if (event) event.preventDefault();
+		this.setState({ state: STATES.VIEW });
+	}
+	setStateEdit(event) {
+		if (event) event.preventDefault();
+		this.setState({ state: STATES.EDIT });
+	}
+	setStateQuestions(event) {
+		if (event) event.preventDefault();
+		this.setState({ state: STATES.QUESTIONS });
+	}
+
+	onPersonChanged(person) {
+		this.auxiliary.person = person;
+	}
+	onContactChanged(contact) {
+		this.auxiliary.contact = contact;
+	}
+
 	saveProfile(event) {
 		event.preventDefault();
-		this.state.edit = false;
-		this.setState(this.state);
-		var data = {
-			person: this.state.data.person,
-			contact: this.state.data.contact,
-			user: this.state.data.user,
-			diploma: this.state.data.diploma,
-		}
-		let params = {
-			id: this.state.user.id,
-        	data: data,
-        	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
-        }
-        console.log(params);
-        Dispatcher.issue('PUT_AUXILIARY', params);
+        Dispatcher.issue('PUT_AUXILIARY', {
+			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+        	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+        	data: {
+				id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+				person: this.auxiliary.person || this.props.auxiliary.person,
+				contact: this.auxiliary.contact || this.props.auxiliary.contact,
+				user: StoreRegistry.getStore('LOGIN_STORE').getData('/'),
+				diploma: this.auxiliary.diploma || this.props.auxiliary.diploma
+			}
+        }).
+        then(function () {
+        	this.setStateView();
+        }.bind(this));
 	}
 
 	render() { 
+		console.log(this.state)
 		return(
 		<Form horizontal>
 			<Grid>
 				<Row>
-					<Col md={3}>
-						{this.state.edit
+					<Col md={9} mdPush={3}>
+						<Panel header='Informations personnelles' bsStyle='info'>
+							<Col sm={6}>
+								<Person 
+	            					edit={this.state.state === STATES.EDIT}
+		            				civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
+		            				lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
+		            				firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
+		            				birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
+		            				birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
+		            				birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
+		            				nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
+		            				socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNuber : ''}
+		            				onChange={this.onPersonChanged.bind(this)}/>
+							</Col>
+							<Col sm={6}>
+								<Contact 
+		            				edit={this.state.state === STATES.EDIT}
+		            				address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
+		            				phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
+		            				email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
+		            				onChange={this.onContactChanged.bind(this)}/>
+							</Col>
+						</Panel>
+					</Col>
+					<Col md={3} mdPull={9}>
+						{(this.state.state === STATES.EDIT)
 						?
 							<Button bsStyle='success' onClick={this.saveProfile.bind(this)} block>Enregistrer modifications</Button>
 						:
-							<Button bsStyle='primary' onClick={this.editProfile.bind(this)}block>Editer mon profil</Button>
+							<Button bsStyle='primary' onClick={this.setStateEdit.bind(this)}block>Editer mon profil</Button>
 						}
-						
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
-							{this.state.data.diploma}
+							{this.props.auxiliary.diploma}
     					</Panel>
-						<Button bsStyle='info' block>Questionnaire</Button>
+    					<Button bsStyle='info' block>Questionnaire</Button>
 						<br/>
 						<Panel bsStyle='info' header='Mes Compétences'>
     					</Panel>
-					</Col>
-					<Col md={9}>
-						<Panel header='Informations personnelles' className='small'>
-							<Col sm={6}>
-								<FormBase 
-									static={!this.state.edit}
-									title='Civilité' 
-									labelSize={5}
-									defaultValue={this.state.data.person.civility} 
-									onChange={this.handleChangeCivility.bind(this)}/>
-								<FormBase 
-									static={!this.state.edit}
-									title='Nom de famille' 
-									labelSize={5}
-									defaultValue={this.state.data.person.lastName} 
-									onChange={this.handleChangeLastName.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Prénom' 
-									labelSize={5}
-									defaultValue={this.state.data.person.firstName} 
-									onChange={this.handleChangeFirstName.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Date de Naissance' 
-									labelSize={5}
-									defaultValue={this.state.data.person.birthDate} 
-									onChange={this.handleChangeBirthDate.bind(this)}/>
-							</Col>
-							<Col sm={6}>
-								<FormBase
-									static={!this.state.edit}
-									title='Téléphone' 
-									labelSize={5}
-									defaultValue={this.state.data.contact.phone} 
-									onChange={this.handleChangePhone.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Addresse'
-									labelSize={5}
-									defaultValue={this.state.data.contact.address.address} 
-									onChange={this.handleChangeAddress.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Code postal'
-									labelSize={5}
-									defaultValue={this.state.data.contact.address.postalCode} 
-									onChange={this.handleChangePostal.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Ville' 
-									labelSize={5}
-									defaultValue={this.state.data.contact.address.city} 
-									onChange={this.handleChangeCity.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Email'
-									labelSize={5}
-									defaultValue={this.state.data.contact.email} 
-									onChange={this.handleChangeEmail.bind(this)}/>
-							</Col>
-						</Panel>
-						<Panel header='Etat civil' className='small'>
-							<Col sm={6}>
-								<FormBase
-									static={!this.state.edit}
-									title='N° Sécurité Sociale'
-									labelSize={5}
-									defaultValue={this.state.data.person.socialNumber} 
-									onChange={this.handleChangeSocialNumber.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='Nationalité' 
-									labelSize={5}
-									defaultValue={this.state.data.person.nationality} 
-									onChange={this.handleChangeNationality.bind(this)}/>
-								<FormBase
-									static={!this.state.edit}
-									title='N° CI ou CS' 
-									labelSize={5}
-									defaultValue={this.state.data.person.ciNumber} 
-									onChange={this.handleChangeCINumber.bind(this)}/>
-							</Col>
-						</Panel>
 					</Col>
 				</Row>
 			</Grid>
@@ -179,5 +118,15 @@ class AuxiliaryProfile extends React.Component {
 		);
 	}
 }
-		
+
+/*
+
+
+
+						
+
+
+
+
+*/
 export default AuxiliaryProfile;

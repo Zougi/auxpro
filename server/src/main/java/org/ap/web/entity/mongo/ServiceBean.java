@@ -17,7 +17,10 @@ public class ServiceBean extends MongoEntity {
 	private String social;
 	private String siret;
 	
-	public ServiceBean() { }
+	public ServiceBean() {
+		user = new UserBean();
+		contact = new ContactBean();
+	}
 	
 	public UserBean getUser() { return user; }
 	public void setUser(UserBean user) { this.user = user; }

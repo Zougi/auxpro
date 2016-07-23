@@ -8,7 +8,6 @@ import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import org.ap.web.common.string.StringConverter;
 import org.ap.web.entity.BeanConverter;
 import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EPersonSex;
+import org.ap.web.entity.constant.ERecurencePeriod;
 import org.ap.web.entity.constant.ESadType;
 import org.ap.web.entity.constant.EUserType;
 import org.ap.web.entity.mongo.IndisponibilityBean;
@@ -253,7 +253,7 @@ public class TestData {
 		bean.setEndDate(LocalDate.now().plusDays(RECURENCE_ID++ + 60));
 		bean.setStartTime(LocalTime.of(2, 00));
 		bean.setEndTime(LocalTime.of(4, 30));
-		bean.setPeriod(Period.ofDays(7));
+		bean.setPeriod(ERecurencePeriod.WEEK1.getId());
 		bean.setDays(new DayOfWeek[] { DayOfWeek.MONDAY, DayOfWeek.FRIDAY});
 		return bean;
 	}

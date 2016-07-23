@@ -9,7 +9,7 @@ class AuxiliaryHeader extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.img= props.data.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
+		this.img= props.auxiliary.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
 	}
 
 	render() { return(
@@ -23,19 +23,19 @@ class AuxiliaryHeader extends React.Component {
 				<tbody>
 					<tr>
 						<th>Nom</th>
-						<td>{this.props.data.person.firstName} {this.props.data.person.lastName}</td>
+						<td>{this.props.auxiliary.person.firstName} {this.props.auxiliary.person.lastName}</td>
 					</tr>
 					<tr>
 						<th>Adresse electronique</th>
-						<td>{this.props.data.user.email}</td>
+						<td>{this.props.auxiliary.user.email}</td>
 					</tr>
 					<tr>
 						<th>Civilité</th>
-						<td>{this.props.data.person.civility}</td>
+						<td>{this.props.auxiliary.person.civility}</td>
 					</tr>
 					<tr>
 						<th>Diplome</th>
-						<td>{this.props.data.diploma}</td>
+						<td>{this.props.auxiliary.diploma}</td>
 					</tr>
 				</tbody>
 				</Table>

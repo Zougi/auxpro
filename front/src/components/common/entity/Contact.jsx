@@ -11,34 +11,39 @@ class Contact extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.onComponentWillReceiveProps(props);
+	}
+
+	onComponentWillReceiveProps(props) {
+		this.contact = {};
 	}
 
 	notify() {
 		if (this.props.onChange) {
 			this.props.onChange({
-				address: this.state.address || this.props.address || '',
-				phone: this.state.phone || this.props.phone || '',
-				email: this.state.email || this.props.email || ''
+				address: this.contact.address || this.props.address || {},
+				phone: this.contact.phone || this.props.phone || null,
+				email: this.contact.email || this.props.email || null
 			});
 		}
-		this.setState(this.state);
+		//this.setState(this.contact);
 	}
 
 	onAddressChanged(value) {
-    	this.state.address = value;
+    	this.contact.address = value;
     	this.notify();
     }
 	onPhoneChanged(value) {
-		this.state.phone = value;
+		this.contact.phone = value;
 		this.notify();
 	}
 	onEmailChanged(value) {
-		this.state.email = value;
+		this.contact.email = value;
 		this.notify();
 	}
 
 	render() {
+
 		return (
 		<div>
 			<Address 

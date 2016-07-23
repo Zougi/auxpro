@@ -24,37 +24,12 @@ class AuxiliaryHome extends React.Component {
 			showTuto: !this.user.tutoSkipped,
 			showProfilePrompt: false
 		};
+		console.log('here0')
+		console.log(this.state.data)
 	}
 
 	componentDidMount() {
-        let args = {
-    		auxiliaryId: this.user.id,
-			token: this.user.token
-    	}
-
- 		Dispatcher.issue('GET_AUXILIARY', args).
-        then(function() {
-        	var promises = []
-        	promises.push(Dispatcher.issue('GET_AUXILIARY_GEOZONES', args));
-        	promises.push(Dispatcher.issue('GET_AUXILIARY_SERVICES', args));
-        	promises.push(Dispatcher.issue('GET_AUXILIARY_CUSTOMERS', args));
-        	return Promise.all(promises);
-        }).
-        then(function() {
-        	return Dispatcher.issue('GET_AUXILIARY_INTERVENTIONS', args);
-        }).
-        then(function() {
-        	return Dispatcher.issue('GET_AUXILIARY_OFFERS', args);
-        }).
-        then(function() {
-        	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
-			StoreRegistry.register('AUXILIARY_STORE/auxiliary/geoZones', this, this.onAuxiliaryGeoZonesUpdate.bind(this));
-			this.onStoreUpdate();
-			console.log(this.state.data);
-        }.bind(this)).
-        catch(function() {
-        	console.log('erreur au chargement du service');
-        });	
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
     }
     
     componentWillUnmount() {
@@ -62,14 +37,8 @@ class AuxiliaryHome extends React.Component {
     }
 	
 	onStoreUpdate(first) {
-    	let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + this.user.id);
-		this.setState({ data: data });
-    }
-	
-	onAuxiliaryGeoZonesUpdate() {
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + user.id);
-		this.setState({data: data});
+		console.log('on store update');
+		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + this.user.id) });
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
@@ -92,16 +61,13 @@ class AuxiliaryHome extends React.Component {
 	}	
 
     _tutoClose() {
-    	this.state.showTuto = false;
-    	this.setState(this.state);
+    	this.setState({ showTuto: false });
     }
     _tutoSkip() {
-    	this.state.showTuto = false;
-    	this.setState(this.state);
+    	this.setState({ showTuto: false });
     }
     _profilePromptClose() {
-    	this.state.showProfilePrompt = false;
-    	this.setState(this.state);
+    	this.setState({ showProfilePrompt: false });
     }
 
 	render() { 
@@ -114,13 +80,12 @@ class AuxiliaryHome extends React.Component {
 				</div>
 			);
 		}
-
 		return(
 			<div className='container'>
 				<br/>
 				<Grid>
 					<Row>
-						<AuxiliaryHeader data={this.state.data}/>
+						<AuxiliaryHeader auxiliary={this.state.data.auxiliary}/>
 					</Row>
 					<Row>
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
@@ -138,9 +103,9 @@ class AuxiliaryHome extends React.Component {
 							</Tab>
 							<Tab eventKey={2} title="Mes Informations"><br/>
 								<AuxiliaryProfile 
-									data={this.state.data}/>
-							</Tab>
-							<Tab eventKey={3} title="Les Offres"><br/>
+									auxiliary={this.state.data.auxiliary || {}}/>
+							</Tab>							
+							<Tab eventKey={3} title="Mes Offres"><br/>
 								<AuxiliaryOffers 
 									services={this.state.data.services}
 									customers={this.state.data.customers}
@@ -164,5 +129,11 @@ class AuxiliaryHome extends React.Component {
 		);
 	}
 }
+
+/*
+
+							
+					
+*/
 
 export default AuxiliaryHome;

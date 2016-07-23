@@ -3,7 +3,8 @@ package org.ap.web.entity.mongo;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
+
+import org.ap.web.entity.constant.ERecurencePeriod;
 
 public class RecurenceBean {
 	
@@ -15,7 +16,7 @@ public class RecurenceBean {
 	
 	private DayOfWeek[] days;
 	
-	private Period period;
+	private ERecurencePeriod period;
 
 	public RecurenceBean() {}
 	
@@ -34,6 +35,6 @@ public class RecurenceBean {
 	public DayOfWeek[] getDays() { return days; }
 	public void setDays(DayOfWeek[] days) { this.days = days; }
 
-	public Period getPeriod() { return period; }
-	public void setPeriod(Period period) { this.period = period; }
+	public String getPeriod() { return period.getId(); }
+	public void setPeriod(String period) { this.period = ERecurencePeriod.fromString(period); }
 }

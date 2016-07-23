@@ -23,9 +23,11 @@
 	},
 	"contact": {
 		"address": {
-			"address": "1 rue du premier utilisateur",
-			"postalCode": 75001,
-			"city": "Paris"
+			"address": "181 rue d'Alesia",
+			"postalCode": 75014,
+			"city": "Paris",
+			"lattitude": "48.831006",
+			"longitude": "2.317415"
 		},
 		"addressChecked": false,
 		"phone": "01 01 01 01 01",

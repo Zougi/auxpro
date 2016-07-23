@@ -11,7 +11,9 @@ public class AccountBean extends MongoEntity {
 	
 	private UserBean user;
 	
-	public AccountBean() { }
+	public AccountBean() {
+		user = new UserBean();
+	}
 	
 	public UserBean getUser() { return user; }
 	public void setUser(UserBean user) { this.user = user; }

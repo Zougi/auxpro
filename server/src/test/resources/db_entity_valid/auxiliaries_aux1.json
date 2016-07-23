@@ -1,8 +1,8 @@
 {
 	"user": {
-		"name":"user1@user1.fr",
-		"password":"user1pwd",
-		"email":"user1@user1.fr",
+		"name":"chloe.durand@aux.fr",
+		"password":"chloe",
+		"email":"chloe.durand@aux.fr",
 		"registrationDate":[2016, 6, 15, 18, 33],
 		"active":true,
 		"tutoSkipped":true,
@@ -10,7 +10,7 @@
 	},
 	"person": {
 		"civility":"Mme",
-		"firstName": "Chloé",
+		"firstName": "Chloe",
 		"lastName": "Durand",
 		"birthDate":[1980, 1, 3],
 		"birthPlace": {
@@ -20,18 +20,25 @@
 	},
 	"contact": {
 		"address": {
-			"address": "1 rue du premier utilisateur",
-			"postalCode": 75001,
-			"city": "Paris"
+			"address": "15 rue Severo",
+			"postalCode": 75014,
+			"city": "Paris",
+			"country":"France",
+			"lattitude": "48.832526",
+			"longitude": "2.322815"
 		},
 		"addressChecked": false,
 		"phone": "01 01 01 01 01",
 		"phoneChecked": true,
-		"email":"user1@user1.fr",
+		"email":"chloe.durand@aux.fr",
 		"emailChecked": true
 	},
 	"diploma":"Diplome de trucmuche",
 	"geoZones": [
-	{"lattitude": "48.849274", "longitude": "2.336302", "radius":"500"}
+		{
+			"lattitude": "48.849274", 
+			"longitude": "2.336302", 
+			"radius":"500"
+		}
 	]
 }

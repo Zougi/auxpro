@@ -17,7 +17,11 @@ class Address extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.onComponentWillReceiveProps(props);
+	}
+
+	onComponentWillReceiveProps(props) {
+		this.address = {};
 	}
 
 	componentDidMount () {		
@@ -28,25 +32,25 @@ class Address extends React.Component {
 	autocompleteChange() {
 		var place = this.autocomplete.getPlace();
 
-		this.state.address = '';
+		this.address.address = '';
 
 		for (var i = 0; i < place.address_components.length; i++) {
 			let comp = place.address_components[i];
 			switch(comp.types[0]) {
 				case 'street_number':
-					this.state.address = comp.long_name + ' ' + this.state.address;
+					this.address.address = comp.long_name + ' ' + this.address.address;
 					break;
 				case 'route':
-					this.state.address = this.state.address + ' ' + comp.long_name;
+					this.address.address = this.address.address + ' ' + comp.long_name;
 					break;
 				case 'locality':
-					this.state.city = comp.long_name;
+					this.address.city = comp.long_name;
 					break;
 				case 'country':
-					this.state.country = comp.long_name;
+					this.address.country = comp.long_name;
 					break;
 				case 'postal_code':
-					this.state.postalCode = comp.long_name;
+					this.address.postalCode = comp.long_name;
 					break;
 			}
 		};
@@ -56,28 +60,28 @@ class Address extends React.Component {
 	notify() {
 		if (this.props.onChange) {
 			this.props.onChange({
-				address: this.state.address || this.props.address || '',
-				city: this.state.city || this.props.city || '',
-				postalCode: this.state.postalCode || this.props.postalCode || '',
-				country: this.state.country || this.props.country || ''
+				address: this.address.address || this.props.address || '',
+				city: this.address.city || this.props.city || '',
+				postalCode: this.address.postalCode || this.props.postalCode || '',
+				country: this.address.country || this.props.country || ''
 			});
 		}
 	}
 
 	onAddressChanged(value) {
-		this.state.address = value;
+		this.address.address = value;
 		this.notify();
 	}
 	onCityChanged(value) {
-		this.state.city = value;
+		this.address.city = value;
 		this.notify();
 	}
 	onPostalCodeChanged(value) {
-		this.state.postalCode = value;
+		this.address.postalCode = value;
 		this.notify();
 	}
 	onCountryChanged(value) {
-		this.state.country = value;
+		this.address.country = value;
 		this.notify();
 	}
 

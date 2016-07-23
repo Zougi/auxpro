@@ -21,21 +21,44 @@ class App extends React.Component {
     }
 	
 	onLogon() {
+		let args = {};
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		var toHome = function () {
+		let toHome = function () {
 			this.context.router.push("/home");
 		}
 		if (user.logged) {
 			switch (user.type) {
 			case 'aux':
-				Dispatcher.issue("GET_AUXILIARY", { auxiliaryId: user.id, token: user.token }).
-				then(toHome.bind(this));
+				args.auxiliaryId = user.id;
+				args.token = user.token;
+
+				Dispatcher.issue("GET_AUXILIARY", args).
+				then(function() {
+				 	var promises = [];
+				 	promises.push(Dispatcher.issue('GET_AUXILIARY_GEOZONES', args));
+				 	promises.push(Dispatcher.issue('GET_AUXILIARY_SERVICES', args));
+				 	promises.push(Dispatcher.issue('GET_AUXILIARY_CUSTOMERS', args));
+				 	return Promise.all(promises);
+				}).
+				then(function() {
+				 	return Dispatcher.issue('GET_AUXILIARY_INTERVENTIONS', args);
+				}).
+				then(function() {
+				 	return Dispatcher.issue('GET_AUXILIARY_OFFERS', args);
+				}).
+				then(function() {
+					console.log('==== DONNES INITIALE AUXILIAIRE ====');
+					console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
+				}).
+				then(toHome.bind(this)).
+				catch(function() {
+					console.log("erreur au chargement de l'auxiliare");
+				});	
 				break;
 			case 'sad':
-				let args = {
-		    		serviceId: user.id,
-					token: user.token
-		    	}
+				args.serviceId = user.id;
+				args.token = user.token;
+				
 				Dispatcher.issue("GET_SERVICE", args).
 		        then(function() {
 		        	return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
@@ -50,6 +73,7 @@ class App extends React.Component {
 		        	return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
 		        }).
 		        then(function() {
+		        	console.log('==== DONNES INITIALE DU SERVICE ====');
 		        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
 		        }).
 		        then(toHome.bind(this)).

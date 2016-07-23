@@ -15,7 +15,9 @@ public class ContactBean {
 	private AddressBean address;
 	private boolean addressChecked;
 	
-	public ContactBean() {}
+	public ContactBean() {
+		address = new AddressBean();
+	}
 
 	public String getEmail() { return email; }
 	public void setEmail(String email) { this.email = email; }
