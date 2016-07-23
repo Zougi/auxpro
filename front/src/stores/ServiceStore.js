@@ -54,7 +54,6 @@ ServiceStore.onGetServiceCustomers = function (result, param) {
 	let previous = service.customers || {};
 	service.customers = {};
 	if (result && result.length) {
-		
 		for (let i = 0; i < result.length; i++) {
 			let customer = result[i];
 			// store customer
@@ -75,6 +74,10 @@ ServiceStore.onGetServiceInterventions = function (result, param) {
 	let service = ServiceStore._content.service[param.serviceId];
 	let previous = service.interventions || {};
 	service.interventions = {};
+	let customers = Utils.map(service.customers);
+	for (let c = 0; c < customers.length; c++) {
+		delete customers[c].interventions;
+	}
 	if (result && result.length) {
 		for (let i = 0; i < result.length; i++) {
 			let intervention = result[i];
@@ -85,7 +88,7 @@ ServiceStore.onGetServiceInterventions = function (result, param) {
 			service.customers[intervention.customerId].interventions.push(intervention.id);
 			// Replug previous links
 			if (previous[intervention.id] && previous[intervention.id].offers) {
-				service.intervention[intervention.id].offer = previous[intervention.id].offers;
+				service.interventions[intervention.id].offer = previous[intervention.id].offers;
 			}
 		}
 	}

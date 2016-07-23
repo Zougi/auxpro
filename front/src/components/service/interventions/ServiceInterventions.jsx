@@ -154,9 +154,6 @@ class ServiceInterventions extends React.Component {
     }
 
 	render() {
-        console.log('=============================================')
-        console.log(this.props)
-        console.log(this.state.state)
 		switch (this.state.state) {
             case STATES.ADD:
                 return (

@@ -25,7 +25,6 @@ Dispatcher.register('LOGOUT', AuxiliaryStore.onLogout);
 // GET AUXILIARY
 // PUT AUXILIARY
 AuxiliaryStore.onGetAuxiliary = function (result, param) {
-	console.log('store update');
 	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
 	auxiliary.auxiliary = result || {};
 	auxiliary.auxiliaryLoaded = true;

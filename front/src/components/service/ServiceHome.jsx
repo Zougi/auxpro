@@ -47,7 +47,6 @@ class ServiceHome extends React.Component {
 		if (!first) {
 			this.setState(this.state); 
 		}
-		console.log(data)
     }
 
 	 _tutoClose() {

@@ -17,7 +17,6 @@ class MissionShort extends React.Component {
 
 	onInfo() {
 		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		console.log(this.props.mission);
 		//
 		let paramServ = { 
 			id: this.props.mission.serviceId,

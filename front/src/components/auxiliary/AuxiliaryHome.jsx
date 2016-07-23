@@ -24,8 +24,6 @@ class AuxiliaryHome extends React.Component {
 			showTuto: !this.user.tutoSkipped,
 			showProfilePrompt: false
 		};
-		console.log('here0')
-		console.log(this.state.data)
 	}
 
 	componentDidMount() {
@@ -37,7 +35,6 @@ class AuxiliaryHome extends React.Component {
     }
 	
 	onStoreUpdate(first) {
-		console.log('on store update');
 		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + this.user.id) });
     }
 	

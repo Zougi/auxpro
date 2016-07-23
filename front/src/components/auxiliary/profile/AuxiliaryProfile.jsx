@@ -66,7 +66,6 @@ class AuxiliaryProfile extends React.Component {
 	}
 
 	render() { 
-		console.log(this.state)
 		return(
 		<Form horizontal>
 			<Grid>
