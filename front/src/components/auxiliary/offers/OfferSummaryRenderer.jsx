@@ -53,7 +53,11 @@ class InterventionSummary extends React.Component {
 				<PanelHeaderAction bsStyle={this.bsStyle} title={'Offre (' + this.props.offer.status + ')'} actions={this.actions}>
 					<div>{'Service: ' + this.props.service.society}</div>
 					<div>{'Client: ' + this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}</div>
-					<div>{'Intervention: ' + this.props.intervention.oneTime.date}</div>
+					{ this.props.intervention.oneTime ?
+						<div>{'Intervention le ' + this.props.intervention.oneTime.date}</div>
+					:
+						<div>{'Intervention du ' + this.props.intervention.recurence.startDate + ' au ' + this.props.intervention.recurence.endDate}</div>
+					}
 				</PanelHeaderAction>
 			</Col>
 		);

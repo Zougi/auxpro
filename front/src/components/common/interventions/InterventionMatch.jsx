@@ -3,6 +3,7 @@ import { Row, Col, Panel } from 'react-bootstrap'
 
 import CustomerSummary from '../customers/CustomerSummary.jsx'
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
+import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
 import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class InterventionsMatch extends React.Component {
@@ -36,7 +37,11 @@ class InterventionsMatch extends React.Component {
 							<CustomerSummary customer={this.props.customer}/>
 						</Panel>
 						<Panel header='Plannification' bsStyle='info'>
+						{ this.props.intervention.oneTime ?
 							<InterventionSummaryOneTime oneTime={this.props.intervention.oneTime}/>
+						:
+							<InterventionSummaryRecurence recurence={this.props.intervention.recurence}/>
+						}
 						</Panel>
 					</Col>
 					<Col sm={6} >

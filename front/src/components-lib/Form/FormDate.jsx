@@ -4,10 +4,10 @@ import moment from 'moment'
 import { FormGroup, FormControl, ControlLabel, Col, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 // custom modules
 import { DEFAULTS } from './FormConstants.js';
-import { fromLocalDate, toLocalDate, toHumanDate } from '../../../utils/moment/MomentHelper.js'
+import { fromLocalDate, toLocalDate, toHumanDate } from '../../utils/moment/MomentHelper.js'
 // custom components
 import FormBase from './FormBase.jsx'
-import Calendar from '../../../components-lib/calendar/Calendar.jsx'
+import Calendar from '../calendar/Calendar.jsx'
 
 moment.locale('fr');
 

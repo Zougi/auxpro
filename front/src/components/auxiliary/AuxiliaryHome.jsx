@@ -17,11 +17,9 @@ class AuxiliaryHome extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		this.state = {
-			user: this.user,
-			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + this.user.id),
-			showTuto: !this.user.tutoSkipped,
+			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')),
+			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showProfilePrompt: false
 		};
 	}
@@ -35,14 +33,14 @@ class AuxiliaryHome extends React.Component {
     }
 	
 	onStoreUpdate(first) {
-		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + this.user.id) });
+		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')) });
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
 	sendGeoZone(geoZone){
 		let params = { 
-			id: this.state.user.id,
-			token: this.state.user.token,
+			id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
 			data : geoZone
 		};
 		Dispatcher.issue('POST_AUXILIARY_GEOZONE', params);
@@ -50,8 +48,8 @@ class AuxiliaryHome extends React.Component {
 	
 	deleteGeoZone(geoZone) {
 		let params = { 
-			id: this.state.user.id,
-			token: this.state.user.token,
+			id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
 			data : geoZone
 		};
 		Dispatcher.issue('DELETE_AUXILIARY_GEOZONE', params);
@@ -88,12 +86,14 @@ class AuxiliaryHome extends React.Component {
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
 							<Tab eventKey={0} title="Mon Planning"><br/>
 								<AuxiliaryPlaning 
-									user={this.state.user} 
-									data={this.state.data}/>
+									customers={this.state.data.customers}
+									indisponibilities={this.state.data.indisponibilities}
+									interventions={this.state.data.interventions}
+									offers={this.state.data.offers}
+									services={this.state.data.services} />
 							</Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>
 								<AuxiliaryMap 
-									user={this.state.user} 
 									geoZones={this.state.data.geoZones} 
 									sendGeoZone={this.sendGeoZone.bind(this)} 
 									deleteGeoZone={this.deleteGeoZone.bind(this)}/>
@@ -103,11 +103,11 @@ class AuxiliaryHome extends React.Component {
 									auxiliary={this.state.data.auxiliary || {}}/>
 							</Tab>							
 							<Tab eventKey={3} title="Mes Offres"><br/>
-								<AuxiliaryOffers 
-									services={this.state.data.services}
+								<AuxiliaryOffers
 									customers={this.state.data.customers}
 									interventions={this.state.data.interventions}
-									offers={this.state.data.offers}/>
+									offers={this.state.data.offers}
+									services={this.state.data.services} />
 							</Tab>
 						</Tabs>
 					</Row>

@@ -5,7 +5,7 @@ import moment from 'moment';
 import Utils from '../../../utils/Utils.js'
 // custom components
 import Address from './Address.jsx'
-import FormInput from '../form/FormInput.jsx'
+import FormInput from '../../../components-lib/Form/FormInput.jsx'
 
 class Contact extends React.Component {
 	

@@ -15,11 +15,11 @@ class Contact extends React.Component {
 		<Panel className='container'>
 			<Calendar 
 				selected={moment().subtract(2, 'day')}
-				specialsSuccess={[moment()]} 
-				specialsWarning={[moment().add(1, 'day')]} 
-				specialsDanger={[moment().add(2, 'day')]} 
-				specialsInfo={[moment().add(3, 'day')]} 
-				specialsPrimary={[moment().add(4, 'day')]} />
+				specialsSuccess={[ { date: moment() }]} 
+				specialsWarning={[ { date: moment().add(1, 'day') }]} 
+				specialsDanger={[{ date: moment().add(2, 'day')}]} 
+				specialsInfo={[{ date: moment().add(3, 'day')}]} 
+				specialsPrimary={[{ date: moment().add(4, 'day')}]} />
 		</Panel>
 	);}
 }

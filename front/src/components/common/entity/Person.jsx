@@ -4,9 +4,9 @@ import moment from 'moment';
 // custom modules
 import Utils from '../../../utils/Utils.js'
 // custom components
-import FormInput from '../form/FormInput.jsx'
-import FormDate from '../form/FormDate.jsx'
-import FormSelect from '../form/FormSelect.jsx'
+import FormInput from '../../../components-lib/Form/FormInput.jsx'
+import FormDate from '../../../components-lib/Form/FormDate.jsx'
+import FormSelect from '../../../components-lib/Form/FormSelect.jsx'
 
 let PERSON_FIELDS = [
 	{ title: 'Civilité', path: 'civility', type: 'select', values: [ { key: 'Mr', value: 'Mr' }, { key: 'Mme', value: 'Mme' } ] },

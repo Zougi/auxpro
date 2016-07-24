@@ -1,102 +1,102 @@
-// lib modules
 import React from 'react'
 import moment from 'moment'
 import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-// core modules
+
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
-// custom components
+
 import Calendar from '../../../components-lib/calendar/Calendar.jsx';
-import FormSelect from '../../common/FormSelect.jsx';
+import FormSelect from '../../../components-lib/Form/FormSelect.jsx';
 import MissionShort from './MissionShort.jsx';
 import AbsenceShort from './AbsenceShort.jsx';
-// customs modules
-import PlaningHelper from '../../../utils/planing/PlaningHelper.js';
+
+import { fromLocalDate, toLocalDate, toHumanDate } from '../../../utils/moment/MomentHelper.js'
+import { DAYS } from '../../../utils/moment/Days.js'
+import Utils from '../../../utils/Utils.js';
 
 moment.locale('fr');
-
-let INITIAL_STATE ={
-	now: moment(),
-	display: moment(),
-	selected: moment(),
-	mode: 'W'
-}
 
 class AuxiliaryPlaning extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = INITIAL_STATE;
-		this.state.user = this.props.user;
-		this.state.data = this.props.data;
-		var args = {
-			id: this.state.user.id,
-			token: this.state.user.token
-		}
-		this.loadAuxiliary(props);
+		this.state = { selected: moment() };
 	}
-
-	componentWillReceiveProps(props) {
-		this.onAuxiliaryUpdate(props);
-	}
-
-    onAuxiliaryUpdate(props) {
-    	this.loadAuxiliary(props);
-		this.setState(this.state);
-    }
-
-    loadAuxiliary(props) {
-		var missions = props.data.missions || [];
-    	var absences = props.data.absences || [];
-		this.state.planing = new PlaningHelper({});
-		let services = [];
-		let customers = [];
-		for (var i = 0; i < missions.length; i++) {
-			let mission = missions[i];
-			mission.startDate = moment(mission.startDate);
-			mission.endDate = moment(mission.endDate);
-			mission.style = 'info';
-			mission.text = 'Mission';
-			this.state.planing.pushDay(mission.startDate.year(), mission.startDate.month(), mission.startDate.date(), mission);
-		}
-		for (var i = 0; i < absences.length; i++) {
-			let absence = absences[i];
-			absence.startDate = moment(absence.startDate)
-			absence.endDate = moment(absence.endDate)
-			absence.style = 'warning';
-			absence.text = 'Absence';
-			this.state.planing.pushDay(absence.startDate.year(), absence.startDate.month(), absence.startDate.date(), absence);
-		}
-    }
 
 	onDaySelect(day) {
-		this.state.selected = day;
-		this.setState(this.state);
-	}
-	onModeChanged(mode) {
-		this.state.mode = mode;
-		this.setState(this.state);
+		this.setState({ selected: day });
 	}
 
 	print() {
 		window.print();
 	}
+	
 	addAbsence() {
 		let params = { 
-			id: this.state.user.id,
-			token: this.state.user.token,
+			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
 			data: {
-				startHour: 0,
-				endHour: 24,
-				date: this.state.day.date.getTime()
+				auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+				oneTime: {
+					date: toLocalDate(this.state.selected),
+					startTime: [0, 0],
+					endTime: [23, 59]
+				}
+				
 			}
 		};
-        Dispatcher.issue('POST_AUXILIARY_ABSENCE', params).
+        Dispatcher.issue('POST_INDISPONIBILITY', params).
         then(function() {
         	delete params.data;
-        	Dispatcher.issue('GET_AUXILIARY_ABSENCES', params)
+        	Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', params);
         });
+	}
+
+	_buildInterventions() {
+		return this._buildSpecials(Utils.filter(this.props.interventions, function (intervention) {
+			return intervention.auxiliaryId === StoreRegistry.getStore('LOGIN_STORE').getData('/id');
+		}));
+	}
+	_buildIndisponibilities() {
+		return this._buildSpecials(Utils.map(this.props.indisponibilities));
+	}
+	_buildOffers() {
+		return this._buildSpecials(Utils.filter(this.props.offers, function (offer) {
+			return offer.status === 'PENDING' || offer.status === 'ACCEPTED';
+		}).map(function(offer) {
+			return this.props.interventions[offer.interventionId];
+		}.bind(this)));
+	}
+	_buildSpecials(values) {
+		let result = [];
+		for (let i = 0; i < values.length; i++) {
+			let value = values[i];
+			if (value.oneTime) {				
+				result.push(value.oneTime);
+			}
+			if (value.recurence) {
+				let recurence = value.recurence;
+				let start = fromLocalDate(recurence.startDate);
+				let end = fromLocalDate(recurence.endDate);
+				let current = start.startOf('week');
+				while (current.isSameOrBefore(end)) {
+					for (let d = 0; d < recurence.days.length; d++) {
+						let day = DAYS[recurence.days[d]];
+						let date = current.clone().add(day.pos, 'day');
+						if (date.isSameOrAfter(start) && date.isSameOrBefore(end)) {
+							result.push({
+								date: toLocalDate(date),
+								startTime: recurence.startTime,
+								endTime: recurence.endTime
+							});
+						}
+					}
+					current.add(7, 'day');
+				}
+			}
+		}
+		return result;
 	}
 
 	render() { 
@@ -109,18 +109,6 @@ class AuxiliaryPlaning extends React.Component {
 			}
 		}
 		var customersValues = [];
-		/*
-		var date = this.state.day.date;
-		var stuff = this.state.planing.getForDay(date.getFullYear(), date.getMonth(), date.getDate()) || [];
-		var days = stuff.map(function(day) {
-			var key = day.id + '-' + day.startHour + '-' + day.endHour;
-			if (day.style === 'success') {
-				return (<MissionShort key={key} date={this.state.day.value} mission={day}/>);
-			} else {
-				return (<AbsenceShort key={key} date={this.state.day.value} startHour={day.startHour} endHour={day.endHour} service={day.service}/>);
-			}
-        }.bind(this));
-        */
 		return (
 		<Grid>
 			<Row>
@@ -137,38 +125,25 @@ class AuxiliaryPlaning extends React.Component {
 						<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
 					</Panel>
 				</Col>
-				{this.state.mode==='M'
-				?(
-					<div>
-					<Col sm={8} md={7} lg={5}>
+				<Col sm={8} md={7} lg={5}>
+					<Panel header={'Planning mensuel - ' + toHumanDate(this.state.selected)}>
 						<Calendar 
 							now={this.state.now}
-							display={this.state.display}
+							moment={moment()}
 							selected={this.state.selected}
-							onModeChanged={this.onModeChanged.bind(this)}
-							onDaySelect={this.onDaySelect.bind(this)} 
-							planing={this.state.planing}/>
-		    		</Col>
-		    		<Col sm={2} md={3} lg={4}>
-		    			<Panel header="Informations">
-		    				<ListGroup>
-		    					
-		    				</ListGroup>
-		    			</Panel>
-		    		</Col>
-		    		</div>
-				):(
-					<Col sm={10} md={10} lg={9}>
-						<Calendar 
-							now={this.state.now}
-							display={this.state.display}
-							selected={this.state.selected}
-							onModeChanged={this.onModeChanged.bind(this)} 
-							onDaySelect={this.onDaySelect.bind(this)} 
-							planing={this.state.planing}/>
-		    		</Col>
-				)}
-				
+							specialsSuccess={this._buildInterventions()}
+							specialsInfo={this._buildOffers()}
+							specialsWarning={this._buildIndisponibilities()}
+							onDaySelect={this.onDaySelect.bind(this)} />
+					</Panel>
+	    		</Col>
+	    		<Col sm={2} md={3} lg={4}>
+	    			<Panel header="Informations">
+	    				<ListGroup>
+	    					
+	    				</ListGroup>
+	    			</Panel>
+	    		</Col>
 	    	</Row>
 	    </Grid>
 		);

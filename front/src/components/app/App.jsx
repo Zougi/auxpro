@@ -47,6 +47,9 @@ class App extends React.Component {
 				 	return Dispatcher.issue('GET_AUXILIARY_OFFERS', args);
 				}).
 				then(function() {
+				 	return Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', args);
+				}).
+				then(function() {
 					console.log('==== DONNES INITIALE AUXILIAIRE ====');
 					console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
 				}).

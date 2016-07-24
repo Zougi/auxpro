@@ -1,11 +1,11 @@
 export const DAYS = {
-	'MONDAY'   : { id: 'MONDAY', fr: 'Lundi' },
-	'TUESDAY'  : { id: 'TUESDAY', fr: 'Mardi' },
-	'WEDNESDAY': { id: 'WEDNESDAY', fr: 'Mercredi' },
-	'THURSDAY' : { id: 'THURSDAY', fr: 'Jeudi' },
-	'FRIDAY'   : { id: 'FRIDAY', fr: 'Vendredi' },
-	'SATURDAY' : { id: 'SATURDAY', fr: 'Samedi' },
-	'SUNDAY'   : { id: 'SUNDAY', fr: 'Dimanche' }
+	'MONDAY'   : { pos: 0, id: 'MONDAY', fr: 'Lundi' },
+	'TUESDAY'  : { pos: 1, id: 'TUESDAY', fr: 'Mardi' },
+	'WEDNESDAY': { pos: 2, id: 'WEDNESDAY', fr: 'Mercredi' },
+	'THURSDAY' : { pos: 3, id: 'THURSDAY', fr: 'Jeudi' },
+	'FRIDAY'   : { pos: 4, id: 'FRIDAY', fr: 'Vendredi' },
+	'SATURDAY' : { pos: 5, id: 'SATURDAY', fr: 'Samedi' },
+	'SUNDAY'   : { pos: 6, id: 'SUNDAY', fr: 'Dimanche' }
 }
 
 export const DAYS_LIST = [

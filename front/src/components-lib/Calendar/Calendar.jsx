@@ -8,6 +8,8 @@ import CalendarDays from './CalendarDays.jsx';
 import CalendarMonths from './CalendarMonths.jsx';
 import CalendarYears from './CalendarYears.jsx';
 
+import { fromLocalDate } from '../../utils/moment/MomentHelper.js'
+
 moment.locale('fr');
 
 let STATES = {
@@ -20,10 +22,10 @@ class Calendar extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onComponentWillReceiveProps(props, true);
+		this.componentWillReceiveProps(props, true);
 	}
 
-	onComponentWillReceiveProps(props, first) {
+	componentWillReceiveProps(props, first) {
 		let m = props.moment ? props.moment.clone() : moment();
 		let s = props.selected ? props.selected.clone() : moment();
 		this.state = {
@@ -44,12 +46,14 @@ class Calendar extends React.Component {
 		if (specials && specials.length) {
 			for (let i = 0; i < specials.length; i++) {
 				let special = specials[i];
-				let y = special.format('YYYY'); 
-				let m = special.format('MM'); 
-				let d = special.format('DD'); 
-				result[y] = result[y] || {};
-				result[y][m] = result[y][m] || {};
-				result[y][m][d] = true;
+				if (special.date) {
+					let y = fromLocalDate(special.date).format('YYYY'); 
+					let m = fromLocalDate(special.date).format('MM'); 
+					let d = fromLocalDate(special.date).format('DD'); 
+					result[y] = result[y] || {};
+					result[y][m] = result[y][m] || {};
+					result[y][m][d] = true;
+				}
 			}
 		}
 		return result;

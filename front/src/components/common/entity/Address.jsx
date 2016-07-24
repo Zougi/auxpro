@@ -4,7 +4,7 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 // custom modules
 import Utils from '../../../utils/Utils.js'
 // custom components
-import FormInput from '../form/FormInput.jsx'
+import FormInput from '../../../components-lib/Form/FormInput.jsx'
 
 let FIELDS = [
 	{ title: 'Addresse', path: 'address', type: 'input'},

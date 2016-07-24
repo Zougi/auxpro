@@ -1,0 +1,17 @@
+.ap-seach-bar .ap-seach-bar-input {
+	border-right: 0;
+}
+
+.ap-seach-bar .ap-seach-bar-clear-group {
+	padding: 0;
+	background: inherit;
+	border-left: 0;
+}
+
+.ap-seach-bar .ap-seach-bar-clear-button {
+	outline: none !important;
+}
+
+.ap-seach-bar .ap-seach-bar-clear-icon {
+	outline: none;
+}

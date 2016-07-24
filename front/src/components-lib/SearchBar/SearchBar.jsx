@@ -20,9 +20,9 @@ class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<FormGroup className='APSearchBar'>
+			<FormGroup className='ap-seach-bar'>
 				<InputGroup>
-					<FormControl className='APSearchBarInput' type='text' onChange={this.onChange.bind(this)}/>
+					<FormControl className='ap-seach-bar-input' type='text' onChange={this.onChange.bind(this)}/>
 					<InputGroup.Addon>
 						<Glyphicon glyph='search'/>
 					</InputGroup.Addon>

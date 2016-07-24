@@ -18,8 +18,6 @@ class InterventionSummaryRecurence extends React.Component {
 		let startTime = fromLocalTime(this.props.recurence.startDate, this.props.recurence.startTime);
 		let endTime   = fromLocalTime(this.props.recurence.startDate, this.props.recurence.endTime);
 
-		console.log(this.props.recurence);
-
 		return (
 			<div>
 				{'Du ' + toHumanDate(startDate) + ' au ' + toHumanDate(endDate)}

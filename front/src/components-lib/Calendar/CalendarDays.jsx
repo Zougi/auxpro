@@ -13,12 +13,7 @@ class CalendarDays extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onComponentWillReceiveProps(props, true);
-	}
-
-	onComponentWillReceiveProps(props, first) {
 		this.state = { moment: moment(props.moment) || moment() };
-		if (!first) this.setState(this.state);	
 	}
 
 	render() { 

@@ -14,12 +14,12 @@ function getIndisponibilityUrl(offerId) {
  * SERVICES **
  * */
 
-// POST OFFER
-let PostOffer = new ActionBase({ name: 'POST_OFFER' });
-PostOffer.do = function (args) {
+// POST INDISPONIBILITY
+let PostIndisponibility = new ActionBase({ name: 'POST_INDISPONIBILITY' });
+PostIndisponibility.do = function (args) {
 	Utils.checkMembers(args, ['data', 'token']);
 	var reqParam = {
-		url   : getOfferUrl(),
+		url   : getIndisponibilityUrl(),
 		data  : args.data,
 		method: 'POST',
 		token : args.token
@@ -27,23 +27,23 @@ PostOffer.do = function (args) {
 	return RestService._request(reqParam);
 }
 
-// GET OFFER
-let GetOffer = new ActionBase({ name: 'GET_OFFER' });
-GetOffer.do = function (args) {
-	Utils.checkMembers(args, ['offerId', 'token']);
+// GET INDISPONIBILITY
+let GetIndisponibility = new ActionBase({ name: 'GET_INDISPONIBILITY' });
+GetIndisponibility.do = function (args) {
+	Utils.checkMembers(args, ['indisponibilityId', 'token']);
 	var reqParam = {
-		url   : getOfferUrl(args.offerId),
+		url   : getIndisponibilityUrl(args.indisponibilityId),
 		token : args.token
 	};
 	return RestService._request(reqParam);
 }
 
-// PUT OFFER
-let PutOffer = new ActionBase({ name: 'PUT_OFFER' });
-PutOffer.do = function (args) {
-	Utils.checkMembers(args, ['offerId', 'data', 'token']);
+// PUT INDISPONIBILITY
+let PutIndisponibility = new ActionBase({ name: 'PUT_INDISPONIBILITY' });
+PutIndisponibility.do = function (args) {
+	Utils.checkMembers(args, ['indisponibilityId', 'data', 'token']);
 	var reqParam = {
-		url   : getOfferUrl(args.offerId),
+		url   : getIndisponibilityUrl(args.indisponibilityId),
 		data  : args.data,
 		method: 'PUT',
 		token : args.token
@@ -51,12 +51,12 @@ PutOffer.do = function (args) {
 	return RestService._request(reqParam);
 }
 
-// DELETE OFFER
-let DeleteOffer = new ActionBase({ name: 'DELETE_OFFER' });
-DeleteOffer.do = function (args) {
-	Utils.checkMembers(args, ['offerId', 'token']);
+// DELETE INDISPONIBILITY
+let DeleteIndisponibility = new ActionBase({ name: 'DELETE_INDISPONIBILITY' });
+DeleteIndisponibility.do = function (args) {
+	Utils.checkMembers(args, ['indisponibilityId', 'token']);
 	var reqParam = {
-		url   : getOfferUrl(args.offerId),
+		url   : getIndisponibilityUrl(args.indisponibilityId),
 		method: 'DELETE',
 		token : args.token
 	};
