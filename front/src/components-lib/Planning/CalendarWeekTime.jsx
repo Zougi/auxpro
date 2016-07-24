@@ -3,6 +3,8 @@ import React from 'react'
 import moment from 'moment'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
+import './Calendar.css';
+
 class CalendarWeekTime extends React.Component {
 
 	constructor(props) {

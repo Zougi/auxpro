@@ -11,7 +11,7 @@ import InterventionDetails from '../../common/interventions/InterventionDetails.
 import InterventionMatch from '../../common/interventions/InterventionMatch.jsx';
 import InterventionOffers from '../../common/interventions/InterventionOffers.jsx';
 import ServiceCustomerInterventions from './ServiceCustomerInterventions.jsx';
-import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
+import DialogConfirmation from '../../../components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
 let STATES = {
 	LIST: 'LIST',

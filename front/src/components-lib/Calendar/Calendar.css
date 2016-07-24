@@ -1,0 +1,80 @@
+/* ----------------------------------------------------------
+ *                                        CALENDAR NAMESPACE
+ */
+.ap-calendar {
+
+}
+.ap-calendar .ap-calendar-header {
+	table-layout: fixed;
+	width: 100%;
+	margin-bottom: 10px;
+}
+	.ap-calendar .ap-calendar-header button {
+		border: 0;
+	}
+	.ap-calendar .ap-calendar-header td {
+		vertical-align: middle;
+	}
+
+
+/* ----------------------------------------------------------
+ *                                    CALENDAR-YEARS DISPLAY
+ */
+.ap-calendar .ap-calendar-years {
+
+}
+
+
+/* ----------------------------------------------------------
+ *                                   CALENDAR-MONTHS DISPLAY
+ */
+.ap-calendar .ap-calendar-months {
+
+}
+
+
+/* ----------------------------------------------------------
+ *                                     CALENDAR-DAYS DISPLAY
+ */
+.ap-calendar .ap-calendar-days th {
+	padding: 3px;
+}
+
+.ap-calendar .ap-calendar-days .month {
+	border: 0;
+}
+	.ap-calendar .ap-calendar-days .month thead {
+		border: 0;
+		text-align: center;
+	}
+	.ap-calendar .ap-calendar-days .month thead tr {
+		border: 0;
+		text-align: center;
+	}
+	.ap-calendar .ap-calendar-days .month th {
+		border: 0;
+		text-align: center;
+	}
+
+.ap-calendar .ap-calendar-days .week {
+}
+
+.ap-calendar .ap-calendar-days .day {
+	padding: 2px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	
+}
+	.ap-calendar .ap-calendar-days .day.today {
+	}
+	.ap-calendar .ap-calendar-days .day.past {
+	}
+	.ap-calendar .ap-calendar-days .day.notmonth {
+	}
+	.ap-calendar .ap-calendar-days .day button {
+		border: 2px solid rgba(0, 0, 0, 0);
+		border-radius: 0;
+	}
+	.ap-calendar .ap-calendar-days .day.selected button {
+		border: 2px solid red;
+	}

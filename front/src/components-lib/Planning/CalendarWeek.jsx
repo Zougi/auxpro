@@ -1,10 +1,10 @@
-// lib modules
 import React from 'react'
 import moment from 'moment'
 import { Pager, PageItem, Button, Glyphicon } from 'react-bootstrap';
 // custom components
 import CalendarWeekWeek from './CalendarWeekWeek.jsx';
 
+import './Calendar.css';
 
 class CalendarWeek extends React.Component {
 

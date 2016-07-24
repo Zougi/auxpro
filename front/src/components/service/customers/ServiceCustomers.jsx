@@ -7,7 +7,7 @@ import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
 import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
-import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
+import DialogConfirmation from '../../../components-lib/DialogConfirmation/DialogConfirmation.jsx';
 import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 let STATES = {

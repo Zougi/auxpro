@@ -6,6 +6,8 @@ import { Panel, Grid, ButtonGroup, Button, Glyphicon, Pager, PageItem } from 're
 import CalendarMonth from './CalendarMonth.jsx'
 import CalendarWeek from './CalendarWeek.jsx'
 
+import './Calendar.css';
+
 let MODES = {
 	M: 'M',
 	W: 'W'

@@ -7,7 +7,7 @@ import Utils from '../../../utils/Utils.js'
 // custom components
 import OfferSummary from './OfferSummary.jsx'
 import OfferDetails from './OfferDetails.jsx'
-import DialogConfirmation from '../../common/dialog/DialogConfirmation.jsx';
+import DialogConfirmation from '../../../components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
 let STATES = {
 	LIST: 'LIST',

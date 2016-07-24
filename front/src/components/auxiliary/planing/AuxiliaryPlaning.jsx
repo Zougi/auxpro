@@ -7,7 +7,7 @@ import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 // custom components
-import Calendar from '../../common/calendar/Calendar.jsx';
+import Calendar from '../../../components-lib/calendar/Calendar.jsx';
 import FormSelect from '../../common/FormSelect.jsx';
 import MissionShort from './MissionShort.jsx';
 import AbsenceShort from './AbsenceShort.jsx';

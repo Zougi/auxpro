@@ -7,7 +7,7 @@ import { DEFAULTS } from './FormConstants.js';
 import { fromLocalDate, toLocalDate, toHumanDate } from '../../../utils/moment/MomentHelper.js'
 // custom components
 import FormBase from './FormBase.jsx'
-import CalendarMonth from '../calendar/CalendarMonth.jsx'
+import Calendar from '../../../components-lib/calendar/Calendar.jsx'
 
 moment.locale('fr');
 
@@ -43,9 +43,9 @@ class FormDate extends FormBase {
 	getFormControlEditable() {
 		let overlay = (
 			<Popover id='formDateOverlay' title="Popover">
-				<CalendarMonth 
+				<Calendar 
 					now={this.state.moment}
-					display={this.state.moment} 
+					moment={this.state.moment} 
 					selected={this.state.moment} 
 					bsSize='xsmall'
 					onDaySelect={this.onDaySelect.bind(this)}/>

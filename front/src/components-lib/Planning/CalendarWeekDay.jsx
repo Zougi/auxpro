@@ -4,6 +4,8 @@ import moment from 'moment'
 // custom components
 import CalendarWeekTime from './CalendarWeekTime.jsx'
 
+import './Calendar.css';
+
 class CalendarWeekDay extends React.Component {
 
 	constructor(props) {

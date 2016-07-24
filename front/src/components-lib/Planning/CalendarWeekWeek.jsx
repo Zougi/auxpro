@@ -5,7 +5,9 @@ import { Pager, PageItem, Table, Panel, Grid, Row, Col, Button } from 'react-boo
 // custom components
 import CalendarWeekDay from './CalendarWeekDay.jsx';
 // custom modules
-import { buildWeekDays, buildDayInterval } from '../../../utils/moment/MomentHelper.js'
+import { buildWeekDays, buildDayInterval } from '../../utils/moment/MomentHelper.js'
+
+import './Calendar.css';
 
 moment.locale('fr');
 

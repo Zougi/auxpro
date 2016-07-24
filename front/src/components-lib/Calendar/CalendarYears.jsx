@@ -4,24 +4,22 @@ import moment from 'moment'
 // react-bootstrap modules
 import { Button } from 'react-bootstrap';
 
-class CalendarMonthDay extends React.Component {
+import './Calendar.css';
+
+class CalendarYear extends React.Component {
 	
 	constructor(props) {
 		super(props);
 	}
 
-	onClick(event) {
+	onYearSelected(event) {
 		event.preventDefault();
-		if (this.props.onDaySelect) {
-			this.props.onDaySelect(this.props.display);
+		if (this.props.onChange) {
+			this.props.onChange(this.props.display);
 		}
 	}
 
 	render() { 
-		let clazz = 'day';
-		//clazz += this.props.notmonth ? ' notmonth' : '';
-		clazz += this.props.selected ? ' selected' : '';
-		//clazz += this.props.display.isBefore(moment().startOf('days')) ? ' past' : '';
 		return (
 			<td>
 				<Button 
@@ -37,4 +35,4 @@ class CalendarMonthDay extends React.Component {
 	}
 }
 
-export default CalendarMonthDay;
+export default CalendarYear;
