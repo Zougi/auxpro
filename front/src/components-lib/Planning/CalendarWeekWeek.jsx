@@ -5,7 +5,7 @@ import { Pager, PageItem, Table, Panel, Grid, Row, Col, Button } from 'react-boo
 // custom components
 import CalendarWeekDay from './CalendarWeekDay.jsx';
 // custom modules
-import { buildWeekDays, buildDayInterval } from '../../utils/moment/MomentHelper.js'
+import MomentHelper from '../../utils/moment/MomentHelper.js'
 
 import './Calendar.css';
 
@@ -19,11 +19,11 @@ class CalendarWeekWeek extends React.Component {
 
 	render() {
 		//
-		let d = buildWeekDays(this.props.display);
+		let d = MomentHelper.buildWeekDays(this.props.display);
 		let days = this._renderDays(d);
 		let heads = this._renderDaysHeaders(d);
 		//
-		let i = buildDayInterval(
+		let i = MomentHelper.buildDayInterval(
 			this.props.display, 
 			this.props.display.clone().startOf('days').add(8, 'hours'),
 			this.props.display.clone().startOf('days').add(20, 'hours'),

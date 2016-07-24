@@ -1,17 +1,15 @@
 import React from 'react'
 import moment from 'moment'
-import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
-import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 
 import Calendar from '../../../components-lib/calendar/Calendar.jsx';
 import FormSelect from '../../../components-lib/Form/FormSelect.jsx';
-import MissionShort from './MissionShort.jsx';
-import AbsenceShort from './AbsenceShort.jsx';
+import AuxiliaryPlaningInformation from './AuxiliaryPlaningInformation.jsx';
 
-import { fromLocalDate, toLocalDate, toHumanDate } from '../../../utils/moment/MomentHelper.js'
+import MomentHelper from '../../../utils/moment/MomentHelper.js'
 import { DAYS } from '../../../utils/moment/Days.js'
 import Utils from '../../../utils/Utils.js';
 
@@ -21,7 +19,15 @@ class AuxiliaryPlaning extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = { selected: moment() };
+		this.state = { selected: toLocalDate(moment()) };
+		this.componentWillReceiveProps(props, true);
+	}
+
+	componentWillReceiveProps(props, first) {
+		this.state.interventions = this._buildInterventions(props);
+		this.state.offers = this._buildOffers(props);
+		this.state.indisponibilities = this._buildIndisponibilities(props);
+		if (!first) this.setState(this.state);
 	}
 
 	onDaySelect(day) {
@@ -39,7 +45,7 @@ class AuxiliaryPlaning extends React.Component {
 			data: {
 				auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
 				oneTime: {
-					date: toLocalDate(this.state.selected),
+					date: MomentHelper.toLocalDate(this.state.selected),
 					startTime: [0, 0],
 					endTime: [23, 59]
 				}
@@ -53,19 +59,19 @@ class AuxiliaryPlaning extends React.Component {
         });
 	}
 
-	_buildInterventions() {
-		return this._buildSpecials(Utils.filter(this.props.interventions, function (intervention) {
+	_buildInterventions(props) {
+		return this._buildSpecials(Utils.filter(props.interventions, function (intervention) {
 			return intervention.auxiliaryId === StoreRegistry.getStore('LOGIN_STORE').getData('/id');
 		}));
 	}
-	_buildIndisponibilities() {
-		return this._buildSpecials(Utils.map(this.props.indisponibilities));
+	_buildIndisponibilities(props) {
+		return this._buildSpecials(Utils.map(props.indisponibilities));
 	}
-	_buildOffers() {
-		return this._buildSpecials(Utils.filter(this.props.offers, function (offer) {
+	_buildOffers(props) {
+		return this._buildSpecials(Utils.filter(props.offers, function (offer) {
 			return offer.status === 'PENDING' || offer.status === 'ACCEPTED';
 		}).map(function(offer) {
-			return this.props.interventions[offer.interventionId];
+			return props.interventions[offer.interventionId];
 		}.bind(this)));
 	}
 	_buildSpecials(values) {
@@ -77,22 +83,22 @@ class AuxiliaryPlaning extends React.Component {
 			}
 			if (value.recurence) {
 				let recurence = value.recurence;
-				let start = fromLocalDate(recurence.startDate);
-				let end = fromLocalDate(recurence.endDate);
-				let current = start.startOf('week');
+				let start = MomentHelper.fromLocalDate(recurence.startDate);
+				let end = MomentHelper.fromLocalDate(recurence.endDate);
+				let current = start.clone().startOf('week');
 				while (current.isSameOrBefore(end)) {
 					for (let d = 0; d < recurence.days.length; d++) {
 						let day = DAYS[recurence.days[d]];
 						let date = current.clone().add(day.pos, 'day');
 						if (date.isSameOrAfter(start) && date.isSameOrBefore(end)) {
 							result.push({
-								date: toLocalDate(date),
+								date: MomentHelper.toLocalDate(date),
 								startTime: recurence.startTime,
 								endTime: recurence.endTime
 							});
 						}
 					}
-					current.add(7, 'day');
+					current.add(recurence.period === 'P14D' ? 14 : 7, 'day');
 				}
 			}
 		}
@@ -103,11 +109,6 @@ class AuxiliaryPlaning extends React.Component {
 		var values = ['value1', 'value2', '...'];
 		var missionsValues = ['planifiees', 'realisees', 'annulees'];
 		var servicesValues = [];
-		if (this.state.data && this.state.data.services) {
-			for (let i = 0 ; i < this.state.data.services.length ; i++) {
-				servicesValues.push(StoreRegistry.getStore('SERVICE_STORE').getData('/' + this.state.data.services[i]) + '/society');
-			}
-		}
 		var customersValues = [];
 		return (
 		<Grid>
@@ -126,23 +127,22 @@ class AuxiliaryPlaning extends React.Component {
 					</Panel>
 				</Col>
 				<Col sm={8} md={7} lg={5}>
-					<Panel header={'Planning mensuel - ' + toHumanDate(this.state.selected)}>
+					<Panel header={'Planning mensuel - '}>
 						<Calendar 
-							now={this.state.now}
-							moment={moment()}
+							moment={toLocalDate(moment())}
 							selected={this.state.selected}
-							specialsSuccess={this._buildInterventions()}
-							specialsInfo={this._buildOffers()}
-							specialsWarning={this._buildIndisponibilities()}
+							specialsSuccess={this.state.interventions}
+							specialsInfo={this.state.offers}
+							specialsWarning={this.state.indisponibilities}
 							onDaySelect={this.onDaySelect.bind(this)} />
 					</Panel>
 	    		</Col>
 	    		<Col sm={2} md={3} lg={4}>
-	    			<Panel header="Informations">
-	    				<ListGroup>
-	    					
-	    				</ListGroup>
-	    			</Panel>
+	    			<AuxiliaryPlaningInformation
+	    				date={this.state.selected}
+						indisponibilities={this.state.indisponibilities}
+	    				interventions={this.state.interventions}
+						offers={this.state.offers} />
 	    		</Col>
 	    	</Row>
 	    </Grid>

@@ -1,10 +1,6 @@
 import React from 'react';
-import moment from 'moment';
-import { Panel } from 'react-bootstrap';
 
-import { fromLocalDate, toHumanDate, fromLocalTime, toHumanTime } from '../../../utils/moment/MomentHelper.js'
-
-moment.locale('fr');
+import MomentHelper from '../../../utils/moment/MomentHelper.js'
 
 class InterventionSummaryRecurence extends React.Component {
 	
@@ -13,16 +9,16 @@ class InterventionSummaryRecurence extends React.Component {
 	}
 
 	render() {
-		let startDate = fromLocalDate(this.props.recurence.startDate);
-		let endDate   = fromLocalDate(this.props.recurence.endDate);
-		let startTime = fromLocalTime(this.props.recurence.startDate, this.props.recurence.startTime);
-		let endTime   = fromLocalTime(this.props.recurence.startDate, this.props.recurence.endTime);
+		let startDate = MomentHelper.localDateToHumanDate(this.props.recurence.startDate);
+		let endDate   = MomentHelper.localDateToHumanDate(this.props.recurence.endDate);
+		let startTime = MomentHelper.localTimeToHumanTime(this.props.recurence.startTime);
+		let endTime   = MomentHelper.localTimeToHumanTime(this.props.recurence.endTime);
 
 		return (
 			<div>
-				{'Du ' + toHumanDate(startDate) + ' au ' + toHumanDate(endDate)}
+				{'Du ' + startDate + ' au ' + endDate}
 				<br/>
-				{'De ' + toHumanTime(startTime) + ' à ' + toHumanTime(endTime)}
+				{'De ' + startTime + ' à ' + endTime}
 			</div>
 		);
 	}

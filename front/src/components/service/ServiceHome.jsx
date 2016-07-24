@@ -27,19 +27,12 @@ class ServiceHome extends React.Component {
         StoreRegistry.unregister('SERVICE_STORE', this);   
     }
 	
-	updateOffers() {
-		let args = {
-			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-			serviceId: this.state.data.service.id
-		}
-		Dispatcher.issue('GET_SERVICE_OFFERS', args);
-	}
+
 	
     onStoreUpdate(first) {
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
     	this.state = {
-			user: user,
 			data: data,
 			showTuto: first?!user.tutoSkipped:this.state.showTuto,
 			showProfilePrompt: first?true:this.state.showProfilePrompt
@@ -94,8 +87,7 @@ class ServiceHome extends React.Component {
 								<ServiceInterventions 
 									customers={this.state.data.customers || {}} 
 									interventions={this.state.data.interventions || {}}
-									offers={this.state.data.offers || {}} 
-									listUpdate={this.updateOffers.bind(this)}/>
+									offers={this.state.data.offers || {}} />
 							</Tab>
 						</Tabs>
 					:

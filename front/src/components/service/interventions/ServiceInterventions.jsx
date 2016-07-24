@@ -86,23 +86,32 @@ class ServiceInterventions extends React.Component {
     sendIntervention(intervention) {
 		var promises = [];
         for (let i = 0; i < intervention.matches.length; i++) {
-            let data = {
-                serviceId: intervention.serviceId,
-                customerId: intervention.customerId,
-                interventionId: intervention.id,
-                auxiliaryId: intervention.matches[i].id,
-                status: "PENDING"
-            }
             let params = {
-                 token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-                 data: data
+                token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+                data: {
+                    serviceId: intervention.serviceId,
+                    customerId: intervention.customerId,
+                    interventionId: intervention.id,
+                    auxiliaryId: intervention.matches[i].id,
+                    status: "PENDING"
+                }
             }
             promises.push(Dispatcher.issue('POST_OFFER', params));
 		}
-        Promise.all(promises).then(function () {
-            this.onCancel();
-            this.props.listUpdate(false);    
-        }.bind(this))	
+        Promise.all(promises).
+        then(function () {
+            return Dispatcher.issue('GET_SERVICE_AUXILIARIES', {
+                token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+                serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id')
+            });
+        }).
+        then(function () {
+            return Dispatcher.issue('GET_SERVICE_OFFERS', {
+                token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+                serviceId: StoreRegistry.getStore('LOGIN_STORE').getData('/id')
+            });
+        }).
+        then(this.onCancel.bind(this));
     }
 
     _issueInterventionAction(action, intervention) {

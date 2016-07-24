@@ -54,8 +54,9 @@ class App extends React.Component {
 					console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
 				}).
 				then(toHome.bind(this)).
-				catch(function() {
+				catch(function(error) {
 					console.log("erreur au chargement de l'auxiliare");
+					console.log(error);
 				});	
 				break;
 			case 'sad':
@@ -80,8 +81,9 @@ class App extends React.Component {
 		        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
 		        }).
 		        then(toHome.bind(this)).
-		        catch(function() {
+		        catch(function(error) {
 		        	console.log('erreur au chargement du service');
+		        	console.log(error);
 		        });				
 				break;
 			default:

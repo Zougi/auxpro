@@ -3,7 +3,7 @@ import React from 'react'
 // react-bootstrap modules
 import { ListGroupItem } from 'react-bootstrap';
 
-class AbsenceShort extends React.Component {
+class InformationOffer extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -19,4 +19,4 @@ class AbsenceShort extends React.Component {
 	}
 }
 
-export default AbsenceShort;
+export default InformationOffer;

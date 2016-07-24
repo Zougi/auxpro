@@ -1,10 +1,6 @@
 import React from 'react';
-import moment from 'moment';
-import { Panel } from 'react-bootstrap';
 
-import { fromLocalDate, toHumanDate, fromLocalTime, toHumanTime } from '../../../utils/moment/MomentHelper.js'
-
-moment.locale('fr');
+import MomentHelper from '../../../utils/moment/MomentHelper.js'
 
 class InterventionSummaryOneTime extends React.Component {
 	
@@ -13,15 +9,15 @@ class InterventionSummaryOneTime extends React.Component {
 	}
 
 	render() {
-		let date = fromLocalDate(this.props.oneTime.date);
-		let start = fromLocalTime(this.props.oneTime.date, this.props.oneTime.startTime);
-		let end = fromLocalTime(this.props.oneTime.date, this.props.oneTime.endTime);
+		let date      = MomentHelper.localDateToHumanDate(this.props.oneTime.date);
+		let startTime = MomentHelper.localTimeToHumanTime(this.props.oneTime.startTime);
+		let endTime   = MomentHelper.localTimeToHumanTime(this.props.oneTime.endTime);
 
 		return (
 			<div>
-				{'Le ' + toHumanDate(date)}
+				{'Le ' + date}
 				<br/>
-				{'De ' + toHumanTime(start) + ' à ' + toHumanTime(end)}
+				{'De ' + startTime + ' à ' + endTime}
 			</div>
 		);
 	}

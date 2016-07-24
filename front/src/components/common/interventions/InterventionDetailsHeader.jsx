@@ -1,18 +1,19 @@
 import React from 'react';
+import moment from 'moment';
 import { SplitButton, MenuItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 
 import StoreRegistry from '../../../core/StoreRegistry';
 
-import InterventionDetailsHeader from './InterventionDetailsHeader.jsx'
 import InterventionDetailsOneTime from './InterventionDetailsOneTime.jsx'
 import InterventionDetailsRecurence from './InterventionDetailsRecurence.jsx'
-
 import FormSelect from '../../../components-lib/Form/FormSelect.jsx'
 import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
+moment.locale('fr');
+
 let STATES = {
-	ONE_TIME: 'ONE_TIME',
-	RECURENCE: 'RECURENCE'
+	ONE_TIME: 'Une seule date',
+	RECURENCE: 'Récurente'
 };
 
 class InterventionDetails extends React.Component {
@@ -20,12 +21,12 @@ class InterventionDetails extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			mode: this.props.intervention ? (this.props.intervention.recurence?STATES.RECURENCE:STATES.ONE_TIME):STATES.ONE_TIME
+			mode: this.props.intervention ? (this.props.intervention.recurence?STATES.RECURENCE:STATES.ONE_TIME) : STATES.ONE_TIME
 		};
 	}
 
 	onSelectType(state) {
-		this.setState({ mode: state });
+		this.setState({ mode: STATES[state] });
 	}
 
 	onCustomerChanged(customer) {
@@ -74,11 +75,11 @@ class InterventionDetails extends React.Component {
 			};
 		}.bind(this));
 		let modes = [
-			{ key: STATES.ONE_TIME, value: 'Une seule date' },
-			{ key: STATES.RECURENCE, value: 'Récurence' }
+			{ key: 'ONE_TIME', value: STATES.ONE_TIME },
+			{ key: 'RECURENCE', value: STATES.RECURENCE }
 		];
 		return (
-			<Panel header={this.props.intervention ? 'Modifier demande' : 'Saisir une nouvelle demande' }>
+			<Panel header={this.props.title?this.props.title:'Saisir une nouvelle demande'}>
 				<Panel>
 					<Row>
 						<Col sm={8} md={7} lg={6}>
@@ -117,7 +118,7 @@ class InterventionDetails extends React.Component {
 				}
 				</Panel>
 				<ButtonsEndDialog 
-					onOk={this.onCreate.bind(this)} okTitle={this.props.intervention ? 'Modifier intervention' : 'Créer intervention'}
+					onOk={this.onCreate.bind(this)} okTitle={this.props.intervention ? 'Modifier intervention' : 'Creer intervention'}
 					onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 			</Panel>
 		);

@@ -5,6 +5,7 @@ import StoreRegistry from '../../../core/StoreRegistry';
 
 import CustomerSummary from '../customers/CustomerSummary.jsx'
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
+import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
 import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class InterventionsOffers extends React.Component {
@@ -40,8 +41,13 @@ class InterventionsOffers extends React.Component {
 					<Panel header='Information usager' bsStyle='info'>
 						<CustomerSummary customer={this.props.customer}/>
 					</Panel>
+				
 					<Panel header='Plannification' bsStyle='info'>
+					{ this.props.intervention.oneTime ?
 						<InterventionSummaryOneTime oneTime={this.props.intervention.oneTime}/>
+					:
+						<InterventionSummaryRecurence recurence={this.props.intervention.recurence}/>
+					}
 					</Panel>
 				</Col>
 				<Col sm={6} >

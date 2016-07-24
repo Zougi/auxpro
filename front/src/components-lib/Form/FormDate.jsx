@@ -4,7 +4,7 @@ import moment from 'moment'
 import { FormGroup, FormControl, ControlLabel, Col, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 // custom modules
 import { DEFAULTS } from './FormConstants.js';
-import { fromLocalDate, toLocalDate, toHumanDate } from '../../utils/moment/MomentHelper.js'
+import MomentHelper from '../../utils/moment/MomentHelper.js'
 // custom components
 import FormBase from './FormBase.jsx'
 import Calendar from '../calendar/Calendar.jsx'
@@ -15,20 +15,15 @@ class FormDate extends FormBase {
 
 	constructor(props) {
 		super(props);
-		this.state = { date: '', moment: moment() };
-		if (this.props.defaultValue) {
-			let m = fromLocalDate(this.props.defaultValue);
-			this.state.moment = m;
-			this.state.date = toHumanDate(m);
-		}
+		this.state = { 
+			date: this.props.defaultValue ? this.props.defaultValue : null 
+		};
 	}
 
-	onDaySelect(m) {
-		this.state.moment = m;
-		this.state.date = toHumanDate(m);
-		this.setState(this.state);
+	onDaySelect(date) {
+		this.setState({ date: date });
 		if (this.props.onChange) {
-			this.props.onChange(toLocalDate(m));
+			this.props.onChange(date);
 		}
 	}
 
@@ -44,9 +39,8 @@ class FormDate extends FormBase {
 		let overlay = (
 			<Popover id='formDateOverlay' title="Popover">
 				<Calendar 
-					now={this.state.moment}
-					moment={this.state.moment} 
-					selected={this.state.moment} 
+					moment={this.state.date} 
+					selected={this.state.date} 
 					bsSize='xsmall'
 					onDaySelect={this.onDaySelect.bind(this)}/>
 			</Popover>
@@ -54,8 +48,8 @@ class FormDate extends FormBase {
 		return (
 			<OverlayTrigger trigger="click" placement="bottom" overlay={overlay} rootClose>
       			<FormControl 
-					type={this.props.type?this.props.type:'text'} 
-					value={this.state.date}/>
+					type='text' 
+					value={MomentHelper.localDateToHumanDate(this.state.date)}/>
     		</OverlayTrigger>
 			
 		);
