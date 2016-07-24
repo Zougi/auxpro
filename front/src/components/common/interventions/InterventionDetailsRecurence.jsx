@@ -32,8 +32,14 @@ class InterventionDetailsRecurence extends React.Component {
 		this.data.endDate = value;
 		this.onChange();
 	}
-	onDaysChanged(value) {
-		this.data.days = value;
+	onDaysChanged(values) {
+		this.data.days = [];
+		for (let i = 0; i < values.length; i++) {
+			let v = values[i];
+			if (v.selected) {
+				this.data.days.push(v.key);
+			}
+		}
 		this.onChange();
 	}
 	onStartTimeChanged(value) {
@@ -84,7 +90,8 @@ class InterventionDetailsRecurence extends React.Component {
 						<FormSelectMulti
 							static={!this.props.edit}
 							title='Jours'
-							values={this._buildDays()}/>
+							values={this._buildDays()}
+							onChange={this.onDaysChanged.bind(this)}/>
 					</Col>
 				</Row>
 				<br/>

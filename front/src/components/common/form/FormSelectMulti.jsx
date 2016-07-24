@@ -16,7 +16,7 @@ class FormSelectMulti extends FormBase {
 		for (let i = 0; i < props.values.length; i++) {
 			let v = props.values[i];
 			this.state.values.push({
-				key: v.value,
+				key: v.key ? v.key : v.value,
 				value: v.value,
 				defaultSelected: v.selected,
 				selected: v.selected

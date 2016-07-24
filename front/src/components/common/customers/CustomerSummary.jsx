@@ -27,13 +27,13 @@ class CustomerSummary extends React.Component {
     render() {
         let actions = [];
         if (this.props.onView) {
-            actions.push({ bsStyle: 'default', callback: this.onView.bind(this), glyph: 'user'});
+            actions.push({ bsStyle: 'default', tooltip: 'Voir informations client', callback: this.onView.bind(this), glyph: 'user'});
         }
         if (this.props.onEdit) {
-            actions.push({ bsStyle: 'default', callback: this.onEdit.bind(this), glyph: 'pencil'});
+            actions.push({ bsStyle: 'default', tooltip: 'Editer  informations client', callback: this.onEdit.bind(this), glyph: 'pencil'});
         }
         if (this.props.onDelete) {
-            actions.push({ bsStyle: 'danger', callback: this.onDelete.bind(this), glyph: 'remove'});
+            actions.push({ bsStyle: 'danger', tooltip: 'Supprimer client', callback: this.onDelete.bind(this), glyph: 'remove'});
         }
 
         return (

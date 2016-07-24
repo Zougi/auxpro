@@ -13,7 +13,8 @@ export function buildMonthWeeks(moment) {
 }
 
 export function toLocalDate(moment) {
-	return moment.toArray().slice(0, 3);
+	let array = moment.toArray();
+	return [ array[0], array[1] + 1, array[2] ];
 }
 export function toLocalDateTime(moment) {
 	return moment.toArray().slice(0, 5);

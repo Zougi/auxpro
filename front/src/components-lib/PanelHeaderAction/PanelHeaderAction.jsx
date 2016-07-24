@@ -19,6 +19,7 @@ class PanelHeaderAction extends React.Component {
 					bsSize={this.props.bsSize || 'xsmall'} 
 					bsStyle={action.bsStyle} 
 					glyph={action.glyph}
+					tooltip={action.tooltip}
 					onClick={action.callback} />
 			);
 		}.bind(this));

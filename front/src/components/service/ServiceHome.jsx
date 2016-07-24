@@ -49,7 +49,7 @@ class ServiceHome extends React.Component {
 		}
     }
 
-	 _tutoClose() {
+	_tutoClose() {
     	this.setState({ showTuto: false });
     }
     _tutoSkip() {
@@ -72,21 +72,23 @@ class ServiceHome extends React.Component {
 		return(
 			<div className='container'>
 				<br/>
-				<Grid>
 					<Row>
-						<ServiceHeader service={this.state.data || {}}/>
+						<ServiceHeader 
+							service={this.state.data.service || {}}/>
 					</Row>
 					<Row>
 					{ this.state.data ? 
 						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
 							<Tab eventKey={0} title="Mes Informations"><br/>
-								<ServiceProfile service={this.state.data.service || {}}/>
+								<ServiceProfile 
+									service={this.state.data.service || {}}/>
 							</Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>
 								<ServicesMap/>
 							</Tab>							
 							<Tab eventKey={2} title="Mes Clients"><br/>
-								<ServiceCustomers customers={this.state.data.customers || {}}/>
+								<ServiceCustomers 
+									customers={this.state.data.customers || {}}/>
 							</Tab>
 							<Tab eventKey={3} title="Mes Interventions"><br/>
 								<ServiceInterventions 
@@ -100,15 +102,14 @@ class ServiceHome extends React.Component {
 						''
 					}
 					</Row>
-				</Grid>
 				<br/>
 				<Modal show={this.state.showProfilePrompt}>
 					<Modal.Header>
 						<Modal.Title>Completez votre profil</Modal.Title>
 					</Modal.Header>
 					<Modal.Footer>
-						<Button className='btn btn-success' onClick={this._profilePromptClose.bind(this)}>Continuer</Button>
-						<Button className='btn btn-primary' onClick={this._profilePromptClose.bind(this)}>Pas Maintenant</Button>
+						<Button bsStyle='success' onClick={this._profilePromptClose.bind(this)}>Continuer</Button>
+						<Button bsStyle='primary' onClick={this._profilePromptClose.bind(this)}>Pas Maintenant</Button>
 					</Modal.Footer> 
 				</Modal>
 			</div>

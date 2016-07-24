@@ -4,7 +4,7 @@ import moment from 'moment'
 import { FormGroup, FormControl, ControlLabel, Col, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 // custom modules
 import { DEFAULTS } from './FormConstants.js';
-import { toLocalDate } from '../../../utils/moment/MomentHelper.js'
+import { fromLocalDate, toLocalDate, toHumanDate } from '../../../utils/moment/MomentHelper.js'
 // custom components
 import FormBase from './FormBase.jsx'
 import CalendarMonth from '../calendar/CalendarMonth.jsx'
@@ -17,15 +17,15 @@ class FormDate extends FormBase {
 		super(props);
 		this.state = { date: '', moment: moment() };
 		if (this.props.defaultValue) {
-			let m = moment(this.props.defaultValue);
+			let m = fromLocalDate(this.props.defaultValue);
 			this.state.moment = m;
-			this.state.date = m.format('D') + ' ' + m.format('MMMM') + ' ' + m.format('YYYY');
+			this.state.date = toHumanDate(m);
 		}
 	}
 
 	onDaySelect(m) {
 		this.state.moment = m;
-		this.state.date = m.format('D') + ' ' + m.format('MMMM') + ' ' + m.format('YYYY');
+		this.state.date = toHumanDate(m);
 		this.setState(this.state);
 		if (this.props.onChange) {
 			this.props.onChange(toLocalDate(m));
