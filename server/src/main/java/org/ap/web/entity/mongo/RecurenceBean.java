@@ -16,7 +16,7 @@ public class RecurenceBean {
 	
 	private DayOfWeek[] days;
 	
-	private ERecurencePeriod period;
+	private ERecurencePeriod period = ERecurencePeriod.P7D;
 
 	public RecurenceBean() {}
 	

@@ -22,7 +22,9 @@ public class InterventionBean extends MongoEntity {
 	@MongoId
 	private String auxiliaryId;
 	
-	public InterventionBean() {}
+	public InterventionBean() {
+		address = new AddressBean();
+	}
 
 	public AddressBean getAddress() { return address; }
 	public void setAddress(AddressBean address) { this.address = address; }

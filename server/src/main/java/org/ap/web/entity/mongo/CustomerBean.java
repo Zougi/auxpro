@@ -20,7 +20,12 @@ public class CustomerBean extends MongoEntity {
 	@MongoId
 	private String serviceId;
 	
-	public CustomerBean() {}
+	public CustomerBean() {
+		person = new PersonBean();
+		contact = new ContactBean();
+		addresses = new AddressBean[0];
+		skills = new SkillsBean();
+	}
 
 	public PersonBean getPerson() { return person; }
 	public void setPerson(PersonBean person) { this.person = person; }

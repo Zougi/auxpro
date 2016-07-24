@@ -28,8 +28,8 @@ class InterventionDetails extends React.Component {
 		};
 	}
 
-	onSelectType(event) {
-		this.setState({ mode: STATES[event.target.value] });
+	onSelectType(state) {
+		this.setState({ mode: STATES[state] });
 	}
 
 	onCustomerChanged(customer) {
@@ -38,7 +38,7 @@ class InterventionDetails extends React.Component {
 	onOneTimeChanged(oneTime) {
 		this.setState({ oneTime: oneTime });
 	}
-	onRecurenceChanged(value) {
+	onRecurenceChanged(recurence) {
 		this.setState({ recurence: recurence });
 	}
 
@@ -85,7 +85,7 @@ class InterventionDetails extends React.Component {
 		];
 		return (
 			<Panel header={this.props.title?this.props.title:'Saisir une nouvelle demande'}>
-				<Grid>
+				<Panel>
 					<Row>
 						<Col sm={8} md={7} lg={6}>
 							<FormSelect 
@@ -107,26 +107,24 @@ class InterventionDetails extends React.Component {
 								onChange={this.onSelectType.bind(this)}/>
 						</Col>
 					</Row>
-					<br/>
-					<Col sm={11}>
-							{this.state.mode === STATES.ONE_TIME
-							?
-								<InterventionDetailsOneTime 
-									edit={this.props.edit}
-									onChange={this.onOneTimeChanged.bind(this)} 
-									oneTime={this.props.intervention ? this.props.intervention.oneTime : null}/>
-							:
-								<InterventionDetailsRecurence
-									edit={this.props.edit}
-									onChange={this.onRecurenceChanged.bind(this)}
-									recurence={this.props.intervention ? this.props.intervention.recurence : null}/>
-							}
-					</Col>
-					<br/>
-					<ButtonsEndDialog 
-						onOk={this.onCreate.bind(this)} okTitle={this.props.intervention ? 'Modifier intervention' : 'Creer intervention'}
-						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
-				</Grid>
+				</Panel>
+				<Panel>
+				{this.state.mode === STATES.ONE_TIME
+				?
+					<InterventionDetailsOneTime 
+						edit={this.props.edit}
+						onChange={this.onOneTimeChanged.bind(this)} 
+						oneTime={this.props.intervention ? this.props.intervention.oneTime : null}/>
+				:
+					<InterventionDetailsRecurence
+						edit={this.props.edit}
+						onChange={this.onRecurenceChanged.bind(this)}
+						recurence={this.props.intervention ? this.props.intervention.recurence : null}/>
+				}
+				</Panel>
+				<ButtonsEndDialog 
+					onOk={this.onCreate.bind(this)} okTitle={this.props.intervention ? 'Modifier intervention' : 'Creer intervention'}
+					onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 			</Panel>
 		);
 	}

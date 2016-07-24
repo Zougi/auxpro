@@ -1,9 +1,15 @@
 {
 	"customerId":"cusz1",
 	"serviceId":"sadz",
-	"oneTime": {
-		"date": [2016, 7, 2],
-		"startTime": [8, 0],
-		"endTime": [12, 0]
+	"recurence": {
+		"startDate":[2016,7,2],
+		"endDate":[2016,7,28],
+		"startTime":[8,30],
+		"endTime":[12,0],
+		"days":[
+			"FRIDAY",
+			"MONDAY"
+		],
+		"period":"P7D"
 	}
 }

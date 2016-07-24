@@ -1,5 +1,11 @@
 package unit.entity;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
+
+import org.ap.web.entity.mongo.RecurenceBean;
 import org.ap.web.internal.Mappers;
 import org.junit.Test;
 
@@ -31,4 +37,20 @@ public class EntityTester extends TestBase {
 		s = s.replace(",", ",\n");
 		System.out.println(s);
 	}
+	
+	@Test
+	public void test_printRecurence() throws Exception {
+		RecurenceBean bean = new RecurenceBean();
+		bean.setStartDate(LocalDate.of(2016, 07, 02));
+		bean.setEndDate(LocalDate.of(2016, 07, 28));
+		bean.setDays(new DayOfWeek[] {DayOfWeek.FRIDAY, DayOfWeek.MONDAY});
+		bean.setStartTime(LocalTime.of(8, 30));
+		bean.setEndTime(LocalTime.of(12, 00));
+		String s = Mappers.DEFAULT.getMapper().writeValueAsString(bean);
+		s = s.replace(",\"", ",\n\"");
+		System.out.println(s);
+		
+		System.out.println(Mappers.DEFAULT.getMapper().writeValueAsString(Period.ofWeeks(2)));		
+	}
 }
+

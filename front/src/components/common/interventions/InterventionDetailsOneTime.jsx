@@ -1,4 +1,3 @@
-// lib modules
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 
@@ -38,7 +37,7 @@ class InterventionDetailsOneTime extends React.Component {
 
 	render() {
 		return (
-			<Panel>
+			<div>
 				<FormDate
 					defaultValue={this.data.oneTime.date}
 					static={!this.props.edit}
@@ -56,7 +55,7 @@ class InterventionDetailsOneTime extends React.Component {
 					static={!this.props.edit}
 					title='Fin'
 					onChange={this.onEndTimeChanged.bind(this)}/>
-			</Panel>
+			</div>
 		);
 	}
 }

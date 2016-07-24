@@ -253,7 +253,7 @@ public class TestData {
 		bean.setEndDate(LocalDate.now().plusDays(RECURENCE_ID++ + 60));
 		bean.setStartTime(LocalTime.of(2, 00));
 		bean.setEndTime(LocalTime.of(4, 30));
-		bean.setPeriod(ERecurencePeriod.WEEK1.getId());
+		bean.setPeriod(ERecurencePeriod.P7D.getId());
 		bean.setDays(new DayOfWeek[] { DayOfWeek.MONDAY, DayOfWeek.FRIDAY});
 		return bean;
 	}
