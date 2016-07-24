@@ -19,7 +19,7 @@ class AuxiliaryPlaning extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = { selected: toLocalDate(moment()) };
+		this.state = { selected: MomentHelper.toLocalDate(moment()) };
 		this.componentWillReceiveProps(props, true);
 	}
 
@@ -129,7 +129,7 @@ class AuxiliaryPlaning extends React.Component {
 				<Col sm={8} md={7} lg={5}>
 					<Panel header={'Planning mensuel - '}>
 						<Calendar 
-							moment={toLocalDate(moment())}
+							moment={MomentHelper.toLocalDate(moment())}
 							selected={this.state.selected}
 							specialsSuccess={this.state.interventions}
 							specialsInfo={this.state.offers}
