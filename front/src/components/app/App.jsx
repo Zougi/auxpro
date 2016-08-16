@@ -85,7 +85,14 @@ class App extends React.Component {
 		        });				
 				break;
 			default:
-				toHome.bind(this)();
+				args.token = user.token;
+				Dispatcher.issue("GET_SERVICES", args).
+				then(toHome.bind(this)).
+		        catch(function(error) {
+		        	console.log('erreur au chargement des services');
+		        	console.log(error);
+		        });				
+				break;
 			}	
 			
 		} else {

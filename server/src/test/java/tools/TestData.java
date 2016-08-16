@@ -65,7 +65,7 @@ public class TestData {
 	public static final String TEST_RSC_ENTITY_VALID = TEST_RSC + "db_entity_valid/";
 
 	public static String loadJsonRef(String file) throws Exception {
-		return FileHelper.readFileAsString(new File(file)).replace("\n", "").replace(" ", "").replace("\t", "");
+		return FileHelper.readFileAsString(new File(file)).replace("\n", "").replace("\t", "");
 	}
 
 	/* CREATE TEST DB */

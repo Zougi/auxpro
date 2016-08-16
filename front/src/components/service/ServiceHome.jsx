@@ -27,8 +27,6 @@ class ServiceHome extends React.Component {
         StoreRegistry.unregister('SERVICE_STORE', this);   
     }
 	
-
-	
     onStoreUpdate(first) {
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
     	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
