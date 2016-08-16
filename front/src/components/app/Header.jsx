@@ -26,7 +26,7 @@ class Header extends React.Component {
     }
 	
 	onLogon() {
-		this.setState({ logged: StoreRegistry.getStore('LOGIN_STORE').getData('/logged') });
+		this.setState({ logged: StoreRegistry.getStore('LOGIN_STORE').getData('/logged') && StoreRegistry.getStore('LOGIN_STORE').getData('/type') !== 'guest' });
 	}
 
 	logout(event) {

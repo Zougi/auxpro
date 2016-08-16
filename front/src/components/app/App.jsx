@@ -1,12 +1,10 @@
-// react modules
 import React from 'react';
 import ReactDOM from 'react-dom';
-// react-router modules
 import { Router, Route, hashHistory } from 'react-router'
-// core modules
+
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
-// custom components
+
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 
@@ -87,7 +85,7 @@ class App extends React.Component {
 		        });				
 				break;
 			default:
-				toHome();
+				toHome.bind(this)();
 			}	
 			
 		} else {
