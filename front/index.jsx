@@ -18,7 +18,6 @@ import Contact       from './src/components/app/static/Contact.jsx'
 import Login         from './src/components/app/auth/Login.jsx'
 import RegisterAux   from './src/components/app/auth/RegisterAux.jsx'
 import RegisterSad   from './src/components/app/auth/RegisterSad.jsx'
-import Map           from './src/components/auxiliary/map/AuxiliaryMap.jsx'
 
 moment.locale('fr');
 
@@ -33,7 +32,6 @@ render((
 		<Route path="/home" component={Home}/>
 		<Route path="/about" component={About}/>
 		<Route path="/contact" component={Contact}/>
-		<Route path="/map" component={Map}/>
 	</Route>
   </Router>
 ), document.getElementById('app'))

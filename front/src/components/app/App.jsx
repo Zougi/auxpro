@@ -99,7 +99,7 @@ class App extends React.Component {
 			this.context.router.push("/");
 		}
 	}
-
+	
 	render() { return (
 		<div>
 			<Header className='no-print'/>
