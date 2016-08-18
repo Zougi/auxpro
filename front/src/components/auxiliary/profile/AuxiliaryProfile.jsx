@@ -66,7 +66,12 @@ class AuxiliaryProfile extends React.Component {
 	}
 
 	render() { 
-		return(
+		if (this.state.state === STATES.QUESTIONS) {
+			return (
+				<AuxiliaryQuestionnary/>
+			);
+		}
+		return (
 		<Form horizontal>
 			<Grid>
 				<Row>
@@ -106,7 +111,7 @@ class AuxiliaryProfile extends React.Component {
 						<Panel bsStyle='warning' header='Mes Diplômes'>
 							{this.props.auxiliary.diploma}
     					</Panel>
-    					<Button bsStyle='info' block>Questionnaire</Button>
+    					<Button bsStyle='info' block onClick={this.setStateQuestions.bind(this)}>Questionnaire</Button>
 						<br/>
 						<Panel bsStyle='info' header='Mes Compétences'>
     					</Panel>
@@ -117,15 +122,4 @@ class AuxiliaryProfile extends React.Component {
 		);
 	}
 }
-
-/*
-
-
-
-						
-
-
-
-
-*/
 export default AuxiliaryProfile;

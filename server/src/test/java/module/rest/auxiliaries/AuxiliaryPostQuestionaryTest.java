@@ -1,15 +1,9 @@
 package module.rest.auxiliaries;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.QuestionaryBean;
 import org.ap.web.entity.mongo.SkillsBean;
-import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
-import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;

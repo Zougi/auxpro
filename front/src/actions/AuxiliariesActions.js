@@ -62,6 +62,19 @@ PutAuxiliary.do = function (args) {
 	return RestService._request(reqParam);
 }
 
+// POST AUXILIARY QUESTIONARY
+let PostAuxiliaryQuestionary = new ActionBase({ name: 'POST_AUXILIARY_QUESTIONARY' });
+PostAuxiliaryQuestionary.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token', 'data']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/questionary',
+		method: 'POST',
+		data  : args.data,
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
 // GET AUXILIARY SERVICES
 let GetAuxiliaryServices = new ActionBase({ name: 'GET_AUXILIARY_SERVICES' });
 GetAuxiliaryServices.do = function (args) {
