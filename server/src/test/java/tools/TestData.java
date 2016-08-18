@@ -31,6 +31,7 @@ import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
+import org.ap.web.entity.mongo.QuestionaryBean;
 import org.ap.web.entity.mongo.RecurenceBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.SkillsBean;
@@ -148,6 +149,7 @@ public class TestData {
 	public static int OFFER_ID = 0;
 	public static int ONETIME_ID = 0;
 	public static int PERSON_ID = 0;
+	public static int QUESTIONARY_ID = 7;
 	public static int RECURENCE_ID = 0;
 	public static int SERVICE_ID = 0;
 	public static int SKILL_ID = 0;
@@ -246,6 +248,16 @@ public class TestData {
 		bean.setLastName("Nom " + PERSON_ID);
 		bean.setNationality("Francaise");
 		bean.setSocialNumber("SecSociale " + PERSON_ID);
+		return bean;
+	}
+	public static QuestionaryBean next(QuestionaryBean bean) {
+		bean.setAnswer0(QUESTIONARY_ID++);
+		bean.setAnswer1(QUESTIONARY_ID++);
+		bean.setAnswer2(QUESTIONARY_ID++);
+		bean.setAnswer3(QUESTIONARY_ID++);
+		bean.setAnswer4(QUESTIONARY_ID++);
+		bean.setAnswer5(QUESTIONARY_ID++);
+		bean.setAnswer6(QUESTIONARY_ID++);
 		return bean;
 	}
 	public static RecurenceBean next(RecurenceBean bean) {

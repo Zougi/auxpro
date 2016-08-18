@@ -16,6 +16,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.QuestionaryBean;
 
 /**
  * This interface describes the auxiliaries servlet features.
@@ -27,6 +28,8 @@ import org.ap.web.entity.mongo.CredentialsBean;
  *  - /auxiliaries/{auxId} GET    > retrieve an auxiliary details
  *  - /auxiliaries/{auxId} PUT    > update an existing auxiliary
  *  - /auxiliaries/{auxId} DELETE > delete an auxiliary
+ *  
+ *  - /auxiliaries/{auxId}/questionary POST > post questionnary answers for an auxiliary
  *  
  *  - /auxiliaries/{auxId}/services          GET > retrieve services of an auxiliary
  *  - /auxiliaries/{auxId}/customers         GET > retrieve customers of an auxiliary
@@ -67,6 +70,15 @@ public interface IAuxiliariesServlet {
 	@Path("{auxiliaryId}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response deleteAuxiliaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+
+	// QUESTIONARY
+	
+	@POST
+	@RolesAllowed("authenticated")
+	@Path("{auxiliaryId}/questionary")
+	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response postQuestionaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId, QuestionaryBean questionary);
 
 	// SERVICES
 	

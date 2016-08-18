@@ -15,7 +15,9 @@ import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
+import org.ap.web.entity.mongo.QuestionaryBean;
 import org.ap.web.entity.mongo.ServiceBean;
+import org.ap.web.entity.mongo.SkillsBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
@@ -108,8 +110,32 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			return sendException(e);
 		}
 	}
-
-
+	
+	@Override
+	public Response postQuestionaryJSON(SecurityContext sc, String auxiliaryId, QuestionaryBean questionary) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			AuxiliaryBean auxiliary = _auxiliaryStore.get(auxiliaryId);
+			if (!auxiliary.getId().equals(auxiliaryId)) throw APException.AUXILIARY_INVALID;
+			SkillsBean skills = computeSkills(questionary);
+			auxiliary.setSkills(skills);
+			auxiliary = _auxiliaryStore.update(auxiliary);
+			return Response.status(Status.OK).entity(skills, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	private SkillsBean computeSkills(QuestionaryBean questionary) {
+		SkillsBean result = new SkillsBean();
+		result.setHousework(questionary.getAnswer0());
+		result.setNursing(questionary.getAnswer1());
+		result.setChildhood(questionary.getAnswer2());
+		result.setShopping(questionary.getAnswer3());
+		result.setCompagny(questionary.getAnswer4());
+		result.setAdministrative(questionary.getAnswer5());
+		result.setDoityourself(questionary.getAnswer6());
+		return result;
+	}
 	@Override
 	public Response getServicesJSON(SecurityContext sc, String auxiliaryId) {
 		try {
@@ -130,7 +156,6 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			return sendException(e);
 		}
 	}
-	
 	@Override
 	public Response getCustomersJSON(SecurityContext sc, String auxiliaryId) {
 		try {
@@ -151,7 +176,6 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			return sendException(e);
 		}
 	}
-	
 	@Override
 	public Response getInterventionsJSON(SecurityContext sc, String auxiliaryId) {
 		try {
@@ -172,7 +196,6 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			return sendException(e);
 		}
 	}
-
 	@Override
 	public Response getOffersJSON(SecurityContext sc, String auxiliaryId) {
 		try {
