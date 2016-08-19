@@ -8,6 +8,7 @@ import AuxiliaryDetails from './AuxiliaryDetails.jsx'
 import AuxiliaryQuestionnary from './AuxiliaryQuestionnary.jsx'
 import Person from '../../common/entity/Person.jsx'
 import Contact from '../../common/entity/Contact.jsx'
+import SkillSummaryList from '../../common/skills/SkillSummaryList.jsx'
 
 let STATES = {
 	VIEW: 'VIEW',
@@ -68,7 +69,7 @@ class AuxiliaryProfile extends React.Component {
 	render() { 
 		if (this.state.state === STATES.QUESTIONS) {
 			return (
-				<AuxiliaryQuestionnary/>
+				<AuxiliaryQuestionnary onClose={this.setStateView.bind(this)}/>
 			);
 		}
 		return (
@@ -114,6 +115,7 @@ class AuxiliaryProfile extends React.Component {
     					<Button bsStyle='info' block onClick={this.setStateQuestions.bind(this)}>Questionnaire</Button>
 						<br/>
 						<Panel bsStyle='info' header='Mes Compétences'>
+							<SkillSummaryList skills={this.props.auxiliary.skills}/>
     					</Panel>
 					</Col>
 				</Row>

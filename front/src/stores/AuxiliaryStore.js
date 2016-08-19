@@ -33,6 +33,16 @@ AuxiliaryStore.onGetAuxiliary = function (result, param) {
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 
+// POST AUXILIARY QUESTIONNARY
+AuxiliaryStore.onPostAuxiliaryQuestionary = function (result, param) {
+	if (result) {
+		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
+		auxiliary.auxiliary.skills = result;
+		AuxiliaryStore.notify();
+	}
+}
+Dispatcher.register('POST_AUXILIARY_QUESTIONARY', AuxiliaryStore.onPostAuxiliaryQuestionary);
+
 // GET AUXILIARY SERVICES
 AuxiliaryStore.onGetAuxiliaryServices = function (result, param) {
 	if (result && result.length) {

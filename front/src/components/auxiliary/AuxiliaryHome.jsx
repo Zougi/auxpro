@@ -34,6 +34,7 @@ class AuxiliaryHome extends React.Component {
 	
 	onStoreUpdate(first) {
 		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')) });
+		console.log(this.state.data);
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
