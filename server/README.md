@@ -1,4 +1,4 @@
-# AP REST - JAXRS README
+# AP REST
 
 ## Installation
 
@@ -14,28 +14,6 @@ Install Eclipse J2EE edition Mars (Optionnal)
 
 #### Install steps
 
-Run go.bat
+command: mvn install -DskipTests=true
 
-Import into eclipse as 'Maven Project'
-
-## Usage
-
-#### Start database
-
-run ./mongo/launchMongo.bat
-
-#### Start REST server
-
-default configuration on http://localhost:8090/rest
-
-run 'mvn tomcat7:run'
-
-## TODO NEXT
-
-> address
-> name == email
-> isEmailChecked
-> isPhoneChecked
-> isAddressChecked
-> PUT aux/sad
-> 
+Import into eclipse as 'Maven Project' (Optionnal)
