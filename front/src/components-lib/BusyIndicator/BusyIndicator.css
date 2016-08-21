@@ -1,4 +1,5 @@
 .ap-busy-indicator {
+	text-align: center;
 }
 
 .ap-busy-indicator .ap-busy-indicator-item {
@@ -8,7 +9,7 @@
 	width: 2rem;
 	height: 2rem;
 
-	background: red;
+	background: #2291D9;
 
 	animation-duration: 0.8s;
  	animation-name: bubble;
@@ -29,18 +30,19 @@
 @keyframes bubble {
 	0% {
 		transform: scale(0.5);
-		background: red;
+		background: #2291D9;
 	}
 	20% {
 		transform: scale(0.5);
-		background: red;
+		background: #2291D9;
 	}
 	100% {
 		transform: scale(1);
-		background: -webkit-radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
-		background: -o-radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
-		background: -moz-radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
-		background: radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
+		background: #2291D9;
+		background: -webkit-radial-gradient(rgba(34, 145, 217, 0) 20%, #2291D9 80%);
+		background: -o-radial-gradient(rgba(34, 145, 217, 0) 20%, #2291D9 80%);
+		background: -moz-radial-gradient(rgba(34, 145, 217, 0) 20%, #2291D9 80%);
+		background: radial-gradient(rgba(34, 145, 217, 0) 20%, #2291D9 80%);
 	}
 
 }
