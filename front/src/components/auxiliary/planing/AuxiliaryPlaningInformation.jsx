@@ -16,31 +16,23 @@ class AuxiliaryPlanningInformation extends React.Component {
 		
 	}
 	_buildIndisponibilities() {
-		console.log(this.props)
 		let result = [];
-		console.log(this.props.date)
 		let y = this.props.date[0];
-		console.log(y)
 		let m = this.props.date[1];
-		console.log(m)
 		let d = this.props.date[2];
-		console.log(d)
 		for (let i = 0; i < this.props.indisponibilities.length; i++) {
-			
 			let indispo = this.props.indisponibilities[i];
 			let date = indispo.date;
 			if (date[0] === y && date[1] === m && date[2] === d) {
-				console.log(i)
-				console.log(indispo)
 				result.push(
 					<InformationIndisponibility 
+						key={i}
 						date={date}
 						startTime={indispo.startTime}
 						endTime={indispo.endTime} />
 				);
 			}
 		}
-		console.log(result)
 		return result;
 	}
 

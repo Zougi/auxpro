@@ -10,20 +10,15 @@ class InformationIndisponibility extends React.Component {
 	}
 
 	render() { 
-		console.log('here')
 		let date = MomentHelper.localDateToHumanDate(this.props.date);
-		console.log('here')
-		let start = this.props.startTime[0] + 'h' + this.props.startTime[1];
-		console.log('here')
-		let end = this.props.endTime[0] + 'h' + this.props.endTime[1];
-		console.log('here')
-		let duration = (this.props.endTime[0] - this.props.startTime[0]) + 'h' + (this.props.endTime[1] - this.props.startTime[1]);
+		let start = MomentHelper.localTimeToHumanTime(this.props.startTime[0]);
+		let end = MomentHelper.localTimeToHumanTime(this.props.endTime[0]);
 
-		console.log('here')
-		console.log(date)
-		console.log(start)
-		console.log(end)
-		console.log(duration)
+		let d = [ 
+			this.props.endTime[0] - this.props.startTime[0], 
+			this.props.endTime[1] - this.props.startTime[1] 
+		];
+		let duration = MomentHelper.localTimeToHumanTime(d);
 
 		return (
 			<ListGroupItem header='Indisponibilité' bsStyle='warning'>
