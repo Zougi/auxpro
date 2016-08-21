@@ -13,6 +13,9 @@ import Utils from '../../../utils/Utils';
 import Dispatcher from '../../../core/Dispatcher';
 import StoreRegistry from '../../../core/StoreRegistry';
 
+import IForm from '../../../components-lib/Form/IForm.jsx';
+import BasicLogin from '../../../components-lib/BasicLogin/BasicLogin.jsx';
+
 class Login extends React.Component {
 
 	constructor(props) {
@@ -37,52 +40,65 @@ class Login extends React.Component {
         }
     }
 
-	login(event) {
-        event.preventDefault();
-        let params = {
-            user: this.state.user, 
-            pass: this.state.pass
-        };
-        Dispatcher.issue('LOGON', params);
+	onSubmit(values, event) {
+		event.preventDefault();
+		let params = {
+			user: values.user, 
+			pass: values.pass
+		};
+		Dispatcher.issue('LOGON', params);
+	}
+	
+    render() { 
+
+		return (
+				<div className='container'>
+					<BasicLogin 
+						onSubmit={this.onSubmit.bind(this)} 
+						error={this.state.error}/>
+					<br/>
+				</div>
+		);}   
 	}
 
-    handleEmailChanged(e) { this.state.user = e.target.value; }
-    handlePasswordChanged(e) { this.state.pass = e.target.value; }
-
-    render() { return (
-    	<div className='container'>
-            <br/>
-            <Col smOffset={1} sm={10} mdOffset={2} md={8}>
-            <Panel 
-                header={this.state.error?this.state.error:'Saisir les informations utilisateur'} 
-                bsStyle={this.state.error?'danger':'default'}>
-            <Form onSubmit={this.login.bind(this)}>
-                <FormGroup controlId='user'>
-                    <ControlLabel>Adresse électronique</ControlLabel>
-                    <FormControl typeDISABLED='email' onChange={this.handleEmailChanged.bind(this)} placeholder='Adresse électronique'/>
-                </FormGroup>
-                <FormGroup controlId='pass'>
-                    <ControlLabel>Mot de passe</ControlLabel>
-                    <FormControl type='password' onChange={this.handlePasswordChanged.bind(this)}  placeholder='Mot de passe'/>
-                </FormGroup>
-                <br/>
-                <Row>
-                <Col sm={6} md={5} mdOffset={1} lg={4} lgOffset={2}>
-                    <Button type='submit' bsStyle='success' bsSize='large' block>Connexion</Button>
-                </Col>
-                <br className="visible-xs-block"/>
-                <Col sm={6} md={5} lg={4}>
-                    <LinkContainer to='/'>
-                        <Button bsStyle='default' bsSize='large' block>Annuler</Button>
-                    </LinkContainer>
-                </Col>                
-                </Row>
-            </Form>
-            </Panel>
-            </Col>
-            <br/>
-    	</div>
-    );}   
-}
-
 export default Login;
+
+// this.fields = [	
+			// {	name: "user",
+				// type: "email",									//optional
+				// id: "user",											//optional
+				// label: "Adresse électronique", 			//optional
+				// placeholder: "Adresse électronique"		//optional			
+			// },
+			// {	name: "pass",
+				// type: "password",								//optional
+				// id: "pass",											//optional
+				// label: "Mot de passe", 						//optional
+				// placeholder: "Mot de passe"	 			//optional			
+			// }
+		// ];
+		
+		// this.buttons = {
+			// submit: { 							//optional
+					// text: 'Connexion', 		//optional
+					// bsStyle:'success', 		//optional
+					// bsSize:'large'				//optional
+			// },
+			// cancel: {							//optional
+					// text: 'Annuler', 			//optional
+					// bsStyle:'default', 		//optional
+					// bsSize:'large', 			//optional
+					// linkContainer:'/'
+			// }
+		// }
+
+// <Row>
+	// <Col smOffset={1} sm={10} mdOffset={2} md={8}>
+		// <Panel 
+		// header={this.state.error?this.state.error:'Saisir les informations utilisateur'} 
+		// bsStyle={this.state.error?'danger':'default'}>
+			// <IForm onSubmit={this.onSubmit.bind(this)} fields={this.fields} buttons={this.buttons}/>
+		// </Panel>
+	// </Col>
+// </Row>
+// <br/>
