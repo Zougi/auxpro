@@ -1,0 +1,46 @@
+.ap-busy-indicator {
+}
+
+.ap-busy-indicator .ap-busy-indicator-item {
+	display: inline-block;
+	margin: 3px;
+	border-radius: 50%;
+	width: 2rem;
+	height: 2rem;
+
+	background: red;
+
+	animation-duration: 0.8s;
+ 	animation-name: bubble;
+  	animation-iteration-count: infinite;
+  	animation-direction: alternate;
+  	animation-timing-function: linear;
+
+  	transform: scale(0.5);
+}
+
+.ap-busy-indicator .ap-busy-indicator-item.delay1 {
+  	animation-delay: 0.2s;
+}
+.ap-busy-indicator .ap-busy-indicator-item.delay2 {
+  	animation-delay: 0.4s;
+}
+
+@keyframes bubble {
+	0% {
+		transform: scale(0.5);
+		background: red;
+	}
+	20% {
+		transform: scale(0.5);
+		background: red;
+	}
+	100% {
+		transform: scale(1);
+		background: -webkit-radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
+		background: -o-radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
+		background: -moz-radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
+		background: radial-gradient(rgba(255, 0, 0, 0) 20%, red 80%);
+	}
+
+}
