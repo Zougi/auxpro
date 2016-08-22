@@ -1,7 +1,7 @@
-// react modules
 import React from 'react'
-// react-bootstrap modules
 import { ListGroupItem } from 'react-bootstrap';
+
+import MomentHelper from '../../../utils/moment/MomentHelper.js'
 
 class InformationOffer extends React.Component {
 	
@@ -10,10 +10,21 @@ class InformationOffer extends React.Component {
 	}
 
 	render() { 
+		let date = MomentHelper.localDateToHumanDate(this.props.date);
+		let start = MomentHelper.localTimeToHumanTime(this.props.startTime[0]);
+		let end = MomentHelper.localTimeToHumanTime(this.props.endTime[0]);
+
+		let d = [ 
+			this.props.endTime[0] - this.props.startTime[0], 
+			this.props.endTime[1] - this.props.startTime[1] 
+		];
+		let duration = MomentHelper.localTimeToHumanTime(d);
+
 		return (
-			<ListGroupItem header='Absence' bsStyle='warning'>
-	            Le {this.props.date} de {this.props.startHour}h à {this.props.endHour}h<br/>
-	            Nombre d'heures : {this.props.endHour - this.props.startHour}h
+			<ListGroupItem header='Offre' bsStyle='info'>
+	            {'Le ' + date + ' de ' + start + ' à ' + end}
+	            <br/>
+	            {"Nombre d'heures : " + duration}
 	        </ListGroupItem>
 		);
 	}

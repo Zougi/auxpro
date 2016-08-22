@@ -2,6 +2,7 @@ import React from 'react'
 import { Panel, ListGroup } from 'react-bootstrap';
 
 import InformationIndisponibility from './InformationIndisponibility.jsx'
+import InformationOffer from './InformationOffer.jsx'
 
 class AuxiliaryPlanningInformation extends React.Component {
 	
@@ -10,10 +11,30 @@ class AuxiliaryPlanningInformation extends React.Component {
 	}
 
 	_buildOffers() {
-
+		console.log('offers')
+		console.log(this.props.offers);
+		let result = [];
+		let y = this.props.date[0];
+		let m = this.props.date[1];
+		let d = this.props.date[2];
+		for (let i = 0; i < this.props.offers.length; i++) {
+			let offer = this.props.offers[i];
+			let date = offer.date;
+			if (date[0] === y && date[1] === m && date[2] === d) {
+				result.push(
+					<InformationOffer
+						key={i}
+						date={date}
+						startTime={offer.startTime}
+						endTime={offer.endTime} />
+				);
+			}
+		}
+		return result;
 	}
 	_buildInterventions() {
-		
+		console.log('interventions')
+		console.log(this.props.interventions);
 	}
 	_buildIndisponibilities() {
 		let result = [];
@@ -37,7 +58,6 @@ class AuxiliaryPlanningInformation extends React.Component {
 	}
 
 	render() { 
-		console.log('render info')
 		return (
 			<Panel header="Informations">
 	    		<ListGroup>

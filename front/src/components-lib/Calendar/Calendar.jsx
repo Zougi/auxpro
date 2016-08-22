@@ -26,8 +26,6 @@ class Calendar extends React.Component {
 	}
 
 	componentWillReceiveProps(props, first) {
-		console.log(props.moment)
-		console.log(props.selected)
 		let m = props.moment ? MomentHelper.fromLocalDate(props.moment) : moment();
 		let s = props.selected ? MomentHelper.fromLocalDate(props.selected) : moment();
 		this.state = {
