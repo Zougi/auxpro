@@ -130,6 +130,7 @@ class AuxiliaryHome extends React.Component {
 	getZone() {
 		return (
 			<AuxiliaryMap 
+				auxiliary={this.state.data.auxiliary}
 				geoZones={this.state.data.geoZones} 
 				sendGeoZone={this.sendGeoZone.bind(this)} 
 				deleteGeoZone={this.deleteGeoZone.bind(this)}/>

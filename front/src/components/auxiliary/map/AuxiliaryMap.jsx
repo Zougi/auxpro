@@ -46,7 +46,7 @@ class AuxiliaryMap extends React.Component {
         
         this.map = new google.maps.Map(this.refs.myMap, mapOptions);
 
-        google.maps.event.addDomListener(window, 'resize', this._triggerMapResize());
+        //google.maps.event.addDomListener(window, 'resize', this._triggerMapResize());
 
  		this.centerMarker = new google.maps.Marker({ 
  			map: this.map,
