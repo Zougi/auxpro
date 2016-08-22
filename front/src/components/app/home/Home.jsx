@@ -12,13 +12,13 @@ class Home extends React.Component {
 	constructor(props) {
 		super(props);
 		this.type = {
-			sad: (<ServiceHome/>),
-			aux: (<AuxiliaryHome/>),
-			admin: (<GuestHome/>),
-			guest: (<GuestHome/>)
+			sad: function(nav) {return (<ServiceHome/>) },
+			aux: function(nav) {return (<AuxiliaryHome nav={nav}/>) },
+			admin: function(nav) {return (<GuestHome/>) },
+			guest: function(nav) {return (<GuestHome/>) }
 		}
 	}
-
+	
 	componentWillMount() {
         let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
 		if (!logged) {
@@ -26,12 +26,12 @@ class Home extends React.Component {
 		}
     }
 
-	render() { 
+	render() {
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
 		if (this.type[type])
 			return (
 					<div className='container'>
-						{this.type[type]}
+						{this.type[type](this.props.params.nav)}
 					</div>
 				);
 		else

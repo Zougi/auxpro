@@ -22,7 +22,7 @@ class App extends React.Component {
 		let args = {};
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		let toHome = function () {
-			this.context.router.push("/home");
+			this.context.router.push("/home/infos");
 		}
 		if (user.logged) {
 			switch (user.type) {
