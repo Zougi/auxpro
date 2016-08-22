@@ -33,15 +33,18 @@ module.exports = {
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, 
-                loader: "file" 
+                loader: 'url-loader?mimetype=application/vnd.ms-fontobject'
             },
-            { 
-                test: /\.(woff|woff2)$/, 
-                loader:"url?prefix=font/&limit=5000" 
+            {
+                test: /\.woff/,
+                loader: 'url-loader?mimetype=application/font-woff'
+            }, {
+                test: /\.woff2/,
+                loader: 'url-loader?mimetype=application/font-woff2'
             },
             { 
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, 
-                loader: "url?limit=10000&mimetype=application/octet-stream" 
+                loader: 'url-loader?mimetype=application/x-font-ttf'
             },
             { 
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, 

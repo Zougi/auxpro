@@ -48,20 +48,20 @@ class Header extends React.Component {
 				<Navbar.Collapse>
 				{this.state.logged?
 					<Nav pullRight>
-						<LinkContainer to='/about'>
+						<LinkContainer to={{ pathname: '/about', query: {} }}>
 							<NavItem eventKey={1}>Acceuil</NavItem>
 						</LinkContainer>
-						<LinkContainer to='/contact'>
+						<LinkContainer to={{ pathname: '/contact', query: {} }}>
 							<NavItem eventKey={2}>Mon Compte</NavItem>
 						</LinkContainer>
 						<NavItem onClick={this.logout}>Déconnexion</NavItem>
 					</Nav>
 					:
 					<Nav pullRight>
-						<LinkContainer to='/contact'>
+						<LinkContainer to={{ pathname: '/contact', query: {} }}>
 							<NavItem eventKey={2}>Contact</NavItem>
 						</LinkContainer>
-						<LinkContainer to='/login'>
+						<LinkContainer to={{ pathname: '/login', query: {} }}>
 							<NavItem eventKey={1}>Connexion</NavItem>
 						</LinkContainer>
 					</Nav>

@@ -11,16 +11,6 @@ class AuxiliaryMap extends React.Component {
 
   	constructor(props) {
   		super(props);
-  		this.myMap = null;
-  		this.initialZoom = 12;
-  		this.defaultCenter = {
-  			mapCenterLat: 48.856996,
-  			mapCenterLng: 2.346996
-  		};
-  		this.centerMarker = null;
-  		this.autocomplete = null;
-  		this.circleMarker = null;
-  		this.myCircle = null;
   	}
   
 	componentWillMount () {
@@ -31,9 +21,6 @@ class AuxiliaryMap extends React.Component {
 	}
   
 	componentDidMount () {
-        console.log('map')
-        console.log(this.props.auxiliary)
-
         let center = new google.maps.LatLng(
         	Number(this.props.auxiliary.contact.address.lattitude),
         	Number(this.props.auxiliary.contact.address.longitude)
@@ -43,8 +30,8 @@ class AuxiliaryMap extends React.Component {
             center: center,
             zoom: 12
         }
-        
-        this.map = new google.maps.Map(this.refs.myMap, mapOptions);
+
+        this.map = new google.maps.Map(this.mapDiv, mapOptions);
 
         //google.maps.event.addDomListener(window, 'resize', this._triggerMapResize());
 
@@ -54,12 +41,8 @@ class AuxiliaryMap extends React.Component {
  			title: 'Mon addresse'
  		});
 
-   		
-
 		/*
 		google.maps.event.addListener(this.myMap, 'click', this.clickMapEvent.bind(this));
-		
-		
         
         this.centerMarker.setDraggable(true);
 		google.maps.event.addListener(this.centerMarker , 'click', function() {
@@ -231,7 +214,7 @@ class AuxiliaryMap extends React.Component {
 
 	render() {
 		return (
-				<Row>
+			<Row>
 				<Col sm={2}>
 					<Button bsStyle='success' onClick={this.activeCircle.bind(this)} block>active/desactive</Button>
 					<input ref='autocomplete' className='autocomplete' placeholder='Enter address'  type='text' disabled={this.state.editMode !== 'circle'}></input>
@@ -239,7 +222,7 @@ class AuxiliaryMap extends React.Component {
 					<Button bsStyle='success' onClick={this.validCircle.bind(this)} block>Valid</Button>
 				</Col>
 				<Col sm={8}>
-					<div ref='myMap' className='map-gic'></div>
+					<div ref={(c) => this.mapDiv = c} className='map-gic'></div>
 				</Col>
 				<Col sm={2}>
 					{this.state.areas.map((area, index) => {
