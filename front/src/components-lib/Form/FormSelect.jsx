@@ -1,9 +1,6 @@
-// react modules
 import React from 'react'
-import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
-// custom modules
-import { DEFAULTS } from './FormConstants.js';
-// custom components
+import { FormControl } from 'react-bootstrap';
+
 import FormBase from './FormBase.jsx'
 
 class FormSelect extends FormBase {
@@ -13,19 +10,24 @@ class FormSelect extends FormBase {
 	}
 
 	onChange(event) {
-		this.props.onChange(event.target.value);
+		if (this.props.onChange) {
+			this.props.onChange(event.target.value);
+		}
+	}
+
+	_buildValues() {
+		return this.props.values.map(function(v) {
+			return (<option key={v.key} value={v.key}>{v.value}</option>);
+		});
 	}
 
 	getFormControlEditable() {
-		let values = this.props.values.map(function(v) {
-			return (<option key={v.key} value={v.key}>{v.value}</option>);
-		})
 		return (
 			<FormControl 
 				componentClass='select' 
 				defaultValue={this.props.defaultValue} 
 				onChange={this.onChange.bind(this)}>
-    			{values}
+    			{this._buildValues()}
   			</FormControl>
 		);
 	}

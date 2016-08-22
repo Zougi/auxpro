@@ -106,10 +106,27 @@ class AuxiliaryPlaning extends React.Component {
 	}
 
 	render() { 
-		var values = ['value1', 'value2', '...'];
-		var missionsValues = ['planifiees', 'realisees', 'annulees'];
-		var servicesValues = [];
-		var customersValues = [];
+		var servicesValues = Utils.map(this.props.services, function (service) {
+			return {
+				key: service.society,
+				value: service.society
+			}
+		});
+		servicesValues.unshift({
+			key: '__ALL__',
+			value: 'Tous'
+		});
+		var customersValues = Utils.map(this.props.customers, function (customer) {
+			var name = customer.person.civility + ' ' + customer.person.lastName;
+			return {
+				key: name,
+				value: name
+			}
+		});
+		customersValues.unshift({
+			key: '__ALL__',
+			value: 'Tous'
+		});
 		return (
 		<Grid>
 			<Row>
@@ -118,9 +135,8 @@ class AuxiliaryPlaning extends React.Component {
 						<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.print.bind(this)}>Imprimer mon planning</Button>
 						<br/><p>Afficher mon planning par type de:</p>
 						<Form horizontal>
-							<FormSelect title='Clients' placeholder='<Tous>' values={values}/>
+							<FormSelect title='Clients' placeholder='<Tous>' values={customersValues}/>
 							<FormSelect title='SAD' placeholder='<Tous>' values={servicesValues}/>
-							<FormSelect title='Mission' placeholder='<Tous>' values={missionsValues}/>
       					</Form>
       					<p>Total heures interventions:</p><br/>
 						<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
