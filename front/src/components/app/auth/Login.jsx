@@ -40,12 +40,12 @@ class Login extends React.Component {
     render() { 
 
 		return (
-				<div className='container'>
-					<BasicLogin 
-						onSubmit={this.onSubmit.bind(this)} 
-						error={this.state.error}/>
-					<br/>
-				</div>
+			<div className='container'>
+				<BasicLogin 
+					onSubmit={this.onSubmit.bind(this)} 
+					error={this.state.error}/>
+				<br/>
+			</div>
 		);}   
 	}
 

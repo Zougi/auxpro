@@ -22,7 +22,7 @@ class IForm extends React.Component {
 	}
   
 	getIFormInput(field, onChange) {
-		return (<IFormInput {...field} onChange={onChange} />);
+		return (<IFormInput {...field} key={field.name} onChange={onChange} />);
 	}
   
 	onChange(name, value, event) {
