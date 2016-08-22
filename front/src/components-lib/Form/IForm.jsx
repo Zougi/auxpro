@@ -29,6 +29,12 @@ class IForm extends React.Component {
 		this.values[name] = value;
 	}
   
+	setDefaultValue(field) {
+		if (field.defaultValue) {
+			this.values[field.name] = field.defaultValue;
+		}
+	}
+  
 	onSubmit(event) {
 		if (this.props.onSubmit) {
 			this.props.onSubmit(this.values, event);
@@ -82,10 +88,13 @@ class IForm extends React.Component {
 	render() {
 		var fields = this.props.fields || [];
 		let FormGroups = fields.map(function(field) {
+			if (!field.name)
+				return (<p>NAME PROPS NOT OPTIONAL</p>)
+			this.setDefaultValue(field);
 			field.type = field.type || 'text';
 			return (this.type[field.type](field, this.onChange.bind(this)));
 		}.bind(this))
-	  
+		
 		return (
 			<Form className='ap-i-form'>
 				{FormGroups}

@@ -28,8 +28,8 @@ render((
 		
 		<Route path="/login" component={Login}/>
 		<Route path="/registerAux" component={RegisterAux}/>
-		<Route path="/registerSad" component={RegisterSad}/>	
-		<Route path="/home" component={Home}/>
+		<Route path="/registerSad" component={RegisterSad}/>
+		<Route path="/home/:nav" component={Home}/>
 		<Route path="/about" component={About}/>
 		<Route path="/contact" component={Contact}/>
 	</Route>
