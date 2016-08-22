@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Button, Panel, Nav, Navbar } from 'react-bootstrap'
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
@@ -8,22 +8,24 @@ import { DEFAULTS } from './MapConstants.js';
 
 class Map extends React.Component {
 
-  constructor(props) {
-    super(props);
-	this.myMap = null;
-	
-	this.initialZoom = this.props.zoom || DEFAULTS.zoom;
-	if (this.props.center) {
+	constructor(props) {
+		super(props);
+		this.myMap = null;
+
+		this.initialZoom = this.props.zoom || DEFAULTS.zoom;
+		if (this.props.center) {
 			this.initialCenter  = new google.maps.LatLng(this.props.center.lat, this.props.center.lng);
 		} else {
 			this.initialCenter  = new google.maps.LatLng(DEFAULTS.center.lat, DEFAULTS.center.lng);
 		}
-	this.markers = this.props.markers || []
-  }
-  
+		this.markers = this.props.markers || [];
+	}  
   
 	componentDidMount () {
-		var mapOptions = {center: this.initialCenter, zoom: this.initialZoom}
+		var mapOptions = {
+			center: this.initialCenter, 
+			zoom: this.initialZoom
+		};
 		this.myMap = new google.maps.Map(this.refs.myMap, mapOptions);
 		
 		var centerMarker  = new google.maps.Marker({position: mapOptions.center, title: 'Ma Position', map: this.myMap});

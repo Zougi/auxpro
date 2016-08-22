@@ -95,6 +95,7 @@ class AuxiliaryHome extends React.Component {
 							</Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>
 								<AuxiliaryMap 
+									auxiliary={this.state.data.auxiliary}
 									geoZones={this.state.data.geoZones} 
 									sendGeoZone={this.sendGeoZone.bind(this)} 
 									deleteGeoZone={this.deleteGeoZone.bind(this)}/>

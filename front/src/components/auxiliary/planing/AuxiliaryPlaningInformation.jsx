@@ -11,8 +11,6 @@ class AuxiliaryPlanningInformation extends React.Component {
 	}
 
 	_buildOffers() {
-		console.log('offers')
-		console.log(this.props.offers);
 		let result = [];
 		let y = this.props.date[0];
 		let m = this.props.date[1];
@@ -33,8 +31,6 @@ class AuxiliaryPlanningInformation extends React.Component {
 		return result;
 	}
 	_buildInterventions() {
-		console.log('interventions')
-		console.log(this.props.interventions);
 	}
 	_buildIndisponibilities() {
 		let result = [];

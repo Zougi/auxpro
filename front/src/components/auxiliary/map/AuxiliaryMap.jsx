@@ -31,14 +31,36 @@ class AuxiliaryMap extends React.Component {
 	}
   
 	componentDidMount () {
-		var mapOptions = {
-            center: new google.maps.LatLng(this.defaultCenter.mapCenterLat, this.defaultCenter.mapCenterLng),
-            zoom: this.initialZoom
+        console.log('map')
+        console.log(this.props.auxiliary)
+
+        let center = new google.maps.LatLng(
+        	Number(this.props.auxiliary.contact.address.lattitude),
+        	Number(this.props.auxiliary.contact.address.longitude)
+        );
+
+        let mapOptions = {
+            center: center,
+            zoom: 12
         }
-        this.myMap = new google.maps.Map(this.refs.myMap, mapOptions);
+        
+        this.map = new google.maps.Map(this.refs.myMap, mapOptions);
+
+        google.maps.event.addDomListener(window, 'resize', this._triggerMapResize());
+
+ 		this.centerMarker = new google.maps.Marker({ 
+ 			map: this.map,
+ 			position: center, 
+ 			title: 'Mon addresse'
+ 		});
+
+   		
+
+		/*
 		google.maps.event.addListener(this.myMap, 'click', this.clickMapEvent.bind(this));
 		
-		this.centerMarker  = new google.maps.Marker({position: mapOptions.center, title: 'Hi', map: this.myMap});
+		
+        
         this.centerMarker.setDraggable(true);
 		google.maps.event.addListener(this.centerMarker , 'click', function() {
 			alert('Le marqueur a été cliqué.');
@@ -57,7 +79,18 @@ class AuxiliaryMap extends React.Component {
 		}
 		
 		this.setState({areas: areas});
+		*/
 	}	
+	
+	componentDidUpdate () {
+		this._triggerMapResize();
+	}
+
+	_triggerMapResize() {
+		let prevCenter = this.map.getCenter();
+ 		google.maps.event.trigger(this.map, 'resize');
+ 		this.map.setCenter(prevCenter);
+	}
 	
 	addMarker(location, title) {
 		return new google.maps.Marker({
@@ -79,7 +112,7 @@ class AuxiliaryMap extends React.Component {
 		return this.addMarker(location, title);
 	}
 	
-	addCircle(position, radius){
+	addCircle(position, radius) {
 		return new google.maps.Circle({
 			strokeColor: '#FF0000',
 			strokeOpacity: 0.8,
@@ -118,19 +151,19 @@ class AuxiliaryMap extends React.Component {
 		this.setCenter(place.geometry.location);
 	}
 	
-	radiusChange(){
+	radiusChange() {
 		if (this.centerMarker != null){
 			this.refreshMyCircle();
 		}
 	}
   
-  reverseGeoCodeResult(result, status) {
-	  if (status === google.maps.GeocoderStatus.OK){
-		  this.refs.autocomplete.value = result[0].formatted_address;
-	  } else {
-	  	  alert('ReverseGeoCode Error: ' + status);
-	  }
-  }
+	reverseGeoCodeResult(result, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+			this.refs.autocomplete.value = result[0].formatted_address;
+		} else {
+			alert('ReverseGeoCode Error: ' + status);
+		}
+	}
   
  	clickMapEvent(event) {
  		if (this.state.editMode === 'circle') {
@@ -144,12 +177,12 @@ class AuxiliaryMap extends React.Component {
 	activeCircle() {
 		if (this.state.editMode == 'circle') {
 			this.desactiveCircle();
-		} else{
+		} else {
 			this.setState({ editMode: 'circle' });
 		}
 	}
   
-	desactiveCircle(){
+	desactiveCircle() {
 		this.deleteMarker(this.circleMarker);
 		this.deleteCircle(this.myCircle);
 		this.refs.autocomplete.value = '';
@@ -157,7 +190,7 @@ class AuxiliaryMap extends React.Component {
 		this.setState({editMode: null});
 	}
   
-  validCircle(){
+  	validCircle() {
   	/*
 	  console.log("###########################################INFO###########################################");
 	  console.log(this.circleMarker);
@@ -166,62 +199,60 @@ class AuxiliaryMap extends React.Component {
 	  console.log(this.circleMarker.position.lat());
 	  console.log("##########################################################################################");
 	  */
-	  
-	 let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
-	 this.props.sendGeoZone(geoZone);
-	  
-	 this.setState({
-	 	areas: this.state.areas.concat({ 
-	 		type: 'circle', 
-	 		adress: this.refs.autocomplete.value, 
-	 		marker: this.circleMarker, 
-	 		circle: this.myCircle
-	 	})
-	 });
-	 this.circleMarker = null;
-	 this.myCircle = null;
-	 this.desactiveCircle();
-  }
-  
-  deleteArea(index){
-	let marker = this.state.areas[index].marker;
-	let circle =  this.state.areas[index].circle;
-	let geoZone = {
-		lattitude: marker.position.lat(), 
-		longitude: marker.position.lng(), 
-		radius: circle.radius
-	};
-	this.props.deleteGeoZone(geoZone);
-	this.deleteMarker(marker);
-	this.deleteCircle(circle);
-	this.state.areas.splice(index, 1);
-	this.setState({ areas: this.state.areas });
-  }
-  
-  render() {
-      return (
-		<Row>
-			<Col sm={2}>
-				<Button bsStyle='success' onClick={this.activeCircle.bind(this)} block>active/desactive</Button>
-				<input ref='autocomplete' className='autocomplete' placeholder='Enter address'  type='text' disabled={this.state.editMode !== 'circle'}></input>
-				<input ref='radius' type='number' placeholder='Enter Radius' disabled={this.state.editMode !== 'circle'} onChange={this.radiusChange.bind(this)}></input>
-				<Button bsStyle='success' onClick={this.validCircle.bind(this)} block>Valid</Button>
-			</Col>
-			<Col sm={8}>
-				<div ref='myMap' className='map-gic container'></div>
-			</Col>
-			<Col sm={2}>
-			{this.state.areas.map((area, index) => {
-              return (
-				<Panel onClick={this.deleteArea.bind(this, index)}>
-					Type: {area.type} Adresse: {area.adress} Radius: {area.circle.radius}
-				</Panel> 
-              );
-            })}
-			</Col>
-		</Row>
-  );
-  }
+	    let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
+	    this.props.sendGeoZone(geoZone);
+	    this.setState({
+	    	areas: this.state.areas.concat({
+	    		type: 'circle',
+	    		adress: this.refs.autocomplete.value,
+	    		marker: this.circleMarker,
+	    		circle: this.myCircle
+	    	})
+	    });
+	    this.circleMarker = null;
+	    this.myCircle = null;
+	    this.desactiveCircle();
+	}
+
+	deleteArea(index) {
+		let marker = this.state.areas[index].marker;
+		let circle =  this.state.areas[index].circle;
+		let geoZone = {
+			lattitude: marker.position.lat(), 
+			longitude: marker.position.lng(), 
+			radius: circle.radius
+		};
+		this.props.deleteGeoZone(geoZone);
+		this.deleteMarker(marker);
+		this.deleteCircle(circle);
+		this.state.areas.splice(index, 1);
+		this.setState({ areas: this.state.areas });
+	}
+
+	render() {
+		return (
+				<Row>
+				<Col sm={2}>
+					<Button bsStyle='success' onClick={this.activeCircle.bind(this)} block>active/desactive</Button>
+					<input ref='autocomplete' className='autocomplete' placeholder='Enter address'  type='text' disabled={this.state.editMode !== 'circle'}></input>
+					<input ref='radius' type='number' placeholder='Enter Radius' disabled={this.state.editMode !== 'circle'} onChange={this.radiusChange.bind(this)}></input>
+					<Button bsStyle='success' onClick={this.validCircle.bind(this)} block>Valid</Button>
+				</Col>
+				<Col sm={8}>
+					<div ref='myMap' className='map-gic'></div>
+				</Col>
+				<Col sm={2}>
+					{this.state.areas.map((area, index) => {
+	              		return (
+							<Panel onClick={this.deleteArea.bind(this, index)}>
+								Type: {area.type} Adresse: {area.adress} Radius: {area.circle.radius}
+							</Panel> 
+	              		);
+	            	})}
+				</Col>
+			</Row>
+  		);
+  	}
 }
 
 export default AuxiliaryMap;

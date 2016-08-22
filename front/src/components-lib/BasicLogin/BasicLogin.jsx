@@ -39,10 +39,10 @@ class BasicLogin extends React.Component {
 				bsSize:'large'
 			},
 			cancel: {
-					text: 'Annuler',
-					bsStyle: 'default',
-					bsSize: 'large',
-					linkContainer: '/'
+				text: 'Annuler',
+				bsStyle: 'default',
+				bsSize: 'large',
+				linkContainer: '/'
 			}
 		};
 	}
