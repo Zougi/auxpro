@@ -2,6 +2,7 @@
 import React from 'react';
 // react-bootstrap modules
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 // core modules
 import Dispatcher from '../../core/Dispatcher';
 import StoreRegistry from '../../core/StoreRegistry';
@@ -22,6 +23,14 @@ class AuxiliaryHome extends React.Component {
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showProfilePrompt: false
 		};
+		
+		this.content = {
+			infos: this.getInfos.bind(this),
+			planning: this.getPlanning.bind(this),
+			zone: this.getZone.bind(this),
+			offres: this.getOffers.bind(this)
+			
+		}
 	}
 
 	componentDidMount() {
@@ -66,7 +75,80 @@ class AuxiliaryHome extends React.Component {
     	this.setState({ showProfilePrompt: false });
     }
 
+	getNavBar() {
+		return (
+			<Row>
+				<Col sm={3} md={3} lg={3}>
+					<LinkContainer to="/home/infos">
+						<p>Info</p>
+					</LinkContainer>
+				</Col>
+				<Col sm={3} md={3} lg={3}>
+					<LinkContainer to="/home/planning">
+						<p>planning</p>
+					</LinkContainer>
+				</Col>
+				<Col sm={3} md={3} lg={3}>
+					<LinkContainer to="/home/zone">
+						<p>zone</p>
+					</LinkContainer>
+				</Col>
+				<Col sm={3} md={3} lg={3}>
+					<LinkContainer to="/home/offres">
+						<p>offre</p>
+					</LinkContainer>
+				</Col>
+			</Row>	
+		);
+	}
+
+	getContent(nav) {
+		console.log("HHHHHHHHHHHHHHHHOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEE")
+		console.log(nav)
+		if (nav) {
+			return (this.content[nav]());
+		}
+	}
+	
+	getInfos() {
+		return (
+			<AuxiliaryProfile auxiliary={this.state.data.auxiliary || {}}/>
+		);
+	}
+	
+	getPlanning() {
+		return (
+			<AuxiliaryPlaning 
+				customers={this.state.data.customers}
+				indisponibilities={this.state.data.indisponibilities}
+				interventions={this.state.data.interventions}
+				offers={this.state.data.offers}
+				services={this.state.data.services} />
+		);
+	}
+	
+	getZone() {
+		return (
+			<AuxiliaryMap 
+				geoZones={this.state.data.geoZones} 
+				sendGeoZone={this.sendGeoZone.bind(this)} 
+				deleteGeoZone={this.deleteGeoZone.bind(this)}/>
+		);
+	}
+	
+	getOffers() {
+		return (
+			<AuxiliaryOffers
+				customers={this.state.data.customers}
+				interventions={this.state.data.interventions}
+				offers={this.state.data.offers}
+				services={this.state.data.services} />
+		);
+	}
+	
 	render() { 
+		console.log("HHHHHHHHHHHHHHHHOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEE")
+		console.log(this.props)
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>
@@ -78,40 +160,14 @@ class AuxiliaryHome extends React.Component {
 		}
 		return(
 			<div className='container'>
+				{this.getNavBar()}
 				<br/>
 				<Grid>
 					<Row>
 						<AuxiliaryHeader auxiliary={this.state.data.auxiliary}/>
 					</Row>
 					<Row>
-						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
-							<Tab eventKey={0} title="Mon Planning"><br/>
-								<AuxiliaryPlaning 
-									customers={this.state.data.customers}
-									indisponibilities={this.state.data.indisponibilities}
-									interventions={this.state.data.interventions}
-									offers={this.state.data.offers}
-									services={this.state.data.services} />
-							</Tab>
-							<Tab eventKey={1} title="Ma Zone"><br/>
-								<AuxiliaryMap 
-									auxiliary={this.state.data.auxiliary}
-									geoZones={this.state.data.geoZones} 
-									sendGeoZone={this.sendGeoZone.bind(this)} 
-									deleteGeoZone={this.deleteGeoZone.bind(this)}/>
-							</Tab>
-							<Tab eventKey={2} title="Mes Informations"><br/>
-								<AuxiliaryProfile 
-									auxiliary={this.state.data.auxiliary || {}}/>
-							</Tab>							
-							<Tab eventKey={3} title="Mes Offres"><br/>
-								<AuxiliaryOffers
-									customers={this.state.data.customers}
-									interventions={this.state.data.interventions}
-									offers={this.state.data.offers}
-									services={this.state.data.services} />
-							</Tab>
-						</Tabs>
+						{this.getContent(this.props.nav)}
 					</Row>
 				</Grid>
 				<br/>
@@ -136,3 +192,33 @@ class AuxiliaryHome extends React.Component {
 */
 
 export default AuxiliaryHome;
+
+
+
+// <Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
+// <Tab eventKey={0} title="Mon Planning"><br/>
+	// <AuxiliaryPlaning 
+		// customers={this.state.data.customers}
+		// indisponibilities={this.state.data.indisponibilities}
+		// interventions={this.state.data.interventions}
+		// offers={this.state.data.offers}
+		// services={this.state.data.services} />
+// </Tab>
+// <Tab eventKey={1} title="Ma Zone"><br/>
+	// <AuxiliaryMap 
+		// geoZones={this.state.data.geoZones} 
+		// sendGeoZone={this.sendGeoZone.bind(this)} 
+		// deleteGeoZone={this.deleteGeoZone.bind(this)}/>
+// </Tab>
+// <Tab eventKey={2} title="Mes Informations"><br/>
+	// <AuxiliaryProfile 
+		// auxiliary={this.state.data.auxiliary || {}}/>
+// </Tab>							
+// <Tab eventKey={3} title="Mes Offres"><br/>
+	// <AuxiliaryOffers
+		// customers={this.state.data.customers}
+		// interventions={this.state.data.interventions}
+		// offers={this.state.data.offers}
+		// services={this.state.data.services} />
+// </Tab>
+// </Tabs>
