@@ -1,7 +1,6 @@
-// react modules
 import React from 'react'
 import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
-// custom modules
+
 import { DEFAULTS } from './FormConstants.js';
 
 class IFormInput extends React.Component {
@@ -29,12 +28,13 @@ class IFormInput extends React.Component {
 	}
 	
 	onChange(event) {
-			this.props.onChange(this.props.name, event.target.value, event);
+		this.props.onChange(this.props.name, event.target.value, event);
 	}
 		
 	getLabel() {
-		if (this.props.label)
+		if (this.props.label) {
 			return (<ControlLabel>{this.props.label}</ControlLabel>)
+		}
 	}
 	
 	getFormControl() {
@@ -47,21 +47,21 @@ class IFormInput extends React.Component {
 	}
 	
 	getFormGroup() {
-	return (
-				<FormGroup {...this.formGroupProps}>
-					{this.getLabel()}
-					{this.getFormControl()}
-				</FormGroup>
-			);
+		return (
+			<FormGroup {...this.formGroupProps}>
+				{this.getLabel()}
+				{this.getFormControl()}
+			</FormGroup>
+		);
 	}
 	
 	render() {
-		if (!this.props.name)
+		if (!this.props.name) {
 			return (<p>NAME PROPS NOT OPTIONAL</p>)
-		else
+		} else {
 			return (this.getFormGroup(this.field));
+		}
 	}
-
 }
 
 export default IFormInput;

@@ -1,19 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Grid, Row, Col } from 'react-bootstrap'
-import { Button, Panel, Nav, Navbar } from 'react-bootstrap'
-import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import { Grid, Row, Col, Button, Panel, Nav, Navbar, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
 import { DEFAULTS } from './FormConstants.js';
 
 import IFormInput from './IFormInput.jsx'
 
+import './IForm.css';
+
 class IForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		console.log(props)
 		this.type = {
 			text:  this.getIFormInput,
 			email: this.getIFormInput,
@@ -22,7 +21,7 @@ class IForm extends React.Component {
 		this.values = {};
 	}
   
-	getIFormInput(field, onChange){
+	getIFormInput(field, onChange) {
 		return (<IFormInput {...field} onChange={onChange} />);
 	}
   
@@ -31,10 +30,11 @@ class IForm extends React.Component {
 	}
   
 	onSubmit(event) {
-		if (this.props.onSubmit)
+		if (this.props.onSubmit) {
 			this.props.onSubmit(this.values, event);
-		else
-			alert("No onSubmit Function")
+		} else {
+			alert('No onSubmit Function');
+		}
 	}
 	
 	getSubmitButton() {
@@ -54,8 +54,8 @@ class IForm extends React.Component {
 	getCancelButton() {
 		if (this.props.buttons.cancel) {
 			var buttonProps = {
-				bsStyle:this.props.buttons.cancel.bsStyle || 'default' ,
-				bsSize:this.props.buttons.cancel.bsSize || 'large'
+				bsStyle: this.props.buttons.cancel.bsStyle || 'default' ,
+				bsSize: this.props.buttons.cancel.bsSize || 'large'
 			}
 			return (
 				<Col sm={6} md={5} lg={4}>
@@ -68,14 +68,15 @@ class IForm extends React.Component {
 	}
 	
 	getFooter() {
-		if (this.props.buttons)
+		if (this.props.buttons) {
 			return (
 				<Row>
 					{this.getSubmitButton()}
-					 <br className="visible-xs-block"/>
+					 <br className='visible-xs-block'/>
 					{this.getCancelButton()}
 				</Row>
 			)
+		}
 	}
   
 	render() {
@@ -86,47 +87,13 @@ class IForm extends React.Component {
 		}.bind(this))
 	  
 		return (
-			<Form>
+			<Form className='ap-i-form'>
 				{FormGroups}
 				<br/>
 				{this.getFooter()}
             </Form>
 		);
-  }
+	}
 }
 
 export default IForm;
-
-
-	//EXEMPLE
-	// var fields = [	
-			// {	name: "user",
-				// type: "email",										//optional
-				// id: "user",											//optional
-				// label: "Adresse électronique", 				//optional
-				// placeholder: "Adresse électronique",	//optional
-				// value: "My Value",								//optional
-				// defaultValue: "My Default Value" 			//optional			
-			// },
-			// {	name: "pass",
-				// type: "password",								//optional
-				// id: "pass",											//optional
-				// label: "Mot de passe", 						//optional
-				// placeholder: "Mot de passe"	 			//optional			
-			// }
-		// ];
-		
-	// var buttons = {
-		// submit: { 							//optional
-				// text: 'Connexion', 		//optional
-				// bsStyle:'success', 		//optional
-				// bsSize:'large'				//optional
-		// },
-		// cancel: {							//optional
-				// text: 'Annuler', 			//optional
-				// bsStyle:'default', 		//optional
-				// bsSize:'large', 			//optional
-				// linkContainer:'/'
-		// }
-	// }
-	// <IForm onSubmit={this.onSubmit.bind(this)} fields={fields} buttons={buttons}/>
