@@ -17,7 +17,6 @@ class IFormInput extends React.Component {
 		this.buildOneProps(this.props, 'id', this.formGroupProps, 'controlId');
 		this.buildOneProps(this.props, 'type', this.formControl, 'type');
 		this.buildOneProps(this.props, 'placeholder', this.formControl, 'placeholder');
-		this.buildOneProps(this.props, 'value', this.formControl, 'value');
 		this.buildOneProps(this.props, 'defaultValue', this.formControl, 'defaultValue');
 	}
 	
@@ -56,11 +55,7 @@ class IFormInput extends React.Component {
 	}
 	
 	render() {
-		if (!this.props.name) {
-			return (<p>NAME PROPS NOT OPTIONAL</p>)
-		} else {
-			return (this.getFormGroup(this.field));
-		}
+		return (this.getFormGroup(this.field));
 	}
 }
 
