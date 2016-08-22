@@ -11,6 +11,12 @@ class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.type = {
+			sad: (<ServiceHome/>),
+			aux: (<AuxiliaryHome/>),
+			admin: (<GuestHome/>),
+			guest: (<GuestHome/>)
+		}
 	}
 
 	componentWillMount() {
@@ -22,33 +28,18 @@ class Home extends React.Component {
 
 	render() { 
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
-		switch (type) {
-			case 'sad' :
-				return (
+		if (this.type[type])
+			return (
 					<div className='container'>
-						<ServiceHome/>
+						{this.type[type]}
 					</div>
 				);
-			case 'aux' : 
-				return (
-					<div className='container'>
-						<AuxiliaryHome/>
-					</div>
-				);
-			 case 'admin' :
-			 case 'guest' :
-				return (
-					<div className='container'>
-						<GuestHome/>
-					</div>
-				);
-			default: 
-				return (
+		else
+			return (
 					<div className='container'>
 						Problème d'authentification
 					</div>
 				);
-		}
 	}
 }
 
