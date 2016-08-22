@@ -45,7 +45,7 @@ class AuxiliaryPlaning extends React.Component {
 			data: {
 				auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
 				oneTime: {
-					date: MomentHelper.toLocalDate(this.state.selected),
+					date: this.state.selected,
 					startTime: [0, 0],
 					endTime: [23, 59]
 				}
@@ -149,5 +149,10 @@ class AuxiliaryPlaning extends React.Component {
 		);
 	}
 }
+
+/*
+
+
+*/
 
 export default AuxiliaryPlaning;
