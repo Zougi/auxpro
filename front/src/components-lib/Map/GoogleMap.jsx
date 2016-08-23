@@ -31,11 +31,6 @@ class GoogleMap extends React.Component {
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);
         
- 		this.centerMarker = this.mapHelper.addMarker({ 
- 			position: center,
- 			title: 'Mon addresse'
- 		});
- 		console.log(this.props)
  		this._buildMarkers();
  		this._buildCircles();
 
@@ -80,10 +75,9 @@ class GoogleMap extends React.Component {
 		console.log(this.props)
 		for (let i = 0; i < l; i++) {
 			let marker = this.props.markers[i];
-			console.log(marker)
 			let googleMarker = this.mapHelper.addMarker({
 				position: new google.maps.LatLng(marker.lattitude, marker.longitude), 
-				title: 'zone',
+				title: marker.title,
 				icon: this.mapHelper.getMarkerImage(this.mapHelper.MARKER_COLOR_RED)
 			});
 		}
@@ -93,9 +87,9 @@ class GoogleMap extends React.Component {
 		let l = (this.props.circles || []).length;
 		for (let i = 0; i < l; i++) {
 			let circle = this.props.circles[i];
-			let googleMarker = this.mapHelper.addCircle({
-				position: new google.maps.LatLng(circle.lattitude, circle.longitude), 
-				title: circle.radius
+			let googleCircle = this.mapHelper.addCircle({
+				center: new google.maps.LatLng(circle.lattitude, circle.longitude), 
+				radius: circle.radius
 			});
 		}
 	}

@@ -10,23 +10,74 @@ class AuxiliaryMap extends React.Component {
   		super(props);
   	}
 
-  	_buildMarkers() {
-  		return this.props.geoZones;
-  	}
-
-  	_buildCircles() {
-  		return [];
-  	}
-
-  	render() {
-  		let center = {
+  	_buildCenter() {
+  		return {
         	lattitude: Number(this.props.auxiliary.contact.address.lattitude),
         	longitude: Number(this.props.auxiliary.contact.address.longitude)
         };
+  	}
+
+  	_buildMarkers() {
+  		let result = [];
+  		// Add map center
+  		result.push({
+  			lattitude: Number(this.props.auxiliary.contact.address.lattitude),
+  			longitude: Number(this.props.auxiliary.contact.address.longitude),
+  			title: 'Mon domicile'
+  		})
+  		// Add geo zones
+  		let l = (this.props.geoZones || []).length;
+  		for (let i = 0; i < l; i++) {
+  			let gz = this.props.geoZones[i];
+  			result.push({
+  				lattitude: Number(gz.lattitude),
+  				longitude: Number(gz.longitude),
+  				title: 'Ma zone d\'intervention'
+  			});
+  		}
+  		// Add interventions
+  		l = (this.props.interventions || []).length;
+  		for (let i = 0; i < l; i++) {
+  			let gz = this.props.geoZones[i];
+  			result.push({
+  				lattitude: Number(gz.lattitude),
+  				longitude: Number(gz.longitude),
+  				title: 'Intervention'
+  			});
+  		}
+  		// Add offers
+  		l = (this.props.offers || []).length;
+  		for (let i = 0; i < l; i++) {
+  			let gz = this.props.geoZones[i];
+  			result.push({
+  				lattitude: Number(gz.lattitude),
+  				longitude: Number(gz.longitude),
+  				title: 'Offre'
+  			});
+  		}
+  		return result;
+  	}
+
+  	_buildCircles() {
+  		let result = [];
+  		// Add geo zones
+  		let l = (this.props.geoZones || []).length;
+  		for (let i = 0; i < l; i++) {
+  			let gz = this.props.geoZones[i];
+  			result.push({
+  				lattitude: Number(gz.lattitude),
+  				longitude: Number(gz.longitude),
+  				radius: parseFloat(gz.radius)
+  			});
+  		}
+  		return result;
+  	}
+
+  	render() {
 		return (
 			<Col>
 				<GoogleMap 
-					center={center} 
+					center={this._buildCenter()} 
 					markers={this._buildMarkers()} 
 					circles={this._buildCircles()} />
 			</Col>

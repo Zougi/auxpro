@@ -45,7 +45,7 @@ export default class GoogleMapHelper {
 		return this.addMarker(location, title);
 	}
 	
-	addCircle(position, radius) {
+	addCircle(circle) {
 		return new google.maps.Circle({
 			strokeColor: '#FF0000',
 			strokeOpacity: 0.8,
@@ -53,8 +53,8 @@ export default class GoogleMapHelper {
 			fillColor: '#FF0000',
 			fillOpacity: 0.35,
 			map: this.map,
-			center: position,
-			radius: radius
+			center: circle.center,
+			radius: circle.radius
 		});
 	}
 	
