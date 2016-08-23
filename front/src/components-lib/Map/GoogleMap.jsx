@@ -2,24 +2,26 @@ import React from 'react'
 
 import GoogleMapHelper from './GoogleMapHelper.js'
 
+import './GoogleMap.css'
+
+/**
+ * A react component wrapping a GoogleMap
+ *
+ * @props.center: { lattitude: <number>, longitude: <number> }
+ * @props.markers: []
+ * 
+ *
+ */
 class GoogleMap extends React.Component {
 
   	constructor(props) {
   		super(props);
   	}
   
-	componentWillMount () {
-		this.setState({
-			editMode: null,
-			areas: []
-		});		
-	}
-  
 	componentDidMount () {
-		
         let center = new google.maps.LatLng(
-        	Number(this.props.auxiliary.contact.address.lattitude),
-        	Number(this.props.auxiliary.contact.address.longitude)
+        	this.props.center.lattitude,
+        	this.props.center.longitude
         );
 
         let mapOptions = {
@@ -33,23 +35,26 @@ class GoogleMap extends React.Component {
  			position: center,
  			title: 'Mon addresse'
  		});
+ 		console.log(this.props)
+ 		this._buildMarkers();
+ 		this._buildCircles();
 
+		/*
  		let areas = [];
- 		let l = this.props.geoZones.length;
+ 		let l = this.props.markers.length;
 		for (let i = 0; i < l; i++) {
-			let geoZone = this.props.geoZones[i];
-			let location = new google.maps.LatLng(geoZone.lattitude, geoZone.longitude);
-			let marker = this.mapHelper.addMarker({
+			let marker = this.props.markers[i];
+			let location = new google.maps.LatLng(marker.lattitude, marker.longitude);
+			let googleMarker = this.mapHelper.addMarker({
 				position: location, 
 				title: 'zone',
 				icon: this.mapHelper.getMarkerImage(this.mapHelper.MARKER_COLOR_RED)
 			});
-			let circle = this.addCircle(location, parseFloat(geoZone.radius));
+			let circle = this.addCircle(location, parseFloat(marker.radius));
 			let geozone = {type: 'circle', adress: 'No adress', marker: marker, circle: circle}
 			areas.push(geozone);;
 		}
 
-		/*
 		google.maps.event.addListener(this.myMap, 'click', this.clickMapEvent.bind(this));
         
         this.centerMarker.setDraggable(true);
@@ -70,11 +75,34 @@ class GoogleMap extends React.Component {
 		this.mapHelper.resize();
 	}
 	
-	
+	_buildMarkers() {
+		let l = (this.props.markers || []).length;
+		console.log(this.props)
+		for (let i = 0; i < l; i++) {
+			let marker = this.props.markers[i];
+			console.log(marker)
+			let googleMarker = this.mapHelper.addMarker({
+				position: new google.maps.LatLng(marker.lattitude, marker.longitude), 
+				title: 'zone',
+				icon: this.mapHelper.getMarkerImage(this.mapHelper.MARKER_COLOR_RED)
+			});
+		}
+	}
+
+	_buildCircles() {
+		let l = (this.props.circles || []).length;
+		for (let i = 0; i < l; i++) {
+			let circle = this.props.circles[i];
+			let googleMarker = this.mapHelper.addCircle({
+				position: new google.maps.LatLng(circle.lattitude, circle.longitude), 
+				title: circle.radius
+			});
+		}
+	}
 
 	render() {
 		return (
-			<div ref={(c) => this.mapDiv = c} className='map-gic'></div>
+			<div ref={(c) => this.mapDiv = c} className='ap-google-map'></div>
   		);
   	}
 }

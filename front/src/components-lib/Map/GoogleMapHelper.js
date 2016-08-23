@@ -1,11 +1,12 @@
 export default class GoogleMapHelper {
 
-	const MARKER_COLOR_RED = 'FE7569';
-	const MARKER_COLOR_GREEN = '28FE38';
-	const MARKER_COLOR_BLUE = '3552FE';
-
 	constructor(element, options) {
 		this.map = new google.maps.Map(element, options);
+		this.colors = {
+			MARKER_COLOR_RED: 'FE7569',
+			MARKER_COLOR_GREEN: '28FE38',
+			MARKER_COLOR_BLUE: '3552FE'
+		}
 	}
 
 	resize() {
@@ -17,7 +18,7 @@ export default class GoogleMapHelper {
 	getMarkerImage(color) {
 		return new google.maps.MarkerImage(
         	new google.maps.Size(21, 34),
-    		"http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + (color || MARKER_COLOR_RED),
+    		"http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + (color || this.colors.MARKER_COLOR_RED),
         	new google.maps.Point(0,0),
         	new google.maps.Point(10, 34)
         );
