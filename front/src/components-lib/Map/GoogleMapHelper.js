@@ -45,16 +45,16 @@ export default class GoogleMapHelper {
 		return this.addMarker(location, title);
 	}
 	
-	addCircle(circle) {
+	addCircle(args) {
 		return new google.maps.Circle({
-			strokeColor: '#FF0000',
-			strokeOpacity: 0.8,
-			strokeWeight: 2,
-			fillColor: '#FF0000',
-			fillOpacity: 0.35,
+			strokeColor: args.strokeColor || '#FF0000',
+			strokeOpacity: args.strokeOpacity || 0.8,
+			strokeWeight: args.strokeWeight || 2,
+			fillColor: args.fillColor || '#FF0000',
+			fillOpacity: args.fillOpacity || 0.35,
 			map: this.map,
-			center: circle.center,
-			radius: circle.radius
+			center: new google.maps.LatLng(args.lattitude, args.longitude),
+			radius: args.radius
 		});
 	}
 	

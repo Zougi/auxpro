@@ -83,10 +83,7 @@ class GoogleMap extends React.Component {
 		let l = (this.props.circles || []).length;
 		for (let i = 0; i < l; i++) {
 			let circle = this.props.circles[i];
-			let googleCircle = this.mapHelper.addCircle({
-				center: new google.maps.LatLng(circle.lattitude, circle.longitude), 
-				radius: circle.radius
-			});
+			let googleCircle = this.mapHelper.addCircle(circle);
 		}
 	}
 

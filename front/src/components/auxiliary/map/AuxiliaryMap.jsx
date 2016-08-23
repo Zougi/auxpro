@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Row, Col, Panel, Button } from 'react-bootstrap'
 
+import Utils from '../../../utils/Utils.js'
+
 import GoogleMap from '../../../components-lib/Map/GoogleMap.jsx'
 
 class AuxiliaryMap extends React.Component {
@@ -26,10 +28,18 @@ class AuxiliaryMap extends React.Component {
   			title: 'Mon domicile',
   			color: 'D9534F'
   		})
-  		// Add markers
+  		// Add geo zones 
   		result.push(...this.__buildMarkers(this.props.geoZones, 'Ma zone d\'intervention'));
-  		result.push(...this.__buildMarkers(this.props.interventions, 'Intervention', '5CB85C'));
-  		result.push(...this.__buildMarkers(this.props.offers, 'Offre', '5BC0DE'));
+  		// Add customers
+  		result.push(...this.__buildMarkers(
+  			Utils.map(this.props.customers, function (c) {
+  				return c.contact.address;
+  			}),
+  			'Client', 
+  			'5BC0DE'
+  		));
+  		// Add interventions
+  		//result.push(...this.__buildMarkers(this.props.interventions, 'Intervention', '5CB85C'));
   		return result;
   	}
   	__buildMarkers(markers, title, color) {
