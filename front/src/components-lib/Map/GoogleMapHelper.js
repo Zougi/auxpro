@@ -15,21 +15,21 @@ export default class GoogleMapHelper {
  		this.map.setCenter(c);
 	}
 
-	getMarkerImage(color) {
+	getMarkerImage(args) {
 		return new google.maps.MarkerImage(
+    		args.icon || 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + (args.color || this.colors.MARKER_COLOR_RED),
         	new google.maps.Size(21, 34),
-    		"http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + (color || this.colors.MARKER_COLOR_RED),
-        	new google.maps.Point(0,0),
+        	new google.maps.Point(0, 0),
         	new google.maps.Point(10, 34)
         );
 	}
 
 	addMarker(args) {
 		return new google.maps.Marker({
-			position: args.position,
+			position: new google.maps.LatLng(args.lattitude, args.longitude), 
 			map: this.map,
 			title: args.title,
-			icon: args.icon,
+			icon: this.getMarkerImage(args),
 			shadow: args.shadow
 		});
 	}

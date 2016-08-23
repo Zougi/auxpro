@@ -75,11 +75,7 @@ class GoogleMap extends React.Component {
 		console.log(this.props)
 		for (let i = 0; i < l; i++) {
 			let marker = this.props.markers[i];
-			let googleMarker = this.mapHelper.addMarker({
-				position: new google.maps.LatLng(marker.lattitude, marker.longitude), 
-				title: marker.title,
-				icon: this.mapHelper.getMarkerImage(this.mapHelper.MARKER_COLOR_RED)
-			});
+			let googleMarker = this.mapHelper.addMarker(marker);
 		}
 	}
 

@@ -23,39 +23,24 @@ class AuxiliaryMap extends React.Component {
   		result.push({
   			lattitude: Number(this.props.auxiliary.contact.address.lattitude),
   			longitude: Number(this.props.auxiliary.contact.address.longitude),
-  			title: 'Mon domicile'
+  			title: 'Mon domicile',
+  			color: 'D9534F'
   		})
-  		// Add geo zones
-  		let l = (this.props.geoZones || []).length;
-  		for (let i = 0; i < l; i++) {
-  			let gz = this.props.geoZones[i];
-  			result.push({
-  				lattitude: Number(gz.lattitude),
-  				longitude: Number(gz.longitude),
-  				title: 'Ma zone d\'intervention'
-  			});
-  		}
-  		// Add interventions
-  		l = (this.props.interventions || []).length;
-  		for (let i = 0; i < l; i++) {
-  			let gz = this.props.geoZones[i];
-  			result.push({
-  				lattitude: Number(gz.lattitude),
-  				longitude: Number(gz.longitude),
-  				title: 'Intervention'
-  			});
-  		}
-  		// Add offers
-  		l = (this.props.offers || []).length;
-  		for (let i = 0; i < l; i++) {
-  			let gz = this.props.geoZones[i];
-  			result.push({
-  				lattitude: Number(gz.lattitude),
-  				longitude: Number(gz.longitude),
-  				title: 'Offre'
-  			});
-  		}
+  		// Add markers
+  		result.push(...this.__buildMarkers(this.props.geoZones, 'Ma zone d\'intervention'));
+  		result.push(...this.__buildMarkers(this.props.interventions, 'Intervention', '5CB85C'));
+  		result.push(...this.__buildMarkers(this.props.offers, 'Offre', '5BC0DE'));
   		return result;
+  	}
+  	__buildMarkers(markers, title, color) {
+  		return (markers || []).map(function (marker) {
+  			return {
+  				lattitude: Number(marker.lattitude),
+  				longitude: Number(marker.longitude),
+  				title: title,
+  				color: color
+  			};
+  		});
   	}
 
   	_buildCircles() {

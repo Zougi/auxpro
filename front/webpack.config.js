@@ -13,6 +13,11 @@ module.exports = {
         filename: 'bundle.js'
     },
 
+    resolve: {
+        modulesDirectories: ['node_modules', './src'],
+        extensions: ['', '.js', '.jsx']
+    },
+
     module: {
         loaders: [
             {
@@ -30,6 +35,10 @@ module.exports = {
             { 
                 test: /\.css$/, 
                 loader: 'style-loader!css-loader'
+            },
+            { 
+                test: /\.(png|jpg)$/, 
+                loader: 'file-loader?name=images/[name].[ext]'
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, 
