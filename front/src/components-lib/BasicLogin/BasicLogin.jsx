@@ -1,4 +1,4 @@
-﻿import React from 'react'
+import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 
 import IForm from '../Form/IForm.jsx';
