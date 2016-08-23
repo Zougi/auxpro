@@ -1,4 +1,4 @@
-import React from 'react'
+ï»¿import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 
 import IForm from '../Form/IForm.jsx';
@@ -21,8 +21,8 @@ class BasicLogin extends React.Component {
 				name: 'user',
 				type: 'email',
 				id: 'user',
-				label: this.props.userTitle || 'Adresse électronique',
-				placeholder: this.props.userTitle || 'Adresse électronique'
+				label: this.props.userTitle || 'Adresse Ã©lectronique',
+				placeholder: this.props.userTitle || 'Adresse Ã©lectronique'
 			},
 			{	
 				name: 'pass',
