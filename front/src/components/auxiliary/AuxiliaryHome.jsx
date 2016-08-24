@@ -103,8 +103,6 @@ class AuxiliaryHome extends React.Component {
 	}
 
 	getContent(nav) {
-		console.log("HHHHHHHHHHHHHHHHOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEE")
-		console.log(nav)
 		if (nav) {
 			return (this.content[nav]());
 		}
@@ -148,8 +146,6 @@ class AuxiliaryHome extends React.Component {
 	}
 	
 	render() { 
-		console.log("HHHHHHHHHHHHHHHHOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEE")
-		console.log(this.props)
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>
