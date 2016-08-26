@@ -10,9 +10,11 @@
 	},
 	"contact": {
 		"address": {
-			"address": "1 avenue de la premiere societe",
-			"postalCode": 31000,
-			"city": "Paris"
+			"address": "102 avenue de Suffren",
+			"postalCode": 75015,
+			"city": "Paris",
+			"lattitude": "48.8495074",
+			"longitude": "2.3002126"
 		},
 		"addressChecked": true,
 		"phone": "10 10 10 10 10",

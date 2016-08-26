@@ -7,9 +7,11 @@
 	},
 	"contact": {
 		"address": {
-			"address": "1 rue de la Paix",
-			"postalCode": 78100,
-			"city": "Saint-Germain"
+			"address": "3 rue Cambronne",
+			"postalCode": 75015,
+			"city": "Paris",
+			"lattitude": "48.8472135",
+			"longitude": "2.2997121"
 		},
 		"addressChecked": true,
 		"phone": "01 01 01 01 01",

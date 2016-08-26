@@ -14,12 +14,12 @@
 	},
 	"contact": {
 		"address": {
-			"address": "3 Avenue Victor Hugo",
-			"postalCode": 75016,
+			"address": "7 rue Delambre",
+			"postalCode": 75014,
 			"city": "Paris",
 			"country": "France",
-			"lattitude": 48.849274,
-			"longitude": 2.336302
+			"lattitude": "48.8415751",
+			"longitude": "2.3265145"
 		},
 		"addressChecked": true,
 		"phone": "01 01 01 01 01",

@@ -75,7 +75,10 @@ class ServiceHome extends React.Component {
 									service={this.state.data.service || {}}/>
 							</Tab>
 							<Tab eventKey={1} title="Ma Zone"><br/>
-								<ServicesMap/>
+								<ServicesMap
+									service={this.state.data.service || {}}
+									customers={this.state.data.customers || {}}
+									auxiliaries={this.state.data.auxiliaries || {}}/>
 							</Tab>							
 							<Tab eventKey={2} title="Mes Clients"><br/>
 								<ServiceCustomers 

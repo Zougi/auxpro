@@ -7,9 +7,11 @@
 	},
 	"contact": {
 		"address": {
-			"address": "3 rue des Trois",
-			"postalCode": 75003,
-			"city": "Paris"
+			"address": "15 rue de l'Arcade",
+			"postalCode": 75008,
+			"city": "Paris",
+			"lattitude": "48.8719787",
+			"longitude": "2.3216218"
 		},
 		"addressChecked": true,
 		"phone": "03 03 03 03 03",
