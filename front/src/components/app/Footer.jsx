@@ -1,9 +1,7 @@
-// react modules
 import React from 'react';
-// react-bootstrap modules
-import { Nav, Navbar } from 'react-bootstrap'
-import { Grid, Row, Col } from 'react-bootstrap'
-// custom modules
+
+import { Navbar, Grid, Row } from 'react-bootstrap'
+
 import FooterTable from './FooterTable.jsx'
 
 class Footer extends React.Component {
@@ -28,11 +26,11 @@ class Footer extends React.Component {
 			{ url: '', name: 'Nous contacter'}
 		];
 		return (
-		<footer className="footer"><Navbar><Grid><Row>
-			<FooterTable size={4} title="AuxPro" items={items1}/>
-			<FooterTable size={4} title="Informations Légales" items={items2}/>
-			<FooterTable size={4} title="Questions" items={items3}/>
-		</Row></Grid></Navbar></footer>
+			<footer className="footer"><Navbar><Grid><Row>
+				<FooterTable size={4} title="AuxPro" items={items1}/>
+				<FooterTable size={4} title="Informations Légales" items={items2}/>
+				<FooterTable size={4} title="Questions" items={items3}/>
+			</Row></Grid></Navbar></footer>
 	);}
 }
 

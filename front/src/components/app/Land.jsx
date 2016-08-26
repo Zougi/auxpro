@@ -1,14 +1,12 @@
-// react modules
 import React from 'react';
-// react-bootstrap modules
+
 import { Button, Panel } from 'react-bootstrap'
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { Grid, Row, Col } from 'react-bootstrap'
-// react-router-bootstrap modules
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
-// custom modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
 class Land extends React.Component {
 

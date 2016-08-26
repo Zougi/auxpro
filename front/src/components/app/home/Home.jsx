@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
-import AuxiliaryHome from '../../auxiliary/AuxiliaryHome.jsx'
-import ServiceHome from '../../service/ServiceHome.jsx'
-import GuestHome from '../../guest/GuestHome.jsx'
+import AuxiliaryHome from 'components/auxiliary/AuxiliaryHome.jsx'
+import ServiceHome from 'components/service/ServiceHome.jsx'
+import GuestHome from 'components/guest/GuestHome.jsx'
 
 class Home extends React.Component {
 

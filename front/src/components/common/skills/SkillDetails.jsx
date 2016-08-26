@@ -2,7 +2,7 @@
 import React from 'react';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 // custom components
-import FormButtonGroup from '../../../components-lib/Form/FormButtonGroup.jsx'
+import FormButtonGroup from 'components-lib/Form/FormButtonGroup.jsx'
 
 class SkillDetails extends React.Component {
 	

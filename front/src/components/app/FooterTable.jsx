@@ -1,4 +1,3 @@
-// Import React core
 import React from 'react';
 
 import { Table, Col } from 'react-bootstrap'
@@ -8,7 +7,6 @@ class FooterTable extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 	} 
 
     render() { 

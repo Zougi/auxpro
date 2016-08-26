@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid, Row, Col, Panel, Button, Glyphicon } from 'react-bootstrap'
 
-import StoreRegistry from '../../../core/StoreRegistry';
+import StoreRegistry from 'core/StoreRegistry';
 
 import CustomerSummary from '../customers/CustomerSummary.jsx'
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
 import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
-import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class InterventionsOffers extends React.Component {
 

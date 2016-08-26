@@ -1,9 +1,9 @@
 import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 // custom components
-import Utils from '../../../utils/Utils.js'
+import Utils from 'utils/Utils.js'
 import CustomerSummary from './CustomerSummary.jsx';
-import SearchBar from '../../../components-lib/SearchBar/SearchBar.jsx';
+import SearchBar from 'components-lib/SearchBar/SearchBar.jsx';
 
 class CustomerSummaryList extends React.Component {
 	

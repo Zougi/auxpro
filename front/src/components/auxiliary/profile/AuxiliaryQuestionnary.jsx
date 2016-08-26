@@ -1,8 +1,8 @@
 import React from 'react';
 import { Panel, Row, Button, Form, FormGroup, ControlLabel, Radio } from 'react-bootstrap'
 
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
 let QUESTIONS = [
 	{ text: 'Taches Ménagères ?', answers: ['0', '1', '2', '3', '4', '5'] },

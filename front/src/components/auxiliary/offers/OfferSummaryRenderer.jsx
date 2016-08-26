@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Panel, Col } from 'react-bootstrap';
 
-import PanelHeaderAction from '../../../components-lib/PanelHeaderAction/PanelHeaderAction.jsx'
+import PanelHeaderAction from 'components-lib/PanelHeaderAction/PanelHeaderAction.jsx'
 
 class InterventionSummary extends React.Component {
 	

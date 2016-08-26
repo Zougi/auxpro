@@ -1,10 +1,9 @@
-// lib modules
 import React from 'react';
 import moment from 'moment';
 import { Row, Col, Button, Glyphicon, OverlayTrigger } from 'react-bootstrap';
 // custom components
-import ButtonAction from '../../../components-lib/ButtonAction/ButtonAction.jsx'
-import SkillSummaryList from '../skills/SkillSummaryList.jsx'
+import ButtonAction from 'components-lib/ButtonAction/ButtonAction.jsx'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
 
 moment.locale('fr');
 

@@ -4,7 +4,7 @@ import { Row, Col, Panel } from 'react-bootstrap'
 import CustomerSummary from '../customers/CustomerSummary.jsx'
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
 import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
-import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class InterventionsMatch extends React.Component {
 

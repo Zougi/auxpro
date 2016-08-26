@@ -1,8 +1,7 @@
-// Import React Core
 import React from 'react';
 
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
 import { ControlLabel, Button, FormControl, FormGroup, Form, Col, Panel, PageHeader } from 'react-bootstrap'
 

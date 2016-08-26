@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 // core modules
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 // cuistom components
 import AuxiliaryDetails from './AuxiliaryDetails.jsx'
 import AuxiliaryQuestionnary from './AuxiliaryQuestionnary.jsx'
-import Person from '../../common/entity/Person.jsx'
-import Contact from '../../common/entity/Contact.jsx'
-import SkillSummaryList from '../../common/skills/SkillSummaryList.jsx'
+import Person from 'components/common/entity/Person.jsx'
+import Contact from 'components/common/entity/Contact.jsx'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
 
 let STATES = {
 	VIEW: 'VIEW',

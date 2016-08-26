@@ -1,13 +1,13 @@
 import React from 'react';
 import { Panel, Row, Clearfix, ButtonGroup, Button } from 'react-bootstrap';
 // core modules
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
-import Utils from '../../../utils/Utils.js'
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
+import Utils from 'utils/Utils.js'
 // custom components
 import OfferSummary from './OfferSummary.jsx'
 import OfferDetails from './OfferDetails.jsx'
-import DialogConfirmation from '../../../components-lib/DialogConfirmation/DialogConfirmation.jsx';
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
 let STATES = {
 	LIST: 'LIST',

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Row, Col, Panel, Button } from 'react-bootstrap'
 
-import Utils from '../../../utils/Utils.js'
+import Utils from 'utils/Utils.js'
 
-import GoogleMap from '../../../components-lib/Map/GoogleMap.jsx'
+import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 
 class AuxiliaryMap extends React.Component {
   

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 
-import InterventionSummaryList from '../../common/interventions/InterventionSummaryList.jsx';
+import InterventionSummaryList from 'components/common/interventions/InterventionSummaryList.jsx';
 
 class ServiceCustomerInterventions extends React.Component {
 	

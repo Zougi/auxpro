@@ -1,14 +1,11 @@
-// Import React modules
 import React from 'react';
-// react-bootstrap modules
+
 import { Button, Panel, Nav, Navbar } from 'react-bootstrap'
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { Grid, Row, Col } from 'react-bootstrap'
-// react-router-bootstrap modules
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
-// core modules
-import Dispatcher from '../../../core/Dispatcher';
+import Dispatcher from 'core/Dispatcher';
 
 class RegisterSad extends React.Component {
 

@@ -2,16 +2,17 @@
 import React from 'react';
 import { Panel, Button, Row, Col, Modal } from 'react-bootstrap';
 // core modules
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
-import Utils from '../../../utils/Utils.js'
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
+import Utils from 'utils/Utils.js'
 // custom components
-import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
-import InterventionDetails from '../../common/interventions/InterventionDetails.jsx';
-import InterventionMatch from '../../common/interventions/InterventionMatch.jsx';
-import InterventionOffers from '../../common/interventions/InterventionOffers.jsx';
+import CustomerDetails from 'components/common/customers/CustomerDetails.jsx';
+import InterventionDetails from 'components/common/interventions/InterventionDetails.jsx';
+import InterventionMatch from 'components/common/interventions/InterventionMatch.jsx';
+import InterventionOffers from 'components/common/interventions/InterventionOffers.jsx';
 import ServiceCustomerInterventions from './ServiceCustomerInterventions.jsx';
-import DialogConfirmation from '../../../components-lib/DialogConfirmation/DialogConfirmation.jsx';
+
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
 let STATES = {
 	LIST: 'LIST',

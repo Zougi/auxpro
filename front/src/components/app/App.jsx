@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
 
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';

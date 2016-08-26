@@ -2,12 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import { SplitButton, MenuItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 
-import StoreRegistry from '../../../core/StoreRegistry';
+import StoreRegistry from 'core/StoreRegistry';
 
 import InterventionDetailsOneTime from './InterventionDetailsOneTime.jsx'
 import InterventionDetailsRecurence from './InterventionDetailsRecurence.jsx'
-import FormSelect from '../../../components-lib/Form/FormSelect.jsx'
-import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import FormSelect from 'components-lib/Form/FormSelect.jsx'
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 moment.locale('fr');
 

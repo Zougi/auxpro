@@ -1,8 +1,8 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 
-import FormDate from '../../../components-lib/Form/FormDate.jsx'
-import FormTime from '../../../components-lib/Form/FormTime.jsx'
+import FormDate from 'components-lib/Form/FormDate.jsx'
+import FormTime from 'components-lib/Form/FormTime.jsx'
 
 class InterventionDetailsOneTime extends React.Component {
 	

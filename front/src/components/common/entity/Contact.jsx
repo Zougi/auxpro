@@ -2,10 +2,10 @@
 import React from 'react';
 import moment from 'moment';
 // custom modules
-import Utils from '../../../utils/Utils.js'
+import Utils from 'utils/Utils.js'
 // custom components
 import Address from './Address.jsx'
-import FormInput from '../../../components-lib/Form/FormInput.jsx'
+import FormInput from 'components-lib/Form/FormInput.jsx'
 
 class Contact extends React.Component {
 	

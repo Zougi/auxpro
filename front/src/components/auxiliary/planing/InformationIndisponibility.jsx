@@ -1,7 +1,7 @@
 import React from 'react'
 import { ListGroupItem } from 'react-bootstrap';
 
-import MomentHelper from '../../../utils/moment/MomentHelper.js'
+import MomentHelper from 'utils/moment/MomentHelper.js'
 
 class InformationIndisponibility extends React.Component {
 	

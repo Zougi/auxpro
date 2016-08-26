@@ -1,14 +1,14 @@
 import React from 'react';
 import { SplitButton, MenuItem, Panel, Grid, Row, Col, Button } from 'react-bootstrap';
 
-import StoreRegistry from '../../../core/StoreRegistry';
+import StoreRegistry from 'core/StoreRegistry';
 
 import InterventionDetailsHeader from './InterventionDetailsHeader.jsx'
 import InterventionDetailsOneTime from './InterventionDetailsOneTime.jsx'
 import InterventionDetailsRecurence from './InterventionDetailsRecurence.jsx'
 
-import FormSelect from '../../../components-lib/Form/FormSelect.jsx'
-import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import FormSelect from 'components-lib/Form/FormSelect.jsx'
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 let STATES = {
 	ONE_TIME: 'ONE_TIME',

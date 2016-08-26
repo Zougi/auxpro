@@ -2,13 +2,14 @@
 import React from 'react';
 import { Panel, Button, Row, Col, Modal } from 'react-bootstrap';
 // core modules
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 // custom components
-import CustomerDetails from '../../common/customers/CustomerDetails.jsx';
-import CustomerSummaryList from '../../common/customers/CustomerSummaryList.jsx';
-import DialogConfirmation from '../../../components-lib/DialogConfirmation/DialogConfirmation.jsx';
-import ButtonsEndDialog from '../../../components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import CustomerDetails from 'components/common/customers/CustomerDetails.jsx';
+import CustomerSummaryList from 'components/common/customers/CustomerSummaryList.jsx';
+
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 let STATES = {
 	LIST: 'LIST',

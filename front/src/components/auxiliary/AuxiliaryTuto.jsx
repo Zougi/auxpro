@@ -1,4 +1,3 @@
-// react modules
 import React from 'react';
 // react-bootstrap modules
 import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap';

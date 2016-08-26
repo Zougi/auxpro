@@ -2,16 +2,16 @@ import React from 'react'
 import moment from 'moment'
 import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
-import Calendar from '../../../components-lib/calendar/Calendar.jsx';
-import FormSelect from '../../../components-lib/Form/FormSelect.jsx';
+import Calendar from 'components-lib/calendar/Calendar.jsx';
+import FormSelect from 'components-lib/Form/FormSelect.jsx';
 import AuxiliaryPlaningInformation from './AuxiliaryPlaningInformation.jsx';
 
-import MomentHelper from '../../../utils/moment/MomentHelper.js'
-import { DAYS } from '../../../utils/moment/Days.js'
-import Utils from '../../../utils/Utils.js';
+import MomentHelper from 'utils/moment/MomentHelper.js'
+import { DAYS } from 'utils/moment/Days.js'
+import Utils from 'utils/Utils.js';
 
 moment.locale('fr');
 

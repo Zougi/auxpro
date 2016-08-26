@@ -4,8 +4,8 @@ import React from 'react';
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 // custom components
 import AuxiliaryMap from './map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from './planing/AuxiliaryPlaning.jsx'

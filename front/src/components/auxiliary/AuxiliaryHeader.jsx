@@ -3,7 +3,7 @@ import React from 'react';
 // react-bootstrap modules
 import { Row, Col, Table, Panel, Image } from 'react-bootstrap'
 
-import ITable from '../../components-lib/ITable/ITable.jsx';
+import ITable from 'components-lib/ITable/ITable.jsx';
 
 class AuxiliaryHeader extends React.Component {
 

@@ -1,7 +1,7 @@
 // Import React core
 import React from 'react';
 // Import utilities
-import Utils from '../../../utils/Utils';
+import Utils from 'utils/Utils';
 // Import components
 import AuxiliaryItem from './AuxiliaryItem.jsx';
 

@@ -2,10 +2,10 @@
 import React from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 // custom components
-import Address from '../entity/Address.jsx'
-import Contact from '../entity/Contact.jsx'
-import Person from '../entity/Person.jsx'
-import SkillDetailsList from '../skills/SkillDetailsList.jsx'
+import Address from 'components/common/entity/Address.jsx'
+import Contact from 'components/common/entity/Contact.jsx'
+import Person from 'components/common/entity/Person.jsx'
+import SkillDetailsList from 'components/common/skills/SkillDetailsList.jsx'
 
 class CustomerDetails extends React.Component {
 	

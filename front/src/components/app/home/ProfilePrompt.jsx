@@ -1,11 +1,10 @@
-// Import React Core
 import React from 'react';
-
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
 
 import { IndexLink, Link } from 'react-router'
 import { Modal, Button } from 'react-bootstrap';
+
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
 class ProfilePrompt extends React.Component {
 

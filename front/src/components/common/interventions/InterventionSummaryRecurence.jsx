@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MomentHelper from '../../../utils/moment/MomentHelper.js'
+import MomentHelper from 'utils/moment/MomentHelper.js'
 
 class InterventionSummaryRecurence extends React.Component {
 	

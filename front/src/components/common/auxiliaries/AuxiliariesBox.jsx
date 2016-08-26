@@ -1,10 +1,10 @@
 // Import React core
 import React from 'react';
 // Import utilities
-import Utils from '../../../utils/Utils';
+import Utils from 'utils/Utils';
 // Import core objects
-import Dispatcher from '../../../core/Dispatcher';
-import StoreRegistry from '../../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 // Import components
 import AuxiliariesList from './AuxiliariesList.jsx';
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Panel, Row, Col } from 'react-bootstrap';
 
-import FormDate from '../../../components-lib/Form/FormDate.jsx'
-import FormTime from '../../../components-lib/Form/FormTime.jsx'
-import FormSelectMulti from '../../../components-lib/Form/FormSelectMulti.jsx'
+import FormDate from 'components-lib/Form/FormDate.jsx'
+import FormTime from 'components-lib/Form/FormTime.jsx'
+import FormSelectMulti from 'components-lib/Form/FormSelectMulti.jsx'
 
-import { DAYS_LIST } from '../../../utils/moment/Days.js'
+import { DAYS_LIST } from 'utils/moment/Days.js'
 
 class InterventionDetailsRecurence extends React.Component {
 	

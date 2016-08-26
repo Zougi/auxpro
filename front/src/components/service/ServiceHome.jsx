@@ -3,8 +3,8 @@ import React from 'react';
 // react-bootstrap modules
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
 // core modules
-import Dispatcher from '../../core/Dispatcher';
-import StoreRegistry from '../../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 // custom components
 import ServiceHeader from './ServiceHeader.jsx'
 import ServicesTuto from './ServicesTuto.jsx'
