@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Row, Col } from 'react-bootstrap'
+import { Panel, Row, Col } from 'react-bootstrap'
 
 import Utils from 'utils/Utils.js'
 
@@ -10,18 +10,41 @@ class ServicesMap extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            info: null
+        }
     }
 
     onMarkerClicked(marker) {
         switch(marker.type) {
         case 'A':
-            console.log('auxiliaire cliqué: ' + marker.id)
+            var a = this.props.auxiliaries[marker.id];
+            this.setState({ info: {
+                bsStyle: 'info',
+                header: 'Auxiliaire',
+                name : a.person.civility + ' ' + a.person.lastName + ' ' + a.person.firstName,
+                address1: a.contact.address.address,
+                address2: a.contact.address.postalCode + ' ' + a.contact.address.country
+            }});
             break;
         case 'C':
-            console.log('client cliqué: ' + marker.id)
+            var c = this.props.customers[marker.id];
+            this.setState({ info: {
+                bsStyle: 'success',
+                header: 'Client',
+                name : c.person.civility + ' ' + c.person.lastName + ' ' + c.person.firstName,
+                address1: c.contact.address.address,
+                address2: c.contact.address.postalCode + ' ' + c.contact.address.country
+            }});
             break;
         default:
-            console.log('société')
+            this.setState({ info: {
+                bsStyle: 'danger',
+                header: 'Ma société',
+                name : this.props.service.society,
+                address1: this.props.service.contact.address.address,
+                address2: this.props.service.contact.address.postalCode + ' ' + this.props.service.contact.address.country
+            }});
             break;
         }
     }
@@ -78,10 +101,23 @@ class ServicesMap extends React.Component {
                     <GoogleMap 
                         center={this._buildCenter()} 
                         markers={this._buildMarkers()}
-                        onMarkerClicked={this.onMarkerClicked} />
+                        onMarkerClicked={this.onMarkerClicked.bind(this)} />
                 </Col>
                 <Col sm={4}>
-                ''
+                {this.state.info ?
+                    <Panel bsStyle={this.state.info.bsStyle} header={this.state.info.header}>
+                        {this.state.info.name}
+                        <br/>
+                        {this.state.info.address1}
+                        <br/>
+                        {this.state.info.address2}
+                        <br/>
+                    </Panel>
+                :
+                    <Panel>
+                        Sélectionner une entrée
+                    </Panel>
+                }
                 </Col>
             </Row>
         );

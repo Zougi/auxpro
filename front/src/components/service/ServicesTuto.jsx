@@ -1,8 +1,6 @@
-// react modules
+// lib modules
 import React from 'react';
-// react-bootstrap modules
 import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap';
-// react-router-bootstrap modules
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
 class ServicesTuto extends React.Component {
