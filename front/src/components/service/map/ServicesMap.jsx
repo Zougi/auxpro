@@ -1,15 +1,33 @@
 import React from 'react'
 
-import { Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
-import Utils from '../../../utils/Utils.js'
+import Utils from 'utils/Utils.js'
 
-import GoogleMap from '../../../components-lib/Map/GoogleMap.jsx'
+import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 
 class ServicesMap extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    onMarkerClicked(marker) {
+        switch(marker.type) {
+        case 'A':
+            console.log('auxiliaire cliqué: ' + marker.id)
+            break;
+        case 'C':
+            console.log('client cliqué: ' + marker.id)
+            break;
+        default:
+            console.log('société')
+            break;
+        }
+    }
+
+    onMapClicked(event) {
+        console.log(event);
     }
 
     _buildCenter() {
@@ -31,6 +49,8 @@ class ServicesMap extends React.Component {
         // Add customers
         result.push(...Utils.map(this.props.customers, function (c) {
             return {
+                id: c.id,
+                type: 'C',
                 lattitude: c.contact.address.lattitude,
                 longitude: c.contact.address.longitude,
                 title: c.person.civility + ' ' + c.person.lastName + ' ' + c.person.firstName,
@@ -40,6 +60,8 @@ class ServicesMap extends React.Component {
         // Add auxiliaries
         result.push(...Utils.map(this.props.auxiliaries, function (a) {
             return {
+                id: a.id,
+                type: 'A',
                 lattitude: a.contact.address.lattitude,
                 longitude: a.contact.address.longitude,
                 title: a.person.civility + ' ' + a.person.lastName + ' ' + a.person.firstName,
@@ -51,11 +73,18 @@ class ServicesMap extends React.Component {
 
   	render() {
         return (
-            <Col>
-                <GoogleMap 
-                    center={this._buildCenter()} 
-                    markers={this._buildMarkers()} />
-            </Col>
+            <Row>
+                <Col sm={8}>
+                    <GoogleMap 
+                        center={this._buildCenter()} 
+                        onMapClicked={this.onMapClicked}
+                        markers={this._buildMarkers()}
+                        onMarkerClicked={this.onMarkerClicked} />
+                </Col>
+                <Col sm={4}>
+                ''
+                </Col>
+            </Row>
         );
     }
 }

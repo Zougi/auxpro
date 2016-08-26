@@ -31,6 +31,15 @@ class GoogleMap extends React.Component {
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);
         
+		if (this.props.onMapClicked) {
+			google.maps.event.addListener(this.mapHelper.map , 'click', function(e) {
+				this.props.onMapClicked({
+					lattitude: e.latLng.lat(),
+					longitude: e.latLng.lng()
+				});
+			}.bind(this));
+		}
+
  		this._buildMarkers();
  		this._buildCircles();
 
@@ -72,10 +81,14 @@ class GoogleMap extends React.Component {
 	
 	_buildMarkers() {
 		let l = (this.props.markers || []).length;
-		console.log(this.props)
 		for (let i = 0; i < l; i++) {
 			let marker = this.props.markers[i];
 			let googleMarker = this.mapHelper.addMarker(marker);
+			if (this.props.onMarkerClicked) {
+				google.maps.event.addListener(googleMarker , 'click', function() {
+					this.props.onMarkerClicked(marker);
+				}.bind(this));
+			}
 		}
 	}
 
