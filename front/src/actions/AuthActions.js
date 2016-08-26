@@ -1,6 +1,6 @@
-import Utils from '../utils/Utils.js';
-import ActionBase from '../core/ActionBase.js';
-import RestService from '../services/rest/RestService.js';
+import Utils from 'utils/Utils.js';
+import ActionBase from 'core/ActionBase.js';
+import RestService from 'services/rest/RestService.js';
 
 // LOGON
 var Logon = new ActionBase({ name: 'LOGON' });

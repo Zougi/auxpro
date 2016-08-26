@@ -1,4 +1,4 @@
-import ObjectBase from './ObjectBase.js';
+import ObjectBase from 'core/ObjectBase.js';
 
 class StoreRegistry extends ObjectBase {
 

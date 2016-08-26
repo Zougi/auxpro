@@ -1,6 +1,6 @@
-import Dispatcher from '../core/Dispatcher.js';
-import StoreBase from '../core/StoreBase.js';
-import StoreRegistry from '../core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher.js';
+import StoreBase from 'core/StoreBase.js';
+import StoreRegistry from 'core/StoreRegistry';
 
 var DEFAULT_CONTENT = { auxiliaries: [],  auxiliary: {}};
 
@@ -14,7 +14,6 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 	AuxiliaryStore._content.auxiliary[auxiliaryId] = auxiliary;
 	return auxiliary;
 };
-
 
 // LOGOUT
 AuxiliaryStore.onLogout = function (result, param) {

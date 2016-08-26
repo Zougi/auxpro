@@ -1,4 +1,4 @@
-import ObjectBase from './ObjectBase.js';
+import ObjectBase from 'core/ObjectBase.js';
 
 /**
  * This class lists the available actions in the application.

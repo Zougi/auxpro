@@ -1,5 +1,5 @@
-import ObjectBase from './ObjectBase.js';
-import StoreRegistry from './StoreRegistry.js';
+import ObjectBase from 'core/ObjectBase.js';
+import StoreRegistry from 'core/StoreRegistry.js';
 
 export default class StoreBase extends ObjectBase {
 

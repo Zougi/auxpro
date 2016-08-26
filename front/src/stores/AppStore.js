@@ -1,5 +1,4 @@
-// custom modules
-import StoreBase from '../core/StoreBase.js';
+import StoreBase from 'core/StoreBase.js';
 
 var DEFAULT_CONTENT = { busy: false };
 

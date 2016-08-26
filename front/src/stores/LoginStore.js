@@ -1,7 +1,7 @@
-import Utils from '../utils/Utils.js';
-// Import core modules
-import Dispatcher from '../core/Dispatcher.js';
-import StoreBase from '../core/StoreBase.js';
+import Dispatcher from 'core/Dispatcher.js';
+import StoreBase from 'core/StoreBase.js';
+
+import Utils from 'utils/Utils.js';
 
 var DEFAULT_CONTENT = { logged: false };
 

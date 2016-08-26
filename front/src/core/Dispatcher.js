@@ -1,5 +1,5 @@
-import ObjectBase from './ObjectBase.js';
-import ActionRegistry from './ActionRegistry.js';
+import ObjectBase from 'core/ObjectBase.js';
+import ActionRegistry from 'core/ActionRegistry.js';
 
 let DEBUG = true;
 

@@ -1,8 +1,7 @@
-// core modules
-import Dispatcher from '../core/Dispatcher.js';
-import StoreBase from '../core/StoreBase.js';
-import StoreRegistry from '../core/StoreRegistry';
-// custom modules
+import Dispatcher from 'core/Dispatcher.js';
+import StoreBase from 'core/StoreBase.js';
+import StoreRegistry from 'core/StoreRegistry';
+
 import Utils from '../utils/Utils.js';
 
 var DEFAULT_CONTENT = { services: [], service: {} };

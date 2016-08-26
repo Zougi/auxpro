@@ -1,5 +1,5 @@
-import Dispatcher from '../core/Dispatcher.js';
-import StoreBase from '../core/StoreBase.js';
+import Dispatcher from 'core/Dispatcher.js';
+import StoreBase from 'core/StoreBase.js';
 
 var DEFAULT_CONTENT = { logged: false };
 
