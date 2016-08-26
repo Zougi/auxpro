@@ -6,13 +6,13 @@ import Utils from 'utils/Utils.js'
 
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 
+import ServiceMapInformation from './ServiceMapInformation.jsx'
+
 class ServicesMap extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            info: null
-        }
+        this.state = { info: {} }
     }
 
     onMarkerClicked(marker) {
@@ -104,20 +104,12 @@ class ServicesMap extends React.Component {
                         onMarkerClicked={this.onMarkerClicked.bind(this)} />
                 </Col>
                 <Col sm={4}>
-                {this.state.info ?
-                    <Panel bsStyle={this.state.info.bsStyle} header={this.state.info.header}>
-                        {this.state.info.name}
-                        <br/>
-                        {this.state.info.address1}
-                        <br/>
-                        {this.state.info.address2}
-                        <br/>
-                    </Panel>
-                :
-                    <Panel>
-                        Sélectionner une entrée
-                    </Panel>
-                }
+                    <ServiceMapInformation
+                        bsStyle={this.state.info.bsStyle} 
+                        header={this.state.info.header}
+                        name={this.state.info.name}
+                        address1={this.state.info.address1}
+                        address2={this.state.info.address2}/>
                 </Col>
             </Row>
         );
