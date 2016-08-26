@@ -26,7 +26,6 @@ class Contact extends React.Component {
 				email: this.contact.email || this.props.email || null
 			});
 		}
-		//this.setState(this.contact);
 	}
 
 	onAddressChanged(value) {
