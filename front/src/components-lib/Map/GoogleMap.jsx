@@ -7,9 +7,11 @@ import './GoogleMap.css'
 /**
  * A react component wrapping a GoogleMap
  *
- * @props.center: { lattitude: <number>, longitude: <number> }
- * @props.markers: []
- * 
+ * @props.center     : { lattitude: <number>, longitude: <number> }
+ * @props.markers    : []
+ * @props.circles    : []
+ * @props.streetView : <boolean>
+ * @props.mapTypes   : []
  *
  */
 class GoogleMap extends React.Component {
@@ -26,7 +28,9 @@ class GoogleMap extends React.Component {
 
         let mapOptions = {
             center: center,
-            zoom: 12
+            zoom: 12,
+            streetViewControl: this.props.streetView || false,
+            mapTypeControlOptions: { mapTypeIds: this.props.mapTypes || [] }
         }
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);
@@ -42,37 +46,6 @@ class GoogleMap extends React.Component {
 
  		this._buildMarkers();
  		this._buildCircles();
-
-		/*
- 		let areas = [];
- 		let l = this.props.markers.length;
-		for (let i = 0; i < l; i++) {
-			let marker = this.props.markers[i];
-			let location = new google.maps.LatLng(marker.lattitude, marker.longitude);
-			let googleMarker = this.mapHelper.addMarker({
-				position: location, 
-				title: 'zone',
-				icon: this.mapHelper.getMarkerImage(this.mapHelper.MARKER_COLOR_RED)
-			});
-			let circle = this.addCircle(location, parseFloat(marker.radius));
-			let geozone = {type: 'circle', adress: 'No adress', marker: marker, circle: circle}
-			areas.push(geozone);;
-		}
-
-		google.maps.event.addListener(this.myMap, 'click', this.clickMapEvent.bind(this));
-        
-        this.centerMarker.setDraggable(true);
-		google.maps.event.addListener(this.centerMarker , 'click', function() {
-			alert('Le marqueur a été cliqué.');
-		});
-		
-		this.autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete, {types: ['geocode']});
-		this.autocomplete.addListener('place_changed', this.autocompleteChange.bind(this));
-		
-		
-		
-		this.setState({areas: areas});
-		*/
 	}	
 	
 	componentDidUpdate () {
