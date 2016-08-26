@@ -1,6 +1,7 @@
 {
 	"customerId":"cusz1",
 	"serviceId":"sadz",
+	"auxiliaryId":"auxa",
 	"oneTime": {
 		"date": [2016, 7, 25],
 		"startTime": [6, 0],

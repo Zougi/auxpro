@@ -37,7 +37,7 @@ class ServicesMap extends React.Component {
         };
     }
 
-  	_buildMarkers() {
+ 	_buildMarkers() {
         let result = [];
         // Add map center
         result.push({
@@ -71,13 +71,12 @@ class ServicesMap extends React.Component {
         return result;
     }
 
-  	render() {
+	render() {
         return (
             <Row>
                 <Col sm={8}>
                     <GoogleMap 
                         center={this._buildCenter()} 
-                        onMapClicked={this.onMapClicked}
                         markers={this._buildMarkers()}
                         onMarkerClicked={this.onMarkerClicked} />
                 </Col>

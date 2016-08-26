@@ -80,6 +80,7 @@ AuxiliaryStore.onGetAuxiliaryOffers = function (result, param) {
 		for (let i = 0; i < result.length; i++) {
 			let offer = result[i];
 			auxiliary.offers[offer.id] = offer;
+			auxiliary.customers[offer.customerId].type = auxiliary.customers[offer.customerId].type || 'offer';
 		}
 	}
 	auxiliary.offersLoaded = true;
@@ -95,6 +96,7 @@ AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
 		for (let i = 0; i < result.length; i++) {
 			let intervention = result[i];
 			auxiliary.interventions[intervention.id] = intervention;
+			auxiliary.customers[intervention.customerId].type = 'intervention';
 		}
 	}
 	auxiliary.interventionsLoaded = true;
