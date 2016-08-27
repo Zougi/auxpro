@@ -16,6 +16,17 @@
         <link rel="stylesheet" type="text/css" href="/assets/css/Skills.css">
         
 		<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCdEku3Q5NJItJW7GhFaFPz_PjxKaD-bWk"></script>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            var chartLoaded = false;
+            function loaded() { chartLoaded = true; console.log('loaded'); }
+            google.charts.load('current', {
+                packages: ['corechart'],
+                callback: loaded
+            });
+        </script>
+
     </head>
     
     <body>
