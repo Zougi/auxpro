@@ -1,9 +1,10 @@
 // react modules
 import React from 'react';
 // react-bootstrap modules
-import { Row, Col, Table, Panel, Image } from 'react-bootstrap'
+import { Row, Col, Table, Image } from 'react-bootstrap'
 
 import ITable from 'components-lib/ITable/ITable.jsx';
+import Panel from 'components-lib/Panel/Panel.jsx';
 
 class AuxiliaryHeader extends React.Component {
 
@@ -13,19 +14,24 @@ class AuxiliaryHeader extends React.Component {
 	}
 
 	render() { 
-		// var table = [
-			// [
-				// {th: "Nom"},
-				// {td: "Jean-Edouard De Lorme"}
-			// ],
-			// [
-				// {th: "Adresse electronique"},
-				// {td: "a"}
-			// ]
-		// ];
-		// <Panel>
-			// <ITable rows={table}/>
-		// </Panel>
+		var table = [
+			[
+				{th: "Nom"},
+				{td: this.props.auxiliary.person.firstName + " " + this.props.auxiliary.person.lastName}
+			],
+			[
+				{th: "Adresse electronique"},
+				{td: this.props.auxiliary.user.email}
+			],
+			[
+				{th: "Civilité"},
+				{td: this.props.auxiliary.person.civility}
+			],
+			[
+				{th: "Diplome"},
+				{td: this.props.auxiliary.diploma}
+			]
+		];
 		
 		return(
 			<Row>
@@ -34,26 +40,7 @@ class AuxiliaryHeader extends React.Component {
 				</Col>
 				<Col smOffset={1} sm={6}>
 					<Panel>
-					<Table bordered striped hover fill>
-					<tbody>
-						<tr>
-							<th>Nom</th>
-							<td>{this.props.auxiliary.person.firstName} {this.props.auxiliary.person.lastName}</td>
-						</tr>
-						<tr>
-							<th>Adresse electronique</th>
-							<td>{this.props.auxiliary.user.email}</td>
-						</tr>
-						<tr>
-							<th>Civilité</th>
-							<td>{this.props.auxiliary.person.civility}</td>
-						</tr>
-						<tr>
-							<th>Diplome</th>
-							<td>{this.props.auxiliary.diploma}</td>
-						</tr>
-					</tbody>
-					</Table>
+						<ITable rows={table}/>
 					</Panel>
 				</Col>
 			</Row>
