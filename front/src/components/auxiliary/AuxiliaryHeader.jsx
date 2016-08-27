@@ -1,10 +1,13 @@
 // react modules
 import React from 'react';
 // react-bootstrap modules
-import { Row, Col, Table, Image } from 'react-bootstrap'
+import { Image } from 'react-bootstrap'
 
 import ITable from 'components-lib/ITable/ITable.jsx';
 import Panel from 'components-lib/Panel/Panel.jsx';
+import Row from 'components-lib/Row/Row.jsx';
+import Col from 'components-lib/Col/Col.jsx';
+
 
 class AuxiliaryHeader extends React.Component {
 
@@ -33,7 +36,7 @@ class AuxiliaryHeader extends React.Component {
 			]
 		];
 		
-		return(
+		return(	
 			<Row>
 				<Col sm={4}>
 					<Image src={this.img} rounded/>

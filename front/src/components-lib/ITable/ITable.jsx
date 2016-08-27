@@ -1,7 +1,7 @@
 // react modules
 import React from 'react';
-// react-bootstrap modules
-import { Row, Col, Table } from 'react-bootstrap'
+
+import Table from 'components-lib/Table/Table.jsx';
 
 class ITable extends React.Component {
 
@@ -34,5 +34,4 @@ class ITable extends React.Component {
 				</Table>
 	);}
 }
-
 export default ITable;

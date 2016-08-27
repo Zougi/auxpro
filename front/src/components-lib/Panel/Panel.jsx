@@ -13,7 +13,7 @@ class Panel extends React.Component {
 				<div className="panel-body">
 					{this.props.children}
 				</div>
-			)
+			);
 		} else {
 			return (this.props.children);
 		}
