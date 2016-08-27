@@ -39,3 +39,9 @@ body {
 .text-align-right {
 	text-align: right;
 }
+
+.ap-preload {
+	width: 200px;
+	height: 200px;
+	background: red;
+}

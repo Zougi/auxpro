@@ -1,0 +1,41 @@
+.ap-app-preload {
+	width: 100%;
+	height: 100%;
+
+	position: fixed;
+	top: 0;
+
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+	justify-content: center;
+}
+
+.ap-app-preload .ap-app-preload-container {
+	background: #FAFBFC;
+	height: 70px;
+	width: 200px;
+	border-radius: 5px;
+
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+	justify-content: center;
+
+	box-shadow: 0 0 2em grey;
+}
+
+.ap-app-preload .ap-app-preload-text {
+	margin-top: 10px;
+}
+
+.ap-app-preload .ap-app-preload-indicator {
+}

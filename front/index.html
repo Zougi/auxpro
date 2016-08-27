@@ -19,12 +19,23 @@
 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
-            var chartLoaded = false;
-            function loaded() { chartLoaded = true; console.log('loaded'); }
+            ap = {
+                preload: false,
+                listeners: []
+            }
+            ap.onPreload = function () {
+                this.preload = true;
+                let l = this.listeners.length;
+                for (let i = 0; i < l; i++) {
+                    this.listeners[i]();
+                }
+            }.bind(ap);
+            
             google.charts.load('current', {
                 packages: ['corechart'],
-                callback: loaded
+                callback: ap.onPreload
             });
+
         </script>
 
     </head>

@@ -5,10 +5,22 @@ import { Router, Route, hashHistory } from 'react-router'
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
+import AppPreload from 'components-lib/App/Preload/AppPreload.jsx'
+
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 
 class App extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = { preload: ap.preload };
+		ap.listeners.push(this._onPreload.bind(this));
+	}
+
+	_onPreload() {
+		this.setState({ preload: ap.preload });
+	}
 
 	componentDidMount() {
         StoreRegistry.register('LOGIN_STORE', this, this.onLogon.bind(this));
@@ -100,13 +112,20 @@ class App extends React.Component {
 		}
 	}
 	
-	render() { return (
-		<div>
-			<Header className='no-print'/>
-			{this.props.children}
-			<Footer className='no-print'/>
-		</div>
-	);}
+	render() { 
+		if (!this.state.preload) {
+			return (
+				<AppPreload/>
+			);
+		}
+		return (
+			<div>
+				<Header className='no-print'/>
+				{this.props.children}
+				<Footer className='no-print'/>
+			</div>
+		);
+	}
 }
 
 App.contextTypes = {
