@@ -7,9 +7,6 @@ class Table extends React.Component {
 		super(props);
 		this.tableProps = {};
 		this.fillTableProps(props)
-		console.log("TTTAAAAAAAAAAAAAAABBBBBBBBBBLLLLLLLLLEEEEEEEE")
-		console.log(props)
-		console.log(this.tableProps)
 	}
 	
 	fillTableProps(props) {
