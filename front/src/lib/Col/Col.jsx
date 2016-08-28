@@ -5,33 +5,34 @@ class Col extends Base {
 
 	constructor(props) {
 		super(props);
-		this.classNames = "";
-		this.fillClassNames(props);
+		this.buildProps();
 	}
 	
-	fillClassNames(props) {
-		if (props.md)
-			this.classNames += "col-md-" + props.md + " ";
-		if (props.sm)
-			this.classNames += "col-sm-" + props.sm + " ";
-		if (props.xs)
-			this.classNames += "col-xs-" + props.sm + " ";
-		if (props.lg)
-			this.classNames += "col-lg-" + props.sm + " ";
+	buildProps() {
+		this.colProps = {};
 		
-		if (props.mdOffset)
-			this.classNames += "col-md-offset-" + props.mdOffset + " ";
-		if (props.smOffset)
-			this.classNames += "col-sm-offset-" + props.smOffset + " ";
-		if (props.xsOffset)
-			this.classNames += "col-xs-offset-" + props.xsOffset + " ";
-		if (props.lgOffset)
-			this.classNames += "col-lg-offset-" + props.lgOffset + " ";
+		if (this.props.md)
+			this.addClass(this.colProps, "col-md-" + this.props.md);
+		if (this.props.sm)
+			this.addClass(this.colProps, "col-sm-" + this.props.sm);
+		if (this.props.xs)
+			this.addClass(this.colProps, "col-xs-" + this.props.xs);
+		if (this.props.lg)
+			this.addClass(this.colProps, "col-lg-" + this.props.lg);
+		
+		if (this.props.mdOffset)
+			this.addClass(this.colProps, "col-md-offset-" + this.props.mdOffset);
+		if (this.props.smOffset)
+			this.addClass(this.colProps, "col-sm-offset-" + this.props.smOffset);
+		if (this.props.xsOffset)
+			this.addClass(this.colProps, "col-xs-offset-" + this.props.xsOffset );
+		if (this.props.lgOffset)
+			this.addClass(this.colProps, "col-lg-offset-" + this.props.lgOffset);
 	}
 	
 	render() { 
 		return(
-			<div className={this.classNames}>
+			<div {...this.colProps}>
 				{this.props.children}
 			</div>
 	);}

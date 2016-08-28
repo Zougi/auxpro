@@ -5,18 +5,18 @@ class FormInput extends Base {
 
 	constructor(props) {
 		super(props);
-		this.formGroupProps = {};
-		this.controlLabelProps = {};
-		this.formControlProps = {};
 		this.buildProps();
 	}
 
 	buildProps() {
-		this.formGroupProps.className = "form-group";
+		this.formGroupProps = {};
+		this.addClass(this.formGroupProps, "form-group");
 		
-		this.controlLabelProps.className = "control-label";
+		this.controlLabelProps = {};
+		this.addClass(this.controlLabelProps, "control-label");
 		
-		this.formControlProps.className = "form-control";
+		this.formControlProps = {};
+		this.addClass(this.formControlProps, "form-control");
 		this.formControlProps.onChange = this.onChange.bind(this);
 		this.copyFromObj(this.props, 'id', this.formControlProps);
 		this.copyFromObj(this.props, 'type', this.formControlProps);

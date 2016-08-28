@@ -6,6 +6,13 @@ class Base extends React.Component {
 		super(props);
 	}
 	
+	addClass(obj, className) {
+		if (obj.className)
+			obj.className += " " + className;
+		else
+			obj.className = className
+	}
+	
 	copyFromObj(obj1, key, obj2) {
 		if (obj1[key]) {
 			obj2[key] = obj1[key];
