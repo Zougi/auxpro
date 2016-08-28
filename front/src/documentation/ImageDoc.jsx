@@ -35,6 +35,7 @@ class ImageDoc extends React.Component {
 		return(
 			<Panel>
 				<h1>Image</h1>
+				<p>Bootstrap image</p>
 				<h3>Exemple</h3>
 				<p>{'<Image src="image.jpeg" rounded/>'}</p>
 				<h3>Props</h3>

@@ -14,6 +14,7 @@ class RowDoc extends React.Component {
 		return(
 			<Panel>
 				<h1>Row</h1>
+				<p>Bootstrap row</p>
 				<h3>Exemple</h3>
 				<p>{'<Row></Row>'}</p>
 			</Panel>

@@ -11,6 +11,7 @@ import ImageDoc from 'documentation/ImageDoc.jsx';
 import TableDoc from 'documentation/TableDoc.jsx';
 import ITableDoc from 'documentation/ITableDoc.jsx';
 import RowDoc from 'documentation/RowDoc.jsx';
+import ColDoc from 'documentation/ColDoc.jsx';
 
 class Documentation extends React.Component {
 
@@ -22,7 +23,8 @@ class Documentation extends React.Component {
 			Image: (<ImageDoc/>),
 			Table: (<TableDoc/>),
 			ITable: (<ITableDoc/>),
-			Row: (<RowDoc/>)
+			Row: (<RowDoc/>),
+			Col: (<ColDoc/>)
 			
 		}
 	}
@@ -41,6 +43,9 @@ class Documentation extends React.Component {
 							</LinkContainer>
 							<LinkContainer to="/doc/Row">
 								<div>Row</div>
+							</LinkContainer>
+							<LinkContainer to="/doc/Col">
+								<div>Col</div>
 							</LinkContainer>
 							<LinkContainer to="/doc/Table">
 								<div>Table</div>

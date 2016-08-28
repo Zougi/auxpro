@@ -29,29 +29,25 @@ class TableDoc extends React.Component {
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "condensed"},
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "hover"},
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "responsive"},
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "striped"},
 				{td: "boolean"},
@@ -63,6 +59,7 @@ class TableDoc extends React.Component {
 		return(
 			<Panel>
 				<h1>Table</h1>
+				<p>Bootstrap table</p>
 				<h3>Exemple</h3>
 				<p>{'<Table bordered striped hover fill responsive head>{tableContent}</Table>'}</p>
 				<h3>Props</h3>

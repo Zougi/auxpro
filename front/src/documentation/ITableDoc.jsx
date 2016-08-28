@@ -35,29 +35,25 @@ class ITableDoc extends React.Component {
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "condensed"},
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "hover"},
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "responsive"},
 				{td: "boolean"},
 				{td: "false"},
 				{td: " "}
-			]
-			,
+			],
 			[
 				{td: "striped"},
 				{td: "boolean"},
@@ -70,6 +66,7 @@ class ITableDoc extends React.Component {
 		return(
 			<Panel>
 				<h1>ITable</h1>
+				<p>Iterative Bootstrap table</p>
 				<h3>Exemple</h3>
 				<p>
 					{"var table = [ 				\
