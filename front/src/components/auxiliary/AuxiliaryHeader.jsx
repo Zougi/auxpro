@@ -42,7 +42,7 @@ class AuxiliaryHeader extends React.Component {
 				</Col>
 				<Col smOffset={1} sm={6}>
 					<Panel>
-						<ITable rows={table}/>
+						<ITable rows={table} bordered striped hover fill/>
 					</Panel>
 				</Col>
 			</Row>

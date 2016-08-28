@@ -9,6 +9,7 @@ import Panel from 'components-lib/Panel/Panel.jsx';
 import Home from 'documentation/Home.jsx';
 import ImageDoc from 'documentation/ImageDoc.jsx';
 import TableDoc from 'documentation/TableDoc.jsx';
+import ITableDoc from 'documentation/ITableDoc.jsx';
 
 class Documentation extends React.Component {
 
@@ -18,7 +19,8 @@ class Documentation extends React.Component {
 		this.docs = {
 			Home: (<Home/>),
 			Image: (<ImageDoc/>),
-			Table: (<TableDoc/>)
+			Table: (<TableDoc/>),
+			ITable: (<ITableDoc/>)
 			
 		}
 	}
@@ -37,6 +39,9 @@ class Documentation extends React.Component {
 							</LinkContainer>
 							<LinkContainer to="/doc/Table">
 								<div>Table</div>
+							</LinkContainer>
+							<LinkContainer to="/doc/ITable">
+								<div>ITable</div>
 							</LinkContainer>
 							<LinkContainer to="/doc/Image">
 								<div>Image</div>

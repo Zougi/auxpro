@@ -39,7 +39,7 @@ class ImageDoc extends React.Component {
 				<p>{'<Image src="image.jpeg" rounded/>'}</p>
 				<h3>Props</h3>
 				<Panel>
-					<ITable rows={table}/>
+					<ITable rows={table} bordered striped hover fill head/>
 				</Panel>
 			</Panel>
 	);}

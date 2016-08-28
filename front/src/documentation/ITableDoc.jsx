@@ -4,7 +4,7 @@ import React from 'react';
 import Panel from 'components-lib/Panel/Panel.jsx';
 import ITable from 'components-lib/ITable/ITable.jsx';
 
-class TableDoc extends React.Component {
+class ITableDoc extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -17,6 +17,12 @@ class TableDoc extends React.Component {
 				{th: "Type"},
 				{th: "Default"},
 				{th: "Description"}
+			],
+			[
+				{td: "rows"},
+				{td: "special"},
+				{td: " "},
+				{td: "ITable Content"}
 			],
 			[
 				{td: "head"},
@@ -59,12 +65,29 @@ class TableDoc extends React.Component {
 				{td: " "}
 			]
 		];
-		
+					
+			
 		return(
 			<Panel>
-				<h1>Table</h1>
+				<h1>ITable</h1>
 				<h3>Exemple</h3>
-				<p>{'<Table bordered striped hover fill responsive head>{tableContent}</Table>'}</p>
+				<p>
+					{"var table = [ 				\
+						[								\
+							{th: 'Title1'},			\
+							{th: 'Title2'}  		\
+						],								\
+						[								\
+							{td: 'Text1'},			\
+							{td: 'Text2'}			\
+						],								\
+						[								\
+							{th: 'Title'},			\
+							{td: 'Text'}			\
+						]								\
+					];"}					
+				</p>
+				<p>{'<ITable rows={rows} bordered striped hover fill responsive head/>'}</p>
 				<h3>Props</h3>
 				<Panel>
 					<ITable rows={table} bordered striped hover fill head/>
@@ -73,4 +96,4 @@ class TableDoc extends React.Component {
 	);}
 }
 
-export default TableDoc;
+export default ITableDoc;

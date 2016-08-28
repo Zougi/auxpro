@@ -9,6 +9,15 @@ class ITable extends React.Component {
 		super(props);
 	}
 
+	clone(obj) {
+		if (null == obj || "object" != typeof obj) return obj;
+		var copy = obj.constructor();
+		for (var attr in obj) {
+			if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+		}
+		return copy;
+	}
+	
 	getCol(col) {
 		if (col.th)
 			return (<th>{col.th}</th>);
@@ -16,8 +25,10 @@ class ITable extends React.Component {
 			return (<td>{col.td}</td>);
 	}
 	
-	render() { 
-		var rows = this.props.rows || [];
+	render() {
+		var props = this.clone(this.props);
+		var rows = props.rows || [];
+		delete props.rows;
 		
 		let tableContent = rows.map(function(row) {
 			let currentRow = row.map(function(col) {
@@ -27,7 +38,7 @@ class ITable extends React.Component {
 		}.bind(this));
 		
 		return(
-				<Table bordered striped hover fill>
+				<Table {...props}>
 					{tableContent}
 				</Table>
 	);}

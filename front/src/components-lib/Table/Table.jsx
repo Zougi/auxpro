@@ -44,7 +44,6 @@ class Table extends React.Component {
 	}
 	
 	render() {
-		console.log(this.props.children)
 		return(
 			<table {...this.tableProps}>
 				{this.getHead()}
