@@ -1,7 +1,7 @@
 // react modules
 import React from 'react';
 
-import Panel from 'components-lib/Panel/Panel.jsx';
+import { Panel } from 'lib/Lib.jsx';
 
 class Home extends React.Component {
 

@@ -1,8 +1,7 @@
 // react modules
 import React from 'react';
 
-import Panel from 'components-lib/Panel/Panel.jsx';
-import ITable from 'components-lib/ITable/ITable.jsx';
+import { Panel, ITable } from 'lib/Lib.jsx';
 
 class RowDoc extends React.Component {
 
