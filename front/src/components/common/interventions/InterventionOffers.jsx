@@ -49,10 +49,16 @@ class InterventionsOffers extends React.Component {
 						<InterventionSummaryRecurence recurence={this.props.intervention.recurence}/>
 					}
 					</Panel>
-				</Col>
-				<Col sm={6} >
 					<Panel header='Offres envoyées' bsStyle='warning'>
 						{this._buildOffers()}
+					</Panel>
+				</Col>
+				<Col sm={6} >
+					<Panel header='Match' bsStyle='warning'>
+						<Col sm={6} >
+						</Col>
+						<Col sm={6} >
+						</Col>
 					</Panel>
 				</Col>
 			</Row>
