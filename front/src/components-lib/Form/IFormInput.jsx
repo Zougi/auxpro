@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import { DEFAULTS } from './FormConstants.js';
 
@@ -7,17 +6,17 @@ class IFormInput extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.formGroupProps = {};
-		this.controlLabel = {};
-		this.formControl = {};
+		this.formGroupProps = {className:"form-group"};
+		this.controlLabelProps = {className:"control-label"};
+		this.formControlProps = {className:"form-control"};
 		this.buildProps();
 	}
 
 	buildProps() {
-		this.buildOneProps(this.props, 'id', this.formGroupProps, 'controlId');
-		this.buildOneProps(this.props, 'type', this.formControl, 'type');
-		this.buildOneProps(this.props, 'placeholder', this.formControl, 'placeholder');
-		this.buildOneProps(this.props, 'defaultValue', this.formControl, 'defaultValue');
+		this.buildOneProps(this.props, 'id', this.formControlProps, 'id');
+		this.buildOneProps(this.props, 'type', this.formControlProps, 'type');
+		this.buildOneProps(this.props, 'placeholder', this.formControlProps, 'placeholder');
+		this.buildOneProps(this.props, 'defaultValue', this.formControlProps, 'defaultValue');
 	}
 	
 	buildOneProps(props, propsKey, propsStore, newPropsKey) {
@@ -32,14 +31,14 @@ class IFormInput extends React.Component {
 		
 	getLabel() {
 		if (this.props.label) {
-			return (<ControlLabel>{this.props.label}</ControlLabel>)
+			return (<div {...this.controlLabelProps} >{this.props.label}</div>)
 		}
 	}
 	
 	getFormControl() {
 		return (
-			<FormControl
-				{...this.formControl}
+			<input
+				{...this.formControlProps}
 				onChange={this.onChange.bind(this)}
 			/>
 		)
@@ -47,10 +46,10 @@ class IFormInput extends React.Component {
 	
 	getFormGroup() {
 		return (
-			<FormGroup {...this.formGroupProps}>
+			<div {...this.formGroupProps}>
 				{this.getLabel()}
 				{this.getFormControl()}
-			</FormGroup>
+			</div>
 		);
 	}
 	
@@ -60,3 +59,8 @@ class IFormInput extends React.Component {
 }
 
 export default IFormInput;
+
+// <FormGroup {...this.formGroupProps}>
+				// {this.getLabel()}
+				// {this.getFormControl()}
+			// </FormGroup>
