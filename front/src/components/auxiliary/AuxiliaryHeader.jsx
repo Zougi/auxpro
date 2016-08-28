@@ -1,12 +1,11 @@
 // react modules
 import React from 'react';
-// react-bootstrap modules
-import { Image } from 'react-bootstrap'
 
 import ITable from 'components-lib/ITable/ITable.jsx';
 import Panel from 'components-lib/Panel/Panel.jsx';
 import Row from 'components-lib/Row/Row.jsx';
 import Col from 'components-lib/Col/Col.jsx';
+import Image from 'components-lib/Image/Image.jsx';
 
 
 class AuxiliaryHeader extends React.Component {

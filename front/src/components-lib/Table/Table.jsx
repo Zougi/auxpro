@@ -10,7 +10,7 @@ class Table extends React.Component {
 	}
 	
 	fillTableProps(props) {
-		if (this.props.fill)
+		if (props.fill)
 			this.tableProps.fill = "true";
 		
 		var classNames = "table ";
