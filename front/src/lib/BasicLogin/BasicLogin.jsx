@@ -1,6 +1,10 @@
-import { Base, IForm, Row, Col } from '../Lib.jsx';
 import React from 'react'
-import {Panel } from 'react-bootstrap'
+import Base from '../Base.jsx';
+
+import { IForm, Row, Col } from '../Lib.jsx';
+
+import { Panel } from 'react-bootstrap'
+
 /*
  * @example
  * <BasicLogin onSubmit={ function (values, event) {} } 
@@ -10,7 +14,7 @@ import {Panel } from 'react-bootstrap'
  *             passTitle='PASSTITLE'/>
  */ 
 
-class BasicLogin extends React.Component {
+class BasicLogin extends Base {
 
 	constructor(props) {
 		super(props);

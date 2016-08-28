@@ -1,7 +1,9 @@
-import { Base, Table } from '../Lib.jsx';
 import React from 'react'
+import Base from '../Base.jsx';
 
-class ITable extends React.Component {
+import { Table } from '../Lib.jsx';
+
+class ITable extends Base {
 
 	constructor(props) {
 		super(props);
@@ -12,15 +14,6 @@ class ITable extends React.Component {
 			return (<th>{col.th}</th>);
 		else if (col.td)
 			return (<td>{col.td}</td>);
-	}
-	
-	cloneObj(obj) {
-		if (null == obj || "object" != typeof obj) return obj;
-		var copy = obj.constructor();
-		for (var attr in obj) {
-			if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-		}
-		return copy;
 	}
 	
 	render() {

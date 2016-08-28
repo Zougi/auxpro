@@ -1,6 +1,7 @@
-import { Base } from '../Lib.jsx';
 import React from 'react'
-class Button extends React.Component {
+import Base from '../Base.jsx';
+
+class Button extends Base {
 
 	constructor(props) {
 		super(props);

@@ -1,6 +1,3 @@
-import BaseCompo from './Base.jsx';
-export const Base = BaseCompo;
-
 import ITableBase from './ITable/ITable.jsx';
 export const ITable = ITableBase;
 

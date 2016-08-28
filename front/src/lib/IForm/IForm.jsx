@@ -1,13 +1,14 @@
 import './IForm.css';
 
 import React from 'react'
-import ReactDOM from 'react-dom'
+import Base from '../Base.jsx';
+
 import {Button, Form } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
-import { Base, Row, Col, FormInput } from '../Lib.jsx';
+import { Row, Col, FormInput } from '../Lib.jsx';
 
-class IForm extends React.Component {
+class IForm extends Base {
 
 	constructor(props) {
 		super(props);

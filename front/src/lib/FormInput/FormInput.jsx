@@ -1,8 +1,7 @@
 import React from 'react'
+import Base from '../Base.jsx';
 
-import { Base } from '../Lib.jsx';
-
-class FormInput extends React.Component {
+class FormInput extends Base {
 
 	constructor(props) {
 		super(props);
