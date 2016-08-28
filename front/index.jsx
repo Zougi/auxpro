@@ -19,6 +19,8 @@ import Login         from './src/components/app/auth/Login.jsx'
 import RegisterAux   from './src/components/app/auth/RegisterAux.jsx'
 import RegisterSad   from './src/components/app/auth/RegisterSad.jsx'
 
+import Documentation   from './src/documentation/Documentation.jsx'
+
 moment.locale('fr');
 
 render((
@@ -33,5 +35,6 @@ render((
 		<Route path="/about" component={About}/>
 		<Route path="/contact" component={Contact}/>
 	</Route>
+	<Route path="/doc/:nav" component={Documentation}/>
   </Router>
 ), document.getElementById('app'))
