@@ -61,7 +61,7 @@ class TableDoc extends React.Component {
 				<h1>Table</h1>
 				<p>Bootstrap table</p>
 				<h3>Exemple</h3>
-				<p>{'<Table bordered striped hover fill responsive head>{tableContent}</Table>'}</p>
+				<p>{'<Table bordered striped hover fill responsive head></Table>'}</p>
 				<h3>Props</h3>
 				<Panel>
 					<ITable rows={table} bordered striped hover fill head/>
