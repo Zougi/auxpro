@@ -1,4 +1,23 @@
-.ap-google-chart {
+.ap-google-chart-container {
 	width: 100%;
 	height: 500px;
+}
+
+.ap-google-chart-container .ap-google-chart {
+	width: 100%;
+    height: 100%;
+}
+
+.ap-google-chart-container .ap-google-chart-loader {
+	width: 100%;
+    height: 100%;
+
+    display: -webkit-flex;
+	-webkit-flex-direction: row;
+
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+	justify-content: center;
 }
