@@ -5,41 +5,42 @@ class FormInput extends Base {
 
 	constructor(props) {
 		super(props);
-		this.formGroupProps = {className:"form-group"};
-		this.controlLabelProps = {className:"control-label"};
-		this.formControlProps = {className:"form-control"};
+		this.formGroupProps = {};
+		this.controlLabelProps = {};
+		this.formControlProps = {};
 		this.buildProps();
 	}
 
 	buildProps() {
-		this.buildOneProps(this.props, 'id', this.formControlProps, 'id');
-		this.buildOneProps(this.props, 'type', this.formControlProps, 'type');
-		this.buildOneProps(this.props, 'placeholder', this.formControlProps, 'placeholder');
-		this.buildOneProps(this.props, 'defaultValue', this.formControlProps, 'defaultValue');
-	}
-	
-	buildOneProps(props, propsKey, propsStore, newPropsKey) {
-		if (props[propsKey]) {
-			propsStore[newPropsKey] = props[propsKey];
-		}
+		this.formGroupProps.className = "form-group";
+		
+		this.controlLabelProps.className = "control-label";
+		
+		this.formControlProps.className = "form-control";
+		this.formControlProps.onChange = this.onChange.bind(this);
+		this.copyFromObj(this.props, 'id', this.formControlProps);
+		this.copyFromObj(this.props, 'type', this.formControlProps);
+		this.copyFromObj(this.props, 'placeholder', this.formControlProps);
+		this.copyFromObj(this.props, 'defaultValue', this.formControlProps);
 	}
 	
 	onChange(event) {
-		this.props.onChange(this.props.name, event.target.value, event);
+		if  (this.props.onChange)
+			this.props.onChange(this.props.name, event.target.value, event);
 	}
 		
 	getLabel() {
 		if (this.props.label) {
-			return (<div {...this.controlLabelProps} >{this.props.label}</div>)
+			return (
+				<div {...this.controlLabelProps} >
+					{this.props.label}
+				</div>)
 		}
 	}
 	
 	getFormControl() {
 		return (
-			<input
-				{...this.formControlProps}
-				onChange={this.onChange.bind(this)}
-			/>
+			<input {...this.formControlProps} />
 		)
 	}
 	
