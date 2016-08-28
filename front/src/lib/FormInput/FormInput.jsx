@@ -26,7 +26,7 @@ class FormInput extends Base {
 	
 	onChange(event) {
 		if  (this.props.onChange)
-			this.props.onChange(this.props.name, event.target.value, event);
+			this.props.onChange(event, event.target.value, this.props.name);
 	}
 		
 	getLabel() {

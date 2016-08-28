@@ -10,6 +10,7 @@ import ITableDoc from 'documentation/ITableDoc.jsx';
 import RowDoc from 'documentation/RowDoc.jsx';
 import ColDoc from 'documentation/ColDoc.jsx';
 import PanelDoc from 'documentation/PanelDoc.jsx';
+import FormInputDoc from 'documentation/FormInputDoc.jsx';
 
 class Documentation extends React.Component {
 
@@ -23,7 +24,8 @@ class Documentation extends React.Component {
 			ITable: (<ITableDoc/>),
 			Row: (<RowDoc/>),
 			Col: (<ColDoc/>),
-			Panel: (<PanelDoc/>)
+			Panel: (<PanelDoc/>),
+			FormInput: (<FormInputDoc/>)
 			
 		}
 	}
@@ -54,6 +56,9 @@ class Documentation extends React.Component {
 							</LinkContainer>
 							<LinkContainer to="/doc/ITable">
 								<div>ITable</div>
+							</LinkContainer>
+							<LinkContainer to="/doc/FormInput">
+								<div>FormInput</div>
 							</LinkContainer>
 							<LinkContainer to="/doc/Image">
 								<div>Image</div>

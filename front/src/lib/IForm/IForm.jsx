@@ -24,7 +24,7 @@ class IForm extends Base {
 		return (<FormInput {...field} onChange={onChange} />);
 	}
   
-	onChange(name, value, event) {
+	onChange(event, value, name) {
 		this.values[name] = value;
 	}
   
