@@ -19,8 +19,14 @@ class Col extends React.Component {
 		if (props.lg)
 			this.classNames += "col-lg-" + props.sm + " ";
 		
+		if (props.mdOffset)
+			this.classNames += "col-md-offset-" + props.mdOffset + " ";
 		if (props.smOffset)
 			this.classNames += "col-sm-offset-" + props.smOffset + " ";
+		if (props.xsOffset)
+			this.classNames += "col-xs-offset-" + props.xsOffset + " ";
+		if (props.lgOffset)
+			this.classNames += "col-lg-offset-" + props.lgOffset + " ";
 	}
 	
 	render() { 

@@ -59,8 +59,3 @@ class IFormInput extends React.Component {
 }
 
 export default IFormInput;
-
-// <FormGroup {...this.formGroupProps}>
-				// {this.getLabel()}
-				// {this.getFormControl()}
-			// </FormGroup>

@@ -25,10 +25,22 @@ class ColDoc extends React.Component {
 				{td: "The number of columns you wish to span for Large devices Desktops (=1200px) class-prefix col-lg-"}
 			],
 			[
+				{td: "lgOffset"},
+				{td: "number"},
+				{td: " "},
+				{td: "Move columns to the right for Large devices Desktops class-prefix col-lg-offset-"}
+			],
+			[
 				{td: "md"},
 				{td: "number"},
 				{td: " "},
 				{td: "The number of columns you wish to span for Medium devices Desktops (=992px) class-prefix col-md-"}
+			],
+			[
+				{td: "mdOffset"},
+				{td: "number"},
+				{td: " "},
+				{td: "Move columns to the right for Medium devices Desktops class-prefix col-md-offset-"}
 			],
 			[
 				{td: "sm"},
@@ -41,6 +53,18 @@ class ColDoc extends React.Component {
 				{td: "number"},
 				{td: " "},
 				{td: "Move columns to the right for Small devices Tablets class-prefix col-sm-offset-"}
+			],
+			[
+				{td: "xs"},
+				{td: "number"},
+				{td: " "},
+				{td: "The number of columns you wish to span for Extra small devices Phones (<768px) class-prefix col-xs-"}
+			],
+			[
+				{td: "xsOffset"},
+				{td: "number"},
+				{td: " "},
+				{td: "Move columns to the right for Extra small devices Phones class-prefix col-xs-offset-"}
 			]
 		];
 		
