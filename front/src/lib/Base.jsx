@@ -13,6 +13,11 @@ class Base extends React.Component {
 			obj.className = className
 	}
 	
+	addClassIf(cond, obj, className) {
+		if (cond)
+			this.addClass(obj, className)
+	}
+	
 	copyFromObj(obj1, key, obj2) {
 		if (obj1[key]) {
 			obj2[key] = obj1[key];

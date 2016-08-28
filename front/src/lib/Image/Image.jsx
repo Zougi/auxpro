@@ -5,17 +5,13 @@ class Image extends Base {
 
 	constructor(props) {
 		super(props);
-		this.imageProps = {};
-		this.fillImageProps(props);
+		this.buildProps();
 	}
 	
-		fillImageProps(props) {
-		if (props.src)
-			this.imageProps.src = props.src;
-		
-		if (props.rounded) {
-			this.imageProps.className = "img-rounded";
-		}
+	buildProps() {
+		this.imageProps = {};
+		this.copyFromObj(this.props, 'src', this.imageProps);
+		this.addClassIf(this.props.rounded, this.imageProps, "img-rounded");
 	}
 	
 	render() {

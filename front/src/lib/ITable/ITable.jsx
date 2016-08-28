@@ -34,8 +34,6 @@ class ITable extends Base {
 	}
 	
 	render() {
-		
-		
 		return(
 			<Table {...this.tableProps}>
 				{this.getContent()}
