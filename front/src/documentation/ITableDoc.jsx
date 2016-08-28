@@ -69,7 +69,7 @@ class ITableDoc extends React.Component {
 				<p>Iterative Bootstrap table</p>
 				<h3>Exemple</h3>
 				<p>
-					{"var table = [ 				\
+					{"var rows = [ 				\
 						[								\
 							{th: 'Title1'},			\
 							{th: 'Title2'}  		\
