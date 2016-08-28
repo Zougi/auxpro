@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { DEFAULTS } from './FormConstants.js';
+import { Base } from '../Lib.jsx';
 
-class IFormInput extends React.Component {
+class FormInput extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -58,4 +58,4 @@ class IFormInput extends React.Component {
 	}
 }
 
-export default IFormInput;
+export default FormInput;

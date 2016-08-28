@@ -3,7 +3,7 @@ import React from 'react';
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
-import BasicLogin from 'components-lib/BasicLogin/BasicLogin.jsx';
+import { BasicLogin } from 'lib/Lib.jsx';
 
 class Login extends React.Component {
 

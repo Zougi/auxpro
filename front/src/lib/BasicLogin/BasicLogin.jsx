@@ -1,8 +1,6 @@
+import { Base, IForm, Row, Col } from '../Lib.jsx';
 import React from 'react'
-import { Row, Col, Panel } from 'react-bootstrap'
-
-import IForm from '../Form/IForm.jsx';
-
+import {Panel } from 'react-bootstrap'
 /*
  * @example
  * <BasicLogin onSubmit={ function (values, event) {} } 

@@ -1,6 +1,5 @@
-// react modules
-import React from 'react';
-
+import { Base } from '../Lib.jsx';
+import React from 'react'
 class Button extends React.Component {
 
 	constructor(props) {

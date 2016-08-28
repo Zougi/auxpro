@@ -1,17 +1,11 @@
+import './IForm.css';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Button, Form } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 
-import Col from 'components-lib/Col/Col.jsx';
-import Row from 'components-lib/Row/Row.jsx';
-import Button1 from 'components-lib/Button/Button.jsx';
-
-import { DEFAULTS } from './FormConstants.js';
-
-import IFormInput from './IFormInput.jsx'
-
-import './IForm.css';
+import { Base, Row, Col, FormInput } from '../Lib.jsx';
 
 class IForm extends React.Component {
 
@@ -26,7 +20,7 @@ class IForm extends React.Component {
 	}
   
 	getIFormInput(field, onChange) {
-		return (<IFormInput {...field} onChange={onChange} />);
+		return (<FormInput {...field} onChange={onChange} />);
 	}
   
 	onChange(name, value, event) {

@@ -1,12 +1,7 @@
 // react modules
 import React from 'react';
 
-import ITable from 'components-lib/ITable/ITable.jsx';
-import Panel from 'components-lib/Panel/Panel.jsx';
-import Row from 'components-lib/Row/Row.jsx';
-import Col from 'components-lib/Col/Col.jsx';
-import Image from 'components-lib/Image/Image.jsx';
-
+import { Col, Row, ITable, Panel, Image } from 'lib/Lib.jsx';
 
 class AuxiliaryHeader extends React.Component {
 

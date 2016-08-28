@@ -1,10 +1,7 @@
 // react modules
 import React from 'react';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
-
-import Row from 'components-lib/Row/Row.jsx';
-import Col from 'components-lib/Col/Col.jsx';
-import Panel from 'components-lib/Panel/Panel.jsx';
+import { Col, Row, Panel } from 'lib/Lib.jsx';
 
 import Home from 'documentation/Home.jsx';
 import ImageDoc from 'documentation/ImageDoc.jsx';
