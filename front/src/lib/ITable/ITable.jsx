@@ -7,6 +7,12 @@ class ITable extends Base {
 
 	constructor(props) {
 		super(props);
+		this.buildProps();
+	}
+	
+	buildProps() {
+		this.tableProps = this.cloneObj(this.props);
+		delete this.tableProps.rows;
 	}
 	
 	getCol(col) {
@@ -16,22 +22,24 @@ class ITable extends Base {
 			return (<td>{col.td}</td>);
 	}
 	
-	render() {
-		var props = this.cloneObj(this.props);
-		var rows = props.rows || [];
-		delete props.rows;
-		
+	getContent() {
+		var rows = this.props.rows || [];
 		let tableContent = rows.map(function(row) {
 			let currentRow = row.map(function(col) {
 				return(this.getCol(col));
 			}.bind(this));
 			return (<tr>{currentRow}</tr>);
 		}.bind(this));
+		return (tableContent);
+	}
+	
+	render() {
+		
 		
 		return(
-				<Table {...props}>
-					{tableContent}
-				</Table>
+			<Table {...this.tableProps}>
+				{this.getContent()}
+			</Table>
 	);}
 }
 export default ITable;

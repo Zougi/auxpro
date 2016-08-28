@@ -5,26 +5,23 @@ class Table extends Base {
 
 	constructor(props) {
 		super(props);
-		this.tableProps = {};
-		this.fillTableProps(props)
+		this.buildProps();
 	}
 	
-	fillTableProps(props) {
-		if (props.fill)
-			this.tableProps.fill = "true";
-		
-		var classNames = "table ";
-		if (props.bordered)
-			classNames += "table-bordered ";
-		if (props.striped)
-			classNames += "table-striped ";
-		if (props.hover)
-			classNames += "table-hover ";
-		if (props.condensed)
-			classNames += "table-condensed ";
-		if (props.responsive)
-			classNames += "table-responsive ";
-		this.tableProps.className = classNames;
+	buildProps() {
+		this.tableProps = {};
+		this.copyFromObj(this.props, 'fill', this.tableProps);
+		this.addClass(this.tableProps, "table");
+		if (this.props.bordered)
+			this.addClass(this.tableProps, "table-bordered");
+		if (this.props.striped)
+			this.addClass(this.tableProps, "table-striped");
+		if (this.props.hover)
+			this.addClass(this.tableProps, "table-hover");
+		if (this.props.condensed)
+			this.addClass(this.tableProps, "table-condensed");
+		if (this.props.responsive)
+			this.addClass(this.tableProps, "table-responsive");
 	}
 	
 	getHead(){
