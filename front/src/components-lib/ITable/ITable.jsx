@@ -28,9 +28,7 @@ class ITable extends React.Component {
 		
 		return(
 				<Table bordered striped hover fill>
-					<tbody>
-						{tableContent}
-					</tbody>
+					{tableContent}
 				</Table>
 	);}
 }

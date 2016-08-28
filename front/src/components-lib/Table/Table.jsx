@@ -20,13 +20,35 @@ class Table extends React.Component {
 			classNames += "table-striped ";
 		if (props.hover)
 			classNames += "table-hover ";
+		if (props.condensed)
+			classNames += "table-condensed ";
+		if (props.responsive)
+			classNames += "table-responsive ";
 		this.tableProps.className = classNames;
 	}
 	
-	render() { 
+	getHead(){
+		if (this.props.head)
+			return (<thead>{this.props.children[0]}</thead>);
+	}
+	
+	getBody() {
+		var content = this.props.children;
+		if (this.props.head)
+			content.splice(0, 1);
+		return (
+			<tbody>
+				{content}
+			</tbody>
+		);
+	}
+	
+	render() {
+		console.log(this.props.children)
 		return(
 			<table {...this.tableProps}>
-				{this.props.children}
+				{this.getHead()}
+				{this.getBody()}
 			</table>
 	);}
 }
