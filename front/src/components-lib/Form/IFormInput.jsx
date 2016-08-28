@@ -55,7 +55,7 @@ class IFormInput extends React.Component {
 	}
 	
 	render() {
-		return (this.getFormGroup(this.field));
+		return (this.getFormGroup());
 	}
 }
 
