@@ -1,24 +1,27 @@
 import React from 'react';
-import { Grid, Row, Col, Panel, Button, Glyphicon } from 'react-bootstrap'
+import { Grid, Row, Col, Panel, Button, Glyphicon, ListGroup, ListGroupItem } from 'react-bootstrap'
 
 import StoreRegistry from 'core/StoreRegistry';
 
-import CustomerSummary from '../customers/CustomerSummary.jsx'
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+
+import SkillChart from 'components/common/skills/SkillChart.jsx';
+import CustomerSummary from 'components/common/customers/CustomerSummary.jsx'
 import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
 import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
-import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
 class InterventionsOffers extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = { selected: {} };
 	}
 
 	_buildOffers() {
 		return this.props.offers.map(function(offer) {
 			let auxiliary = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + offer.serviceId + '/auxiliaries/' + offer.auxiliaryId);
 			return (
-				<Col key={offer.id}>
+				<ListGroupItem key={offer.id} onClick={this.onAuxiliarySelected(auxiliary)}>
 					{offer.status === 'PENDING'  ? <Glyphicon glyph='question-sign'/> : '' }
 					{offer.status === 'ACCEPTED' ? <Glyphicon glyph='ok-circle'/> : '' }
 					{offer.status === 'REJECTED' ? <Glyphicon glyph='remove-circle'/> : '' }
@@ -28,9 +31,15 @@ class InterventionsOffers extends React.Component {
 					{offer.status === 'ACCEPTED' ? ' (acceptée)' : '' }
 					{offer.status === 'REJECTED' ? ' (rejectée)' : '' }
 					{offer.status === 'EXPIRED'  ? ' (expirée)' : '' }
-				</Col>
+				</ListGroupItem>
 			);
 		}.bind(this));
+	}
+
+	onAuxiliarySelected(auxiliary) {
+		return function () {
+			this.setState({ selected: auxiliary });
+		}.bind(this);
 	}
 
 	render() {
@@ -50,14 +59,20 @@ class InterventionsOffers extends React.Component {
 					}
 					</Panel>
 					<Panel header='Offres envoyées' bsStyle='warning'>
-						{this._buildOffers()}
+						<ListGroup fill>
+							{this._buildOffers()}
+						</ListGroup>
 					</Panel>
 				</Col>
 				<Col sm={6} >
 					<Panel header='Match' bsStyle='warning'>
 						<Col sm={6} >
+							<SkillChart
+								skills={this.props.customer.skills}
+								hFlip={true} />
 						</Col>
 						<Col sm={6} >
+							<SkillChart skills={this.state.selected.skills}/>
 						</Col>
 					</Panel>
 				</Col>
