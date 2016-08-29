@@ -33,6 +33,15 @@
 		"email":"chloe.durand@aux.fr",
 		"emailChecked": true
 	},
+	"skills" : {
+		"housework":      5,
+		"nursing":        2,
+		"childhood":      3,
+		"shopping":       2,
+		"compagny":       4,
+		"administrative": 1,
+		"doityourself":   2
+	},
 	"diploma":"Diplome de trucmuche",
 	"geoZones": [
 		{

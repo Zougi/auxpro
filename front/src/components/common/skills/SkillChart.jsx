@@ -11,14 +11,16 @@ class SkillChart extends React.Component {
 	}
 
     _buildData() {
-        console.log()
         if (!this.props.skills) {
             return [['', '']];
         }
+        let cusSkills = this.props.skills[0] || {};
+        let auxSkills = this.props.skills[1] || {};
         let result = SKILLS.map(function(skill) {
-            return [skill.title, this.props.skills[skill.field]];
+            return [skill.title, cusSkills[skill.field] || 0, auxSkills[skill.field] || 0];
         }.bind(this));
-        result.unshift(['Compétences', 'Score']);
+        result.unshift(['Compétences', 'Client', 'Auxiliaire']);
+        console.log(result)
         return result;
     }
 
@@ -37,6 +39,10 @@ class SkillChart extends React.Component {
             },
             legend: { 
                 position: 'none' 
+            },
+            animation:{
+                duration: 1000,
+                easing: 'out'
             }
         }
     }
@@ -49,7 +55,7 @@ class SkillChart extends React.Component {
     				data={this._buildData()}
     				options={this._buildOptions()}
     				height={400}
-    				type='BarChart'/>
+    				type='ColumnChart'/>
     		);
         }
         return <div/>;

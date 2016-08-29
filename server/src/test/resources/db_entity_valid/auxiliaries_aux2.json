@@ -34,5 +34,14 @@
 		"phoneChecked": true,
 		"email":"user1@user1.fr",
 		"emailChecked": true
+	},
+	"skills" : {
+		"housework":      1,
+		"nursing":        5,
+		"childhood":      5,
+		"shopping":       1,
+		"compagny":       5,
+		"administrative": 2,
+		"doityourself":   3
 	}
 }

@@ -66,14 +66,7 @@ class InterventionsOffers extends React.Component {
 				</Col>
 				<Col sm={6} >
 					<Panel header='Match' bsStyle='warning'>
-						<Col sm={6} >
-							<SkillChart
-								skills={this.props.customer.skills}
-								hFlip={true} />
-						</Col>
-						<Col sm={6} >
-							<SkillChart skills={this.state.selected.skills}/>
-						</Col>
+						<SkillChart skills={[this.props.customer.skills, this.state.selected.skills]}/>
 					</Panel>
 				</Col>
 			</Row>

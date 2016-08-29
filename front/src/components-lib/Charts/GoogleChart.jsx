@@ -13,20 +13,20 @@ class GoogleChart extends React.Component {
   		  super(props);
   	}
  
-    componentWillReceiveProps () {
-        this.data = google.visualization.arrayToDataTable(this.props.data);
-        this.options = this.props.options;
+    componentWillReceiveProps (props) {
+        this.data = google.visualization.arrayToDataTable(props.data);
+        this.options = props.options;
         this._drawChart();
     }
 
   	componentDidMount () {
     		this.chart = this._initChart();
         this.componentWillReceiveProps(this.props);
-    		window.addEventListener('resize', this._drawChart.bind(this));
+    		window.addEventListener('resize', this._resizeChart.bind(this));
   	}
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this._drawChart.bind(this));
+        window.removeEventListener('resize', this._resizeChart.bind(this));
     };
 
     _initChart() {
@@ -36,12 +36,18 @@ class GoogleChart extends React.Component {
         }
     }
 
+    _resizeChart() {
+        delete this.options.animation
+        this._drawChart();
+    }
+
     _drawChart() {
       	this.chartContainer.style.height = Math.min(this.chartContainer.getBoundingClientRect().width, this.props.height || 500) + 'px';
         this.chart.draw(this.data, this.options);
     }
 	
   	render() {
+      console.log('rendering chart')
     		return (
       			<div ref={(c) => this.chartContainer = c} className='ap-google-chart-container'>
                 <div ref={(c) => this.chartDiv = c} className='ap-google-chart bar'>
