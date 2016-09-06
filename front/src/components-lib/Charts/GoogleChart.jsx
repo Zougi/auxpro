@@ -47,7 +47,6 @@ class GoogleChart extends React.Component {
     }
 	
   	render() {
-      console.log('rendering chart')
     		return (
       			<div ref={(c) => this.chartContainer = c} className='ap-google-chart-container'>
                 <div ref={(c) => this.chartDiv = c} className='ap-google-chart bar'>

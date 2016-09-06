@@ -20,7 +20,6 @@ class SkillChart extends React.Component {
             return [skill.title, cusSkills[skill.field] || 0, auxSkills[skill.field] || 0];
         }.bind(this));
         result.unshift(['Compétences', 'Client', 'Auxiliaire']);
-        console.log(result)
         return result;
     }
 
@@ -48,7 +47,6 @@ class SkillChart extends React.Component {
     }
 
 	render() { 
-        console.log('render');
         if (this.props.skills) {
     		return (
     			<GoogleChart

@@ -4,25 +4,27 @@ import { Row, Col, Panel, Button } from 'react-bootstrap'
 
 import Utils from 'utils/Utils.js'
 
+import AuxiliaryGeoPanel from './AuxiliaryGeoPanel.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 
 class AuxiliaryMap extends React.Component {
   
     constructor(props) {
         super(props);
+        this.state = { mode: 1 };
     }
 
     onMarkerClicked(marker) {
         switch(marker.type) {
-            case 'A':
-                console.log('auxiliaire cliqué: ' + marker.id)
-                break;
-            case 'C':
-                console.log('client cliqué: ' + marker.id)
-                break;
-            default:
-                console.log('société')
-                break;
+        case 'A':
+            console.log('auxiliaire cliqué: ' + marker.id)
+            break;
+        case 'C':
+            console.log('client cliqué: ' + marker.id)
+            break;
+        default:
+            console.log('société')
+            break;
         }
     }
 
@@ -30,12 +32,12 @@ class AuxiliaryMap extends React.Component {
         console.log(event);
     }
 
-  	_buildCenter() {
-    		return {
-          	lattitude: Number(this.props.auxiliary.contact.address.lattitude),
-          	longitude: Number(this.props.auxiliary.contact.address.longitude)
+    _buildCenter() {
+        return {
+            lattitude: Number(this.props.auxiliary.contact.address.lattitude),
+            longitude: Number(this.props.auxiliary.contact.address.longitude)
         };
-  	}
+    }
 
   	_buildMarkers() {
     		let result = [];
@@ -88,14 +90,36 @@ class AuxiliaryMap extends React.Component {
     		return result;
   	}
 
+    _mapClicked() {
+        if (this.state.mode === 1) {
+            console.log("log 1");
+        } else {
+            console.log("log 2");
+        }
+    }
+
+    switchMode() {
+        if (this.state.mode === 1) {
+            this.setState({ mode: 2 });
+        } else {
+            this.setState({ mode: 1 });
+        }
+    }
+
   	render() {
 		    return (
-      			<Col>
-        				<GoogleMap 
-          					center={this._buildCenter()} 
-          					markers={this._buildMarkers()} 
-          					circles={this._buildCircles()} />
-      			</Col>
+            <Row>
+                <Col sm={4}>
+                    <AuxiliaryGeoPanel/>
+                </Col>
+          			<Col sm={8}>
+            				<GoogleMap 
+                        center={this._buildCenter()} 
+                        onMapClicked={this._mapClicked.bind(this)}
+              					markers={this._buildMarkers()} 
+              					circles={this._buildCircles()} />
+          			</Col>
+            </Row>
   		  );
   	}
 }
