@@ -37,3 +37,11 @@ class RowDoc extends React.Component {
 }
 
 export default RowDoc;
+
+// <script type="text/javascript">
+// const buttonsInstance = (
+		// <div>TATA</div>
+// );
+
+// ReactDOM.render(buttonsInstance, document.getElementById("exemple"));
+// </script>
