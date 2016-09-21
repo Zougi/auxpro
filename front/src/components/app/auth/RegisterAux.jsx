@@ -18,28 +18,33 @@ class RegisterAux extends React.Component {
 
 	register(event) {
 		event.preventDefault();
-    	let params = {
-    		name: this.state.user, 
-    		email: this.state.user, 
-    		password: this.state.pass
-    	};
-    	Dispatcher.issue('POST_AUXILIARY', params).
-        then(function () {
-            console.log('utilisateur créé');
-            let params = {
-                user: this.state.user, 
-                pass: this.state.pass
-            };
-            Dispatcher.issue('LOGON', params);
-        }.bind(this)).
-        catch(function (error) {
-            console.log(error);
-            this.setState({ error: 'Erreur lors de la création d\'un utilisateur'});
-        }.bind(this));
+		if (this.state.pass == this.state.confirm) {
+			let params = {
+				name: this.state.user, 
+				email: this.state.user, 
+				password: this.state.pass
+			};
+			Dispatcher.issue('POST_AUXILIARY', params).
+			then(function () {
+				console.log('utilisateur créé');
+				let params = {
+					user: this.state.user, 
+					pass: this.state.pass
+				};
+				Dispatcher.issue('LOGON', params);
+			}.bind(this)).
+			catch(function (error) {
+				console.log(error);
+				this.setState({ error: 'Erreur lors de la création d\'un utilisateur'});
+			}.bind(this));
+		} else {
+			this.setState({ error: 'Erreur Confimer mot de passe'});
+		}
 	}
 
 	handleEmailChanged(e) {  this.state.user = e.target.value; }
     handlePasswordChanged(e) { this.state.pass = e.target.value; }
+	handleConfirmChanged(e) { this.state.confirm = e.target.value; }
 
 	render() { return (
 		<div className="container">
@@ -56,6 +61,10 @@ class RegisterAux extends React.Component {
                 <FormGroup controlId='pass'>
                     <ControlLabel>Mot de passe</ControlLabel>
                     <FormControl type='password' onChange={this.handlePasswordChanged.bind(this)}  placeholder='Mot de passe'/>
+                </FormGroup>
+				 <FormGroup controlId='confirm'>
+                    <ControlLabel>Confimer mot de passe</ControlLabel>
+                    <FormControl type='password' onChange={this.handleConfirmChanged.bind(this)}  placeholder='Confimer mot de passe'/>
                 </FormGroup>
                 <br/>
                 <Row>
