@@ -15,8 +15,10 @@ class AuxiliaryGeozone extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props);
-        this.state = { mode: STATES.POSTAL }
+        this.state = { 
+            mode: STATES.POSTAL,
+            postal: null
+        }
     }
 
     toggleMode() {
@@ -25,11 +27,13 @@ class AuxiliaryGeozone extends React.Component {
         } else {
             this.setState({ mode: STATES.POINT })
         }
-        
+        if (this.props.onModeChanged) {
+            this.props.onModeChanged(this.state.mode);
+        }
     }
 
-    onPostalChanged() {
-
+    onPostalChanged(event) {
+        this.setState({ postal: event });
     }
 
     onRadiusChanged() {
@@ -56,6 +60,8 @@ class AuxiliaryGeozone extends React.Component {
                 </Row>
                 :
                 <Row>
+                    <div style={{ textAlign: 'center' }}>Sélectionnez un point sur la carte</div>
+                    <br/>
                     <FormInput 
                         title='Rayon'
                         defaultValue={this.props.radius} 

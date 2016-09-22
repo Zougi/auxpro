@@ -69,7 +69,9 @@ class Dispatcher extends ObjectBase {
 					then( (result) => {
 						delete this._onGoing[execId];
 						log("Dispatcher >> OK " + action);
-						log(result);
+						if (action !== 'GET_IMAGE') {
+							log(result);
+						}
 						var callbacks = this._callbacks[a.getName()] || [];
 						var length = callbacks.length;
 						for (var i = 0 ; i < length ; i++) {

@@ -36,6 +36,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws WebApplicationException {
+		//requestContext.setSecurityContext(new UserSecurityContext(new UserBean()));
 		// Let OPTIONS call pass through
 		if (requestContext.getMethod().equals("OPTIONS")) return;
 		// Filter out all other request

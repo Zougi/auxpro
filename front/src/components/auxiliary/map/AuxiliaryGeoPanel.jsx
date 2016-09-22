@@ -37,9 +37,7 @@ class AuxiliaryGeoPanel extends React.Component {
 
     createGeozone() {
 
-    }
-
-    
+    }    
 
     render() {
         switch (this.state.mode) {
@@ -55,20 +53,20 @@ class AuxiliaryGeoPanel extends React.Component {
             );
         case STATES.ADD:
             return (
-                <Panel>
-                    <Button block
-                        bsStyle='primary'
-                        onClick={this.cancel.bind(this)}>
-                        Annuler
-                    </Button>
-                    <br/>
-                    <AuxiliaryGeozone />
+                <Panel>                    
+                    <AuxiliaryGeozone onModeChanged={this.props.onToggleSelect}/>
                     <br/>
                     <Button block
                         bsStyle='success'
                         onClick={this.createGeozone.bind(this)}>
                         Enregistrer
                     </Button>
+                    <br/>
+                    <Button block
+                        bsStyle='primary'
+                        onClick={this.cancel.bind(this)}>
+                        Annuler
+                    </Button>                    
                 </Panel>
             );
         }

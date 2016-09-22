@@ -20,3 +20,15 @@ Logout.do = function () {
 		resolve();
 	});
 }
+
+// GET IMAGE
+let GetImage = new ActionBase({ name: 'GET_IMAGE' });
+GetImage.do = function (args) {
+	Utils.checkMembers(args, ['token', 'image']);
+	var reqParam = {
+		url   : '/images/' + args.image,
+		token : args.token,
+		type  : 'arraybuffer'
+	}; 
+	return RestService._request(reqParam);
+}

@@ -21,12 +21,20 @@ export default class RestService {
 			var xhr = new XMLHttpRequest();
 			xhr.open(reqParam.method, reqParam.url, true);
 			xhr.setRequestHeader(_CONFIG.HEADER_TOKEN, reqParam.token);
-			xhr.setRequestHeader('Content-type', 'application/json');
+			if (!reqParam.type) {
+				xhr.setRequestHeader('Content-type', 'application/json');
+			} else {
+				xhr.responseType = reqParam.type;				
+			}
 			xhr.onload = function(oEvt) {
 				if (xhr.readyState === 4) {
 					if (xhr.status === 200 || xhr.status === 201) {
-						if (xhr.responseText) {
-							resolve(JSON.parse(xhr.responseText));
+						if (xhr.response) {
+							if (reqParam.type) {
+								resolve(xhr.response);
+							} else {
+								resolve(JSON.parse(xhr.responseText));
+							}
 						} else {
 							resolve();
 						}

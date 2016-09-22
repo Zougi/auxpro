@@ -14,6 +14,7 @@ import ServicesActions from 'actions/ServicesActions';
 
 
 // Import Stores
+import AppStore from 'stores/AppStore';
 import AuxiliaryStore from 'stores/AuxiliaryStore';
 import ErrorStore from 'stores/ErrorStore';
 import LoginStore from 'stores/LoginStore';

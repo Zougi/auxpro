@@ -7,11 +7,16 @@ import Utils from 'utils/Utils.js'
 import AuxiliaryGeoPanel from './AuxiliaryGeoPanel.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 
+var MODES = {
+    SELECT: 'SELECT',
+    NONE: 'NONE'
+}
+
 class AuxiliaryMap extends React.Component {
   
     constructor(props) {
         super(props);
-        this.state = { mode: 1 };
+        this.state = { mode: MODES.NONE };
     }
 
     onMarkerClicked(marker) {
@@ -26,10 +31,6 @@ class AuxiliaryMap extends React.Component {
             console.log('société')
             break;
         }
-    }
-
-    onMapClicked(event) {
-        console.log(event);
     }
 
     _buildCenter() {
@@ -90,27 +91,28 @@ class AuxiliaryMap extends React.Component {
     		return result;
   	}
 
-    _mapClicked() {
-        if (this.state.mode === 1) {
-            console.log("log 1");
+    _mapClicked(event) {
+        if (this.state.mode === MODES.SELECT) {
+            console.log(event);
         } else {
-            console.log("log 2");
+            console.log(this.state.mode);
         }
     }
 
     switchMode() {
-        if (this.state.mode === 1) {
-            this.setState({ mode: 2 });
+        if (this.state.mode === MODES.NONE) {
+            this.setState({ mode: MODES.SELECT });
         } else {
-            this.setState({ mode: 1 });
+            this.setState({ mode: MODES.NONE });
         }
+        console.log(this.state.mode)
     }
 
   	render() {
 		    return (
             <Row>
                 <Col sm={4}>
-                    <AuxiliaryGeoPanel/>
+                    <AuxiliaryGeoPanel onToggleSelect={this.switchMode.bind(this)}/>
                 </Col>
           			<Col sm={8}>
             				<GoogleMap 
