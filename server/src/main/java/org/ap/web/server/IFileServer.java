@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface IFileServer {
 
-	public String storeFile(byte[] fileData);
+	public String storeFile(String fileName, byte[] fileData) throws IOException;
 	
 	public byte[] getFile(String id) throws IOException;
 }

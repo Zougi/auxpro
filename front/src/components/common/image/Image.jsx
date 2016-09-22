@@ -8,8 +8,12 @@ class Image extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.componentWillReceiveProps(props);
+	}
+
+	componentWillReceiveProps(props) {
 		let params = {
-			image: {this.props.src},
+			image: props.src,
 			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
 		}
 		Dispatcher.issue('GET_IMAGE', params);
@@ -33,8 +37,9 @@ class Image extends React.Component {
     }
 
 	render() {
+		console.log('rerender image');
 		if (this.state.source) {
-			return ( <img src={'data:image;base64,' + this.state.source} height="200" width="200"/> );
+			return ( <img src={'data:image;base64,' + this.state.source} height={this.props.height} width={this.props.width}/> );
 		}
 		return <div/>;
 	}

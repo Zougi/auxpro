@@ -11,6 +11,7 @@ import org.ap.web.rest.filter.HeadersResponseFilter;
 import org.ap.web.service.Mongo;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.logging.LoggingFeature;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -33,6 +34,8 @@ public class RestApplication extends ResourceConfig {
 		register(AuthorizationRequestFilter.class);
 		register(HeadersResponseFilter.class);
 		register(EntityFilteringFeature.class);
+        register(MultiPartFeature.class);
+
 		if (new Boolean(EConfigProperties.SERV_LOGIN.getValue())) {
 			register(LoggingFeature.class);
 		}		

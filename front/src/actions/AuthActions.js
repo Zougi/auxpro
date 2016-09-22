@@ -32,3 +32,16 @@ GetImage.do = function (args) {
 	}; 
 	return RestService._request(reqParam);
 }
+
+// POST IMAGE
+let PostImage = new ActionBase({ name: 'POST_IMAGE' });
+PostImage.do = function (args) {
+	Utils.checkMembers(args, ['token', 'data']);
+	var reqParam = {
+		url   : '/images',
+		token : args.token,
+		method: 'POST',
+		data  : args.data
+	}; 
+	return RestService._sendData(reqParam);
+}
