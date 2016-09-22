@@ -37,7 +37,7 @@ class Land extends React.Component {
             	<Grid>
             		<Row>
             			<Col sm={6} xs={12}>
-            				<Panel header="Je recherche un soutien">
+            				<Panel header="Je recherche un service de soutien à domicile">
 	            				<Form horizontal>
     								<FormGroup controlId="formHorizontalEmail">
     									<Col sm={3} componentClass={ControlLabel}>
@@ -57,13 +57,13 @@ class Land extends React.Component {
             				<Row>
             					<Col sm={6} mdOffset={1} md={5}>
             						<LinkContainer to='/registerAux'>
-                        				<Button bsStyle="info" bsSize='large' block>Créer Compte<br/>Auxiliaire</Button>
+                        				<Button bsStyle="info" bsSize='large' block>Créer un compte<br/>Auxiliaire de vie</Button>
                     				</LinkContainer>
                     			</Col>
                     			<br className="visible-xs-block"/>
                     			<Col sm={6} md={5}>
                     				<LinkContainer to='/registerSad'>
-	                        			<Button bsStyle="primary" bsSize='large' block>Créer Compte<br/>Société</Button>
+	                        			<Button bsStyle="primary" bsSize='large' block>Créer un compte<br/>SAD</Button>
     	                			</LinkContainer>
     	                		</Col>
     	                	</Row>
