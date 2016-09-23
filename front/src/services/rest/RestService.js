@@ -25,14 +25,17 @@ export default class RestService {
 			if (!reqParam.type) {
 				xhr.setRequestHeader('Content-type', 'application/json');
 			} else {
-				xhr.responseType = reqParam.type;				
+				xhr.responseType = reqParam.type;
 			}
 			xhr.onload = function(oEvt) {
 				if (xhr.readyState === 4) {
 					if (xhr.status === 200 || xhr.status === 201) {
 						if (xhr.response) {
 							if (reqParam.type) {
-								resolve(xhr.response);
+								resolve({
+									type: xhr.getResponseHeader('Content-Type'),
+									content: xhr.response
+								});
 							} else {
 								resolve(JSON.parse(xhr.responseText));
 							}
