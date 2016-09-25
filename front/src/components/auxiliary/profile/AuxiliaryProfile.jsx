@@ -4,11 +4,14 @@ import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 // cuistom components
+import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import AuxiliaryDetails from './AuxiliaryDetails.jsx'
 import AuxiliaryQuestionnary from './AuxiliaryQuestionnary.jsx'
 import Person from 'components/common/entity/Person.jsx'
 import Contact from 'components/common/entity/Contact.jsx'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
+import AsyncImage from 'lib/image/AsyncImage.jsx'
+import ImageUploader from 'lib/image/ImageUploader.jsx'
 
 let STATES = {
 	VIEW: 'VIEW',
@@ -41,6 +44,10 @@ class AuxiliaryProfile extends React.Component {
 		this.setState({ state: STATES.QUESTIONS });
 	}
 
+	onAvatarChanged(avatar) {
+		console.log('aux profile')
+		this.auxiliary.avatar = avatar;
+	}
 	onPersonChanged(person) {
 		this.auxiliary.person = person;
 	}
@@ -50,6 +57,8 @@ class AuxiliaryProfile extends React.Component {
 
 	saveProfile(event) {
 		event.preventDefault();
+		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+		user.avatar = this.auxiliary.avatar || user.avatar;
         Dispatcher.issue('PUT_AUXILIARY', {
 			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
         	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
@@ -57,7 +66,7 @@ class AuxiliaryProfile extends React.Component {
 				id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
 				person: this.auxiliary.person || this.props.auxiliary.person,
 				contact: this.auxiliary.contact || this.props.auxiliary.contact,
-				user: StoreRegistry.getStore('LOGIN_STORE').getData('/'),
+				user: user,
 				diploma: this.auxiliary.diploma || this.props.auxiliary.diploma
 			}
         }).
@@ -74,54 +83,89 @@ class AuxiliaryProfile extends React.Component {
 		}
 		return (
 		<Form horizontal>
-			<Grid>
-				<Row>
-					<Col md={9} mdPush={3}>
-						<Panel header='Informations personnelles' bsStyle='info'>
-							<Col sm={6}>
-								<Person 
-	            					edit={this.state.state === STATES.EDIT}
-		            				civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
-		            				lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
-		            				firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
-		            				birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
-		            				birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
-		            				birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
-		            				nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
-		            				socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNuber : ''}
-		            				onChange={this.onPersonChanged.bind(this)}/>
-							</Col>
-							<Col sm={6}>
-								<Contact 
-		            				edit={this.state.state === STATES.EDIT}
-		            				address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
-		            				phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
-		            				email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
-		            				onChange={this.onContactChanged.bind(this)}/>
-							</Col>
-						</Panel>
-					</Col>
-					<Col md={3} mdPull={9}>
-						{(this.state.state === STATES.EDIT)
-						?
-							<Button bsStyle='success' onClick={this.saveProfile.bind(this)} block>Enregistrer modifications</Button>
-						:
-							<Button bsStyle='primary' onClick={this.setStateEdit.bind(this)}block>Editer mon profil</Button>
-						}
+			<br/>
+			<Col sm={12}>
+			{ (this.state.state === STATES.EDIT) ?
+				<div style={{textAlign:'right'}}>
+					<Button bsStyle='default' onClick={this.setStateView.bind(this)}>Annuler</Button>
+					{' '}
+					<Button bsStyle='success' onClick={this.saveProfile.bind(this)}>Enregistrer modifications</Button>
+				</div>
+			:
+				<div style={{textAlign:'right'}}>
+					<Button bsStyle='primary' onClick={this.setStateEdit.bind(this)}>Editer mon profil</Button>
+				</div>
+			}
+			</Col>
+			<br/>
+			<br/>
+			<div>
+				<Col md={9}>
+					<Row>
+						<Col sm={12}>
+							<AuxiliaryHeader 
+								auxiliary={this.props.auxiliary}
+								onAvatarChanged={this.onAvatarChanged.bind(this)}
+								edit={this.state.state === STATES.EDIT}/>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={6}>
+							<Panel bsStyle='info' header='Ajouter une expérience'>
+								Décrivez vos expériences professionnelles pour mettre en évidence vos compétences.
+							</Panel>
+						</Col>
+						<Col sm={6}>
+							<Panel bsStyle='info' header="Mes zones d'intervention">
+								Spécifiez vos zones d'intervention afin de vous voir proposez des missions adaptées.
+							</Panel>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12}>
+							<Panel header='Informations personnelles' bsStyle='info'>
+								<Col sm={6}>
+									<Person 
+		            					edit={this.state.state === STATES.EDIT}
+			            				civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
+			            				lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
+			            				firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
+			            				birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
+			            				birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
+			            				birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
+			            				nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
+			            				socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNuber : ''}
+			            				onChange={this.onPersonChanged.bind(this)}/>
+								</Col>
+								<Col sm={6}>
+									<Contact 
+			            				edit={this.state.state === STATES.EDIT}
+			            				address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
+			            				phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
+			            				email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
+			            				onChange={this.onContactChanged.bind(this)}/>
+								</Col>
+							</Panel>
+						</Col>
+					</Row>
+				</Col>
+				<Col md={3}>
+					<Panel>
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
 							{this.props.auxiliary.diploma}
-    					</Panel>
-    					<Button bsStyle='info' block onClick={this.setStateQuestions.bind(this)}>Questionnaire</Button>
+						</Panel>
+						<Button bsStyle='info' block onClick={this.setStateQuestions.bind(this)}>Questionnaire</Button>
 						<br/>
 						<Panel bsStyle='info' header='Mes Compétences'>
 							<SkillSummaryList skills={this.props.auxiliary.skills}/>
-    					</Panel>
-					</Col>
-				</Row>
-			</Grid>
+						</Panel>
+					</Panel>
+				</Col>
+			</div>
 		</Form>
 		);
 	}
 }
 export default AuxiliaryProfile;
+

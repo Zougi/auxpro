@@ -117,6 +117,7 @@ class AuxiliaryHome extends React.Component {
 	getPlanning() {
 		return (
 			<AuxiliaryPlaning 
+				auxiliary={this.state.data.auxiliary}
 				customers={this.state.data.customers}
 				indisponibilities={this.state.data.indisponibilities}
 				interventions={this.state.data.interventions}
@@ -141,6 +142,7 @@ class AuxiliaryHome extends React.Component {
 	getOffers() {
 		return (
 			<AuxiliaryOffers
+				auxiliary={this.state.data.auxiliary}
 				customers={this.state.data.customers}
 				interventions={this.state.data.interventions}
 				offers={this.state.data.offers}
@@ -161,15 +163,9 @@ class AuxiliaryHome extends React.Component {
 		return(
 			<div className='container'>
 				{this.getNavBar()}
-				<br/>
-				<Grid>
-					<Row>
-						<AuxiliaryHeader auxiliary={this.state.data.auxiliary}/>
-					</Row>
-					<Row>
-						{this.getContent(this.props.nav)}
-					</Row>
-				</Grid>
+				<Row>
+					{this.getContent(this.props.nav)}
+				</Row>
 				<br/>
 				<Modal show={this.state.showProfilePrompt}>
 					<Modal.Header>

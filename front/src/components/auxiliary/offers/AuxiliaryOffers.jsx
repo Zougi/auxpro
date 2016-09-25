@@ -5,6 +5,7 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 import Utils from 'utils/Utils.js'
 // custom components
+import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import OfferSummary from './OfferSummary.jsx'
 import OfferDetails from './OfferDetails.jsx'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
@@ -119,16 +120,22 @@ class AuxiliaryOffers extends React.Component {
 		switch (this.state.state) {
 		case STATES.VIEW:
 			return(
-				<OfferDetails
-					offer={this.state.offer}
-					service={this.props.services[this.state.serviceId]}
-					customer={this.props.customers[this.state.customerId]}
-					intervention={this.props.interventions[this.state.interventionId]}
-					onClose={this.onCancel.bind(this)} />
+				<div>
+					<AuxiliaryHeader auxiliary={this.props.auxiliary}/>
+					<br/>
+					<OfferDetails
+						offer={this.state.offer}
+						service={this.props.services[this.state.serviceId]}
+						customer={this.props.customers[this.state.customerId]}
+						intervention={this.props.interventions[this.state.interventionId]}
+						onClose={this.onCancel.bind(this)} />
+				</div>
 			);
 		default:
 			return (
 				<div>
+					<AuxiliaryHeader auxiliary={this.props.auxiliary}/>
+					<br/>
 					<Panel header='Offres en cours'>
 						<Row style={{textAlign:'center'}}>
 							<ButtonGroup>

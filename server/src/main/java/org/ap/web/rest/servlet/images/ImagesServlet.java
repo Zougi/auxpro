@@ -1,6 +1,7 @@
 package org.ap.web.rest.servlet.images;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 

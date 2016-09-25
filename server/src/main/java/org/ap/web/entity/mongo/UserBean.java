@@ -12,6 +12,8 @@ public class UserBean extends CredentialsBean {
 	private String id;
 	private String type;
 	
+	private String avatar;
+	
 	private boolean active;
 	private boolean tutoSkipped;
 	private LocalDateTime registrationDate;
@@ -29,6 +31,9 @@ public class UserBean extends CredentialsBean {
 	@PrivateInformation
 	public boolean getTutoSkipped() { return tutoSkipped; }
 	public void setTutoSkipped(boolean tutoSkipped) { this.tutoSkipped = tutoSkipped; }
+	
+	public String getAvatar() { return avatar; }
+	public void setAvatar(String avatar) { this.avatar = avatar; }
 	
 	public String getType() { return type; }
 	public void setType(String type) { this.type = type; }

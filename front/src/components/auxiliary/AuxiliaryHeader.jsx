@@ -1,28 +1,28 @@
 import React from 'react';
 
-import AsyncImage from 'components/common/image/AsyncImage.jsx'
-import ImageUploader from 'components/common/image/ImageUploader.jsx'
+import AsyncImage from 'lib/image/AsyncImage.jsx'
+import ImageUploader from 'lib/image/ImageUploader.jsx'
 import { Col, Row, ITable, Panel } from 'lib/Lib.jsx';
 
 class AuxiliaryHeader extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.img= props.auxiliary.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
-		this.state = {};
-		/*
-			src: '1.jpg'
-		}
-		*/
+		this.img = props.auxiliary.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
 	}
 
 	updateImage(id) {
-		console.log('update header');
-		this.setState({ src: id });
+		if (this.props.onAvatarChanged) {
+			this.props.onAvatarChanged(id);
+		}
 	}
 
 	render() { 
 		var table = [
+			[
+				{th: "Civilité"},
+				{td: this.props.auxiliary.person.civility}
+			],
 			[
 				{th: "Nom"},
 				{td: this.props.auxiliary.person.firstName + " " + this.props.auxiliary.person.lastName}
@@ -32,27 +32,38 @@ class AuxiliaryHeader extends React.Component {
 				{td: this.props.auxiliary.user.email}
 			],
 			[
-				{th: "Civilité"},
-				{td: this.props.auxiliary.person.civility}
-			],
-			[
 				{th: "Diplome"},
 				{td: this.props.auxiliary.diploma}
 			]
 		];
 		
+		var img = this.props.auxiliary.user.avatar;
+		if (!img) {
+			if (this.props.auxiliary.person.civility === 'Mr') {
+				
+			} else {
+
+			}
+		}
+
 		return(	
-			<Row>
-				<Col sm={4}>
-					<AsyncImage src={this.state.src} width={200} height={200}/>
-				</Col>
-				<Col smOffset={1} sm={7}>
-					<Panel>
-						<ITable rows={table} bordered striped hover fill/>
-					</Panel>
-				</Col>
-				<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
-			</Row>
+			<Panel>
+				<Row>
+					<Col sm={4}>
+						<AsyncImage src={this.props.auxiliary.user.avatar} width={200} height={200}/>
+						{this.props.edit ? 
+							<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
+						:
+							''
+						}
+					</Col>
+					<Col sm={8}>
+						<Panel>
+							<ITable rows={table} bordered striped hover fill/>
+						</Panel>
+					</Col>
+				</Row>
+			</Panel>
 		);
 	}
 }

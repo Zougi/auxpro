@@ -5,6 +5,7 @@ import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel, Form, FormGrou
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
+import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import Calendar from 'components-lib/calendar/Calendar.jsx';
 import FormSelect from 'components-lib/Form/FormSelect.jsx';
 import AuxiliaryPlaningInformation from './AuxiliaryPlaningInformation.jsx';
@@ -128,8 +129,9 @@ class AuxiliaryPlaning extends React.Component {
 			value: 'Tous'
 		});
 		return (
-		<Grid>
-			<Row>
+			<div>
+				<AuxiliaryHeader auxiliary={this.props.auxiliary}/>
+				<br/>
 				<Col sm={2} md={2} lg={3}>
 					<Panel header="Actions" className='no-print'>
 						<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.print.bind(this)}>Imprimer mon planning</Button>
@@ -160,15 +162,9 @@ class AuxiliaryPlaning extends React.Component {
 	    				interventions={this.state.interventions}
 						offers={this.state.offers} />
 	    		</Col>
-	    	</Row>
-	    </Grid>
+	    	</div>
 		);
 	}
 }
-
-/*
-
-
-*/
 
 export default AuxiliaryPlaning;

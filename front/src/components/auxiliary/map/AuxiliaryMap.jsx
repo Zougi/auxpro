@@ -4,6 +4,7 @@ import { Row, Col, Panel, Button } from 'react-bootstrap'
 
 import Utils from 'utils/Utils.js'
 
+import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import AuxiliaryGeoPanel from './AuxiliaryGeoPanel.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 
@@ -110,7 +111,9 @@ class AuxiliaryMap extends React.Component {
 
   	render() {
 		    return (
-            <Row>
+            <div>
+                <AuxiliaryHeader auxiliary={this.props.auxiliary}/>
+                <br/>
                 <Col sm={4}>
                     <AuxiliaryGeoPanel onToggleSelect={this.switchMode.bind(this)}/>
                 </Col>
@@ -121,7 +124,7 @@ class AuxiliaryMap extends React.Component {
               					markers={this._buildMarkers()} 
               					circles={this._buildCircles()} />
           			</Col>
-            </Row>
+            </div>
   		  );
   	}
 }
