@@ -38,17 +38,17 @@ AppStore.onLogon = function (result, param) {
 			header: {
 				brand: { link: '/', name: 'AuxPro' },
 				rightContent: [
-					{ key: 1, link: '/home', name: 'Acceuil', query: {} },
-					{ key: 2, link: '/home/infos', name: 'Mon Compte', query: {} },
-					{ key: 3, callback: logout, name: 'Déconnexion' }
+					{ key: 1, link: '/home', query: {}, name: 'Acceuil', glyph: 'home' },
+					{ key: 2, link: '/home/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
+					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
 			subHeader: [
-				{ key: 0, link: '/home', name: 'Acceuil', query: {} },
-				{ key: 1, link: '/home/infos', name: 'Mon profil', query: {} },
-				{ key: 2, link: '/home/planning', name: 'Mon planning', query: {} },
-				{ key: 3, link: '/home/zone', name: 'Ma zone', query: {} },
-				{ key: 4, link: '/home/offres', name: 'Mes offres', query: {} }
+				{ key: 0, link: '/home', query: {}, name: 'Acceuil' },
+				{ key: 1, link: '/home/infos', query: {}, name: 'Mon profil' },
+				{ key: 2, link: '/home/planning', query: {}, name: 'Mon planning' },
+				{ key: 3, link: '/home/zone', query: {}, name: 'Ma zone' },
+				{ key: 4, link: '/home/offres', query: {}, name: 'Mes offres' }
 			]
 		}
 		break;
@@ -57,17 +57,17 @@ AppStore.onLogon = function (result, param) {
 			header: {
 				brand: { link: '/', name: 'AuxPro' },
 				rightContent: [
-					{ key: 1, link: '/home', name: 'Acceuil', query: {} },
-					{ key: 2, link: '/home/infos', name: 'Mon Compte', query: {} },
-					{ key: 3, callback: logout, name: 'Déconnexion'}
+					{ key: 1, link: '/home', query: {}, name: 'Acceuil', glyph: 'home' },
+					{ key: 2, link: '/home/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
+					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
 			subHeader: [
-				{ key: 0, link: '/home', name: 'Acceuil', query: {} },
-				{ key: 1, link: '/home/infos', name: 'Informations', query: {} },
-				{ key: 2, link: '/home/zone', name: 'Ma zone', query: {} },
-				{ key: 3, link: '/home/customers', name: 'Mes clients', query: {} },
-				{ key: 4, link: '/home/interventions', name: 'Mes interventions', query: {} }
+				{ key: 0, link: '/home', query: {}, name: 'Acceuil' },
+				{ key: 1, link: '/home/infos', query: {}, name: 'Informations' },
+				{ key: 2, link: '/home/zone', query: {}, name: 'Ma zone' },
+				{ key: 3, link: '/home/customers', query: {}, name: 'Mes clients' },
+				{ key: 4, link: '/home/interventions', query: {}, name: 'Mes interventions' }
 			]
 		}
 		break;

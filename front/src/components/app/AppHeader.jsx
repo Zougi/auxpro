@@ -26,18 +26,19 @@ class AppHeader extends React.Component {
 	}
 
 	_buildRightContent(item) {
+		let content = item.glyph ? (<Glyphicon glyph={item.glyph}/>) : item.name;
 		if (item.link) {
 			return (
 				<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
 					<NavItem eventKey={item.key}>
-						{item.name}
+						{content}
 					</NavItem>
 				</LinkContainer>
 			);
 		}
 		return (
 			<NavItem eventKey={item.key} key={item.key} onClick={item.callback}>
-				{item.name}
+				{content}
 			</NavItem>
 		);
 	}
