@@ -11,12 +11,6 @@ class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.type = {
-			sad: function(nav) {return (<ServiceHome/>) },
-			aux: function(nav) {return (<AuxiliaryHome nav={nav}/>) },
-			admin: function(nav) {return (<GuestHome/>) },
-			guest: function(nav) {return (<GuestHome/>) }
-		}
 	}
 	
 	componentWillMount() {
@@ -28,18 +22,17 @@ class Home extends React.Component {
 
 	render() {
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
-		if (this.type[type])
-			return (
-					<div className='container'>
-						{this.type[type](this.props.params.nav)}
-					</div>
-				);
-		else
-			return (
-					<div className='container'>
-						Problème d'authentification
-					</div>
-				);
+		switch (type) {
+			case 'sad'  : return(<ServiceHome nav={this.props.params.nav}/>);
+			case 'aux'  : return(<AuxiliaryHome nav={this.props.params.nav}/>);
+			case 'admin': return(<GuestHome/>);
+			case 'guest': return(<GuestHome/>);
+			default: return (
+				<div className='container'>
+					Problème d'authentification
+				</div>
+			);
+		}
 	}
 }
 
@@ -48,3 +41,4 @@ Home.contextTypes = {
 }
 
 export default Home;
+

@@ -28,13 +28,14 @@ render((
     <Route path="/" component={App}>		
 		<IndexRoute component={Land}/>
 		
-		<Route path="/login" component={Login}/>
-		<Route path="/registerAux" component={RegisterAux}/>
-		<Route path="/registerSad" component={RegisterSad}/>
-		<Route path="/home/:nav" component={Home}/>
-		<Route path="/about" component={About}/>
-		<Route path="/contact" component={Contact}/>
+		<Route path='/login' component={Login}/>
+		<Route path='/registerAux' component={RegisterAux}/>
+		<Route path='/registerSad' component={RegisterSad}/>
+		<Route path='/home' component={Home}/>
+		<Route path='/home/:nav' component={Home}/>
+		<Route path='/about' component={About}/>
+		<Route path='/contact' component={Contact}/>
 	</Route>
-	<Route path="/doc/:nav" component={Documentation}/>
+	<Route path='/doc/:nav' component={Documentation}/>
   </Router>
 ), document.getElementById('app'))

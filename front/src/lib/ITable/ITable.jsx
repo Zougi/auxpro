@@ -8,6 +8,7 @@ class ITable extends Base {
 	constructor(props) {
 		super(props);
 		this.buildProps();
+		this.index = 0;
 	}
 	
 	buildProps() {
@@ -17,9 +18,9 @@ class ITable extends Base {
 	
 	getCol(col) {
 		if (col.th)
-			return (<th>{col.th}</th>);
+			return (<th key={this.index++}>{col.th}</th>);
 		else if (col.td)
-			return (<td>{col.td}</td>);
+			return (<td key={this.index++}>{col.td}</td>);
 	}
 	
 	getContent() {
@@ -28,7 +29,7 @@ class ITable extends Base {
 			let currentRow = row.map(function(col) {
 				return(this.getCol(col));
 			}.bind(this));
-			return (<tr>{currentRow}</tr>);
+			return (<tr key={this.index++}>{currentRow}</tr>);
 		}.bind(this));
 		return (tableContent);
 	}

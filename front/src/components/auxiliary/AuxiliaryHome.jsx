@@ -23,8 +23,9 @@ class AuxiliaryHome extends React.Component {
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showProfilePrompt: false
 		};
-		
+
 		this.content = {
+			home: this.getHome.bind(this),
 			infos: this.getInfos.bind(this),
 			planning: this.getPlanning.bind(this),
 			zone: this.getZone.bind(this),
@@ -43,7 +44,6 @@ class AuxiliaryHome extends React.Component {
 	
 	onStoreUpdate(first) {
 		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')) });
-		console.log(this.state.data);
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
@@ -75,37 +75,18 @@ class AuxiliaryHome extends React.Component {
     	this.setState({ showProfilePrompt: false });
     }
 
-	getNavBar() {
-		return (
-			<Row>
-				<Col sm={3} md={3} lg={3}>
-					<LinkContainer to="/home/infos">
-						<p>Info</p>
-					</LinkContainer>
-				</Col>
-				<Col sm={3} md={3} lg={3}>
-					<LinkContainer to="/home/planning">
-						<p>planning</p>
-					</LinkContainer>
-				</Col>
-				<Col sm={3} md={3} lg={3}>
-					<LinkContainer to="/home/zone">
-						<p>zone</p>
-					</LinkContainer>
-				</Col>
-				<Col sm={3} md={3} lg={3}>
-					<LinkContainer to="/home/offres">
-						<p>offre</p>
-					</LinkContainer>
-				</Col>
-			</Row>	
-		);
-	}
-
 	getContent(nav) {
 		if (nav) {
 			return (this.content[nav]());
+		} else {
+			return (this.content.home());
 		}
+	}
+
+	getHome() {
+		return (
+			<div>Acceuil</div>
+		);
 	}
 	
 	getInfos() {
@@ -160,9 +141,8 @@ class AuxiliaryHome extends React.Component {
 				</div>
 			);
 		}
-		return(
+		return (
 			<div className='container'>
-				{this.getNavBar()}
 				<Row>
 					{this.getContent(this.props.nav)}
 				</Row>
@@ -181,40 +161,4 @@ class AuxiliaryHome extends React.Component {
 	}
 }
 
-/*
-
-							
-					
-*/
-
 export default AuxiliaryHome;
-
-
-
-// <Tabs defaultActiveKey={this.props.defaultTab || 0} id="auxTabs">
-// <Tab eventKey={0} title="Mon Planning"><br/>
-	// <AuxiliaryPlaning 
-		// customers={this.state.data.customers}
-		// indisponibilities={this.state.data.indisponibilities}
-		// interventions={this.state.data.interventions}
-		// offers={this.state.data.offers}
-		// services={this.state.data.services} />
-// </Tab>
-// <Tab eventKey={1} title="Ma Zone"><br/>
-	// <AuxiliaryMap 
-		// geoZones={this.state.data.geoZones} 
-		// sendGeoZone={this.sendGeoZone.bind(this)} 
-		// deleteGeoZone={this.deleteGeoZone.bind(this)}/>
-// </Tab>
-// <Tab eventKey={2} title="Mes Informations"><br/>
-	// <AuxiliaryProfile 
-		// auxiliary={this.state.data.auxiliary || {}}/>
-// </Tab>							
-// <Tab eventKey={3} title="Mes Offres"><br/>
-	// <AuxiliaryOffers
-		// customers={this.state.data.customers}
-		// interventions={this.state.data.interventions}
-		// offers={this.state.data.offers}
-		// services={this.state.data.services} />
-// </Tab>
-// </Tabs>

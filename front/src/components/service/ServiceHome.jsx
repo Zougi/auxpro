@@ -18,6 +18,14 @@ class ServiceHome extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onStoreUpdate(true);
+
+		this.content = {
+			home: this.getHome.bind(this),
+			infos: this.getInfos.bind(this),
+			zone: this.getZone.bind(this),
+			customers: this.getCustomers.bind(this),
+			interventions: this.getInterventions.bind(this)	
+		}
 	}
 
 	componentDidMount() {
@@ -50,6 +58,50 @@ class ServiceHome extends React.Component {
     	this.setState({ showProfilePrompt: false });
     }
 
+    getContent(nav) {
+		if (nav) {
+			return (this.content[nav]());
+		} else {
+			return (this.content.home());
+		}
+	}
+	
+	getHome() {
+		return (
+			<div>Acceuil</div>
+		);
+	}
+
+	getInfos() {
+		return (
+			<ServiceProfile service={this.state.data.service || {}}/>
+		);
+	}
+	
+	getZone() {
+		return (
+			<ServicesMap
+				service={this.state.data.service || {}}
+				customers={this.state.data.customers || {}}
+				auxiliaries={this.state.data.auxiliaries || {}}/>
+		);
+	}
+
+	getCustomers() {
+		return (
+			<ServiceCustomers customers={this.state.data.customers || {}}/>
+		);
+	}
+	
+	getInterventions() {
+		return (
+			<ServiceInterventions 
+				customers={this.state.data.customers || {}} 
+				interventions={this.state.data.interventions || {}}
+				offers={this.state.data.offers || {}} />
+		);
+	}
+
 	render() { 	
 		if (this.state.showTuto) {
 			return(
@@ -62,40 +114,9 @@ class ServiceHome extends React.Component {
 		}
 		return(
 			<div className='container'>
-				<br/>
-					<Row>
-						<ServiceHeader 
-							service={this.state.data.service || {}}/>
-					</Row>
-					<Row>
-					{ this.state.data ? 
-						<Tabs defaultActiveKey={this.props.defaultTab || 0} id="sadTabs">
-							<Tab eventKey={0} title="Mes Informations"><br/>
-								<ServiceProfile 
-									service={this.state.data.service || {}}/>
-							</Tab>
-							<Tab eventKey={1} title="Ma Zone"><br/>
-								<ServicesMap
-									service={this.state.data.service || {}}
-									customers={this.state.data.customers || {}}
-									auxiliaries={this.state.data.auxiliaries || {}}/>
-							</Tab>							
-							<Tab eventKey={2} title="Mes Clients"><br/>
-								<ServiceCustomers 
-									customers={this.state.data.customers || {}}/>
-							</Tab>
-							<Tab eventKey={3} title="Mes Interventions"><br/>
-								<ServiceInterventions 
-									customers={this.state.data.customers || {}} 
-									interventions={this.state.data.interventions || {}}
-									offers={this.state.data.offers || {}} />
-							</Tab>
-						</Tabs>
-					:
-						''
-					}
-					</Row>
-				<br/>
+				<Row>
+					{this.getContent(this.props.nav)}
+				</Row>
 				<Modal show={this.state.showProfilePrompt}>
 					<Modal.Header>
 						<Modal.Title>Completez votre profil</Modal.Title>

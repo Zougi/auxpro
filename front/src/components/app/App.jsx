@@ -7,7 +7,8 @@ import StoreRegistry from 'core/StoreRegistry';
 
 import AppPreload from 'components-lib/App/Preload/AppPreload.jsx'
 
-import Header from './Header.jsx';
+import AppHeader from './AppHeader.jsx';
+import AppSubHeader from './AppSubHeader.jsx';
 import Footer from './Footer.jsx';
 
 class App extends React.Component {
@@ -42,7 +43,7 @@ class App extends React.Component {
 				args.auxiliaryId = user.id;
 				args.token = user.token;
 
-				Dispatcher.issue("GET_AUXILIARY", args).
+				Dispatcher.issue('GET_AUXILIARY', args).
 				then(function() {
 				 	var promises = [];
 				 	promises.push(Dispatcher.issue('GET_AUXILIARY_GEOZONES', args));
@@ -119,8 +120,9 @@ class App extends React.Component {
 			);
 		}
 		return (
-			<div>
-				<Header className='no-print'/>
+			<div className='ap-app'>
+				<AppHeader className='no-print'/>
+				<AppSubHeader className='no-print'/>
 				{this.props.children}
 				<Footer className='no-print'/>
 			</div>
