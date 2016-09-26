@@ -91,7 +91,9 @@ class AuxiliaryHome extends React.Component {
 	
 	getInfos() {
 		return (
-			<AuxiliaryProfile auxiliary={this.state.data.auxiliary || {}}/>
+			<AuxiliaryProfile 
+				auxiliary={this.state.data.auxiliary ||	 {}}
+				edit={this.props.query.edit === 'true'} />
 		);
 	}
 	
@@ -132,6 +134,8 @@ class AuxiliaryHome extends React.Component {
 	}
 	
 	render() { 
+		console.log('aux home');
+		console.log(this.props);
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>

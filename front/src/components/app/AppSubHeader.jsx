@@ -26,17 +26,35 @@ class AppSubHeader extends React.Component {
     }
 	
 	onStoreUpdate() {
-		console.log('subupdate');
-		console.log( getSubHeader() );
 		this.setState({ subHeader: getSubHeader() });
 	}
 
 	_buildContent(item) {
+		if (item.dropdown) {
+			return (
+				<NavDropdown eventKey={item.key} title={item.title}>
+					{item.dropdown.map(this._buildDropdown)}
+				</NavDropdown>
+			);
+		}
 		return (
 			<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
 				<NavItem eventKey={item.key}>
 					{item.name}
 				</NavItem>
+			</LinkContainer>
+		);
+	}
+
+	_buildDropdown(item) {
+		if (item.divider) {
+			return (<MenuItem divider/>);	
+		}
+		return (
+			<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
+				<MenuItem eventKey={item.key}>
+					{item.name}
+				</MenuItem>
 			</LinkContainer>
 		);
 	}
@@ -48,7 +66,7 @@ class AppSubHeader extends React.Component {
 					<Navbar>
 						<Navbar.Collapse>
 							<Nav>
-								{this.state.subHeader.map(this._buildContent)}
+								{this.state.subHeader.map(this._buildContent.bind(this))}
 							</Nav>
 						</Navbar.Collapse>
 					</Navbar>

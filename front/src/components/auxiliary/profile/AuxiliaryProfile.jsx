@@ -23,12 +23,19 @@ class AuxiliaryProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onComponentWillReceiveProps(props);
+		this.componentWillReceiveProps(props);
 		this.state = { state: STATES.VIEW };
 	}
 
-	onComponentWillReceiveProps(props) {
+	componentWillReceiveProps(props) {
 		this.auxiliary = {};
+		console.log('aux')
+		console.log(props)
+		if (props.edit) {
+			this.setState({ state: STATES.EDIT });
+		} else {
+			this.setState({ state: STATES.VIEW });
+		}
 	}
 
 	setStateView(event) {
