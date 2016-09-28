@@ -23,19 +23,13 @@ class AuxiliaryProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.componentWillReceiveProps(props);
-		this.state = { state: STATES.VIEW };
+		this.auxiliary = {};
+		this.state = { state: props.edit ? STATES.EDIT : STATES.VIEW };
 	}
 
 	componentWillReceiveProps(props) {
 		this.auxiliary = {};
-		console.log('aux')
-		console.log(props)
-		if (props.edit) {
-			this.setState({ state: STATES.EDIT });
-		} else {
-			this.setState({ state: STATES.VIEW });
-		}
+		this.setState({ state: props.edit ? STATES.EDIT : STATES.VIEW });
 	}
 
 	setStateView(event) {
@@ -52,7 +46,6 @@ class AuxiliaryProfile extends React.Component {
 	}
 
 	onAvatarChanged(avatar) {
-		console.log('aux profile')
 		this.auxiliary.avatar = avatar;
 	}
 	onPersonChanged(person) {

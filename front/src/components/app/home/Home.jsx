@@ -21,8 +21,6 @@ class Home extends React.Component {
     }
 
 	render() {
-		console.log('home')
-		console.log(this.props)
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
 		switch (type) {
 			case 'sad'  : return(<ServiceHome nav={this.props.params.nav} query={this.props.location.query}/>);

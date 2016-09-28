@@ -36,6 +36,13 @@ class AppHeader extends React.Component {
 				</LinkContainer>
 			);
 		}
+		if (item.dropdown) {
+			return (
+				<NavDropdown eventKey={item.key} content={content}>
+					{item.dropdown.map(this._buildMenuItem)}
+				</NavDropdown>
+			);
+		}
 		return (
 			<NavItem eventKey={item.key} key={item.key} onClick={item.callback}>
 				{content}
@@ -43,8 +50,28 @@ class AppHeader extends React.Component {
 		);
 	}
 
+	_buildMenuItem(item) {
+		if (item.divider) {
+			return (<MenuItem divider/>);	
+		}
+		if (item.link) {
+			return (
+				<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
+				<MenuItem eventKey={item.key}>
+					{item.name}
+				</MenuItem>
+			</LinkContainer>
+			);
+		}
+		return (
+			<MenuItem eventKey={item.key} key={item.key} onClick={item.callback}>
+				{item.name}
+			</MenuItem>
+		);
+	}
+
 	render() { 
-		let subHeaders = this.state.header.rightContent.map(this._buildRightContent);
+		let subHeaders = this.state.header.rightContent.map(this._buildRightContent.bind(this));
 		return (
 			<header>
 				<Navbar inverse fixedTop>

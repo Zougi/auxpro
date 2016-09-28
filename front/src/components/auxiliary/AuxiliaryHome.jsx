@@ -134,8 +134,6 @@ class AuxiliaryHome extends React.Component {
 	}
 	
 	render() { 
-		console.log('aux home');
-		console.log(this.props);
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>

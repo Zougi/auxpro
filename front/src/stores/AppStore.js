@@ -49,9 +49,9 @@ AppStore.onLogon = function (result, param) {
 					{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
 					{ key: 1.2, link: '/home/infos', query: { edit: true }, name: 'Editer profil' }
 				]},
-				{ key: 2, link: '/home/planning', query: {}, name: 'Mon planning' },
-				{ key: 3, link: '/home/zone', query: {}, name: 'Ma zone' },
-				{ key: 4, link: '/home/offres', query: {}, name: 'Mes offres' }
+				{ key: 2, link: '/home/planning', query: {}, name: 'Planning' },
+				{ key: 3, link: '/home/zone', query: {}, name: 'Zone' },
+				{ key: 4, link: '/home/offres', query: {}, name: 'Offres' }
 			]
 		}
 		break;
