@@ -64,3 +64,6 @@ target/
 #mongo generated files
 database/data
 database/log
+
+config.properties
+files/*.*
