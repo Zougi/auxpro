@@ -8,10 +8,16 @@ class ServiceHeader extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = { src: null };
 		this.img='./../../../assets/img/profil.jpeg';
 	}
 
+	componentWillReceiveProps(props) {
+		this.setState({ src: null });
+	}
+
 	updateImage(id) {
+		this.setState({ src: id });
 		if (this.props.onAvatarChanged) {
 			this.props.onAvatarChanged(id);
 		}
@@ -41,7 +47,7 @@ class ServiceHeader extends React.Component {
 			<Panel>
 				<Row>
 					<Col sm={4}>
-						<AsyncImage src={this.props.service.user.avatar} width={200} height={200}/>
+						<AsyncImage src={this.state.src || this.props.service.user.avatar} width={200} height={200}/>
 						{this.props.edit ? 
 							<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
 						:
