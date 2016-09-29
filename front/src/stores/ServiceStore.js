@@ -46,6 +46,7 @@ ServiceStore.onGetService = function (args) {
 	ServiceStore.notify();
 };
 Dispatcher.register('GET_SERVICE', ServiceStore.onGetService);
+Dispatcher.register('PUT_SERVICE', ServiceStore.onGetService);
 
 // GET SERVICE CUSTOMERS
 ServiceStore.onGetServiceCustomers = function (result, param) {

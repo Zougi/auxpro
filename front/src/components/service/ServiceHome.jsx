@@ -1,11 +1,10 @@
-// react modules
 import React from 'react';
-// react-bootstrap modules
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
-// core modules
+
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
-// custom components
+
+import ModalDialog from 'components-lib/Modal/ModalDialog.jsx'
 import ServiceHeader from './ServiceHeader.jsx'
 import ServicesTuto from './ServicesTuto.jsx'
 import ServiceProfile from './profile/ServiceProfile.jsx'
@@ -66,41 +65,44 @@ class ServiceHome extends React.Component {
 		}
 	}
 	
-	getHome() {
-		return (
-			<div>Acceuil</div>
-		);
-	}
+	getHome() { return (
+		<div>Acceuil</div>
+	);}
 
-	getInfos() {
-		return (
-			<ServiceProfile service={this.state.data.service || {}}/>
-		);
-	}
+	getInfos() { return (
+		<ServiceProfile service={this.state.data.service || {}}/>
+	);}
 	
-	getZone() {
-		return (
-			<ServicesMap
-				service={this.state.data.service || {}}
-				customers={this.state.data.customers || {}}
-				auxiliaries={this.state.data.auxiliaries || {}}/>
-		);
-	}
+	getZone() { return (
+		<ServicesMap
+			service={this.state.data.service || {}}
+			customers={this.state.data.customers || {}}
+			auxiliaries={this.state.data.auxiliaries || {}} />
+	);}
 
-	getCustomers() {
-		return (
-			<ServiceCustomers customers={this.state.data.customers || {}}/>
-		);
-	}
+	getCustomers() { return (
+		<ServiceCustomers 
+			service={this.state.data.service || {}}
+			customers={this.state.data.customers || {}} />
+	);}
 	
-	getInterventions() {
-		return (
-			<ServiceInterventions 
-				customers={this.state.data.customers || {}} 
-				interventions={this.state.data.interventions || {}}
-				offers={this.state.data.offers || {}} />
-		);
-	}
+	getInterventions() { return (
+		<ServiceInterventions 
+			service={this.state.data.service || {}}
+			customers={this.state.data.customers || {}} 
+			interventions={this.state.data.interventions || {}}
+			offers={this.state.data.offers || {}} />
+	);}
+
+	_buildProfilePromptModal() { return (
+		<ModalDialog 
+			show={this.state.showProfilePrompt} 
+			title='Completez votre profil'
+			buttons={[
+				{ bsStyle: 'success', onClick: this._profilePromptClose.bind(this), text: 'Continuer' },
+				{ bsStyle: 'primary', onClick: this._profilePromptClose.bind(this), text: 'Pas maintenant' }
+			]} />
+	);}
 
 	render() { 	
 		if (this.state.showTuto) {
@@ -117,15 +119,7 @@ class ServiceHome extends React.Component {
 				<Row>
 					{this.getContent(this.props.nav)}
 				</Row>
-				<Modal show={this.state.showProfilePrompt}>
-					<Modal.Header>
-						<Modal.Title>Completez votre profil</Modal.Title>
-					</Modal.Header>
-					<Modal.Footer>
-						<Button bsStyle='success' onClick={this._profilePromptClose.bind(this)}>Continuer</Button>
-						<Button bsStyle='primary' onClick={this._profilePromptClose.bind(this)}>Pas Maintenant</Button>
-					</Modal.Footer> 
-				</Modal>
+				{this._buildProfilePromptModal()}
 			</div>
 		);
 	}

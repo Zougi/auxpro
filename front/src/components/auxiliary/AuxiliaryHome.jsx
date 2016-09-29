@@ -1,12 +1,11 @@
-// react modules
 import React from 'react';
-// react-bootstrap modules
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
-// core modules
+
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
-// custom components
+
+import ModalDialog from 'components-lib/Modal/ModalDialog.jsx'
 import AuxiliaryMap from './map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from './planing/AuxiliaryPlaning.jsx'
 import AuxiliaryHeader from './AuxiliaryHeader.jsx'
@@ -21,7 +20,7 @@ class AuxiliaryHome extends React.Component {
 		this.state = {
 			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
-			showProfilePrompt: false
+			showProfilePrompt: true
 		};
 
 		this.content = {
@@ -29,8 +28,7 @@ class AuxiliaryHome extends React.Component {
 			infos: this.getInfos.bind(this),
 			planning: this.getPlanning.bind(this),
 			zone: this.getZone.bind(this),
-			offres: this.getOffers.bind(this)
-			
+			offres: this.getOffers.bind(this)			
 		}
 	}
 
@@ -133,6 +131,18 @@ class AuxiliaryHome extends React.Component {
 		);
 	}
 	
+	_buildProfilePromptModal() {
+		return (
+			<ModalDialog 
+				show={this.state.showProfilePrompt} 
+				title='Completez votre profil'
+				buttons={[
+					{ bsStyle: 'success', onClick: this._profilePromptClose.bind(this), text: 'Continuer' },
+					{ bsStyle: 'primary', onClick: this._profilePromptClose.bind(this), text: 'Pas maintenant' }
+				]} />
+		);
+	}
+
 	render() { 
 		if (this.state.showTuto) {
 			return(
@@ -149,15 +159,7 @@ class AuxiliaryHome extends React.Component {
 					{this.getContent(this.props.nav)}
 				</Row>
 				<br/>
-				<Modal show={this.state.showProfilePrompt}>
-					<Modal.Header>
-						<Modal.Title>Completez votre profil</Modal.Title>
-					</Modal.Header>
-					<Modal.Footer>
-						<Button className='btn btn-success' onClick={this._profilePromptClose.bind(this)}>Continuer</Button>
-						<Button className='btn btn-primary' onClick={this._profilePromptClose.bind(this)}>Pas Maintenant</Button>
-					</Modal.Footer>
-				</Modal>
+				{this._buildProfilePromptModal()}
 			</div>
 		);
 	}

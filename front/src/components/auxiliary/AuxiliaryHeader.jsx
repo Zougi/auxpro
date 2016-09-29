@@ -37,15 +37,6 @@ class AuxiliaryHeader extends React.Component {
 			]
 		];
 		
-		var img = this.props.auxiliary.user.avatar;
-		if (!img) {
-			if (this.props.auxiliary.person.civility === 'Mr') {
-				
-			} else {
-
-			}
-		}
-
 		return(	
 			<Panel>
 				<Row>

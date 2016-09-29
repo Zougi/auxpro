@@ -5,97 +5,120 @@ import { Row, Col, Panel, Button, Form } from 'react-bootstrap'
 import Dispatcher from 'core/Dispatcher.js';
 import StoreRegistry from 'core/StoreRegistry.js';
 // custom components
+import ServiceHeader from '../ServiceHeader.jsx';
 import ServiceDetails from './ServiceDetails.jsx';
 import Contact from 'components/common/entity/Contact.jsx'
 import Utils from 'utils/Utils.js'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
+let STATES = {
+    VIEW: 'VIEW',
+    EDIT: 'EDIT'
+};
+
 class ServiceProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.service = {};
+        this.state = { state: props.edit ? STATES.EDIT : STATES.VIEW };
 	}
 
+    componentWillReceiveProps(props) {
+        this.service = {};
+        this.setState({ state: props.edit ? STATES.EDIT : STATES.VIEW });
+    }
+
+    setStateView(event) {
+        if (event) event.preventDefault();
+        this.setState({ state: STATES.VIEW });
+    }
+    setStateEdit(event) {
+        if (event) event.preventDefault();
+        this.setState({ state: STATES.EDIT });
+    }
+
+    onAvatarChanged(avatar) {
+        this.service.avatar = avatar;
+    }
     onServiceChanged(value) {
-    	this.state.service = value;
+    	this.service.service = value;
     }
     onContactChanged(value) {
-        this.state.contact = value;
+        this.service.contact = value;
     }
 
-    onCancel() {
-    	this.state = {};
-    	this.toViewMode();
-    }
-
-    toEditMode() {
-    	this.setState({ edit: true });
-    }
-    toViewMode() {
-    	this.setState({ edit: false });
-    }
-
-    onUpdateService() {
-    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/')
-
-    	let data = this.state.service || this.props.service;
-    	data.id = user.id;
-    	data.user = user;
-    	data.contact = this.state.contact || this.props.service.contact;
-
+    saveProfile() {
+        event.preventDefault();
+    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
+        user.avatar = this.service.avatar || user.avatar;
+    	var service = this.service.service || {};
     	Dispatcher.issue('PUT_SERVICE', {
 			serviceId: user.id,
-        	data: data,
         	token: user.token,
-        	refresh: true
-    	}).
-    	then(function() {
-    		Dispatcher.issue("GET_SERVICE", { 
-    			serviceId: user.id, 
-    			token: user.token, 
-    			refresh: true 
-    		});
+        	refresh: true,
+            data: {
+                id: user.id,
+                user: user,
+                contact: this.service.contact || this.props.service.contact,
+                siret: service.siret || this.props.service.siret,
+                socialReason: service.socialReason || this.props.service.socialReason,
+                society: service.society || this.props.service.society,
+            }
     	}).then(function() {
-    		this.toViewMode();
+    		this.setStateView();
     	}.bind(this));
     	
     }
 
 	render() { 
 		return(
-			<Panel>
-				<Form>
-    				{ !this.state.edit ?
-    					<Button bsStyle='info' onClick={this.toEditMode.bind(this)} block>Modifier mes informations</Button>
-    				: '' }
-                    { this.props.service ?
-    					<Row>
-    						<Col sm={6}>
-    	            			<ServiceDetails 
-    	            				edit={this.state.edit}
-    	            				society={this.props.service.society}
-    	            				socialReason={this.props.service.socialReason}
-    	            				siret={this.props.service.siret}
-    	        	    			onChange={this.onServiceChanged.bind(this)}/>
-    	    	        	</Col>
-    		            	<Col sm={6}>
-    		            		<Contact 
-    	            				edit={this.state.edit}
-    	            				address={this.props.service.contact ? this.props.service.contact.address : {}}
-    	            				phone={this.props.service.contact ? this.props.service.contact.phone : ''}
-    	            				email={this.props.service.contact ? this.props.service.contact.email : ''}
-    	            				onChange={this.onContactChanged.bind(this)}/>
-    	        	    	</Col>
-            	    	</Row>
-                    : '' }
-        	        { this.state.edit ?
-    					<ButtonsEndDialog 
-    						onOk={this.onUpdateService.bind(this)} okTitle='Enregistrer modifications' 
-    						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
-    				: '' }
-                </Form>
-            </Panel>
+            <Form horizontal>
+                <br/>
+                <Col sm={12}>
+                    { (this.state.state === STATES.EDIT) ?
+                    <div style={{textAlign:'right'}}>
+                        <Button bsStyle='default' onClick={this.setStateView.bind(this)}>Annuler</Button>
+                        {' '}
+                        <Button bsStyle='success' onClick={this.saveProfile.bind(this)}>Enregistrer modifications</Button>
+                    </div>
+                :
+                    <div style={{textAlign:'right'}}>
+                        <Button bsStyle='primary' onClick={this.setStateEdit.bind(this)}>Editer mon profil</Button>
+                    </div>
+                }
+                </Col>
+                <br/>
+                <br/>
+                <Row>
+                    <Panel>
+                        <ServiceHeader 
+                            service={this.props.service}
+                            onAvatarChanged={this.onAvatarChanged.bind(this)}
+                            edit={this.state.state === STATES.EDIT}/>
+                    </Panel>
+                </Row>
+                <Row>
+                    <Panel>
+                        <Col sm={6}>
+                            <ServiceDetails 
+                                edit={this.state.state === STATES.EDIT}
+                                society={this.props.service.society}
+                                socialReason={this.props.service.socialReason}
+                                siret={this.props.service.siret}
+                                onChange={this.onServiceChanged.bind(this)}/>
+                        </Col>
+                        <Col sm={6}>
+                            <Contact 
+                                edit={this.state.state === STATES.EDIT}
+                                address={this.props.service.contact ? this.props.service.contact.address : {}}
+                                phone={this.props.service.contact ? this.props.service.contact.phone : ''}
+                                email={this.props.service.contact ? this.props.service.contact.email : ''}
+                                onChange={this.onContactChanged.bind(this)}/>
+                        </Col>
+                    </Panel>
+                </Row>
+            </Form>
 		);
 	}
 }

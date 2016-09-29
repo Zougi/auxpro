@@ -60,10 +60,10 @@ class AuxiliaryProfile extends React.Component {
 		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		user.avatar = this.auxiliary.avatar || user.avatar;
         Dispatcher.issue('PUT_AUXILIARY', {
-			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-        	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
+			auxiliaryId: user.id,
+        	token: user.token,
         	data: {
-				id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
+				id: user.id,
 				person: this.auxiliary.person || this.props.auxiliary.person,
 				contact: this.auxiliary.contact || this.props.auxiliary.contact,
 				user: user,

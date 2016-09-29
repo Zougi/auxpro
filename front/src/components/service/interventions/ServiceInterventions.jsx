@@ -10,6 +10,7 @@ import CustomerDetails from 'components/common/customers/CustomerDetails.jsx';
 import InterventionDetails from 'components/common/interventions/InterventionDetails.jsx';
 import InterventionMatch from 'components/common/interventions/InterventionMatch.jsx';
 import InterventionOffers from 'components/common/interventions/InterventionOffers.jsx';
+import ServiceHeader from '../ServiceHeader.jsx';
 import ServiceCustomerInterventions from './ServiceCustomerInterventions.jsx';
 
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
@@ -164,27 +165,26 @@ class ServiceInterventions extends React.Component {
     }
 
 	render() {
+        var content;
 		switch (this.state.state) {
-            case STATES.ADD:
-                return (
-                    <InterventionDetails 
-                        edit={true}
-                        customers={Utils.map(this.props.customers)}
-                        onCancel={this.onCancel.bind(this)} 
-                        onCreate={this.createIntervention.bind(this)} />
-                );
-            case STATES.EDIT:
-                return (
-                    <InterventionDetails 
-                        edit={true}
-                        customers={Utils.map(this.props.customers)}
-                        intervention={this.state.intervention}
-                        onCancel={this.onCancel.bind(this)} 
-                        onCreate={this.saveIntervention.bind(this)} />
-                );
+            case STATES.ADD: content = (
+                <InterventionDetails 
+                    edit={true}
+                    customers={Utils.map(this.props.customers)}
+                    onCancel={this.onCancel.bind(this)} 
+                    onCreate={this.createIntervention.bind(this)} />
+            );
+            case STATES.EDIT: content = (
+                <InterventionDetails 
+                    edit={true}
+                    customers={Utils.map(this.props.customers)}
+                    intervention={this.state.intervention}
+                    onCancel={this.onCancel.bind(this)} 
+                    onCreate={this.saveIntervention.bind(this)} />
+            );
             case STATES.MATCH:
                 let intervention = this.props.interventions[this.interventionId];
-                return (
+                content = (
                     <InterventionMatch
                         customer={this.props.customers[intervention.customerId]}
                         intervention={intervention}
@@ -196,7 +196,7 @@ class ServiceInterventions extends React.Component {
                 let offers = Utils.filter(this.props.offers, function(offer) {
                     return offer.interventionId === this.state.intervention.id;
                 }.bind(this));
-                return (
+                content = (
                     <InterventionOffers
                         customer={this.props.customers[this.state.intervention.customerId]}
                         intervention={this.state.intervention}
@@ -205,7 +205,7 @@ class ServiceInterventions extends React.Component {
                 );
             default:
                 let customers = this._buildCustomers();
-        		return (
+        		content = (
         			<div>
         				<Panel header={(<strong>Interventions en cours</strong>)}>
         					<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>
@@ -226,6 +226,14 @@ class ServiceInterventions extends React.Component {
         			</div>
         		);
         }
+        return (
+            <div>
+                <ServiceHeader service={this.props.service}/>
+                <div>
+                    {content}
+                </div>
+            </div>
+        );
 	}
 }
 

@@ -1,5 +1,8 @@
 import React from 'react';
-import { Row, Col, Table, Panel, Image } from 'react-bootstrap'
+
+import AsyncImage from 'lib/image/AsyncImage.jsx'
+import ImageUploader from 'lib/image/ImageUploader.jsx'
+import { Col, Row, ITable, Panel } from 'lib/Lib.jsx';
 
 class ServiceHeader extends React.Component {
 
@@ -8,36 +11,50 @@ class ServiceHeader extends React.Component {
 		this.img='./../../../assets/img/profil.jpeg';
 	}
 
-	render() { return(
-		<Row>
-			<Col sm={4}>
-				<Image src={this.img} rounded/>
-			</Col>
-			<Col smOffset={1} sm={6}>
-				<Panel>
-				<Table bordered striped hover fill>
-				<tbody>
-					<tr>
-						<th>Société</th>
-						<td>{this.props.service.society}</td>
-					</tr>
-					<tr>
-						<th>Adresse electronique</th>
-						<td>{this.props.service.user.email}</td>
-					</tr>
-					<tr>
-						<th>N° Siret</th>
-						<td>{this.props.service.siret}</td>
-					</tr>
-					<tr>
-						<th>Raison sociale</th>
-						<td>{this.props.service.socialReason}</td>
-					</tr>
-				</tbody>
-				</Table>
-				</Panel>
-			</Col>
-		</Row>
+	updateImage(id) {
+		if (this.props.onAvatarChanged) {
+			this.props.onAvatarChanged(id);
+		}
+	}
+
+	render() { 
+		var table = [
+			[
+				{th: "Société"},
+				{td: this.props.service.society}
+			],
+			[
+				{th: "Addresse électronique"},
+				{td: this.props.service.user.email}
+			],
+			[
+				{th: "N° Siret"},
+				{td: this.props.service.siret}
+			],
+			[
+				{th: "Raison sociale"},
+				{td: this.props.service.socialReason}
+			]
+		];
+		
+		return(
+			<Panel>
+				<Row>
+					<Col sm={4}>
+						<AsyncImage src={this.props.service.user.avatar} width={200} height={200}/>
+						{this.props.edit ? 
+							<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
+						:
+							''
+						}
+					</Col>
+					<Col sm={8}>
+						<Panel>
+							<ITable rows={table} bordered striped hover fill/>
+						</Panel>
+					</Col>
+				</Row>
+			</Panel>
 	);}
 }
 

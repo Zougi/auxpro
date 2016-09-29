@@ -1,11 +1,10 @@
 import React from 'react'
-
 import { Panel, Row, Col } from 'react-bootstrap'
 
 import Utils from 'utils/Utils.js'
 
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
-
+import ServiceHeader from '../ServiceHeader.jsx';
 import ServiceMapInformation from './ServiceMapInformation.jsx'
 
 class ServicesMap extends React.Component {
@@ -96,22 +95,27 @@ class ServicesMap extends React.Component {
 
 	render() {
         return (
-            <Row>
-                <Col sm={8}>
-                    <GoogleMap 
-                        center={this._buildCenter()} 
-                        markers={this._buildMarkers()}
-                        onMarkerClicked={this.onMarkerClicked.bind(this)} />
-                </Col>
-                <Col sm={4}>
-                    <ServiceMapInformation
-                        bsStyle={this.state.info.bsStyle} 
-                        header={this.state.info.header}
-                        name={this.state.info.name}
-                        address1={this.state.info.address1}
-                        address2={this.state.info.address2}/>
-                </Col>
-            </Row>
+            <div>
+                <ServiceHeader service={this.props.service}/>
+                <div>
+                    <Panel header={(<strong>Répartition géographique</strong>)}>
+                        <Col sm={8}>
+                            <GoogleMap 
+                                center={this._buildCenter()} 
+                                markers={this._buildMarkers()}
+                                onMarkerClicked={this.onMarkerClicked.bind(this)} />
+                        </Col>
+                        <Col sm={4}>
+                            <ServiceMapInformation
+                                bsStyle={this.state.info.bsStyle} 
+                                header={this.state.info.header}
+                                name={this.state.info.name}
+                                address1={this.state.info.address1}
+                                address2={this.state.info.address2}/>
+                        </Col>
+                    </Panel>
+                </div>
+            </div>
         );
     }
 }

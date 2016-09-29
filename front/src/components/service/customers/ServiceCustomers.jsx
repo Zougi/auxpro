@@ -7,7 +7,7 @@ import StoreRegistry from 'core/StoreRegistry';
 // custom components
 import CustomerDetails from 'components/common/customers/CustomerDetails.jsx';
 import CustomerSummaryList from 'components/common/customers/CustomerSummaryList.jsx';
-
+import ServiceHeader from '../ServiceHeader.jsx';
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
 
@@ -104,8 +104,9 @@ class ServiceCustomers extends React.Component {
     }
 
 	render() {
+		var content;
 		switch (this.state.state) {
-			case STATES.VIEW: return (
+			case STATES.VIEW: content = (
 				<Panel header={(<strong>Détails client</strong>)}>
 					<CustomerDetails edit={false} customer={this.state.currentCustomer}/>
 					<br/>
@@ -116,7 +117,7 @@ class ServiceCustomers extends React.Component {
 					</Row>
 				</Panel>
 			);
-			case STATES.ADD: return (
+			case STATES.ADD: content = (
 				<Panel header={(<strong>Saisir nouveau client</strong>)}>
 					<CustomerDetails edit={true} customer={this.state.currentCustomer} onChange={this.onCustomerChange.bind(this)}/>
 					<br/>
@@ -125,7 +126,7 @@ class ServiceCustomers extends React.Component {
 						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				</Panel>
 			);
-			case STATES.EDIT: return (
+			case STATES.EDIT: content = (
 				<Panel header={(<strong>Modifier informations client</strong>)}>
 					<CustomerDetails edit={true} customer={this.state.currentCustomer} onChange={this.onCustomerChange.bind(this)}/>
 					<br/>
@@ -134,31 +135,38 @@ class ServiceCustomers extends React.Component {
 						onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 				</Panel>
 			);
-			default: 
-				return (
-					<div>
-						<Panel header={(<strong>Clients enregistrés</strong>)}>
-							<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
-							<br/>
-							<CustomerSummaryList 
-								customers={this.props.customers} 
-								onEdit={this.onEditCustomer.bind(this)}
-								onView={this.onViewCustomer.bind(this)}
-								onDelete={this.onDeleteCustomer.bind(this)}/>
-						</Panel>
-						<DialogConfirmation
-							show={this.state.showDeleteConfirm}
-							title='Supprimer client ?'
-							onConfirm={this.deleteCustomer.bind(this)}
-							confirmStyle='danger'
-							confirmText='Supprimer'
-							onCancel={this.hideDeleteConfirmation.bind(this)}
-							cancelStyle='default'
-							cancelText='Annuler'/>
-						
-					</div>
-				);
+			default: content = (
+				<div>
+					<Panel header={(<strong>Clients enregistrés</strong>)}>
+						<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
+						<br/>
+						<CustomerSummaryList 
+							customers={this.props.customers} 
+							onEdit={this.onEditCustomer.bind(this)}
+							onView={this.onViewCustomer.bind(this)}
+							onDelete={this.onDeleteCustomer.bind(this)}/>
+					</Panel>
+					<DialogConfirmation
+						show={this.state.showDeleteConfirm}
+						title='Supprimer client ?'
+						onConfirm={this.deleteCustomer.bind(this)}
+						confirmStyle='danger'
+						confirmText='Supprimer'
+						onCancel={this.hideDeleteConfirmation.bind(this)}
+						cancelStyle='default'
+						cancelText='Annuler'/>
+					
+				</div>
+			);
 		}
+		return (
+            <div>
+                <ServiceHeader service={this.props.service}/>
+                <div>
+                    {content}
+                </div>
+            </div>
+        );
 	}
 }
 
