@@ -1,7 +1,9 @@
 @echo off
 
-SET string=%~dp0..\files\
+SET string=%~dp0\..\files\
 SET modified=%string:\=/%
+
+md "./src/main/resources/config"
 
 @echo # Server config> ./src/main/resources/config/config.properties
 @echo serv_port=8090>> ./src/main/resources/config/config.properties
