@@ -2,7 +2,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
 import React from 'react'
-import moment from 'moment'
 import { render } from 'react-dom'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
@@ -10,24 +9,26 @@ import 'react-bootstrap';
 
 import Bootstrap from './src/core/Bootstrap.js';
 
-import App           from './src/components/app/App.jsx'
-import Land          from './src/components/app/Land.jsx'
-import Home          from './src/components/app/home/Home.jsx'
-import About         from './src/components/app/static/About.jsx'
-import Contact       from './src/components/app/static/Contact.jsx'
-import Login         from './src/components/app/auth/Login.jsx'
-import RegisterAux   from './src/components/app/auth/RegisterAux.jsx'
-import RegisterSad   from './src/components/app/auth/RegisterSad.jsx'
-
-import Documentation   from './src/documentation/Documentation.jsx'
-
-moment.locale('fr');
+// Initial display
+import App  from './src/components/app/App.jsx'
+import Land from './src/components/app/Land.jsx'
+import Home from './src/components/app/home/Home.jsx'
+// Authentication pages
+import Login       from './src/components/app/auth/Login.jsx'
+import RegisterAux from './src/components/app/auth/RegisterAux.jsx'
+import RegisterSad from './src/components/app/auth/RegisterSad.jsx'
+// Static pages
+import About   from 'components/app/static/About.jsx'
+import Contact from 'components/app/static/Contact.jsx'
+import CGV     from 'components/app/static/CGV.jsx'
+import CGU     from 'components/app/static/CGU.jsx'
+// Documentation pages
+import Documentation from './src/documentation/Documentation.jsx'
 
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>		
-		<IndexRoute component={Land}/>
-		
+		<IndexRoute component={Land}/>		
 		<Route path='/login' component={Login}/>
 		<Route path='/registerAux' component={RegisterAux}/>
 		<Route path='/registerSad' component={RegisterSad}/>
