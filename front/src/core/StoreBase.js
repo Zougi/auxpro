@@ -10,6 +10,14 @@ export default class StoreBase extends ObjectBase {
 		StoreRegistry.registerStore(this);
 	}
 
+	getContent() {
+		return this._content;
+	}
+
+	setContent(content) {
+		this._content = content;
+	}
+
 	notify() {
 		let length = this._callbacks.callbacks.length;
 		for (let i = 0 ; i < length ; i++) {

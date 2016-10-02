@@ -22,12 +22,9 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 	return auxiliary;
 };
 
-AuxiliaryStore.getContent = function () {
-	return AuxiliaryStore._content; 
-}
-AuxiliaryStore.setContent = function (content) {
-	AuxiliaryStore._content = content; 
-}
+
+/* ACTIONS CALLBACKS */
+//------------------------------------------------------------
 
 // ROUTER_CHANGED
 AuxiliaryStore.onRouterChanged = function (result, param) {
@@ -42,7 +39,7 @@ Dispatcher.register('ROUTER_CHANGED', AuxiliaryStore.onRouterChanged);
 
 // LOGOUT
 AuxiliaryStore.onLogout = function (result, param) {
-	AuxiliaryStore._content = DEFAULT_CONTENT;
+	AuxiliaryStore.setContent(DEFAULT_CONTENT);
 	AuxiliaryStore.notify('/');
 };
 Dispatcher.register('LOGOUT', AuxiliaryStore.onLogout);

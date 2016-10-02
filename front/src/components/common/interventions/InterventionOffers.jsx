@@ -19,7 +19,7 @@ class InterventionsOffers extends React.Component {
 
 	_buildOffers() {
 		return this.props.offers.map(function(offer) {
-			let auxiliary = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + offer.serviceId + '/auxiliaries/' + offer.auxiliaryId);
+			let auxiliary = StoreRegistry.getStore('SERVICE_STORE').getData().data.auxiliaries[offer.auxiliaryId];
 			return (
 				<ListGroupItem key={offer.id} onClick={this.onAuxiliarySelected(auxiliary)}>
 					{offer.status === 'PENDING'  ? <Glyphicon glyph='question-sign'/> : '' }

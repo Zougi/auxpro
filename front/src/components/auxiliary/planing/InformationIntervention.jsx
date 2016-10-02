@@ -49,7 +49,7 @@ class MissionShort extends React.Component {
     }
 
     onServiceUpdate() {
-    	this.state.service = StoreRegistry.getStore('SERVICE_STORE').getService(this.props.mission.serviceId);
+    	this.state.service = StoreRegistry.getStore('SERVICE_STORE').getData().data;
     	this.setState(this.state);
     }
 

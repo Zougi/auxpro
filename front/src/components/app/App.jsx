@@ -89,7 +89,7 @@ class App extends React.Component {
 		        }).
 		        then(function() {
 		        	console.log('==== DONNES INITIALE DU SERVICE ====');
-		        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
+		        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData());
 		        }).
 		        then(toHome.bind(this)).
 		        catch(function(error) {

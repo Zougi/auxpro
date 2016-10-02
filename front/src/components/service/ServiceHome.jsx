@@ -36,7 +36,7 @@ class ServiceHome extends React.Component {
 	
     onStoreUpdate(first) {
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-    	let data = StoreRegistry.getStore('SERVICE_STORE').getData('/service/' + user.id);
+    	let data = StoreRegistry.getStore('SERVICE_STORE').getData().data;
     	this.state = {
 			data: data,
 			showTuto: first?!user.tutoSkipped:this.state.showTuto,
