@@ -62,7 +62,7 @@ class App extends React.Component {
 				}).
 				then(function() {
 					console.log('==== DONNES INITIALE AUXILIAIRE ====');
-					console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')));
+					console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData());
 				}).
 				then(toHome.bind(this)).
 				catch(function(error) {

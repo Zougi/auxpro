@@ -2,7 +2,14 @@ import Dispatcher from 'core/Dispatcher.js';
 import StoreBase from 'core/StoreBase.js';
 import StoreRegistry from 'core/StoreRegistry';
 
-var DEFAULT_CONTENT = { auxiliaries: [],  auxiliary: {}};
+var DEFAULT_CONTENT = {
+	data: {},
+	display: {
+		home: {
+			showUserHeader: true
+		}
+	}
+};
 
 var AuxiliaryStore = new StoreBase ({ 
 	name: 'AUXILIARY_STORE',
@@ -15,116 +22,124 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 	return auxiliary;
 };
 
+AuxiliaryStore.getContent = function () {
+	return AuxiliaryStore._content; 
+}
+AuxiliaryStore.setContent = function (content) {
+	AuxiliaryStore._content = content; 
+}
+
+AuxiliaryStore.getData = function () {
+	return AuxiliaryStore._content.data; 
+}
+AuxiliaryStore.getDisplay = function () {
+	return AuxiliaryStore._content.display; 
+}
+
 // LOGOUT
 AuxiliaryStore.onLogout = function (result, param) {
 	AuxiliaryStore._content = DEFAULT_CONTENT;
+	AuxiliaryStore.notify('/');
 };
 Dispatcher.register('LOGOUT', AuxiliaryStore.onLogout);
 
 // GET AUXILIARY
 // PUT AUXILIARY
 AuxiliaryStore.onGetAuxiliary = function (result, param) {
-	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
-	auxiliary.auxiliary = result || {};
-	auxiliary.auxiliaryLoaded = true;
-	AuxiliaryStore.notify();
+	AuxiliaryStore.getData().auxiliary = result || {};
+	AuxiliaryStore.getData().auxiliaryLoaded = true;
+	AuxiliaryStore.notify('/data/auxiliary');
 };
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 
-// POST AUXILIARY QUESTIONNARY
-AuxiliaryStore.onPostAuxiliaryQuestionary = function (result, param) {
-	if (result) {
-		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.auxiliary.skills = result;
-		AuxiliaryStore.notify();
-	}
-}
-Dispatcher.register('POST_AUXILIARY_QUESTIONARY', AuxiliaryStore.onPostAuxiliaryQuestionary);
-
 // GET AUXILIARY SERVICES
 AuxiliaryStore.onGetAuxiliaryServices = function (result, param) {
+	let data = AuxiliaryStore.getData();
+	data.services = {};
 	if (result && result.length) {
-		let auxiliary = AuxiliaryStore._content.auxiliary[param.auxiliaryId];
-		auxiliary.services = {};
-		for (let i = 0; i < result.length; i++) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
 			let service = result[i];
-			auxiliary.services[service.id] = service;
+			data.services[service.id] = service;
 		}
-		auxiliary.servicesLoaded = true;
-		AuxiliaryStore.notify();
 	}
+	data.servicesLoaded = true;
+	AuxiliaryStore.notify('/data/services');
 }
 Dispatcher.register('GET_AUXILIARY_SERVICES', AuxiliaryStore.onGetAuxiliaryServices);
 
 // GET AUXILIARY CUSTOMERS
 AuxiliaryStore.onGetAuxiliaryCustomers = function (result, param) {
-	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
-	auxiliary.customers = {};
+	let data = AuxiliaryStore.getData();
+	data.customers = {};
 	if (result && result.length) {
-		for (let i = 0; i < result.length; i++) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
 			let customer = result[i];
-			auxiliary.customers[customer.id] = customer;
+			data.customers[customer.id] = customer;
 		}
 	}
-	auxiliary.customersLoaded = true;
+	data.customersLoaded = true;
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_CUSTOMERS', AuxiliaryStore.onGetAuxiliaryCustomers);
 
 // GET AUXILIARY OFFERS
 AuxiliaryStore.onGetAuxiliaryOffers = function (result, param) {
-	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
-	auxiliary.offers = {};
+	let data = AuxiliaryStore.getData();
+	data.offers = {};
 	if (result && result.length) {
-		for (let i = 0; i < result.length; i++) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
 			let offer = result[i];
-			auxiliary.offers[offer.id] = offer;
-			auxiliary.customers[offer.customerId].type = auxiliary.customers[offer.customerId].type || 'offer';
+			data.offers[offer.id] = offer;
+			data.customers[offer.customerId].type = data.customers[offer.customerId].type || 'offer';
 		}
 	}
-	auxiliary.offersLoaded = true;
+	data.offersLoaded = true;
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_OFFERS', AuxiliaryStore.onGetAuxiliaryOffers);
 
 // GET AUXILIARY INTERVENTIONS
 AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
-	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
-	auxiliary.interventions = {};
+	let data = AuxiliaryStore.getData();
+	data.interventions = {};
 	if (result && result.length) {
-		for (let i = 0; i < result.length; i++) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
 			let intervention = result[i];
-			auxiliary.interventions[intervention.id] = intervention;
-			auxiliary.customers[intervention.customerId].type = 'intervention';
+			data.interventions[intervention.id] = intervention;
+			data.customers[intervention.customerId].type = 'intervention';
 		}
 	}
-	auxiliary.interventionsLoaded = true;
+	data.interventionsLoaded = true;
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_INTERVENTIONS', AuxiliaryStore.onGetAuxiliaryInterventions);
 
 // GET AUXILIARY INDISPONIBILITIES
 AuxiliaryStore.onGetAuxiliaryIndisponibilities = function (result, param) {
-	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
-	auxiliary.indisponibilities = {};
+	let data = AuxiliaryStore.getData();
+	data.indisponibilities = {};
 	if (result && result.length) {
-		for (let i = 0; i < result.length; i++) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
 			let indisponibility = result[i];
-			auxiliary.indisponibilities[indisponibility.id] = indisponibility;
+			data.indisponibilities[indisponibility.id] = indisponibility;
 		}
 	}
-	auxiliary.indisponibilitiesLoaded = true;
+	data.indisponibilitiesLoaded = true;
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_INDISPONIBILITIES', AuxiliaryStore.onGetAuxiliaryIndisponibilities);
 
 // GET AUXILIARY GEOZONES
 AuxiliaryStore.onGetAuxiliaryGeoZones = function (result, param) {
-	//let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-	let auxiliary = AuxiliaryStore.getAuxiliary(param.auxiliaryId);
-	auxiliary.geoZones = result.geoZones || [];
-	auxiliary.geoZonesLoaded = true;
+	let data = AuxiliaryStore.getData();
+	data.geoZones = result.geoZones || [];
+	data.geoZonesLoaded = true;
 	AuxiliaryStore.notify();
 };
 Dispatcher.register('GET_AUXILIARY_GEOZONES', AuxiliaryStore.onGetAuxiliaryGeoZones);

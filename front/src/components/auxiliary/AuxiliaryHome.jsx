@@ -18,7 +18,7 @@ class AuxiliaryHome extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')),
+			data: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showProfilePrompt: true
 		};
@@ -41,7 +41,7 @@ class AuxiliaryHome extends React.Component {
     }
 	
 	onStoreUpdate(first) {
-		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/auxiliary/' + StoreRegistry.getStore('LOGIN_STORE').getData('/id')) });
+		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData() });
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}

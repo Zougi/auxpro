@@ -21,6 +21,16 @@ Logout.do = function () {
 	});
 }
 
+// ROUTING
+var Navigate = new ActionBase({ name: 'NAVIGATE' });
+Navigate.do = function (args) {
+	Utils.checkMembers(args, ['route']);
+	return new Promise(function (resolve, reject) {
+		resolve(args.route);
+	});
+}
+
+
 // GET IMAGE
 let GetImage = new ActionBase({ name: 'GET_IMAGE' });
 GetImage.do = function (args) {
