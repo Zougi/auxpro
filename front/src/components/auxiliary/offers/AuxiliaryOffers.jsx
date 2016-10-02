@@ -5,10 +5,11 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 import Utils from 'utils/Utils.js'
 // custom components
-import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
+import { APButton } from 'lib/Lib.jsx';
 import OfferSummary from './OfferSummary.jsx'
 import OfferDetails from './OfferDetails.jsx'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
+
 
 let STATES = {
 	LIST: 'LIST',
@@ -121,7 +122,6 @@ class AuxiliaryOffers extends React.Component {
 		case STATES.VIEW:
 			return(
 				<div>
-					<AuxiliaryHeader auxiliary={this.props.auxiliary}/>
 					<br/>
 					<OfferDetails
 						offer={this.state.offer}
@@ -134,26 +134,15 @@ class AuxiliaryOffers extends React.Component {
 		default:
 			return (
 				<div>
-					<AuxiliaryHeader auxiliary={this.props.auxiliary}/>
 					<br/>
 					<Panel header='Offres en cours'>
 						<Row style={{textAlign:'center'}}>
 							<ButtonGroup>
-							    <Button bsStyle='primary' onClick={this.onOffersFilter('').bind(this)}>
-							    	Toutes
-							    </Button>
-							    <Button bsStyle='info' active={false} onClick={this.onOffersFilter('PENDING').bind(this)}>
-							    	En attente
-							    </Button>
-							    <Button bsStyle='success' onClick={this.onOffersFilter('ACCEPTED').bind(this)}>
-							    	Acceptées
-							    </Button>
-							    <Button bsStyle='danger' onClick={this.onOffersFilter('REJECTED').bind(this)}>
-							    	Rejetées
-							    </Button>
-							    <Button onClick={this.onOffersFilter('EXPIRED').bind(this)}>
-							    	Expirées
-							    </Button>
+							    <APButton bsStyle='primary' onClick={this.onOffersFilter('').bind(this)} text='Toutes' />
+							    <APButton bsStyle='info' onClick={this.onOffersFilter('PENDING').bind(this)} text='En attente' />
+							    <APButton bsStyle='success' onClick={this.onOffersFilter('ACCEPTED').bind(this)} text='Acceptées' />
+							    <APButton bsStyle='danger' onClick={this.onOffersFilter('REJECTED').bind(this)} text='Rejetées' />
+							    <APButton onClick={this.onOffersFilter('EXPIRED').bind(this)} text='Expirées' />
 							</ButtonGroup>
 						</Row>
 						<br/>

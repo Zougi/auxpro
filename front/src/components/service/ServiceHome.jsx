@@ -10,7 +10,7 @@ import ServicesTuto from './ServicesTuto.jsx'
 import ServiceProfile from './profile/ServiceProfile.jsx'
 import ServiceCustomers from './customers/ServiceCustomers.jsx'
 import ServiceInterventions from './interventions/ServiceInterventions.jsx'
-import ServicesMap from './map/ServicesMap.jsx'
+import ServiceMap from './map/ServiceMap.jsx'
 
 class ServiceHome extends React.Component {
 
@@ -74,7 +74,7 @@ class ServiceHome extends React.Component {
 	);}
 	
 	getZone() { return (
-		<ServicesMap
+		<ServiceMap
 			service={this.state.data.service || {}}
 			customers={this.state.data.customers || {}}
 			auxiliaries={this.state.data.auxiliaries || {}} />

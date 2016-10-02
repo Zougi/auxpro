@@ -1,5 +1,7 @@
 import React from 'react';
 
+import StoreRegistry from 'core/StoreRegistry';
+
 import AsyncImage from 'lib/image/AsyncImage.jsx'
 import ImageUploader from 'lib/image/ImageUploader.jsx'
 import { Col, Row, ITable, Panel } from 'lib/Lib.jsx';
@@ -9,7 +11,6 @@ class AuxiliaryHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { src: null };
-		this.img = props.auxiliary.person.civility==='Mme'?'./../../../assets/img/profil-f.jpeg':'./../../../assets/img/profil.jpeg'
 	}
 
 	componentWillReceiveProps(props) {
@@ -23,31 +24,35 @@ class AuxiliaryHeader extends React.Component {
 		}
 	}
 
-	render() { 
-		var table = [
+	_buildTable() {
+		return [
 			[
 				{th: "Civilité"},
-				{td: this.props.auxiliary.person.civility}
+				{td: this.props.storeData.data.auxiliary.person.civility || ''}
 			],
 			[
 				{th: "Nom"},
-				{td: this.props.auxiliary.person.firstName + " " + this.props.auxiliary.person.lastName}
+				{td: (this.props.storeData.data.auxiliary.person.firstName + ' ' + this.props.storeData.data.auxiliary.person.lastName) || ''}
 			],
 			[
 				{th: "Adresse electronique"},
-				{td: this.props.auxiliary.user.email}
+				{td: this.props.storeData.data.auxiliary.user.email || ''}
 			],
 			[
 				{th: "Diplome"},
-				{td: this.props.auxiliary.diploma}
+				{td: this.props.storeData.data.auxiliary.diploma || ''}
 			]
 		];
+	}
 
+	render() {
+		console.log('HEERE');
+		console.log(this.props);
 		return(	
 			<Panel>
 				<Row>
 					<Col sm={4}>
-						<AsyncImage src={this.state.src || this.props.auxiliary.user.avatar} width={200} height={200}/>
+						<AsyncImage src={this.state.src || this.props.storeData.data.auxiliary.user.avatar} width={200} height={200}/>
 						{this.props.edit ? 
 							<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
 						:
@@ -56,7 +61,7 @@ class AuxiliaryHeader extends React.Component {
 					</Col>
 					<Col sm={8}>
 						<Panel>
-							<ITable rows={table} bordered striped hover fill/>
+							<ITable rows={this._buildTable()} bordered striped hover fill/>
 						</Panel>
 					</Col>
 				</Row>

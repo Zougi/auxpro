@@ -5,7 +5,6 @@ import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel, Form, FormGrou
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
-import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import Calendar from 'components-lib/calendar/Calendar.jsx';
 import FormSelect from 'components-lib/Form/FormSelect.jsx';
 import AuxiliaryPlaningInformation from './AuxiliaryPlaningInformation.jsx';
@@ -130,7 +129,6 @@ class AuxiliaryPlaning extends React.Component {
 		});
 		return (
 			<div>
-				<AuxiliaryHeader auxiliary={this.props.auxiliary}/>
 				<br/>
 				<Col sm={2} md={2} lg={3}>
 					<Panel header="Actions" className='no-print'>

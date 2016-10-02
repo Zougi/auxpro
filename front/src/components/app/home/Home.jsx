@@ -11,8 +11,14 @@ class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			auxiliary: { storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData() },
+			service: { storeData: StoreRegistry.getStore('SERVICE_STORE').getData() },
+			guest: null,
+			admin: null
+		}
 	}
-	
+
 	componentWillMount() {
         let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
 		if (!logged) {
@@ -20,11 +26,29 @@ class Home extends React.Component {
 		}
     }
 
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this._onAuxStoreUpdate.bind(this));
+	 	StoreRegistry.register('SERVICE_STORE', this, this._onServiceStoreUpdate.bind(this));
+    }
+    
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
+        StoreRegistry.unregister('SERVICE_STORE', this);
+    }
+
+    _onAuxStoreUpdate() {
+    	this.setState({ auxiliary: { storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData() } });
+    }
+
+    _onServiceStoreUpdate() {
+    	this.setState({ service: { storeData: StoreRegistry.getStore('SERVICE_STORE').getData() } });
+    }
+
 	render() {
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
 		switch (type) {
-			case 'sad'  : return(<ServiceHome nav={this.props.params.nav} query={this.props.location.query}/>);
-			case 'aux'  : return(<AuxiliaryHome nav={this.props.params.nav} query={this.props.location.query}/>);
+			case 'sad'  : return(<ServiceHome {...this.state.service} nav={this.props.params.nav} query={this.props.location.query}/>);
+			case 'aux'  : return(<AuxiliaryHome {...this.state.auxiliary} nav={this.props.params.nav} query={this.props.location.query}/>);
 			case 'admin': return(<GuestHome/>);
 			case 'guest': return(<GuestHome/>);
 			default: return (

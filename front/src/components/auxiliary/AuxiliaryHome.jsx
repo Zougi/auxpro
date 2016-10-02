@@ -6,9 +6,9 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
 import ModalDialog from 'components-lib/Modal/ModalDialog.jsx'
+import AuxiliaryHeader from './AuxiliaryHeader.jsx'
 import AuxiliaryMap from './map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from './planing/AuxiliaryPlaning.jsx'
-import AuxiliaryHeader from './AuxiliaryHeader.jsx'
 import AuxiliaryOffers from './offers/AuxiliaryOffers.jsx'
 import AuxiliaryProfile from './profile/AuxiliaryProfile.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'
@@ -18,9 +18,10 @@ class AuxiliaryHome extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
+			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data'),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
-			showProfilePrompt: true
+			showProfilePrompt: true,
+			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader')
 		};
 
 		this.content = {
@@ -37,11 +38,12 @@ class AuxiliaryHome extends React.Component {
     }
     
     componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);   
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
     }
-	
+
 	onStoreUpdate(first) {
-		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData() });
+		this.setState({ showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') });
+		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data') });
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
@@ -89,7 +91,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getInfos() {
 		return (
-			<AuxiliaryProfile 
+			<AuxiliaryProfile storeData={this.props.storeData}				
 				auxiliary={this.state.data.auxiliary ||	 {}}
 				edit={this.props.query.edit === 'true'} />
 		);
@@ -97,7 +99,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getPlanning() {
 		return (
-			<AuxiliaryPlaning 
+			<AuxiliaryPlaning storeData={this.props.storeData}
 				auxiliary={this.state.data.auxiliary}
 				customers={this.state.data.customers}
 				indisponibilities={this.state.data.indisponibilities}
@@ -109,7 +111,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getZone() {
 		return (
-			<AuxiliaryMap 
+			<AuxiliaryMap storeData={this.props.storeData}
 				auxiliary={this.state.data.auxiliary}
 				offers={this.state.data.offers}
 				interventions={this.state.data.interventions}
@@ -122,7 +124,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getOffers() {
 		return (
-			<AuxiliaryOffers
+			<AuxiliaryOffers storeData={this.props.storeData}
 				auxiliary={this.state.data.auxiliary}
 				customers={this.state.data.customers}
 				interventions={this.state.data.interventions}
@@ -155,6 +157,11 @@ class AuxiliaryHome extends React.Component {
 		}
 		return (
 			<div className='container'>
+				{this.state.showUserHeader ? 
+					<AuxiliaryHeader storeData={this.props.storeData} />
+				:
+					''
+				}
 				<Row>
 					{this.getContent(this.props.nav)}
 				</Row>

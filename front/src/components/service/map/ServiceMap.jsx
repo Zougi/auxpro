@@ -7,7 +7,7 @@ import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 import ServiceHeader from '../ServiceHeader.jsx';
 import ServiceMapInformation from './ServiceMapInformation.jsx'
 
-class ServicesMap extends React.Component {
+class ServiceMap extends React.Component {
 
     constructor(props) {
         super(props);
@@ -120,4 +120,4 @@ class ServicesMap extends React.Component {
     }
 }
 
-export default ServicesMap;
+export default ServiceMap;

@@ -22,7 +22,8 @@ export const FormInput = FormInputBase;
 import IFormBase from './IForm/IForm.jsx';
 export const IForm = IFormBase;
 
-
+import APButtonBase from './button/APButton.jsx';
+export const APButton = APButtonBase;
 
 
 

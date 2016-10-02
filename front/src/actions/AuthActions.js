@@ -22,8 +22,8 @@ Logout.do = function () {
 }
 
 // ROUTING
-var Navigate = new ActionBase({ name: 'NAVIGATE' });
-Navigate.do = function (args) {
+var RouterChanged = new ActionBase({ name: 'ROUTER_CHANGED' });
+RouterChanged.do = function (args) {
 	Utils.checkMembers(args, ['route']);
 	return new Promise(function (resolve, reject) {
 		resolve(args.route);

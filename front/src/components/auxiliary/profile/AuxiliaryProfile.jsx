@@ -104,7 +104,7 @@ class AuxiliaryProfile extends React.Component {
 					<Row>
 						<Col sm={12}>
 							<AuxiliaryHeader 
-								auxiliary={this.props.auxiliary}
+								storeData={this.props.storeData}
 								onAvatarChanged={this.onAvatarChanged.bind(this)}
 								edit={this.state.state === STATES.EDIT}/>
 						</Col>

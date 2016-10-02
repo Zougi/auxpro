@@ -15,6 +15,7 @@ var DEFAULT_APP_CONTENT = {
 
 var DEFAULT_CONTENT = { 
 	app: DEFAULT_APP_CONTENT,
+	route: '/',
 	busy: false,
 	images: {}
 };
@@ -88,6 +89,13 @@ Dispatcher.register('LOGON', AppStore.onLogon);
 AppStore.onLogout = function (result, param) {
 	AppStore._content.app = DEFAULT_APP_CONTENT;
 	AppStore.notify();
+};
+Dispatcher.register('LOGOUT', AppStore.onLogout);
+
+// ROUTER_CHANGED
+AppStore.onRouterChanged = function (result, param) {
+	AppStore._content.route = result;
+	AppStore.notify('/route');
 };
 Dispatcher.register('LOGOUT', AppStore.onLogout);
 
