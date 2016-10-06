@@ -13,8 +13,7 @@ public class AuxiliaryBean extends MongoEntity {
 	private PersonBean person;
 	private ContactBean contact;
 	private SkillsBean skills;
-	private boolean entrepeneur;
-	private String diploma;
+	private AuxiliaryInfoBean infos;
 	private GeoZoneBean[] geoZones;
 	
 	public AuxiliaryBean() {
@@ -33,16 +32,13 @@ public class AuxiliaryBean extends MongoEntity {
 	public ContactBean getContact() { return contact; }
 	public void setContact(ContactBean contact) { this.contact = contact; }
 	
-	public boolean getEntrepeneur() { return entrepeneur; }
-	public void setEntrepeneur(boolean entrepeneur) { this.entrepeneur = entrepeneur; }
-
-	public String getDiploma() { return diploma; }
-	public void setDiploma(String diploma) { this.diploma = diploma; }
-
 	public SkillsBean getSkills() { return skills; }
 	public void setSkills(SkillsBean skills) { this.skills = skills; }
 	
 	public GeoZoneBean[] getGeoZones() { return geoZones; }
 	public void setGeoZones(GeoZoneBean[] geoZones) { this.geoZones = geoZones; }
+
+	public AuxiliaryInfoBean getInfos() { return infos;	}
+	public void setInfos(AuxiliaryInfoBean infos) { this.infos = infos; }
 
 }

@@ -1,5 +1,4 @@
 {
-	"diploma":"Diplome de foufou",
 	"user": {
 		"name":"user2@user2.fr",
 		"password":"user2pwd",
@@ -9,7 +8,11 @@
 		"tutoSkipped":false,
 		"type":"aux"
 	},
-	
+	"infos": {
+		"diploma":"Diplome de foufou",
+		"entrepeneur":false,
+		"profileComplete":true
+	},
 	"person": {
 		"civility":"Mme",
 		"firstName": "Julie",

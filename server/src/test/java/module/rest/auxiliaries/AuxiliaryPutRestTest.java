@@ -55,7 +55,7 @@ public class AuxiliaryPutRestTest extends RestTestBase {
 		AuxiliaryBean userAux = prepare(getBaseUrl(), auxiliary1.getUser()).get(AuxiliaryBean.class);
 		AssertHelper.assertAuxiliary(auxiliary1, userAux);
 
-		auxiliary1.setDiploma("dummy");
+		auxiliary1.getInfos().setDiploma("dummy");
 		Response response = prepare(getBaseUrl(), auxiliary1.getUser()).put(write(auxiliary1));
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 

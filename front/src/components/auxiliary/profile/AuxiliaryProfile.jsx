@@ -67,7 +67,7 @@ class AuxiliaryProfile extends React.Component {
 				person: this.auxiliary.person || this.props.auxiliary.person,
 				contact: this.auxiliary.contact || this.props.auxiliary.contact,
 				user: user,
-				diploma: this.auxiliary.diploma || this.props.auxiliary.diploma
+				diploma: this.auxiliary.infos.diploma || this.props.auxiliary.infos.diploma
 			}
         }).
         then(function () {
@@ -153,7 +153,7 @@ class AuxiliaryProfile extends React.Component {
 					<Panel>
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
-							{this.props.auxiliary.diploma}
+							{this.props.auxiliary.infos.diploma}
 						</Panel>
 						<Button bsStyle='info' block onClick={this.setStateQuestions.bind(this)}>Questionnaire</Button>
 						<br/>

@@ -8,6 +8,11 @@
 		"tutoSkipped":true,
 		"type":"aux"
 	},
+	"infos": {
+		"diploma":"Diplome de trucmuche",
+		"entrepeneur":false,
+		"profileComplete":true
+	},
 	"person": {
 		"civility":"Mme",
 		"firstName": "Chloe",
@@ -42,7 +47,6 @@
 		"administrative": 1,
 		"doityourself":   2
 	},
-	"diploma":"Diplome de trucmuche",
 	"geoZones": [
 		{
 			"lattitude": "48.849274", 

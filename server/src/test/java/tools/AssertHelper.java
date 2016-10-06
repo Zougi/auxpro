@@ -10,6 +10,7 @@ import org.ap.web.entity.error.ErrorDetailsBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.AddressBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryInfoBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
@@ -66,7 +67,12 @@ public class AssertHelper {
 		assertContact(expected.getContact(), actual.getContact());
 		assertPerson(expected.getPerson(), actual.getPerson());
 		assertSkills(expected.getSkills(), actual.getSkills());
+		assertAuxiliaryInfo(expected.getInfos(), actual.getInfos());
+	}
+	public static void assertAuxiliaryInfo(AuxiliaryInfoBean expected, AuxiliaryInfoBean actual) {
 		TestCase.assertEquals(expected.getDiploma(), actual.getDiploma());
+		TestCase.assertEquals(expected.getEntrepeneur(), actual.getEntrepeneur());
+		TestCase.assertEquals(expected.getProfileComplete(), actual.getProfileComplete());
 	}
 	public static void assertContact(ContactBean expected, ContactBean actual) {
 		if (expected == null) {

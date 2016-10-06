@@ -40,7 +40,7 @@ class AuxiliaryHeader extends React.Component {
 			],
 			[
 				{th: "Diplome"},
-				{td: this.props.storeData.data.auxiliary.diploma || ''}
+				{td: this.props.storeData.data.auxiliary.infos.diploma || ''}
 			]
 		];
 	}

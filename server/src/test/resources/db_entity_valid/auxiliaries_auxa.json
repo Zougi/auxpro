@@ -9,6 +9,11 @@
 		"tutoSkipped": true,
 		"type": "aux"
 	},
+	"infos": {
+		"diploma":"Diplome de trucmuche",
+		"entrepeneur":false,
+		"profileComplete":true
+	},
 	"person": {
 		"civility": "Mr",
 		"firstName": "Jean-Edouard",
@@ -45,7 +50,6 @@
 		"administrative": 4,
 		"doityourself":   1
 	},
-	"diploma": "Diplome de trucmuche",
 	"geoZones": [
 		{"lattitude": "48.849274", "longitude": "2.336302", "radius":"500"}
 	]
