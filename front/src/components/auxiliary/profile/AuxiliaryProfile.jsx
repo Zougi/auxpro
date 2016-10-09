@@ -40,20 +40,20 @@ class AuxiliaryProfile extends React.Component {
 							<Panel header='Informations personnelles' bsStyle='info'>
 								<Col sm={6}>
 									<Person 
-			            				civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
-			            				lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
-			            				firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
-			            				birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
-			            				birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
-			            				birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
-			            				nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
-			            				socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}/>
+										civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
+										lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
+										firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
+										birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
+										birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
+										birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
+										nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
+										socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}/>
 								</Col>
 								<Col sm={6}>
 									<Contact 
-			            				address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
-			            				phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
-			            				email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''} />
+										address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
+										phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
+										email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''} />
 								</Col>
 							</Panel>
 						</Col>

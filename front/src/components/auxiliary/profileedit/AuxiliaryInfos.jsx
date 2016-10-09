@@ -3,6 +3,7 @@ import { Panel } from 'react-bootstrap'
 
 import FormInput from 'components-lib/Form/FormInput.jsx'
 import FormSelect from 'components-lib/Form/FormSelect.jsx'
+import FormTextArea from 'components-lib/Form/FormTextArea.jsx'
 
 class AuxiliaryInfos extends React.Component {
 	
@@ -26,9 +27,9 @@ class AuxiliaryInfos extends React.Component {
 	}
 
 	onEntrepreneurChanged(value) {
-    	this.infos.entrepreneur = value;
-    	this.notify();
-    }
+		this.infos.entrepreneur = value;
+		this.notify();
+	}
 	onDiplomaChanged(value) {
 		this.infos.diploma = value;
 		this.notify();
@@ -52,9 +53,10 @@ class AuxiliaryInfos extends React.Component {
 					title='Diplôme'
 					defaultValue={this.props.diploma} 
 					onChange={this.onDiplomaChanged.bind(this)}/>
-				<FormInput 
+				<FormTextArea
 					static={false}
 					title='Ma description'
+					rows={5}
 					defaultValue={this.props.description} 
 					onChange={this.onDescriptionChanged.bind(this)}/>
 			</Panel>

@@ -24,18 +24,18 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-        StoreRegistry.register('LOGIN_STORE', this, this.onLogon.bind(this));
-    }
+		StoreRegistry.register('LOGIN_STORE', this, this.onLogon.bind(this));
+	}
 
-    componentWillUnmount() {
-        StoreRegistry.unregister('LOGIN_STORE', this);   
-    }
+	componentWillUnmount() {
+		StoreRegistry.unregister('LOGIN_STORE', this);   
+	}
 	
 	onLogon() {
 		let args = {};
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		let toHome = function () {
-			this.context.router.push("/home/infos");
+			this.context.router.push('/home/infos');
 		}
 		if (user.logged) {
 			switch (user.type) {
@@ -75,36 +75,36 @@ class App extends React.Component {
 				args.token = user.token;
 				
 				Dispatcher.issue("GET_SERVICE", args).
-		        then(function() {
-		        	return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
-		        }).
-		        then(function() {
-		        	return Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
-		        }).
-		        then(function() {
-		        	return Dispatcher.issue('GET_SERVICE_OFFERS', args);
-		        }).
-		        then(function() {
-		        	return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
-		        }).
-		        then(function() {
-		        	console.log('==== DONNES INITIALE DU SERVICE ====');
-		        	console.log(StoreRegistry.getStore('SERVICE_STORE').getData());
-		        }).
-		        then(toHome.bind(this)).
-		        catch(function(error) {
-		        	console.log('erreur au chargement du service');
-		        	console.log(error);
-		        });				
+				then(function() {
+					return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
+				}).
+				then(function() {
+					return Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
+				}).
+				then(function() {
+					return Dispatcher.issue('GET_SERVICE_OFFERS', args);
+				}).
+				then(function() {
+					return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
+				}).
+				then(function() {
+					console.log('==== DONNES INITIALE DU SERVICE ====');
+					console.log(StoreRegistry.getStore('SERVICE_STORE').getData());
+				}).
+				then(toHome.bind(this)).
+				catch(function(error) {
+					console.log('erreur au chargement du service');
+					console.log(error);
+				});				
 				break;
 			default:
 				args.token = user.token;
 				Dispatcher.issue("GET_SERVICES", args).
 				then(toHome.bind(this)).
-		        catch(function(error) {
-		        	console.log('erreur au chargement des services');
-		        	console.log(error);
-		        });				
+				catch(function(error) {
+					console.log('erreur au chargement des services');
+					console.log(error);
+				});				
 				break;
 			}	
 			

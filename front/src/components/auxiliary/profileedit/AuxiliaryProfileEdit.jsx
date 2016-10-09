@@ -23,7 +23,7 @@ class AuxiliaryProfileEdit extends React.Component {
 	}
 
 	componentWillReceiveProps() {
-		this.auxiliary = {};	
+		this.auxiliary = {};
 	}
 
 	onAvatarChanged(avatar) {
@@ -44,20 +44,20 @@ class AuxiliaryProfileEdit extends React.Component {
 		event.preventDefault();
 		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		user.avatar = this.auxiliary.avatar || user.avatar;
-        Dispatcher.issue('PUT_AUXILIARY', {
+		Dispatcher.issue('PUT_AUXILIARY', {
 			auxiliaryId: user.id,
-        	token: user.token,
-        	data: {
+			token: user.token,
+			data: {
 				id: user.id,
 				contact: this.auxiliary.contact || this.props.auxiliary.contact,
 				person: this.auxiliary.person || this.props.auxiliary.person,
 				infos: this.auxiliary.infos || this.props.auxiliary.infos,
 				user: user
 			}
-        }).
-        then(function () {
-        	this.setStateView();
-        }.bind(this));
+		}).
+		then(function () {
+			this.context.router.push('/home/infos');
+		}.bind(this));
 	}
 
 	render() { 
@@ -91,38 +91,38 @@ class AuxiliaryProfileEdit extends React.Component {
 							<Panel header='Informations personnelles' bsStyle='info'>
 								<Col md={6}>
 									<Person 
-		            					edit={true}
-			            				civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
-			            				lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
-			            				firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
-			            				birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
-			            				birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
-			            				birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
-			            				nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
-			            				socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}
-			            				onChange={this.onPersonChanged.bind(this)}/>
+										edit={true}
+										civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
+										lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
+										firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
+										birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
+										birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
+										birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
+										nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
+										socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}
+										onChange={this.onPersonChanged.bind(this)}/>
 								</Col>
 								<Col md={6}>
 									<Contact 
-			            				edit={true}
-			            				address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
-			            				phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
-			            				email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
-			            				onChange={this.onContactChanged.bind(this)}/>
+										edit={true}
+										address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
+										phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
+										email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
+										onChange={this.onContactChanged.bind(this)}/>
 								</Col>
 							</Panel>
 							<AuxiliaryInfos
 								edit={true}
-	            				entrepreneur={this.props.auxiliary.infos ? this.props.auxiliary.infos.entrepreneur : false}
-	            				diploma={this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
-	            				description={this.props.auxiliary.infos ? this.props.auxiliary.infos.description : ''}
-	            				onChange={this.onInfosChanged.bind(this)}/>
+								entrepreneur={this.props.auxiliary.infos ? this.props.auxiliary.infos.entrepreneur : false}
+								diploma={this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
+								description={this.props.auxiliary.infos ? this.props.auxiliary.infos.description : ''}
+								onChange={this.onInfosChanged.bind(this)}/>
 						</Col>
 					</Row>
 				</Col>
 				<Col sm={3} className='hidden-xs'>
 					<Panel>
-						<APGauge value={95} title='Profil complété à :'/>
+						<APGauge value={75} title='Profil complété à :'/>
 					</Panel>
 				</Col>
 			</div>
@@ -130,5 +130,9 @@ class AuxiliaryProfileEdit extends React.Component {
 		);
 	}
 }
-export default AuxiliaryProfileEdit;
 
+AuxiliaryProfileEdit.contextTypes = {
+	router: React.PropTypes.object
+}
+
+export default AuxiliaryProfileEdit;

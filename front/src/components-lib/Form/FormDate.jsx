@@ -47,10 +47,10 @@ class FormDate extends FormBase {
 		);
 		return (
 			<OverlayTrigger trigger="click" placement="bottom" overlay={overlay} rootClose>
-      			<FormControl 
-					type='text' 
+				<FormControl 
+					type='text'
 					value={MomentHelper.localDateToHumanDate(this.state.date)}/>
-    		</OverlayTrigger>
+			</OverlayTrigger>
 			
 		);
 	}

@@ -32,10 +32,12 @@ class Address extends React.Component {
 	render() {
 		return (
 		<div>
+		{this.props.edit ?
 			<GoogleAutocomplete 
 				edit={this.props.edit}
 				onChange={this.onAutocompleteChanged.bind(this)}
 				placeholder={this.state.address + ', ' + this.state.postalCode + ' ' + this.state.city}/>
+		: '' }
 			<FormInput 
 				static={true}
 				title='Addresse'
