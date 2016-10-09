@@ -1,5 +1,8 @@
 package org.ap.web.entity.mongo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class SkillsBean {
 
 	private int housework;
@@ -10,7 +13,11 @@ public class SkillsBean {
 	private int administrative;
 	private int doityourself;
 	
+	/* CONSTRUCTORS */
+	
 	public SkillsBean() {}
+	
+	/* GETTERS & SETTERS */
 	
 	public int getHousework() { return housework; }
 	public void setHousework(int housework) { this.housework = housework; }
@@ -32,4 +39,19 @@ public class SkillsBean {
 	
 	public int getDoityourself() { return doityourself; }
 	public void setDoityourself(int doityourself) { this.doityourself = doityourself; }
+	
+	/* ADDITIONNAL METHODS */
+	
+	public boolean isCompleted() {
+		return (
+			housework != 0 ||
+			nursing != 0 ||
+			childhood != 0 ||
+			shopping != 0 ||
+			compagny != 0 ||
+			administrative != 0 ||
+			doityourself != 0
+		);
+	}
+	public void setCompleted() {}
 }

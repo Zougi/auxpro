@@ -290,7 +290,7 @@ public class TestData {
 	}
 	public static UserBean next(UserBean bean, String type, String id) {
 		next(bean);
-		bean.setActive(true);
+		bean.setProfileActive(true);
 		//bean.setRegistrationDate(date);
 		bean.setTutoSkipped(true);
 		bean.setType(type);

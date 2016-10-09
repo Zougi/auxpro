@@ -1,0 +1,55 @@
+.ap-gauge {
+	background: white;
+}
+
+.ap-gauge .ap-gauge-title {
+	text-align: center;
+}
+
+.ap-gauge .ap-gauge-container {
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+}
+
+.ap-gauge .ap-gauge-background {
+	width: 80%;
+	height: 80%;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #151515;
+	border-radius: 50%;
+	overflow:hidden;
+}
+
+.ap-gauge .ap-gauge-value {
+	background: #C5C6C7;
+	height: 60%;
+	width: 100%;
+}
+
+.ap-gauge .ap-gauge-text-container {	
+	position: relative;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+
+}
+
+.ap-gauge .ap-gauge-text {	
+	font-size: 50px;
+	font-weight: blod;
+}

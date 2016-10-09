@@ -11,6 +11,7 @@ import AuxiliaryMap from './map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from './planing/AuxiliaryPlaning.jsx'
 import AuxiliaryOffers from './offers/AuxiliaryOffers.jsx'
 import AuxiliaryProfile from './profile/AuxiliaryProfile.jsx'
+import AuxiliaryProfileEdit from './profileedit/AuxiliaryProfileEdit.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'
 
 class AuxiliaryHome extends React.Component {
@@ -27,6 +28,7 @@ class AuxiliaryHome extends React.Component {
 		this.content = {
 			home: this.getHome.bind(this),
 			infos: this.getInfos.bind(this),
+			edit: this.getEdit.bind(this),
 			planning: this.getPlanning.bind(this),
 			zone: this.getZone.bind(this),
 			offres: this.getOffers.bind(this)			
@@ -94,6 +96,15 @@ class AuxiliaryHome extends React.Component {
 			<AuxiliaryProfile storeData={this.props.storeData}				
 				auxiliary={this.state.data.auxiliary ||	 {}}
 				edit={this.props.query.edit === 'true'} />
+		);
+	}
+
+	getEdit() {
+		return (
+			<AuxiliaryProfileEdit
+				storeData={this.props.storeData}				
+				auxiliary={this.state.data.auxiliary ||	 {}}
+				edit={true} />
 		);
 	}
 	

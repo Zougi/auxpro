@@ -5,14 +5,15 @@
 		"password": "a",
 		"email": "a",
 		"registrationDate":[2016, 6, 15, 0, 3],
-		"active": true,
+		"profileActive":true,
+		"profileComplete":true,
 		"tutoSkipped": true,
 		"type": "aux"
 	},
 	"infos": {
 		"diploma":"Diplome de trucmuche",
 		"entrepeneur":false,
-		"profileComplete":true
+		"description":"Je suis blablabla et aussi un peu tructructruc et j'aime faire cacacaetca. enfin bref je suis stroumphement parfait"
 	},
 	"person": {
 		"civility": "Mr",
@@ -32,6 +33,7 @@
 			"address": "181 rue d'Alesia",
 			"postalCode": 75014,
 			"city": "Paris",
+			"country": "France",
 			"lattitude": "48.831006",
 			"longitude": "2.317415"
 		},

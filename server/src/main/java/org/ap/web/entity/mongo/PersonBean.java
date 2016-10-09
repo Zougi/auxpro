@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import org.ap.web.entity.constant.EPersonSex;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class PersonBean {
 
 	private EPersonSex civility = EPersonSex.NULL;
@@ -18,9 +21,13 @@ public class PersonBean {
 	private LocalDate birthDate;
 	private AddressBean birthPlace;
 	
+	/* CONSTRUCTORS */
+	
 	public PersonBean() {
 		birthPlace = new AddressBean();
 	}
+	
+	/* GETTERS & SETTERS */
 	
 	public String getCivility() { return civility.getId(); }
 	public void setCivility(String civility) { this.civility = EPersonSex.fromString(civility); }
@@ -45,4 +52,20 @@ public class PersonBean {
 	
 	public AddressBean getBirthPlace() { return birthPlace; }
 	public void setBirthPlace(AddressBean birthPlace) { this.birthPlace = birthPlace; }
+	
+	/* ADDITIONNAL METHODS */
+	
+	public boolean isCompleted() {
+		return (
+			!getCivility().equals(EPersonSex.NULL) &&  
+			getFirstName() != null &&
+			getLastName() != null &&
+			getSocialNumber() != null &&
+			getNationality() != null &&
+			getCiNumber() != 0 &&
+			getBirthDate() != null &&
+			getBirthPlace() != null
+		);
+	}
+	public void setCompleted() {}
 }

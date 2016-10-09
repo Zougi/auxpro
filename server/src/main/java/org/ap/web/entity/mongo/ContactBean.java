@@ -15,10 +15,14 @@ public class ContactBean {
 	private AddressBean address;
 	private boolean addressChecked;
 	
+	/* CONSTRUCTORS */
+	
 	public ContactBean() {
 		address = new AddressBean();
 	}
 
+	/* GETTERS & SETTERS */
+	
 	public String getEmail() { return email; }
 	public void setEmail(String email) { this.email = email; }
 	public boolean getEmailChecked() { return emailChecked; }
@@ -33,4 +37,24 @@ public class ContactBean {
 	public void setAddress(AddressBean address) { this.address = address; }
 	public boolean getAddressChecked() { return addressChecked; }
 	public void setAddressChecked(boolean addressChecked) { this.addressChecked = addressChecked; };
+	
+	/* ADDITIONNAL METHODS */
+	
+	public boolean isCompleted() {
+		return (
+			getEmail() != null &&
+			getPhone() != null &&
+			getAddress().isCompleted()
+		);
+	}
+	public void setCompleted() {}
+	
+	public boolean isValidated() {
+		return (
+			getEmailChecked() &&
+			getPhoneChecked() &&
+			getAddressChecked()
+		);
+	}
+	public void setValidated() {}
 }

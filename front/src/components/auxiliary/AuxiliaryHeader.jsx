@@ -46,8 +46,6 @@ class AuxiliaryHeader extends React.Component {
 	}
 
 	render() {
-		console.log('HEERE');
-		console.log(this.props);
 		return(	
 			<Panel>
 				<Row>

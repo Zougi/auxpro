@@ -1,4 +1,7 @@
 import React from 'react'
+import { Grid, Row, Col } from 'react-bootstrap'
+
+import APGauge from 'components-lib/charts/APGauge.jsx'
 
 class Contact extends React.Component {
 
@@ -8,7 +11,11 @@ class Contact extends React.Component {
 
 	render() { 
 		return (
-			<h1>Contact</h1>
+			<Grid>
+				<Col xs={4}>
+					<APGauge value='26' title='Profile complété'/>
+				</Col>
+			</Grid>
 		);
 	}
 }

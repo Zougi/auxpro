@@ -14,7 +14,9 @@ public class UserBean extends CredentialsBean {
 	
 	private String avatar;
 	
-	private boolean active;
+	private boolean profileActive;
+	private boolean profileComplete;
+
 	private boolean tutoSkipped;
 	private LocalDateTime registrationDate;
 
@@ -25,8 +27,12 @@ public class UserBean extends CredentialsBean {
 	public void setId(String id) { this.id = id; }
 	
 	@PrivateInformation
-	public boolean getActive() { return active; }
-	public void setActive(boolean active) { this.active = active; }
+	public boolean getProfileActive() { return profileActive; }
+	public void setProfileActive(boolean active) { this.profileActive = active; }
+	
+	@PrivateInformation
+	public boolean getProfileComplete() { return profileComplete; }
+	public void setProfileComplete(boolean profileComplete) { this.profileComplete = profileComplete; }
 	
 	@PrivateInformation
 	public boolean getTutoSkipped() { return tutoSkipped; }

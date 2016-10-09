@@ -70,7 +70,7 @@ public class ServiceGetRestTest extends RestTestBase {
 		service1.getUser().setName(null);
 		service1.getUser().setPassword(null);
 		service1.getUser().setEmail(null);
-		service1.getUser().setActive(false);
+		service1.getUser().setProfileActive(false);
 		service1.getUser().setTutoSkipped(false);
 		AssertHelper.assertService(service1, service);
 	}

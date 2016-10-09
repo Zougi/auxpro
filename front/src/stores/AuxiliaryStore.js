@@ -28,7 +28,7 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 
 // ROUTER_CHANGED
 AuxiliaryStore.onRouterChanged = function (result, param) {
-	if (result.path === '/home/infos' && result.query.edit === 'true') {
+	if (result.path === '/home/edit') {
 		AuxiliaryStore.getContent().display.home.showUserHeader = false;
 	} else {
 		AuxiliaryStore.getContent().display.home.showUserHeader = true;

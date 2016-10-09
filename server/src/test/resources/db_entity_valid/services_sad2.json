@@ -4,7 +4,8 @@
 		"password":"society2pwd",
 		"email":"society2@society2.fr",
 		"registrationDate":[2015, 12, 15, 0, 0],
-		"active":false,
+		"profileActive":true,
+		"profileComplete":true,
 		"tutoSkipped":false,
 		"type":"sad"
 	},

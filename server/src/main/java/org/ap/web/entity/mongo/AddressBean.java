@@ -2,7 +2,10 @@ package org.ap.web.entity.mongo;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class AddressBean {
 		
 	private String address;
@@ -13,7 +16,11 @@ public class AddressBean {
 	private String lattitude;
 	private String longitude;
 	
+	/* CONSTRUCTORS */
+	
 	public AddressBean() {}
+	
+	/* GETTERS & SETTERS */
 	
 	public String getAddress() { return address; }
 	public void setAddress(String address) { this.address = address; }
@@ -32,4 +39,17 @@ public class AddressBean {
 
 	public String getLongitude() { return longitude; }
 	public void setLongitude(String longitude) { this.longitude = longitude; }
+	
+	/* ADDITIONNAL METHODS */
+	
+	public boolean isCompleted() {
+		return (
+			getAddress() != null &&
+			getCity() != null &&
+			getCountry() != null &&
+			getPostalCode() != 0 &&
+			getLattitude() != null &&
+			getLongitude() != null
+		);
+	}
 }

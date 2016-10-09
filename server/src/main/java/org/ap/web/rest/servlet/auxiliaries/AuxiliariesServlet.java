@@ -95,6 +95,8 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		try {
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
 			if (!auxiliary.getId().equals(auxiliaryId)) throw APException.AUXILIARY_INVALID;
+			_auxiliaryStore.get(auxiliary.getId());
+			
 			auxiliary = _auxiliaryStore.update(auxiliary);
 			return Response.status(Status.OK).entity(auxiliary, resolveAnnotations(sc, auxiliary)).build();
 		} catch (APException e) {

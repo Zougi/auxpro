@@ -4,14 +4,14 @@
 		"password":"chloe",
 		"email":"chloe.durand@aux.fr",
 		"registrationDate":[2016, 6, 15, 18, 33],
-		"active":true,
+		"profileActive":true,
+		"profileComplete":true,
 		"tutoSkipped":true,
 		"type":"aux"
 	},
 	"infos": {
 		"diploma":"Diplome de trucmuche",
-		"entrepeneur":false,
-		"profileComplete":true
+		"entrepeneur":false
 	},
 	"person": {
 		"civility":"Mme",

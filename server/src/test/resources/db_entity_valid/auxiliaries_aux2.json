@@ -3,15 +3,15 @@
 		"name":"user2@user2.fr",
 		"password":"user2pwd",
 		"email":"user2@user2.fr",
-		"active":true,
+		"profileActive":true,
+		"profileComplete":true,
 		"registrationDate":[2016, 5, 1, 14, 0],
 		"tutoSkipped":false,
 		"type":"aux"
 	},
 	"infos": {
 		"diploma":"Diplome de foufou",
-		"entrepeneur":false,
-		"profileComplete":true
+		"entrepeneur":false
 	},
 	"person": {
 		"civility":"Mme",

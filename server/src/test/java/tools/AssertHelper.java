@@ -72,7 +72,6 @@ public class AssertHelper {
 	public static void assertAuxiliaryInfo(AuxiliaryInfoBean expected, AuxiliaryInfoBean actual) {
 		TestCase.assertEquals(expected.getDiploma(), actual.getDiploma());
 		TestCase.assertEquals(expected.getEntrepeneur(), actual.getEntrepeneur());
-		TestCase.assertEquals(expected.getProfileComplete(), actual.getProfileComplete());
 	}
 	public static void assertContact(ContactBean expected, ContactBean actual) {
 		if (expected == null) {
@@ -193,7 +192,8 @@ public class AssertHelper {
 	}
 	public static void assertUser(UserBean expected, UserBean actual) {
 		assertCredentials(expected, actual);
-		TestCase.assertEquals(expected.getActive(), actual.getActive());
+		TestCase.assertEquals(expected.getProfileActive(), actual.getProfileActive());
+		TestCase.assertEquals(expected.getProfileComplete(), actual.getProfileComplete());
 		TestCase.assertEquals(expected.getTutoSkipped(), actual.getTutoSkipped());
 		TestCase.assertEquals(expected.getType(), actual.getType());
 		TestCase.assertEquals(expected.getRegistrationDate(), actual.getRegistrationDate());

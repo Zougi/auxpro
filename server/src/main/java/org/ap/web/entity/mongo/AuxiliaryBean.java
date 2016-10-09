@@ -16,12 +16,16 @@ public class AuxiliaryBean extends MongoEntity {
 	private AuxiliaryInfoBean infos;
 	private GeoZoneBean[] geoZones;
 	
+	/* CONSTRUCTORS */
+	
 	public AuxiliaryBean() {
 		user = new UserBean();
 		person = new PersonBean();
 		contact = new ContactBean();
 		skills = new SkillsBean();
 	}
+	
+	/* GETTERS & SETTERS */
 	
 	public UserBean getUser() { return user; }
 	public void setUser(UserBean user) { this.user = user; }
@@ -40,5 +44,14 @@ public class AuxiliaryBean extends MongoEntity {
 
 	public AuxiliaryInfoBean getInfos() { return infos;	}
 	public void setInfos(AuxiliaryInfoBean infos) { this.infos = infos; }
-
+	
+	public boolean getProfileCompleted() {
+		return (
+			getPerson().isCompleted() &&
+			getContact().isCompleted() &&
+			getSkills().isCompleted() &&
+			(getGeoZones() != null && getGeoZones().length > 0)			
+		);
+	}
+	public void setProfileCompleted(boolean profileCompleted) {}
 }

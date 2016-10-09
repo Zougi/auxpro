@@ -5,7 +5,8 @@
 		"password":"z",
 		"email":"z",
 		"registrationDate":[2016, 2, 15, 0, 0],
-		"active":true,
+		"profileActive":true,
+		"profileComplete":true,
 		"tutoSkipped":true,
 		"type":"sad"
 	},

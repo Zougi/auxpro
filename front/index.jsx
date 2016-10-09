@@ -8,6 +8,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import 'react-bootstrap';
 
 import Bootstrap from './src/core/Bootstrap.js';
+import Dispatcher from 'core/Dispatcher';
 
 // Initial display
 import App  from './src/components/app/App.jsx'
@@ -26,20 +27,30 @@ import Presentation from 'components/app/static/Presentation.jsx'
 // Documentation pages
 import Documentation from './src/documentation/Documentation.jsx'
 
+function onRouteEnter(event) {
+	let params = { 
+		route: {
+			path: event.location.pathname
+
+		}
+	};
+	Dispatcher.issue('ROUTER_CHANGED', params);
+}
+
 render((
   <Router history={browserHistory}>
-    <Route path="/" component={App}>		
+    <Route path="/" component={App} onEnter={onRouteEnter}>
 		<IndexRoute component={Land}/>		
-		<Route path='/login' component={Login}/>
-		<Route path='/registerAux' component={RegisterAux}/>
-		<Route path='/registerSad' component={RegisterSad}/>
-		<Route path='/home' component={Home}/>
-		<Route path='/home/:nav' component={Home}/>
+		<Route path='/login' component={Login} onEnter={onRouteEnter}/>
+		<Route path='/registerAux' component={RegisterAux} onEnter={onRouteEnter}/>
+		<Route path='/registerSad' component={RegisterSad} onEnter={onRouteEnter}/>
+		<Route path='/home' component={Home} onEnter={onRouteEnter}/>
+		<Route path='/home/:nav' component={Home} onEnter={onRouteEnter}/>
 
-		<Route path='/presentation' component={Presentation}/>
-		<Route path='/about' component={About}/>
-		<Route path='/contact' component={Contact}/>
+		<Route path='/presentation' component={Presentation} onEnter={onRouteEnter}/>
+		<Route path='/about' component={About} onEnter={onRouteEnter}/>
+		<Route path='/contact' component={Contact} onEnter={onRouteEnter}/>
 	</Route>
-	<Route path='/doc/:nav' component={Documentation}/>
+	<Route path='/doc/:nav' component={Documentation} onEnter={onRouteEnter}/>
   </Router>
 ), document.getElementById('app'))
