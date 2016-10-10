@@ -46,7 +46,7 @@ AppStore.onLogon = function (result, param) {
 			},
 			subHeader: [
 				{ key: 0, link: '/home', query: {}, name: 'Accueil' },
-				{ key: 1, title: 'Profil', dropdown: [
+				{ key: 1, name: 'Profil', dropdown: [
 					{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
 					{ key: 1.2, link: '/home/edit', query: {}, name: 'Editer profil' }
 				]},
@@ -68,7 +68,7 @@ AppStore.onLogon = function (result, param) {
 			},
 			subHeader: [
 				{ key: 0, link: '/home', query: {}, name: 'Accueil' },
-				{ key: 1, title: 'Informations', dropdown: [
+				{ key: 1, name: 'Informations', dropdown: [
 					{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
 					{ key: 1.2, link: '/home/infos', query: { edit: true }, name: 'Editer profil' }
 				]},

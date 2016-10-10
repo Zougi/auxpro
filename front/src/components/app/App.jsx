@@ -7,6 +7,7 @@ import StoreRegistry from 'core/StoreRegistry';
 
 import AppPreload from 'components-lib/App/Preload/AppPreload.jsx'
 
+import Navbar from 'components-lib/Navbar/Navbar.jsx'
 import AppHeader from './AppHeader.jsx';
 import AppSubHeader from './AppSubHeader.jsx';
 import Footer from './Footer.jsx';
