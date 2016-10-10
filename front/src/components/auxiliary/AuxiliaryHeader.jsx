@@ -25,22 +25,25 @@ class AuxiliaryHeader extends React.Component {
 	}
 
 	_buildTable() {
+		let person = this.props.storeData.data.auxiliary.person;
+		let user   = this.props.storeData.data.auxiliary.user;
+		let infos  = this.props.storeData.data.auxiliary.infos;
 		return [
 			[
-				{th: "Civilité"},
-				{td: this.props.storeData.data.auxiliary.person.civility || ''}
+				{ th: 'Civilité' },
+				{ td: person ? person.civility : '' }
 			],
 			[
-				{th: "Nom"},
-				{td: (this.props.storeData.data.auxiliary.person.firstName + ' ' + this.props.storeData.data.auxiliary.person.lastName) || ''}
+				{ th: 'Nom'},
+				{ td: person ? (person.firstName + ' ' + person.lastName) : '' }
 			],
 			[
-				{th: "Adresse electronique"},
-				{td: this.props.storeData.data.auxiliary.user.email || ''}
+				{th: 'Adresse electronique' },
+				{td: user ? user.email : '' }
 			],
 			[
-				{th: "Diplome"},
-				{td: this.props.storeData.data.auxiliary.infos.diploma || ''}
+				{th: 'Diplome' },
+				{td: infos ? infos.diploma : '' }
 			]
 		];
 	}

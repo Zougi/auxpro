@@ -87,7 +87,21 @@ class AuxiliaryHome extends React.Component {
 
 	getHome() {
 		return (
-			<div>Acceuil</div>
+			<Col sm={12}>
+				<Row>
+					<Col sm={12}>
+					{ (this.state.data.auxiliary.profileCompleted) ?
+						<Panel bsStyle='success' header='Statut profil'>
+							Votre profil est actif.
+						</Panel>
+					:
+						<Panel bsStyle='danger' header='Statut profil'>
+							Votre profil est incomplet.
+						</Panel>
+					}
+					</Col>
+				</Row>
+			</Col>
 		);
 	}
 	

@@ -63,7 +63,7 @@ class AuxiliaryProfile extends React.Component {
 					<Panel>
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
-							{this.props.auxiliary.infos.diploma}
+							{this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
 						</Panel>
 						<Panel bsStyle='info' header='Mes Compétences'>
 							<SkillSummaryList skills={this.props.auxiliary.skills}/>
