@@ -6,12 +6,12 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
 import ModalDialog from 'components-lib/Modal/ModalDialog.jsx'
+import AuxiliaryEdit from './edit/AuxiliaryEdit.jsx'
 import AuxiliaryHeader from './AuxiliaryHeader.jsx'
 import AuxiliaryMap from './map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from './planing/AuxiliaryPlaning.jsx'
 import AuxiliaryOffers from './offers/AuxiliaryOffers.jsx'
 import AuxiliaryProfile from './profile/AuxiliaryProfile.jsx'
-import AuxiliaryProfileEdit from './profileedit/AuxiliaryProfileEdit.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'
 
 class AuxiliaryHome extends React.Component {
@@ -101,7 +101,7 @@ class AuxiliaryHome extends React.Component {
 
 	getEdit() {
 		return (
-			<AuxiliaryProfileEdit
+			<AuxiliaryEdit
 				storeData={this.props.storeData}				
 				auxiliary={this.state.data.auxiliary ||	 {}}
 				edit={true} />

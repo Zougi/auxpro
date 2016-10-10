@@ -84,7 +84,7 @@ class APNavbar extends React.Component {
 		if (item.link) {
 			return (
 				<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
-					<NavItem eventKey={item.key}>
+					<NavItem eventKey={item.key} disabled={item.disabled || this.props.disabled}>
 						{content}
 					</NavItem>
 				</LinkContainer>

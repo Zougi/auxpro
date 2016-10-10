@@ -8,15 +8,25 @@ import StoreRegistry from 'core/StoreRegistry';
 import AppPreload from 'components-lib/App/Preload/AppPreload.jsx'
 
 import Navbar from 'components-lib/Navbar/Navbar.jsx'
-import AppHeader from './AppHeader.jsx';
-import AppSubHeader from './AppSubHeader.jsx';
 import Footer from './Footer.jsx';
+
+function getHeader() {
+	return StoreRegistry.getStore('APP_STORE').getData('/app/header');
+}
+
+function getSubHeader() {
+	return StoreRegistry.getStore('APP_STORE').getData('/app/subHeader');
+}
 
 class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { preload: ap.preload };
+		this.state = { 
+			preload: ap.preload,
+			header: getHeader(),
+			subHeader: getSubHeader()
+		};
 		ap.listeners.push(this._onPreload.bind(this));
 	}
 
@@ -25,13 +35,22 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
+		StoreRegistry.register('APP_STORE', this, this.onAppStoreUpdate.bind(this));
 		StoreRegistry.register('LOGIN_STORE', this, this.onLogon.bind(this));
 	}
 
 	componentWillUnmount() {
-		StoreRegistry.unregister('LOGIN_STORE', this);   
+		StoreRegistry.unregister('LOGIN_STORE', this);
+		StoreRegistry.unregister('APP_STORE', this);
 	}
 	
+	onAppStoreUpdate() {
+		this.setState({ 
+			header: getHeader(),
+			subHeader: getSubHeader()
+		});
+	}
+
 	onLogon() {
 		let args = {};
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
@@ -122,8 +141,18 @@ class App extends React.Component {
 		}
 		return (
 			<div className='ap-app'>
-				<AppHeader className='no-print'/>
-				<AppSubHeader className='no-print'/>
+				<header className='no-print'>
+					<Navbar
+						inverse={true}
+						fixedTop={true}
+						brand={this.state.header.brand} 
+						rightContent={this.state.header.rightContent} />
+				</header>
+				{(this.state.subHeader && this.state.subHeader.length) ?
+					<Navbar 
+						className='no-print'
+						leftContent={this.state.subHeader} />
+				: '' }
 				{this.props.children}
 				<Footer className='no-print'/>
 			</div>

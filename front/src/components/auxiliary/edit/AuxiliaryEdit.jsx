@@ -14,7 +14,7 @@ import AsyncImage from 'lib/image/AsyncImage.jsx'
 import ImageUploader from 'lib/image/ImageUploader.jsx'
 
 
-class AuxiliaryProfileEdit extends React.Component {
+class AuxiliaryEdit extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -131,7 +131,7 @@ class AuxiliaryProfileEdit extends React.Component {
 	}
 }
 
-AuxiliaryProfileEdit.contextTypes = {
+AuxiliaryEdit.contextTypes = {
 	router: React.PropTypes.object
 }
 
