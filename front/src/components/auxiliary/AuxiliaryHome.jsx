@@ -21,7 +21,6 @@ class AuxiliaryHome extends React.Component {
 		this.state = {
 			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data'),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
-			showProfilePrompt: true,
 			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader')
 		};
 
@@ -44,7 +43,9 @@ class AuxiliaryHome extends React.Component {
     }
 
 	onStoreUpdate(first) {
-		this.setState({ showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') });
+		this.setState({ showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') &&
+										StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary/profileCompleted')
+		});
 		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data') });
     }
 	
@@ -73,11 +74,11 @@ class AuxiliaryHome extends React.Component {
     _tutoSkip() {
     	this.setState({ showTuto: false });
     }
-    _profilePromptClose() {
-    	this.setState({ showProfilePrompt: false });
-    }
 
 	getContent(nav) {
+		if (!this.state.data.auxiliary.profileCompleted) {
+			return this.getEdit();
+		}
 		if (nav) {
 			return (this.content[nav]());
 		} else {
@@ -157,18 +158,6 @@ class AuxiliaryHome extends React.Component {
 				services={this.state.data.services} />
 		);
 	}
-	
-	_buildProfilePromptModal() {
-		return (
-			<ModalDialog 
-				show={this.state.showProfilePrompt} 
-				title='Completez votre profil'
-				buttons={[
-					{ bsStyle: 'success', onClick: this._profilePromptClose.bind(this), text: 'Continuer' },
-					{ bsStyle: 'primary', onClick: this._profilePromptClose.bind(this), text: 'Pas maintenant' }
-				]} />
-		);
-	}
 
 	render() { 
 		if (this.state.showTuto) {
@@ -190,11 +179,14 @@ class AuxiliaryHome extends React.Component {
 				<Row>
 					{this.getContent(this.props.nav)}
 				</Row>
-				<br/>
-				{this._buildProfilePromptModal()}
 			</div>
 		);
 	}
 }
+
+AuxiliaryHome.contextTypes = {
+	router: React.PropTypes.object
+}
+
 
 export default AuxiliaryHome;

@@ -1,6 +1,7 @@
 import StoreBase from 'core/StoreBase.js';
 
 import Dispatcher from 'core/Dispatcher';
+import StoreRegistry from 'core/StoreRegistry';
 
 var DEFAULT_APP_CONTENT = {
 	header: {
@@ -10,7 +11,7 @@ var DEFAULT_APP_CONTENT = {
 			{ link: '/login', name: 'Connexion', query: {}, key: 2, isLink: true }
 		]
 	},
-	subHeader: []
+	subHeader: {}
 };
 
 var DEFAULT_CONTENT = { 
@@ -44,16 +45,19 @@ AppStore.onLogon = function (result, param) {
 					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
-			subHeader: [
-				{ key: 0, link: '/home', query: {}, name: 'Accueil' },
-				{ key: 1, name: 'Profil', dropdown: [
-					{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
-					{ key: 1.2, link: '/home/edit', query: {}, name: 'Editer profil' }
-				]},
-				{ key: 2, link: '/home/planning', query: {}, name: 'Planning' },
-				{ key: 3, link: '/home/zone', query: {}, name: 'Zone' },
-				{ key: 4, link: '/home/offres', query: {}, name: 'Offres' }
-			]
+			subHeader: {
+				disabled: true,
+				leftContent: [
+					{ key: 0, link: '/home', query: {}, name: 'Accueil' },
+					{ key: 1, name: 'Profil', dropdown: [
+						{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
+						{ key: 1.2, link: '/home/edit', query: {}, name: 'Editer profil' }
+					]},
+					{ key: 2, link: '/home/planning', query: {}, name: 'Planning' },
+					{ key: 3, link: '/home/zone', query: {}, name: 'Zone' },
+					{ key: 4, link: '/home/offres', query: {}, name: 'Offres' }
+				]
+			}
 		}
 		break;
 	case 'sad':
@@ -66,16 +70,19 @@ AppStore.onLogon = function (result, param) {
 					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
-			subHeader: [
-				{ key: 0, link: '/home', query: {}, name: 'Accueil' },
-				{ key: 1, name: 'Informations', dropdown: [
-					{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
-					{ key: 1.2, link: '/home/infos', query: { edit: true }, name: 'Editer profil' }
-				]},
-				{ key: 2, link: '/home/zone', query: {}, name: 'Ma zone' },
-				{ key: 3, link: '/home/customers', query: {}, name: 'Mes clients' },
-				{ key: 4, link: '/home/interventions', query: {}, name: 'Mes interventions' }
-			]
+			subHeader: {
+				disabled: true,
+				leftContent: [
+					{ key: 0, link: '/home', query: {}, name: 'Accueil' },
+					{ key: 1, name: 'Informations', dropdown: [
+						{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
+						{ key: 1.2, link: '/home/infos', query: { edit: true }, name: 'Editer profil' }
+					]},
+					{ key: 2, link: '/home/zone', query: {}, name: 'Ma zone' },
+					{ key: 3, link: '/home/customers', query: {}, name: 'Mes clients' },
+					{ key: 4, link: '/home/interventions', query: {}, name: 'Mes interventions' }
+				]
+			}
 		}
 		break;
 	default:
@@ -84,6 +91,18 @@ AppStore.onLogon = function (result, param) {
 	AppStore.notify();
 };
 Dispatcher.register('LOGON', AppStore.onLogon);
+
+// GET_AUXILIARY - PUT_AUXILIARY
+AppStore.onGetAuxiliary = function (result, param) {
+	if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'aux') {
+		AppStore._content.app.subHeader.disabled = !result.profileCompleted;
+		console.log('HEEEEEEEEERE')
+		console.log(AppStore._content);
+		AppStore.notify();
+	}
+}
+Dispatcher.register('GET_AUXILIARY', AppStore.onGetAuxiliary);
+Dispatcher.register('PUT_AUXILIARY', AppStore.onGetAuxiliary);
 
 // LOGOUT
 AppStore.onLogout = function (result, param) {

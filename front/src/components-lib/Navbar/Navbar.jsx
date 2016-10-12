@@ -92,7 +92,7 @@ class APNavbar extends React.Component {
 		}
 		if (item.dropdown) {
 			return (
-				<NavDropdown eventKey={item.key} title={item.name}>
+				<NavDropdown eventKey={item.key} title={item.name} disabled={item.disabled || this.props.disabled}>
 					{item.dropdown.map(this._buildDropdown)}
 				</NavDropdown>
 			);

@@ -30,6 +30,14 @@ RouterChanged.do = function (args) {
 	});
 }
 
+// SET APP DISPLAY
+var SetAppDisplay = new ActionBase({ name: 'SET_APP_DISPLAY' });
+SetAppDisplay.do = function (args) {
+	Utils.checkMembers(args, ['path', 'value']);
+	return new Promise(function (resolve, reject) {
+		resolve({ path: args.path, value: args.value });
+	});
+}
 
 // GET IMAGE
 let GetImage = new ActionBase({ name: 'GET_IMAGE' });

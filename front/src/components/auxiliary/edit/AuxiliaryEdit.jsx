@@ -63,69 +63,68 @@ class AuxiliaryEdit extends React.Component {
 	render() { 
 		return (
 		<Form horizontal>
-			<div>
+		{ !(this.props.auxiliary.profileCompleted) ?
+			<Row>
 				<Col sm={12}>
-					<Row>
-						<Col sm={12}>
-							<Button bsStyle='success' onClick={this.saveProfile.bind(this)} block>Enregistrer modifications</Button>
-						</Col>
-					</Row>
+					<Panel bsStyle='danger' header='Statut profil'>
+						<p>Votre profil est incomplet.</p>
+						<p>Vous devez compléter votre profil afin de pouvoir utiliser nos services.</p>
+						<p>Veuillez remplir les informations obligatoires ci-dessous.</p>
+					</Panel>
 				</Col>
-				<br/>
-				<br/>
-				<br/>
+			</Row>
+		: '' }
+			<Row>
+				<Col sm={12}>
+					<Button bsStyle='success' onClick={this.saveProfile.bind(this)} block>Enregistrer modifications</Button>
+				</Col>
+			</Row>
+			<br/>
+			<Row>
 				<Col sm={9}>
-					<Row>
-						<Col sm={12}>
-							<Panel header='Ma photo' bsStyle='info'>
-								<AsyncImage 
-									src={this.auxiliary.avatar || this.props.storeData.data.auxiliary.user.avatar} 
-									width={200} 
-									height={200}/>
-								<ImageUploader onUploadComplete={this.onAvatarChanged.bind(this)}/>
-							</Panel>
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={12}>
-							<Panel header='Informations personnelles' bsStyle='info'>
-								<Col md={6}>
-									<Person 
-										edit={true}
-										civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
-										lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
-										firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
-										birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
-										birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
-										birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
-										nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
-										socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}
-										onChange={this.onPersonChanged.bind(this)}/>
-								</Col>
-								<Col md={6}>
-									<Contact 
-										edit={true}
-										address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
-										phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
-										email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
-										onChange={this.onContactChanged.bind(this)}/>
-								</Col>
-							</Panel>
-							<AuxiliaryInfos
+					<Panel header='Ma photo' bsStyle='info'>
+						<AsyncImage 
+							src={this.auxiliary.avatar || this.props.storeData.data.auxiliary.user.avatar} 
+							width={200} 
+							height={200}/>
+						<ImageUploader onUploadComplete={this.onAvatarChanged.bind(this)}/>
+					</Panel>
+					<Panel header='Informations personnelles' bsStyle='info'>
+						<Col md={6}>
+							<Person 
 								edit={true}
-								entrepreneur={this.props.auxiliary.infos ? this.props.auxiliary.infos.entrepreneur : false}
-								diploma={this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
-								description={this.props.auxiliary.infos ? this.props.auxiliary.infos.description : ''}
-								onChange={this.onInfosChanged.bind(this)}/>
+								civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
+								lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
+								firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
+								birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
+								birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
+								birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
+								nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
+								socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}
+								onChange={this.onPersonChanged.bind(this)}/>
 						</Col>
-					</Row>
+						<Col md={6}>
+							<Contact 
+								edit={true}
+								address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
+								phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
+								email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
+								onChange={this.onContactChanged.bind(this)}/>
+						</Col>
+					</Panel>
+					<AuxiliaryInfos
+						edit={true}
+						entrepreneur={this.props.auxiliary.infos ? this.props.auxiliary.infos.entrepreneur : false}
+						diploma={this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
+						description={this.props.auxiliary.infos ? this.props.auxiliary.infos.description : ''}
+						onChange={this.onInfosChanged.bind(this)}/>
 				</Col>
 				<Col sm={3} className='hidden-xs'>
 					<Panel>
 						<APGauge value={75} title='Profil complété à :'/>
 					</Panel>
 				</Col>
-			</div>
+			</Row>
 		</Form>
 		);
 	}

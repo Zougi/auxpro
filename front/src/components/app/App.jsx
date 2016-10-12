@@ -143,15 +143,17 @@ class App extends React.Component {
 			<div className='ap-app'>
 				<header className='no-print'>
 					<Navbar
+						className='no-print'
 						inverse={true}
 						fixedTop={true}
 						brand={this.state.header.brand} 
 						rightContent={this.state.header.rightContent} />
 				</header>
-				{(this.state.subHeader && this.state.subHeader.length) ?
+				{(this.state.subHeader && this.state.subHeader.leftContent && this.state.subHeader.leftContent.length) ?
 					<Navbar 
 						className='no-print'
-						leftContent={this.state.subHeader} />
+						disabled={this.state.subHeader.disabled}
+						leftContent={this.state.subHeader.leftContent} />
 				: '' }
 				{this.props.children}
 				<Footer className='no-print'/>
