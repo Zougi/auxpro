@@ -25,6 +25,18 @@ ServiceStore.getService = function (id) {
 };
 
 /* ACTION LISTENERS */
+//------------------------------------------------------------
+
+// ROUTER_CHANGED
+ServiceStore.onRouterChanged = function (result, param) {
+	if (result.path === '/home/edit') {
+		ServiceStore.getContent().display.home.showUserHeader = false;
+	} else {
+		ServiceStore.getContent().display.home.showUserHeader = true;
+	}
+	ServiceStore.notify('/display/home/showUserHeader');
+};
+Dispatcher.register('ROUTER_CHANGED', ServiceStore.onRouterChanged);
 
 // LOGOUT
 ServiceStore.onLogout = function (result, param) {

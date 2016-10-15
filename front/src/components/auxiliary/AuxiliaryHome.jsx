@@ -42,11 +42,12 @@ class AuxiliaryHome extends React.Component {
         StoreRegistry.unregister('AUXILIARY_STORE', this);
     }
 
-	onStoreUpdate(first) {
-		this.setState({ showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') &&
-										StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary/profileCompleted')
+	onStoreUpdate() {
+		this.setState({ 
+			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') &&
+							StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary/profileCompleted'),
+			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data')
 		});
-		this.setState({ data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data') });
     }
 	
 	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}

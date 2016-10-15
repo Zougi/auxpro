@@ -16,7 +16,11 @@ class ServiceHome extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onStoreUpdate(true);
+		this.state = {
+			data: StoreRegistry.getStore('SERVICE_STORE').getData('/data'),
+			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
+			showUserHeader: StoreRegistry.getStore('SERVICE_STORE').getData('/display/home/showUserHeader')
+		};
 
 		this.content = {
 			home: this.getHome.bind(this),
@@ -28,36 +32,32 @@ class ServiceHome extends React.Component {
 	}
 
 	componentDidMount() {
-        StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
-    }
-    componentWillUnmount() {
-        StoreRegistry.unregister('SERVICE_STORE', this);   
-    }
+		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+	}
+
+	componentWillUnmount() {
+		StoreRegistry.unregister('SERVICE_STORE', this);   
+	}
 	
-    onStoreUpdate(first) {
-    	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-    	let data = StoreRegistry.getStore('SERVICE_STORE').getData().data;
-    	this.state = {
-			data: data,
-			showTuto: first?!user.tutoSkipped:this.state.showTuto,
-			showProfilePrompt: first?true:this.state.showProfilePrompt
-		};
-		if (!first) {
-			this.setState(this.state); 
-		}
+	onStoreUpdate(first) {
+		this.setState({ 
+			showUserHeader: StoreRegistry.getStore('SERVICE_STORE').getData('/display/home/showUserHeader'),
+			data: StoreRegistry.getStore('SERVICE_STORE').getData('/data')
+		});
+
     }
 
 	_tutoClose() {
-    	this.setState({ showTuto: false });
-    }
-    _tutoSkip() {
-    	this.setState({ showTuto: false });
-    }
-    _profilePromptClose() {
-    	this.setState({ showProfilePrompt: false });
-    }
+		this.setState({ showTuto: false });
+	}
+	_tutoSkip() {
+		this.setState({ showTuto: false });
+	}
+	_profilePromptClose() {
+		this.setState({ showProfilePrompt: false });
+	}
 
-    getContent(nav) {
+	getContent(nav) {
 		if (nav) {
 			return (this.content[nav]());
 		} else {
@@ -65,7 +65,7 @@ class ServiceHome extends React.Component {
 		}
 	}
 	
-	getHome() { return (
+	getHome() { return (		
 		<div>Acceuil</div>
 	);}
 
@@ -95,8 +95,8 @@ class ServiceHome extends React.Component {
 	);}
 
 	_buildProfilePromptModal() { return (
-		<ModalDialog 
-			show={this.state.showProfilePrompt} 
+		<ModalDialog
+			show={this.state.showProfilePrompt}
 			title='Completez votre profil'
 			buttons={[
 				{ bsStyle: 'success', onClick: this._profilePromptClose.bind(this), text: 'Continuer' },
@@ -104,7 +104,7 @@ class ServiceHome extends React.Component {
 			]} />
 	);}
 
-	render() { 	
+	render() {
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>
@@ -116,10 +116,14 @@ class ServiceHome extends React.Component {
 		}
 		return(
 			<div className='container'>
+				{this.state.showUserHeader ? 
+					<ServiceHeader storeData={this.props.storeData} />
+				:
+					''
+				}
 				<Row>
 					{this.getContent(this.props.nav)}
 				</Row>
-				{this._buildProfilePromptModal()}
 			</div>
 		);
 	}

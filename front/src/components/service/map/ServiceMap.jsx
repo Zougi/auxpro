@@ -96,7 +96,6 @@ class ServiceMap extends React.Component {
 	render() {
         return (
             <div>
-                <ServiceHeader service={this.props.service}/>
                 <div>
                     <Panel header={(<strong>Répartition géographique</strong>)}>
                         <Col sm={8}>

@@ -92,14 +92,6 @@ class ServiceProfile extends React.Component {
                 <br/>
                 <Row>
                     <Panel>
-                        <ServiceHeader 
-                            service={this.props.service}
-                            onAvatarChanged={this.onAvatarChanged.bind(this)}
-                            edit={this.state.state === STATES.EDIT}/>
-                    </Panel>
-                </Row>
-                <Row>
-                    <Panel>
                         <Col sm={6}>
                             <ServiceDetails 
                                 edit={this.state.state === STATES.EDIT}

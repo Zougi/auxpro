@@ -92,7 +92,7 @@ class APNavbar extends React.Component {
 		}
 		if (item.dropdown) {
 			return (
-				<NavDropdown eventKey={item.key} title={item.name} disabled={item.disabled || this.props.disabled}>
+				<NavDropdown key={item.key} eventKey={item.key} title={item.name} disabled={item.disabled || this.props.disabled}>
 					{item.dropdown.map(this._buildDropdown)}
 				</NavDropdown>
 			);
@@ -106,10 +106,10 @@ class APNavbar extends React.Component {
 
 	_buildDropdown(item) {
 		if (item.divider) {
-			return (<MenuItem divider/>);	
+			return (<MenuItem key={item.key} divider/>);	
 		}
 		return (
-			<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
+			<LinkContainer id={item.key} key={item.key} to={{ pathname: item.link, query: item.query }}>
 				<MenuItem eventKey={item.key}>
 					{item.name}
 				</MenuItem>

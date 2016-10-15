@@ -161,7 +161,6 @@ class ServiceCustomers extends React.Component {
 		}
 		return (
             <div>
-                <ServiceHeader service={this.props.service}/>
                 <div>
                     {content}
                 </div>

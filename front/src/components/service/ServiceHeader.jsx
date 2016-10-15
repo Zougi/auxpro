@@ -9,7 +9,6 @@ class ServiceHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { src: null };
-		this.img='./../../../assets/img/profil.jpeg';
 	}
 
 	componentWillReceiveProps(props) {
@@ -23,31 +22,37 @@ class ServiceHeader extends React.Component {
 		}
 	}
 
-	render() { 
-		var table = [
+	_buildTable() {
+				console.log(this.props)
+		let person = this.props.storeData.data.service.person;
+		let user   = this.props.storeData.data.service.user;
+		let infos  = this.props.storeData.data.service.infos;
+		return [
 			[
 				{th: "Société"},
-				{td: this.props.service.society}
+				{td: this.props.storeData.data.service.society}
 			],
 			[
 				{th: "Addresse électronique"},
-				{td: this.props.service.user.email}
+				{td: user.email}
 			],
 			[
 				{th: "N° Siret"},
-				{td: this.props.service.siret}
+				{td: this.props.storeData.data.service.siret}
 			],
 			[
 				{th: "Raison sociale"},
-				{td: this.props.service.socialReason}
+				{td: this.props.storeData.data.service.socialReason}
 			]
 		];
-		
+	}
+
+	render() { 
 		return(
 			<Panel>
 				<Row>
 					<Col sm={4}>
-						<AsyncImage src={this.state.src || this.props.service.user.avatar} width={200} height={200}/>
+						<AsyncImage src={this.state.src || this.props.storeData.data.service.user.avatar} width={200} height={200}/>
 						{this.props.edit ? 
 							<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
 						:
@@ -56,7 +61,7 @@ class ServiceHeader extends React.Component {
 					</Col>
 					<Col sm={8}>
 						<Panel>
-							<ITable rows={table} bordered striped hover fill/>
+							<ITable rows={this._buildTable()} bordered striped hover fill/>
 						</Panel>
 					</Col>
 				</Row>

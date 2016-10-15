@@ -228,7 +228,6 @@ class ServiceInterventions extends React.Component {
         }
         return (
             <div>
-                <ServiceHeader service={this.props.service}/>
                 <div>
                     {content}
                 </div>
