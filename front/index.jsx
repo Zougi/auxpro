@@ -20,4 +20,5 @@ function onLogon() {
 StoreRegistry.register('LOGIN_STORE', null, onLogon);
 
 render((
+	<APRouter/>
 ), document.getElementById('app'))
