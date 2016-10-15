@@ -1,24 +1,14 @@
+// Globally import the bootstrap css
 import 'bootstrap/dist/css/bootstrap.css';
-
+// React modules
 import React from 'react'
 import { render } from 'react-dom'
-import 'react-bootstrap';
 
+// Our internal bootstrap, required to declare actions & stores
 import Bootstrap from 'core/Bootstrap.js';
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-
-import APRouter from 'components-lib/Router/APRouter.jsx'
-
-import App  from './src/components/app/App.jsx'
-
-function onLogon() {
-	console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!logon')
-	console.log(StoreRegistry.getStore('LOGIN_STORE').getData('/type'));
-}
-
-StoreRegistry.register('LOGIN_STORE', null, onLogon);
+// Our root component handling routing in the application
+import AppRouter from 'components/app/AppRouter.jsx'
 
 render((
-	<APRouter/>
+	<AppRouter/>
 ), document.getElementById('app'))

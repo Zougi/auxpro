@@ -21,30 +21,24 @@ import Presentation from 'components/app/static/Presentation.jsx'
 // Documentation pages
 import Documentation from 'documentation/Documentation.jsx'
 
-class APRouter extends React.Component {
+function getType() {
+	return StoreRegistry.getStore('LOGIN_STORE').getData('/type') || 'offline';
+}
+
+class AppRouter extends React.Component {
 
 	constructor(props) {
 		super(props);
 	}
 
 	onRouteEnter(event) {
-		let params = { 
+		let params = {
 			route: {
 				path: event.location.pathname
 
 			}
 		};
 		Dispatcher.issue('ROUTER_CHANGED', params);
-	}
-
-
-	_buildRoute(route) {
-		if (route.routes) {
-
-		}
-		return (
-			<Route path={route.path} component={route.component} onEnter={route.onEnter}/>
-		);
 	}
 
 	render() {
@@ -55,12 +49,13 @@ class APRouter extends React.Component {
 					<Route path='/login' component={Login} onEnter={this.onRouteEnter}/>
 					<Route path='/registerAux' component={RegisterAux} onEnter={this.onRouteEnter}/>
 					<Route path='/registerSad' component={RegisterSad} onEnter={this.onRouteEnter}/>
-					<Route path='/home' component={Home} onEnter={this.onRouteEnter}/>
-					<Route path='/home/:nav' component={Home} onEnter={this.onRouteEnter}/>
-
 					<Route path='/presentation' component={Presentation} onEnter={this.onRouteEnter}/>
 					<Route path='/about' component={About} onEnter={this.onRouteEnter}/>
 					<Route path='/contact' component={Contact} onEnter={this.onRouteEnter}/>
+				
+					<Route path='/home' component={Home} onEnter={this.onRouteEnter}/>
+					<Route path='/home/:nav' component={Home} onEnter={this.onRouteEnter}/>
+
 				</Route>
 				<Route path='/doc/:nav' component={Documentation} onEnter={this.onRouteEnter}/>
 			</Router>
@@ -68,4 +63,4 @@ class APRouter extends React.Component {
 	}
 }
 
-export default APRouter;
+export default AppRouter;
