@@ -123,9 +123,7 @@ class AuxiliaryHome extends React.Component {
 
 	getEdit() {
 		return (
-			<AuxiliaryEdit
-				storeData={this.state.storeData}				
-				auxiliary={this.state.data.auxiliary ||	 {}} />
+			<AuxiliaryEdit />
 		);
 	}
 	

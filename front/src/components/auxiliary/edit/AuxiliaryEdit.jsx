@@ -19,9 +19,26 @@ class AuxiliaryEdit extends React.Component {
 	constructor(props) {
 		super(props);
 		this.auxiliary = {};
-		this.state = {};
+		this.state = {
+			storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
+			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
+		};
 	}
 
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+    }
+    
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
+    }
+	
+	onStoreUpdate() {
+		this.setState({ 
+			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
+		});
+    }
+	
 	componentWillReceiveProps() {
 		this.auxiliary = {};
 	}
@@ -49,9 +66,9 @@ class AuxiliaryEdit extends React.Component {
 			token: user.token,
 			data: {
 				id: user.id,
-				contact: this.auxiliary.contact || this.props.auxiliary.contact,
-				person: this.auxiliary.person || this.props.auxiliary.person,
-				infos: this.auxiliary.infos || this.props.auxiliary.infos,
+				contact: this.auxiliary.contact || this.state.auxiliary.contact,
+				person: this.auxiliary.person || this.state.auxiliary.person,
+				infos: this.auxiliary.infos || this.state.auxiliary.infos,
 				user: user
 			}
 		}).
@@ -63,7 +80,7 @@ class AuxiliaryEdit extends React.Component {
 	render() { 
 		return (
 		<Form horizontal>
-		{ !(this.props.auxiliary.profileCompleted) ?
+		{ !(this.state.auxiliary.profileCompleted) ?
 			<Row>
 				<Col sm={12}>
 					<Panel bsStyle='danger' header='Statut profil'>
@@ -84,7 +101,7 @@ class AuxiliaryEdit extends React.Component {
 				<Col sm={9}>
 					<Panel header='Ma photo' bsStyle='info'>
 						<AsyncImage 
-							src={this.auxiliary.avatar || this.props.storeData.data.auxiliary.user.avatar} 
+							src={this.auxiliary.avatar || this.state.storeData.data.auxiliary.user.avatar} 
 							width={200} 
 							height={200}/>
 						<ImageUploader onUploadComplete={this.onAvatarChanged.bind(this)}/>
@@ -93,30 +110,30 @@ class AuxiliaryEdit extends React.Component {
 						<Col md={6}>
 							<Person 
 								edit={true}
-								civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
-								lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
-								firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
-								birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
-								birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
-								birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
-								nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
-								socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}
+								civility={this.state.auxiliary.person ? this.state.auxiliary.person.civility : 'Mr'}
+								lastName={this.state.auxiliary.person ? this.state.auxiliary.person.lastName : ''}
+								firstName={this.state.auxiliary.person ? this.state.auxiliary.person.firstName : ''}
+								birthDate={this.state.auxiliary.person ? this.state.auxiliary.person.birthDate : []}
+								birthCity={this.state.auxiliary.person ? this.state.auxiliary.person.birthPlace.city : ''}
+								birthCountry={this.state.auxiliary.person ? this.state.auxiliary.person.birthPlace.country : ''}
+								nationality={this.state.auxiliary.person ? this.state.auxiliary.person.nationality : ''}
+								socialNumber={this.state.auxiliary.person ? this.state.auxiliary.person.socialNumber : ''}
 								onChange={this.onPersonChanged.bind(this)}/>
 						</Col>
 						<Col md={6}>
 							<Contact 
 								edit={true}
-								address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
-								phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
-								email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''}
+								address={this.state.auxiliary.contact ? this.state.auxiliary.contact.address : {}}
+								phone={this.state.auxiliary.contact ? this.state.auxiliary.contact.phone : ''}
+								email={this.state.auxiliary.contact ? this.state.auxiliary.contact.email : ''}
 								onChange={this.onContactChanged.bind(this)}/>
 						</Col>
 					</Panel>
 					<AuxiliaryInfos
 						edit={true}
-						entrepreneur={this.props.auxiliary.infos ? this.props.auxiliary.infos.entrepreneur : false}
-						diploma={this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
-						description={this.props.auxiliary.infos ? this.props.auxiliary.infos.description : ''}
+						entrepreneur={this.state.auxiliary.infos ? this.state.auxiliary.infos.entrepreneur : false}
+						diploma={this.state.auxiliary.infos ? this.state.auxiliary.infos.diploma : ''}
+						description={this.state.auxiliary.infos ? this.state.auxiliary.infos.description : ''}
 						onChange={this.onInfosChanged.bind(this)}/>
 				</Col>
 				<Col sm={3} className='hidden-xs'>
