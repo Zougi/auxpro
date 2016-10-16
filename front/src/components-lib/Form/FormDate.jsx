@@ -30,7 +30,7 @@ class FormDate extends FormBase {
 	getFormControlStatic() {
 		return (
 			<FormControl.Static>
-				{this.state.date}
+				{MomentHelper.localDateToHumanDate(this.state.date)}
 			</FormControl.Static>
 		);
 	}
