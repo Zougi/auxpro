@@ -16,8 +16,25 @@ class AuxiliaryProfile extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
+		};
 	}
 
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+    }
+    
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
+    }
+	
+	onStoreUpdate() {
+		this.setState({ 
+			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
+		});
+    }
+	
 	render() { 
 		return (
 		<Form horizontal>
@@ -40,20 +57,20 @@ class AuxiliaryProfile extends React.Component {
 							<Panel header='Informations personnelles' bsStyle='info'>
 								<Col sm={6}>
 									<Person 
-										civility={this.props.auxiliary.person ? this.props.auxiliary.person.civility : 'Mr'}
-										lastName={this.props.auxiliary.person ? this.props.auxiliary.person.lastName : ''}
-										firstName={this.props.auxiliary.person ? this.props.auxiliary.person.firstName : ''}
-										birthDate={this.props.auxiliary.person ? this.props.auxiliary.person.birthDate : []}
-										birthCity={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.city : ''}
-										birthCountry={this.props.auxiliary.person ? this.props.auxiliary.person.birthPlace.country : ''}
-										nationality={this.props.auxiliary.person ? this.props.auxiliary.person.nationality : ''}
-										socialNumber={this.props.auxiliary.person ? this.props.auxiliary.person.socialNumber : ''}/>
+										civility={this.state.auxiliary.person ? this.state.auxiliary.person.civility : 'Mr'}
+										lastName={this.state.auxiliary.person ? this.state.auxiliary.person.lastName : ''}
+										firstName={this.state.auxiliary.person ? this.state.auxiliary.person.firstName : ''}
+										birthDate={this.state.auxiliary.person ? this.state.auxiliary.person.birthDate : []}
+										birthCity={this.state.auxiliary.person ? this.state.auxiliary.person.birthPlace.city : ''}
+										birthCountry={this.state.auxiliary.person ? this.state.auxiliary.person.birthPlace.country : ''}
+										nationality={this.state.auxiliary.person ? this.state.auxiliary.person.nationality : ''}
+										socialNumber={this.state.auxiliary.person ? this.state.auxiliary.person.socialNumber : ''}/>
 								</Col>
 								<Col sm={6}>
 									<Contact 
-										address={this.props.auxiliary.contact ? this.props.auxiliary.contact.address : {}}
-										phone={this.props.auxiliary.contact ? this.props.auxiliary.contact.phone : ''}
-										email={this.props.auxiliary.contact ? this.props.auxiliary.contact.email : ''} />
+										address={this.state.auxiliary.contact ? this.state.auxiliary.contact.address : {}}
+										phone={this.state.auxiliary.contact ? this.state.auxiliary.contact.phone : ''}
+										email={this.state.auxiliary.contact ? this.state.auxiliary.contact.email : ''} />
 								</Col>
 							</Panel>
 						</Col>
@@ -63,10 +80,10 @@ class AuxiliaryProfile extends React.Component {
 					<Panel>
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
-							{this.props.auxiliary.infos ? this.props.auxiliary.infos.diploma : ''}
+							{this.state.auxiliary.infos ? this.state.auxiliary.infos.diploma : ''}
 						</Panel>
 						<Panel bsStyle='info' header='Mes Compétences'>
-							<SkillSummaryList skills={this.props.auxiliary.skills}/>
+							<SkillSummaryList skills={this.state.auxiliary.skills}/>
 						</Panel>
 					</Panel>
 				</Col>

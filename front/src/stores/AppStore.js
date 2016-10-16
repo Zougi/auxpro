@@ -40,22 +40,22 @@ AppStore.onLogon = function (result, param) {
 			header: {
 				brand: { link: '/', name: 'AuxPro' },
 				rightContent: [
-					{ key: 1, link: '/home', query: {}, name: 'Accueil', glyph: 'home' },
-					{ key: 2, link: '/home/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
+					{ key: 1, link: '/aux/home', query: {}, name: 'Accueil', glyph: 'home' },
+					{ key: 2, link: '/aux/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
 					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
 			subHeader: {
 				disabled: true,
 				leftContent: [
-					{ key: 0, link: '/home', query: {}, name: 'Accueil' },
+					{ key: 0, link: '/aux/home', query: {}, name: 'Accueil' },
 					{ key: 1, name: 'Profil', dropdown: [
-						{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
-						{ key: 1.2, link: '/home/edit', query: {}, name: 'Editer profil' }
+						{ key: 1.1, link: '/aux/infos', query: {}, name: 'Voir profil' },
+						{ key: 1.2, link: '/aux/edit', query: {}, name: 'Editer profil' }
 					]},
-					{ key: 2, link: '/home/planning', query: {}, name: 'Planning' },
-					{ key: 3, link: '/home/zone', query: {}, name: 'Zone' },
-					{ key: 4, link: '/home/offres', query: {}, name: 'Offres' }
+					{ key: 2, link: '/aux/planning', query: {}, name: 'Planning' },
+					{ key: 3, link: '/aux/zone', query: {}, name: 'Zone' },
+					{ key: 4, link: '/aux/offres', query: {}, name: 'Offres' }
 				]
 			}
 		}

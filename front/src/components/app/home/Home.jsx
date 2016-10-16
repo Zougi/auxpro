@@ -48,7 +48,7 @@ class Home extends React.Component {
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
 		switch (type) {
 			case 'sad'  : return(<ServiceHome {...this.state.service} nav={this.props.params.nav} query={this.props.location.query}/>);
-			case 'aux'  : return(<AuxiliaryHome {...this.state.auxiliary} nav={this.props.params.nav} query={this.props.location.query}/>);
+			case 'aux'  : return(<AuxiliaryHome/>);
 			case 'admin': return(<GuestHome/>);
 			case 'guest': return(<GuestHome/>);
 			default: return (
