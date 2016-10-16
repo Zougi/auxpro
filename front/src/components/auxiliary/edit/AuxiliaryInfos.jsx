@@ -55,7 +55,7 @@ class AuxiliaryInfos extends React.Component {
 					onChange={this.onDiplomaChanged.bind(this)}/>
 				<FormTextArea
 					static={false}
-					title='Ma description'
+					title='Mes plus'
 					rows={5}
 					defaultValue={this.props.description} 
 					onChange={this.onDescriptionChanged.bind(this)}/>
