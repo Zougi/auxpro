@@ -34,6 +34,13 @@ class AuxiliaryHome extends React.Component {
 			offres: this.getOffers.bind(this)			
 		}
 	}
+	
+	componentWillMount() {
+        let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
+		if (!logged) {
+			this.context.router.push('/login');
+		}
+    }
 
 	componentDidMount() {
 	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
@@ -118,8 +125,7 @@ class AuxiliaryHome extends React.Component {
 		return (
 			<AuxiliaryEdit
 				storeData={this.state.storeData}				
-				auxiliary={this.state.data.auxiliary ||	 {}}
-				edit={true} />
+				auxiliary={this.state.data.auxiliary ||	 {}} />
 		);
 	}
 	
