@@ -17,5 +17,6 @@ import ServicesActions from 'actions/ServicesActions';
 import AppStore from 'stores/AppStore';
 import AuxiliaryStore from 'stores/AuxiliaryStore';
 import ErrorStore from 'stores/ErrorStore';
+import GuestStore from 'stores/GuestStore';
 import LoginStore from 'stores/LoginStore';
 import ServiceStore from 'stores/ServiceStore';

@@ -11,15 +11,12 @@ class GuestHome extends React.Component {
 
 	constructor(props) {
 		super(props);
-    	this.state = {
-			data: Utils.map(StoreRegistry.getStore('SERVICE_STORE').getData('/service'))
-		};
 	}
 
 	render() { 	
 		return(
 			<div className='container'>
-				<ServicesBox services={this.state.data} />
+				<ServicesBox services={Utils.map(StoreRegistry.getStore('GUEST_STORE').getData('/data/services'))} />
 			</div>
 		);
 	}

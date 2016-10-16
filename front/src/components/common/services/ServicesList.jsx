@@ -11,7 +11,6 @@ class ServicesList extends React.Component {
 
     _buildServices() {
         return (this.props.services || []).map(function(service) {
-            console.log(service);
             return (
                 <Col key={service.id} xs={12} sm={6} md={4}>
                     <ServiceItem                         

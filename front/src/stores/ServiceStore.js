@@ -44,18 +44,6 @@ ServiceStore.onLogout = function (result, param) {
 };
 Dispatcher.register('LOGOUT', ServiceStore.onLogout);
 
-// GET SERVICES
-ServiceStore.onGetServices = function (result, param) {
-	ServiceStore._content.services = result;
-	let l = result.length;
-	for (let i = 0; i < l; i++) {
-		let serv = result[i];
-		ServiceStore._content.service[serv.id] = serv;
-	}
-	ServiceStore.notify();
-};
-Dispatcher.register('GET_SERVICES', ServiceStore.onGetServices);
-
 // GET/PUT SERVICE
 ServiceStore.onGetService = function (result, param) {
 	ServiceStore.getContent().data.service = result;
