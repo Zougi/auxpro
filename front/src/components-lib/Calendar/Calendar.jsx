@@ -8,7 +8,7 @@ import CalendarDays from './CalendarDays.jsx';
 import CalendarMonths from './CalendarMonths.jsx';
 import CalendarYears from './CalendarYears.jsx';
 
-import MomentHelper from '../../utils/moment/MomentHelper.js'
+import MomentHelper from 'utils/moment/MomentHelper.js'
 
 moment.locale('fr');
 
@@ -70,10 +70,16 @@ class Calendar extends React.Component {
 	}
 
 	onYearChanged(year) {
-		this.setState({ moment: this.state.moment.year(year) });
+		this.setState({ 
+			state: STATES.SELECT_DAY,
+			moment: this.state.moment.year(year) 
+		});
 	}
 	onMonthChanged(month) {
-		this.setState({ moment: this.state.moment.month(month) });
+		this.setState({ 
+			state: STATES.SELECT_DAY,
+			moment: this.state.moment.month(month) 
+		});
 	}
 
 	onDaySelect(day) {
@@ -85,7 +91,7 @@ class Calendar extends React.Component {
 
 	render() { 
 		switch (this.state.state) {
-		case STATES.SELECT_DAY: return(
+		case STATES.SELECT_DAY: return (
 			<div className='ap-calendar'>
 				<CalendarDays 
 					bsSize={this.props.bsSize || 'xsmall'}
@@ -111,8 +117,14 @@ class Calendar extends React.Component {
 					selected={this.state.selected} 
 					onMonthSelect={this.onMonthChanged.bind(this)} />
 			</div>);
-		case STATES.SELECT_YEAR:
-			return '';
+		case STATES.SELECT_YEAR: return (
+			<div className='ap-calendar'>
+				<CalendarYears
+					bsSize={this.props.bsSize || 'xsmall'}
+					moment={this.state.moment} 
+					selected={this.state.selected} 
+					onYearSelect={this.onYearChanged.bind(this)} />
+			</div>);
 		}
     }
 }

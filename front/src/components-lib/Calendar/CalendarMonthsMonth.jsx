@@ -19,9 +19,10 @@ class CalendarMonthsMonth extends React.Component {
 	render() { 
 		return (
 			<Col xs={4}>
-				<Button block>
+				<Button onClick={this.onSelect.bind(this)} block>
 					{this.props.name}
 				</Button>
+				<br/>
 			</Col>
 		);
 	}

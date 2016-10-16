@@ -4,6 +4,8 @@ import moment from 'moment'
 // react-bootstrap modules
 import { Button } from 'react-bootstrap';
 
+import CalendarYearsYear from 'components-lib/Calendar/CalendarYearsYear.jsx';
+
 import './Calendar.css';
 
 class CalendarYear extends React.Component {
@@ -12,25 +14,32 @@ class CalendarYear extends React.Component {
 		super(props);
 	}
 
-	onYearSelected(event) {
-		event.preventDefault();
-		if (this.props.onChange) {
-			this.props.onChange(this.props.display);
+	onYearSelected(year) {
+		return function (event) {
+			if (this.props.onYearSelect) {
+				this.props.onYearSelect(year);
+			}
+		}.bind(this);
+	}
+
+	_buildYears() {
+		let result = [];
+		for (var i = 2016; i >= 1900; i--) {
+			result.push(
+				<CalendarYearsYear 
+					key={i}
+					name={i}
+					onSelect={this.onYearSelected(i)} />
+			);
 		}
+		return result;
 	}
 
 	render() { 
 		return (
-			<td>
-				<Button 
-					bsSize={this.props.bsSize} 
-					bsStyle={this.props.bsStyle} 
-					className={clazz} 
-					block 
-					onClick={this.onClick.bind(this)}>
-					{this.props.display.date()}
-				</Button>
-			</td>
+			<div>
+				{this._buildYears()}
+			</div>
 		);
 	}
 }

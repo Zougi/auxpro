@@ -36,7 +36,7 @@ class SelectorYear extends React.Component {
 		return (
 			<div className='ap-selector-year'>
 				<GlyphButton bsSize='xsmall' glyph='chevron-left' onClick={this._onPreviousYear.bind(this)}/>
-				{' ' + this.state.moment.year() + ' '}
+				<Button onClick={this.props.onYearMode}>{' ' + this.state.moment.year() + ' '}</Button>				
 				<GlyphButton bsSize='xsmall' glyph='chevron-right' onClick={this._onNextYear.bind(this)}/>
 			</div>
 		);

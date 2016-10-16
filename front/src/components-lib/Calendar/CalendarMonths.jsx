@@ -1,8 +1,11 @@
 import React from 'react'
+import moment from 'moment'
 
-import CalendarMonthsMonth from 'components-lib/Calendar/CalendarMonthsMonth';
+import CalendarMonthsMonth from 'components-lib/Calendar/CalendarMonthsMonth.jsx';
 
 import './Calendar.css';
+
+moment.locale('fr');
 
 class CalendarMonths extends React.Component {
 	
@@ -18,22 +21,25 @@ class CalendarMonths extends React.Component {
 		}.bind(this);
 	}
 
+	_buildMonths() {
+		let result = [];
+		let months = moment.months();
+		for (let i = 0; i < months.length ; i++) {
+			let month = months[i];
+			let first = String(month.charAt(0));
+			result.push(
+				<CalendarMonthsMonth 
+					key={i}
+					name={first.toUpperCase() + month.substring(1)}
+					onSelect={this.onMonthSelected(i)} />
+			);
+		}
+		return result;
+	}
+
 	render() { 
 		return (
-			<div>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(0)} name='Janvier'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(1)} name='Février'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(2)} name='Mars'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(3)} name='Avril'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(4)} name='Mai'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(5)} name='Juin'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(6)} name='Juillet'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(7)} name='Août'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(8)} name='Septembre'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(9)} name='Octobre'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(10)} name='Novembre'/>
-				<CalendarMonthsMonth onSelect={this.onMonthSelected(11)} name='Décembre'/>
-			</div>
+			<div>{this._buildMonths()}</div>
 		);
 	}
 }

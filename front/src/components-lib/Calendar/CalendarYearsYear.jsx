@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Button } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 
 import './Calendar.css';
 
@@ -10,24 +10,19 @@ class CalendarYearYear extends React.Component {
 		super(props);
 	}
 
-	onSelected(event) {
-		if (this.props.onChange) {
-			this.props.onChange(this.props.display);
+	onSelect(event) {
+		if (this.props.onSelect) {
+			this.props.onSelect(event);
 		}
 	}
 
 	render() { 
 		return (
-			<td>
-				<Button 
-					bsSize={this.props.bsSize || 'xsmall'} 
-					bsStyle={this.props.bsStyle || 'primary'} 
-					block 
-					
-					onClick={this.onSelected.bind(this)}>
-					{this.props.year}
+			<Col xs={3}>
+				<Button onClick={this.onSelect.bind(this)} block>
+					{this.props.name}
 				</Button>
-			</td>
+			</Col>
 		);
 	}
 }
