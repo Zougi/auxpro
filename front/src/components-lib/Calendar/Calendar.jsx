@@ -108,7 +108,7 @@ class Calendar extends React.Component {
 				bsSize={this.props.bsSize || 'xsmall'}
 				moment={this.state.moment} 
 				selected={this.state.selected} 
-				onMonthSelect={this.onMonthSelect.bind(this)} />
+				onMonthSelect={this.onMonthChanged.bind(this)} />
 		case STATES.SELECT_YEAR:
 			return '';
 		}
