@@ -55,7 +55,12 @@ class App extends React.Component {
 		let args = {};
 		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		let toHome = function () {
-			this.context.router.push('/home');
+			let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
+			if (type == "aux") {
+				this.context.router.push("/aux/home");
+			} else {
+				this.context.router.push("/home");
+			}
 		}
 		if (user.logged) {
 			switch (user.type) {

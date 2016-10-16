@@ -19,6 +19,7 @@ class AuxiliaryHome extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
 			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data'),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader')
@@ -109,16 +110,16 @@ class AuxiliaryHome extends React.Component {
 	
 	getInfos() {
 		return (
-			<AuxiliaryProfile storeData={this.props.storeData}				
+			<AuxiliaryProfile storeData={this.state.storeData}				
 				auxiliary={this.state.data.auxiliary ||	 {}}
-				edit={this.props.query.edit === 'true'} />
+				edit={this.props.location.query} />
 		);
 	}
 
 	getEdit() {
 		return (
 			<AuxiliaryEdit
-				storeData={this.props.storeData}				
+				storeData={this.state.storeData}				
 				auxiliary={this.state.data.auxiliary ||	 {}}
 				edit={true} />
 		);
@@ -126,7 +127,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getPlanning() {
 		return (
-			<AuxiliaryPlaning storeData={this.props.storeData}
+			<AuxiliaryPlaning storeData={this.state.storeData}
 				auxiliary={this.state.data.auxiliary}
 				customers={this.state.data.customers}
 				indisponibilities={this.state.data.indisponibilities}
@@ -138,7 +139,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getZone() {
 		return (
-			<AuxiliaryMap storeData={this.props.storeData}
+			<AuxiliaryMap storeData={this.state.storeData}
 				auxiliary={this.state.data.auxiliary}
 				offers={this.state.data.offers}
 				interventions={this.state.data.interventions}
@@ -151,7 +152,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getOffers() {
 		return (
-			<AuxiliaryOffers storeData={this.props.storeData}
+			<AuxiliaryOffers storeData={this.state.storeData}
 				auxiliary={this.state.data.auxiliary}
 				customers={this.state.data.customers}
 				interventions={this.state.data.interventions}
@@ -173,12 +174,12 @@ class AuxiliaryHome extends React.Component {
 		return (
 			<div className='container'>
 				{this.state.showUserHeader ? 
-					<AuxiliaryHeader storeData={this.props.storeData} />
+					<AuxiliaryHeader storeData={this.state.storeData} />
 				:
 					''
 				}
 				<Row>
-					{this.getContent(this.props.nav)}
+					{this.getContent(this.props.params.nav)}
 				</Row>
 			</div>
 		);

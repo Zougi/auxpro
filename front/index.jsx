@@ -7,7 +7,7 @@ import { render } from 'react-dom'
 // Our internal bootstrap, required to declare actions & stores
 import Bootstrap from 'core/Bootstrap.js';
 // Our root component handling routing in the application
-import AppRouter from 'components/app/AppRouter.jsx'
+import AppRouter from 'components/AppRouter.jsx'
 
 render((
 	<AppRouter/>
