@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Button } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 
 import './Calendar.css';
 
@@ -10,9 +10,9 @@ class CalendarMonthsMonth extends React.Component {
 		super(props);
 	}
 
-	onSelected(event) {
-		if (this.props.onChange) {
-			this.props.onChange(this.props.display);
+	onSelect(event) {
+		if (this.props.onSelect) {
+			this.props.onSelect(event);
 		}
 	}
 

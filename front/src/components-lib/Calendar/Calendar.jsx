@@ -103,12 +103,14 @@ class Calendar extends React.Component {
 					onDaySelect={this.onDaySelect.bind(this)}/>
 			</div>
 		);
-		case STATES.SELECT_MONTH:
-			<CalendarMonths
-				bsSize={this.props.bsSize || 'xsmall'}
-				moment={this.state.moment} 
-				selected={this.state.selected} 
-				onMonthSelect={this.onMonthChanged.bind(this)} />
+		case STATES.SELECT_MONTH: return ( 
+			<div className='ap-calendar'>
+				<CalendarMonths
+					bsSize={this.props.bsSize || 'xsmall'}
+					moment={this.state.moment} 
+					selected={this.state.selected} 
+					onMonthSelect={this.onMonthChanged.bind(this)} />
+			</div>);
 		case STATES.SELECT_YEAR:
 			return '';
 		}
