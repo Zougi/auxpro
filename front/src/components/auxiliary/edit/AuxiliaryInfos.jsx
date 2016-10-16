@@ -5,6 +5,8 @@ import FormInput from 'components-lib/Form/FormInput.jsx'
 import FormSelect from 'components-lib/Form/FormSelect.jsx'
 import FormTextArea from 'components-lib/Form/FormTextArea.jsx'
 
+import StringValidator from 'utils/form/StringValidator.js'
+
 class AuxiliaryInfos extends React.Component {
 	
 	constructor(props) {
@@ -49,11 +51,13 @@ class AuxiliaryInfos extends React.Component {
 					values={[ { key: true, value: 'Oui' }, { key: false, value: 'Non' } ]}
 					onChange={this.onEntrepreneurChanged.bind(this)}/>
 				<FormInput 
+					validator={new StringValidator({ lengthMin: 0, lengthMax: 140 })}
 					static={false}
 					title='Diplôme'
 					defaultValue={this.props.diploma} 
 					onChange={this.onDiplomaChanged.bind(this)}/>
 				<FormTextArea
+					validator={new StringValidator({ lengthMin: 0, lengthMax: 140 })}
 					static={false}
 					title='Mes plus'
 					rows={5}

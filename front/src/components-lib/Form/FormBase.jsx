@@ -13,6 +13,10 @@ class FormBase extends React.Component {
 		this.smLabelSize = this.props.smLabelSize || DEFAULTS.smLabelSize;
 		this.mdLabelSize = this.props.mdLabelSize || DEFAULTS.mdLabelSize;
 		this.lgLabelSize = this.props.lgLabelSize || DEFAULTS.lgLabelSize;
+		this.state = {
+			validationState: (!this.props.static && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
+			value: this.props.value
+		}
 	}
 
 	getFormControl() {
@@ -33,12 +37,13 @@ class FormBase extends React.Component {
 
 	render() { 
 		return (
-			<FormGroup>
+			<FormGroup validationState={this.state.validationState}>
 				<Col componentClass={ControlLabel} sm={this.smLabelSize} md={this.mdLabelSize} lg={this.lgLabelSize}>
 					{this.props.title}
 				</Col>
 				<Col sm={12 - this.smLabelSize} md={12 - this.mdLabelSize} lg={12 - this.lgLabelSize}>
 					{this.getFormControl()}
+					{ !this.props.static ? <FormControl.Feedback/> : '' }
 				</Col>
 			</FormGroup>
 		);

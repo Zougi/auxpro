@@ -3,6 +3,8 @@ import React from 'react';
 import moment from 'moment';
 // custom modules
 import Utils from 'utils/Utils.js'
+import PhoneValidator from 'utils/form/PhoneValidator.js'
+import EmailValidator from 'utils/form/EmailValidator.js'
 // custom components
 import Address from './Address.jsx'
 import FormInput from 'components-lib/Form/FormInput.jsx'
@@ -53,11 +55,13 @@ class Contact extends React.Component {
 				country={this.props.address ? this.props.address.country : null}
 				onChange={this.onAddressChanged.bind(this)}/>
 			<FormInput 
+				validator={PhoneValidator}
 				static={!this.props.edit}
 				title='Téléphone'
 				defaultValue={this.props.phone} 
 				onChange={this.onPhoneChanged.bind(this)}/>
 			<FormInput 
+				validator={EmailValidator}
 				static={!this.props.edit}
 				title='Addresse électronique'
 				defaultValue={this.props.email} 

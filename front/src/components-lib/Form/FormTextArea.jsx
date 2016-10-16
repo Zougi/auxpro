@@ -13,6 +13,10 @@ class FormTextArea extends FormBase {
 	}
 
 	onChange(event) {
+		var v = event.target.value;
+		if (this.props.validator) {
+			this.setState({validationState: this.props.validator.getState(v)})
+		}
 		if (this.props.onChange) {
 			this.props.onChange(event.target.value);
 		}
