@@ -110,9 +110,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getInfos() {
 		return (
-			<AuxiliaryProfile storeData={this.state.storeData}				
-				auxiliary={this.state.data.auxiliary ||	 {}}
-				edit={this.props.location.query} />
+			<AuxiliaryProfile />
 		);
 	}
 
