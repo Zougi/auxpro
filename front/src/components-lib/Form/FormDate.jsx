@@ -16,12 +16,16 @@ class FormDate extends FormBase {
 	constructor(props) {
 		super(props);
 		this.state = { 
+			validationState: (!this.props.static && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
 			date: this.props.defaultValue ? this.props.defaultValue : null 
 		};
 	}
 
 	onDaySelect(date) {
 		this.setState({ date: date });
+		if (this.props.validator) {
+			this.setState({validationState: this.props.validator.getState(date)})
+		}
 		if (this.props.onChange) {
 			this.props.onChange(date);
 		}

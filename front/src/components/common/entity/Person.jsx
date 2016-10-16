@@ -10,12 +10,13 @@ import FormSelect from 'components-lib/Form/FormSelect.jsx'
 
 import CustomValidator from 'utils/form/CustomValidator.js'
 import StringValidator from 'utils/form/StringValidator.js'
+import NonNullValidator from 'utils/form/NonNullValidator.js'
 
 let PERSON_FIELDS = [
 	{ title: 'Civilité', path: 'civility', type: 'select', values: [ { key: 'Mr', value: 'Mr' }, { key: 'Mme', value: 'Mme' } ] },
 	{ title: 'Nom', path: 'lastName', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
 	{ title: 'Prénom', path: 'firstName', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'Date de naissance', path: 'birthDate', type: 'date' },
+	{ title: 'Date de naissance', path: 'birthDate', type: 'date', validator: NonNullValidator },
 	{ title: 'Ville de naissance', path: 'birthCity', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
 	{ title: 'Pays de naissance', path: 'birthCountry', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
 	{ title: 'Nationnalité', path: 'nationality', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
@@ -83,6 +84,7 @@ class Person extends React.Component {
 			case 'date':
 				return (
 					<FormDate
+						validator={f.validator}
 						static={!this.props.edit}
 						key={f.title}
 						title={f.title}
