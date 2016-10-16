@@ -104,6 +104,11 @@ class Calendar extends React.Component {
 			</div>
 		);
 		case STATES.SELECT_MONTH:
+			<CalendarMonths
+				bsSize={this.props.bsSize || 'xsmall'}
+				moment={this.state.moment} 
+				selected={this.state.selected} 
+				onMonthSelect={this.onMonthSelect.bind(this)} />
 		case STATES.SELECT_YEAR:
 			return '';
 		}

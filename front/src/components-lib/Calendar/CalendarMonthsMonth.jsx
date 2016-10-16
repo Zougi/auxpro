@@ -18,16 +18,11 @@ class CalendarMonthsMonth extends React.Component {
 
 	render() { 
 		return (
-			<td>
-				<Button 
-					bsSize={this.props.bsSize || 'xsmall'} 
-					bsStyle={this.props.bsStyle || 'primary'} 
-					block 
-					
-					onClick={this.onSelected.bind(this)}>
-					{this.props.year}
+			<Col xs={4}>
+				<Button block>
+					{this.props.name}
 				</Button>
-			</td>
+			</Col>
 		);
 	}
 }

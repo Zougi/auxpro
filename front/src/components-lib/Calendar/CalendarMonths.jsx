@@ -2,6 +2,8 @@ import React from 'react'
 import moment from 'moment'
 import { Button } from 'react-bootstrap';
 
+import CalendarMonthsMonth from 'components-lib/Calendar/CalendarMonthsMonth';
+
 import './Calendar.css';
 
 class CalendarMonths extends React.Component {
@@ -19,16 +21,20 @@ class CalendarMonths extends React.Component {
 
 	render() { 
 		return (
-			<td>
-				<Button 
-					bsSize={this.props.bsSize} 
-					bsStyle={this.props.bsStyle} 
-					className={clazz} 
-					block 
-					onClick={this.onClick.bind(this)}>
-					{this.props.moment.month()}
-				</Button>
-			</td>
+			<div>
+				<CalendarMonthsMonth name='Janvier'/>
+				<CalendarMonthsMonth name='Février'/>
+				<CalendarMonthsMonth name='Mars'/>
+				<CalendarMonthsMonth name='Avril'/>
+				<CalendarMonthsMonth name='Mai'/>
+				<CalendarMonthsMonth name='Juin'/>
+				<CalendarMonthsMonth name='Juillet'/>
+				<CalendarMonthsMonth name='Août'/>
+				<CalendarMonthsMonth name='Septembre'/>
+				<CalendarMonthsMonth name='Octobre'/>
+				<CalendarMonthsMonth name='Novembre'/>
+				<CalendarMonthsMonth name='Décembre'/>
+			</div>
 		);
 	}
 }

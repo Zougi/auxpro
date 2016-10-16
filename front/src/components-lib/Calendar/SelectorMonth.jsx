@@ -40,7 +40,7 @@ class SelectorMonth extends React.Component {
 		return (
 			<div className='ap-selector-month'>
 				<GlyphButton bsSize='xsmall' glyph='chevron-left' onClick={this._onPreviousMonth.bind(this)}/>
-				{month}
+				<Button onClick={this.props.onMonthMode}>{month}</Button>
 				<GlyphButton bsSize='xsmall' glyph='chevron-right' onClick={this._onNextMonth.bind(this)}/>
 			</div>
 		);

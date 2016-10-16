@@ -21,7 +21,7 @@ class IForm extends Base {
 	}
   
 	getIFormInput(field, onChange) {
-		return (<FormInput {...field} onChange={onChange} />);
+		return (<FormInput key={field.id} {...field} onChange={onChange} />);
 	}
   
 	onChange(event, value, name) {
