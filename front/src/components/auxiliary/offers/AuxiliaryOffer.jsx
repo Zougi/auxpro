@@ -6,24 +6,8 @@ import StoreRegistry from 'core/StoreRegistry';
 // custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import { APButton } from 'lib/Lib.jsx';
-
-/*
-function getLoginData() {
-	return StoreRegistry.getStore('LOGIN_STORE').getData('/');
-}
-function getOffer(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/offers/' + id);
-}
-function getCustomer(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/customers/' + id);
-}
-function getService(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/services/' + id);
-}
-function getIntervention(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/interventions/' + id);
-}
-*/
+//
+import MomentHelper from 'utils/moment/MomentHelper.js'
 
 class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	
@@ -54,9 +38,11 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	acceptOffer() {
+		this.state.offer.status = 'ACCEPTED';
 		this._updateOffer(this.state.offer);
 	}
 	rejectOffer() {
+		this.state.offer.status = 'REJECTED';
 		this._updateOffer(this.state.offer);
 	}
 
@@ -83,15 +69,21 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		});
 	}
 
-	render() { return (
+	render() { 
+		return (
 		<div>
 			<br/>
 			<Panel>
-				<Button block bsStyle='info' onClick={this.props.onClose}>
+				<APButton block bsStyle='info' onClick={this.props.onClose}>
 					Retour
-				</Button>
+				</APButton>
 				<br/>
 				<Panel header="Détails de l'offre">
+					{ this.state.intervention.oneTime ?
+						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>
+					:
+						<div>{'Intervention du ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.startDate) + ' au ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.endDate)}</div>
+					}
 				</Panel>
 			</Panel>
 		</div>

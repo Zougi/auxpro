@@ -31,6 +31,9 @@ class APButton extends Base {
 		if (this.props.active) {
 			clazz += ' active';
 		}
+		if (this.props.block) {
+			clazz += ' block';
+		}
 		return clazz;
 	}
 
@@ -59,6 +62,7 @@ class APButton extends Base {
 			<button type={this._buildType()} className={this._buildClass()} disabled={this.props.disabled} onClick={this._onClick.bind(this)}>
 				{this._buildIcon()}
 				{this._buildText()}
+				{this.props.children}
 			</button>
 	);}
 }
