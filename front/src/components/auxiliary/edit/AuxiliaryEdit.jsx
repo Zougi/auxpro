@@ -20,7 +20,6 @@ class AuxiliaryEdit extends React.Component {
 		super(props);
 		this.auxiliary = {};
 		this.state = {
-			storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
 			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
 		};
 	}
@@ -101,7 +100,7 @@ class AuxiliaryEdit extends React.Component {
 				<Col sm={9}>
 					<Panel header='Ma photo' bsStyle='info'>
 						<AsyncImage 
-							src={this.auxiliary.avatar || this.state.storeData.data.auxiliary.user.avatar} 
+							src={this.auxiliary.avatar || this.state.auxiliary.user.avatar} 
 							width={200} 
 							height={200}/>
 						<ImageUploader onUploadComplete={this.onAvatarChanged.bind(this)}/>

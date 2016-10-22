@@ -56,7 +56,7 @@ class APButton extends Base {
 	
 	render() { 
 		return(
-			<button type={this._buildType()} className={this._buildClass()} diabled={this.props.disabled} onClick={this._onClick.bind(this)}>
+			<button type={this._buildType()} className={this._buildClass()} disabled={this.props.disabled} onClick={this._onClick.bind(this)}>
 				{this._buildIcon()}
 				{this._buildText()}
 			</button>

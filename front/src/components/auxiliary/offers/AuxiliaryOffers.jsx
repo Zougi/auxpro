@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Row, Clearfix, ButtonGroup, Button } from 'react-bootstrap';
+import { Panel, Row, Clearfix, ButtonGroup } from 'react-bootstrap';
 // core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
@@ -9,7 +9,6 @@ import { APButton } from 'lib/Lib.jsx';
 import OfferSummary from './OfferSummary.jsx'
 import OfferDetails from './OfferDetails.jsx'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
-
 
 let STATES = {
 	LIST: 'LIST',
