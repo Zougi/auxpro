@@ -22,7 +22,13 @@ import Presentation from 'components/app/static/Presentation.jsx'
 // Documentation pages
 import Documentation from 'documentation/Documentation.jsx'
 
-import AuxiliaryHome from 'components/auxiliary/AuxiliaryHome.jsx'
+import Auxiliary from 'components/auxiliary/Auxiliary.jsx'
+import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome.jsx'
+import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
+import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning.jsx'
+import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers.jsx'
+import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
+import AuxiliaryEdit from 'components/auxiliary/edit/AuxiliaryEdit.jsx'
 
 function getType() {
 	return StoreRegistry.getStore('LOGIN_STORE').getData('/type') || 'offline';
@@ -59,7 +65,15 @@ class AppRouter extends React.Component {
 					<Route path='home' component={Home} onEnter={this.onRouteEnter}/>
 					<Route path='home/:nav' component={Home} onEnter={this.onRouteEnter}/>
 					
-					<Route path='aux/:nav' component={AuxiliaryHome} onEnter={this.onRouteEnter}/>
+					<Route path='aux' component={Auxiliary} onEnter={this.onRouteEnter}>
+						<IndexRoute component={AuxiliaryHome}/>	
+						<Route path='home' component={AuxiliaryHome} onEnter={this.onRouteEnter}/>
+						<Route path='infos' component={AuxiliaryProfile} onEnter={this.onRouteEnter}/>
+						<Route path='edit' component={AuxiliaryEdit} onEnter={this.onRouteEnter}/>
+						<Route path='planning' component={AuxiliaryPlaning} onEnter={this.onRouteEnter}/>
+						<Route path='zone' component={AuxiliaryMap} onEnter={this.onRouteEnter}/>
+						<Route path='offres' component={AuxiliaryOffers} onEnter={this.onRouteEnter}/>
+					</Route>
 					
 				</Route>
 				<Route path='doc/:nav' component={Documentation} onEnter={this.onRouteEnter}/>

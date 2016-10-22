@@ -6,15 +6,10 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
 import ModalDialog from 'components-lib/Modal/ModalDialog.jsx'
-import AuxiliaryEdit from './edit/AuxiliaryEdit.jsx'
 import AuxiliaryHeader from './AuxiliaryHeader.jsx'
-import AuxiliaryMap from './map/AuxiliaryMap.jsx'
-import AuxiliaryPlaning from './planing/AuxiliaryPlaning.jsx'
-import AuxiliaryOffers from './offers/AuxiliaryOffers.jsx'
-import AuxiliaryProfile from './profile/AuxiliaryProfile.jsx'
 import AuxiliaryTuto from './AuxiliaryTuto.jsx'
 
-class AuxiliaryHome extends React.Component {
+class Auxiliary extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -24,15 +19,6 @@ class AuxiliaryHome extends React.Component {
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader')
 		};
-
-		this.content = {
-			home: this.getHome.bind(this),
-			infos: this.getInfos.bind(this),
-			edit: this.getEdit.bind(this),
-			planning: this.getPlanning.bind(this),
-			zone: this.getZone.bind(this),
-			offres: this.getOffers.bind(this)			
-		}
 	}
 	
 	componentWillMount() {
@@ -84,66 +70,6 @@ class AuxiliaryHome extends React.Component {
     	this.setState({ showTuto: false });
     }
 
-	getContent(nav) {
-		if (!this.state.data.auxiliary.profileCompleted) {
-			return this.getEdit();
-		}
-		if (nav) {
-			return (this.content[nav]());
-		} else {
-			return (this.content.home());
-		}
-	}
-
-	getHome() {
-		return (
-			<Col sm={12}>
-				<Row>
-					<Col sm={12}>
-					{ (this.state.data.auxiliary.profileCompleted) ?
-						<Panel bsStyle='success' header='Statut profil'>
-							Votre profil est actif.
-						</Panel>
-					:
-						<Panel bsStyle='danger' header='Statut profil'>
-							Votre profil est incomplet.
-						</Panel>
-					}
-					</Col>
-				</Row>
-			</Col>
-		);
-	}
-	
-	getInfos() {
-		return (
-			<AuxiliaryProfile />
-		);
-	}
-
-	getEdit() {
-		return (
-			<AuxiliaryEdit />
-		);
-	}
-	
-	getPlanning() {
-		return (
-			<AuxiliaryPlaning />
-		);
-	}
-	
-	getZone() {
-		return (
-			<AuxiliaryMap />
-		);
-	}
-	
-	getOffers() {
-		return (
-			<AuxiliaryOffers />
-		);
-	}
 
 	render() { 
 		if (this.state.showTuto) {
@@ -163,16 +89,16 @@ class AuxiliaryHome extends React.Component {
 					''
 				}
 				<Row>
-					{this.getContent(this.props.params.nav)}
+					{this.props.children}
 				</Row>
 			</div>
 		);
 	}
 }
 
-AuxiliaryHome.contextTypes = {
+Auxiliary.contextTypes = {
 	router: React.PropTypes.object
 }
 
 
-export default AuxiliaryHome;
+export default Auxiliary;

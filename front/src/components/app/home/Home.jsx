@@ -3,7 +3,7 @@ import React from 'react';
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
-import AuxiliaryHome from 'components/auxiliary/AuxiliaryHome.jsx'
+import Auxiliary from 'components/auxiliary/Auxiliary.jsx'
 import ServiceHome from 'components/service/ServiceHome.jsx'
 import GuestHome from 'components/guest/GuestHome.jsx'
 
@@ -48,7 +48,6 @@ class Home extends React.Component {
 		let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
 		switch (type) {
 			case 'sad'  : return(<ServiceHome {...this.state.service} nav={this.props.params.nav} query={this.props.location.query}/>);
-			case 'aux'  : return(<AuxiliaryHome/>);
 			case 'admin': return(<GuestHome/>);
 			case 'guest': return(<GuestHome/>);
 			default: return (
