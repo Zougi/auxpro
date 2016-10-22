@@ -6,6 +6,7 @@ import Utils from 'utils/Utils.js'
 
 import AuxiliaryGeoPanel from './AuxiliaryGeoPanel.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
+import StoreRegistry from 'core/StoreRegistry'
 
 var MODES = {
     SELECT: 'SELECT',
@@ -15,10 +16,33 @@ var MODES = {
 class AuxiliaryMap extends React.Component {
   
     constructor(props) {
+		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
         super(props);
-        this.state = { mode: MODES.NONE };
+			this.state = {
+			mode: MODES.NONE,
+			auxiliary: data.auxiliary,
+			customers: data.customers,
+			geoZones: data.geoZones
+		};
     }
 
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+    }
+    
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
+    }
+	
+	onStoreUpdate() {
+		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
+		this.setState({ 
+			auxiliary: data.auxiliary,
+			customers: data.customers,
+			geoZones: data.geoZones
+		});
+    }
+	
     onMarkerClicked(marker) {
         switch(marker.type) {
         case 'A':
@@ -35,8 +59,8 @@ class AuxiliaryMap extends React.Component {
 
     _buildCenter() {
         return {
-            lattitude: Number(this.props.auxiliary.contact.address.lattitude),
-            longitude: Number(this.props.auxiliary.contact.address.longitude)
+            lattitude: Number(this.state.auxiliary.contact.address.lattitude),
+            longitude: Number(this.state.auxiliary.contact.address.longitude)
         };
     }
 
@@ -44,15 +68,15 @@ class AuxiliaryMap extends React.Component {
     		let result = [];
     		// Add map center
     		result.push({
-      			lattitude: Number(this.props.auxiliary.contact.address.lattitude),
-      			longitude: Number(this.props.auxiliary.contact.address.longitude),
+      			lattitude: Number(this.state.auxiliary.contact.address.lattitude),
+      			longitude: Number(this.state.auxiliary.contact.address.longitude),
       			title: 'Mon domicile',
       			color: 'D9534F'
     		})
     		// Add geo zones 
-    		result.push(...this.__buildMarkers(this.props.geoZones, 'Ma zone d\'intervention'));
+    		result.push(...this.__buildMarkers(this.state.geoZones, 'Ma zone d\'intervention'));
     		// Add customers
-        result.push(...Utils.map(this.props.customers, function (c) {
+        result.push(...Utils.map(this.state.customers, function (c) {
             return {
                 id: c.id,
                 type: 'C',
@@ -79,9 +103,9 @@ class AuxiliaryMap extends React.Component {
   	_buildCircles() {
     		let result = [];
     		// Add geo zones
-    		let l = (this.props.geoZones || []).length;
+    		let l = (this.state.geoZones || []).length;
     		for (let i = 0; i < l; i++) {
-      			let gz = this.props.geoZones[i];
+      			let gz = this.state.geoZones[i];
       			result.push({
         				lattitude: Number(gz.lattitude),
         				longitude: Number(gz.longitude),

@@ -20,11 +20,34 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
+		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
 		this.state = { 
 			state: STATES.LIST,
-			offersFilter: ''
+			offersFilter: '',
+			customers: data.customers,
+			interventions: data.interventions,
+			offers: data.offers,
+			services: data.services
 		};
 	}
+	
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+    }
+    
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
+    }
+	
+	onStoreUpdate() {
+		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
+		this.setState({ 
+			customers: data.customers,
+			interventions: data.interventions,
+			offers: data.offers,
+			services: data.services
+		});
+    }
 
 	onOffersFilter(status) {
 		return function() {
@@ -94,7 +117,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	}
 
 	_buildOffers() {
-		let offers = Utils.filter(this.props.offers || [], this._filterOffer.bind(this));
+		let offers = Utils.filter(this.state.offers || [], this._filterOffer.bind(this));
 		return offers.map(this._buildOffer.bind(this));
 	}
 	_filterOffer(offer) {
@@ -107,9 +130,9 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		return (
 			<OfferSummary 
 				key={offer.id} 
-				service={this.props.services[offer.serviceId]}
-				customer={this.props.customers[offer.customerId]}
-				intervention={this.props.interventions[offer.interventionId]}
+				service={this.state.services[offer.serviceId]}
+				customer={this.state.customers[offer.customerId]}
+				intervention={this.state.interventions[offer.interventionId]}
 				offer={offer}
 				onAccept={this.onOfferAccept.bind(this)}
 				onReject={this.onOfferReject.bind(this)}
