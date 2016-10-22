@@ -78,6 +78,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 					Retour
 				</APButton>
 				<br/>
+				<br/>
 				<Panel header="Détails de l'offre">
 					{ this.state.intervention.oneTime ?
 						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>

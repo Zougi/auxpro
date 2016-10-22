@@ -1,6 +1,8 @@
 import React from 'react'
 import Base from '../Base.jsx';
 
+import './APButton.css';
+
 /**
  * @props.type     :
  * @props.bsStyle  : 
@@ -23,7 +25,7 @@ class APButton extends Base {
 	}
 
 	_buildClass() {
-		var clazz = 'btn';
+		var clazz = 'ap-button btn';
 		clazz += ' btn-' + (this.props.outline ? 'outline' : '') + (this.props.bsStyle || 'secondary');
 		if (this.props.bsSize) {
 			clazz += ' btn-' + this.props.bsSize;
