@@ -19,16 +19,33 @@ class AuxiliaryPlaning extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = { selected: MomentHelper.toLocalDate(moment()) };
-		this.componentWillReceiveProps(props, true);
+		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
+		this.state = { 
+			selected: MomentHelper.toLocalDate(moment()),
+			data: data,
+			interventions: this._buildInterventions(data),
+			offers: this._buildOffers(data),
+			indisponibilities: this._buildIndisponibilities(data)
+		};
 	}
 
-	componentWillReceiveProps(props, first) {
-		this.state.interventions = this._buildInterventions(props);
-		this.state.offers = this._buildOffers(props);
-		this.state.indisponibilities = this._buildIndisponibilities(props);
-		if (!first) this.setState(this.state);
-	}
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+    }
+    
+    componentWillUnmount() {
+        StoreRegistry.unregister('AUXILIARY_STORE', this);
+    }
+	
+	onStoreUpdate() {
+		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
+		this.setState({ 
+			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data'),
+			interventions: this._buildInterventions(data),
+			offers: this._buildOffers(data),
+			indisponibilities: this._buildIndisponibilities(data)
+		});
+    }
 
 	onDaySelect(day) {
 		this.setState({ selected: day });
@@ -106,7 +123,7 @@ class AuxiliaryPlaning extends React.Component {
 	}
 
 	render() { 
-		var servicesValues = Utils.map(this.props.services, function (service) {
+		var servicesValues = Utils.map(this.state.data.services, function (service) {
 			return {
 				key: service.society,
 				value: service.society
@@ -116,7 +133,7 @@ class AuxiliaryPlaning extends React.Component {
 			key: '__ALL__',
 			value: 'Tous'
 		});
-		var customersValues = Utils.map(this.props.customers, function (customer) {
+		var customersValues = Utils.map(this.state.data.customers, function (customer) {
 			var name = customer.person.civility + ' ' + customer.person.lastName;
 			return {
 				key: name,

@@ -129,13 +129,7 @@ class AuxiliaryHome extends React.Component {
 	
 	getPlanning() {
 		return (
-			<AuxiliaryPlaning storeData={this.state.storeData}
-				auxiliary={this.state.data.auxiliary}
-				customers={this.state.data.customers}
-				indisponibilities={this.state.data.indisponibilities}
-				interventions={this.state.data.interventions}
-				offers={this.state.data.offers}
-				services={this.state.data.services} />
+			<AuxiliaryPlaning />
 		);
 	}
 	
