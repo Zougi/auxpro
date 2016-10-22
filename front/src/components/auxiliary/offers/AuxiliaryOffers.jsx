@@ -5,9 +5,10 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 import Utils from 'utils/Utils.js'
 // custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import { APButton } from 'lib/Lib.jsx';
+import AuxiliaryOffer from './AuxiliaryOffer.jsx'
 import OfferSummary from './OfferSummary.jsx'
-import OfferDetails from './OfferDetails.jsx'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
 let STATES = {
@@ -15,7 +16,7 @@ let STATES = {
 	VIEW: 'VIEW'
 }
 
-class AuxiliaryOffers extends React.Component {
+class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
@@ -115,19 +116,18 @@ class AuxiliaryOffers extends React.Component {
 				onView={this.onOfferView.bind(this)} />
 		);
 	}
+/*
 
+*/
 	render() { 
 		switch (this.state.state) {
 		case STATES.VIEW:
 			return(
 				<div>
 					<br/>
-					<OfferDetails
-						offer={this.state.offer}
-						service={this.props.services[this.state.serviceId]}
-						customer={this.props.customers[this.state.customerId]}
-						intervention={this.props.interventions[this.state.interventionId]}
-						onClose={this.onCancel.bind(this)} />
+					<AuxiliaryOffer
+						offerId={this.state.offer.id}
+						onClose={this.onCancel.bind(this)} />					
 				</div>
 			);
 		default:

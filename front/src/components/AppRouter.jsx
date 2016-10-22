@@ -48,7 +48,7 @@ class AppRouter extends React.Component {
 		return (
 			<Router history={browserHistory}>
 				<Route path='/' component={App} onEnter={this.onRouteEnter}>
-					<IndexRoute component={Land}/>		
+					<IndexRoute component={Land}/>
 					<Route path='login' component={Login} onEnter={this.onRouteEnter}/>
 					<Route path='registerAux' component={RegisterAux} onEnter={this.onRouteEnter}/>
 					<Route path='registerSad' component={RegisterSad} onEnter={this.onRouteEnter}/>
