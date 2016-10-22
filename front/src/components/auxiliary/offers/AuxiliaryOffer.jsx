@@ -28,7 +28,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	_buildState() {
-		let offer = this.getOffer(this.props.offerId);
+		let offer = this.getOffer(this.props.params.offerId);
 		return {
 			offer: offer,
 			service: this.getService(offer.serviceId),
@@ -39,34 +39,26 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 
 	acceptOffer() {
 		this.state.offer.status = 'ACCEPTED';
-		this._updateOffer(this.state.offer);
+		this._updateOffer();
 	}
 	rejectOffer() {
 		this.state.offer.status = 'REJECTED';
-		this._updateOffer(this.state.offer);
+		this._updateOffer();
 	}
 
-	_updateOffer(offer) {
-		offer.status = this.state.offerStatus;
-		let params = {
-			data: offer,
-			offerId: offer.id,
-			token: this.getLoginData().token
-		}
-		Dispatcher.issue('PUT_OFFER', params).
+	_updateOffer() {
+		this.updateOffer(this.state.offer).
 		then(function () {
-			return Dispatcher.issue('GET_AUXILIARY_OFFERS', { 
-				token: this.getLoginData().token,
-				auxiliaryId: this.getLoginData().id
-			})
-		}).
-		then(function () {
-			this.onCancel();
+			this._onClose();
 		}.bind(this)).
 		catch(function (error) {
-			offer.status = 'PENDING';
+			this.state.offer.status = 'PENDING';
 			console.log(error);
-		});
+		});;
+	}
+
+	_onClose() {
+		this.context.router.push('/aux/offres');
 	}
 
 	render() { 
@@ -74,7 +66,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		<div>
 			<br/>
 			<Panel>
-				<APButton block bsStyle='info' onClick={this.props.onClose}>
+				<APButton block bsStyle='info' onClick={this._onClose.bind(this)}>
 					Retour
 				</APButton>
 				<br/>
@@ -89,6 +81,10 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 			</Panel>
 		</div>
 	);}
+}
+
+AuxiliaryOffer.contextTypes = {
+	router: React.PropTypes.object
 }
 
 export default AuxiliaryOffer;

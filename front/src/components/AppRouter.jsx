@@ -27,6 +27,7 @@ import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome.jsx'
 import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning.jsx'
 import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers.jsx'
+import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer.jsx'
 import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
 import AuxiliaryEdit from 'components/auxiliary/edit/AuxiliaryEdit.jsx'
 
@@ -72,7 +73,10 @@ class AppRouter extends React.Component {
 						<Route path='edit' component={AuxiliaryEdit} onEnter={this.onRouteEnter}/>
 						<Route path='planning' component={AuxiliaryPlaning} onEnter={this.onRouteEnter}/>
 						<Route path='zone' component={AuxiliaryMap} onEnter={this.onRouteEnter}/>
+
 						<Route path='offres' component={AuxiliaryOffers} onEnter={this.onRouteEnter}/>
+						<Route path='offres/:offerId' component={AuxiliaryOffer} onEnter={this.onRouteEnter}/>
+
 					</Route>
 					
 				</Route>

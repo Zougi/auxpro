@@ -11,18 +11,12 @@ import AuxiliaryOffer from './AuxiliaryOffer.jsx'
 import OfferSummary from './OfferSummary.jsx'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
-let STATES = {
-	LIST: 'LIST',
-	VIEW: 'VIEW'
-}
-
 class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
 		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
 		this.state = { 
-			state: STATES.LIST,
 			offersFilter: '',
 			customers: data.customers,
 			interventions: data.interventions,
@@ -70,20 +64,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		});
 	}
 	onOfferView(offer) {
-		this.setState({
-			state: STATES.VIEW,
-			offer: offer
-		});	
-	}
-
-	onCancel() {
-		this.setState({
-			state: STATES.LIST,
-			offerStatus: null,
-			confirmAccept: false,
-			confirmReject: false,
-			offer: null
-		});	
+		this.context.router.push('/aux/offres/' + offer.id);
 	}
 
 	acceptOffer() {
@@ -91,6 +72,13 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	}
 	rejectOffer() {
 		this._updateOffer(this.state.offer);
+	}
+
+	onCancel() {
+		this.setState({
+			confirmAccept: false,
+			confirmReject: false
+		});
 	}
 
 	_updateOffer(offer) {
@@ -139,59 +127,49 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 				onView={this.onOfferView.bind(this)} />
 		);
 	}
-/*
 
-*/
 	render() { 
-		switch (this.state.state) {
-		case STATES.VIEW:
-			return(
-				<div>
+		return (
+			<div>
+				<br/>
+				<Panel header='Offres en cours'>
+					<Row style={{textAlign:'center'}}>
+						<ButtonGroup>
+						    <APButton bsStyle='primary' onClick={this.onOffersFilter('').bind(this)} text='Toutes' />
+						    <APButton bsStyle='info' onClick={this.onOffersFilter('PENDING').bind(this)} text='En attente' />
+						    <APButton bsStyle='success' onClick={this.onOffersFilter('ACCEPTED').bind(this)} text='Acceptées' />
+						    <APButton bsStyle='danger' onClick={this.onOffersFilter('REJECTED').bind(this)} text='Rejetées' />
+						    <APButton onClick={this.onOffersFilter('EXPIRED').bind(this)} text='Expirées' />
+						</ButtonGroup>
+					</Row>
 					<br/>
-					<AuxiliaryOffer
-						offerId={this.state.offer.id}
-						onClose={this.onCancel.bind(this)} />					
-				</div>
-			);
-		default:
-			return (
-				<div>
-					<br/>
-					<Panel header='Offres en cours'>
-						<Row style={{textAlign:'center'}}>
-							<ButtonGroup>
-							    <APButton bsStyle='primary' onClick={this.onOffersFilter('').bind(this)} text='Toutes' />
-							    <APButton bsStyle='info' onClick={this.onOffersFilter('PENDING').bind(this)} text='En attente' />
-							    <APButton bsStyle='success' onClick={this.onOffersFilter('ACCEPTED').bind(this)} text='Acceptées' />
-							    <APButton bsStyle='danger' onClick={this.onOffersFilter('REJECTED').bind(this)} text='Rejetées' />
-							    <APButton onClick={this.onOffersFilter('EXPIRED').bind(this)} text='Expirées' />
-							</ButtonGroup>
-						</Row>
-						<br/>
-		            	{this._buildOffers()}
-		        	</Panel>
-		        	<DialogConfirmation
-	                    show={this.state.confirmAccept}
-	                    title="Accepter l'offre"
-	                    onConfirm={this.acceptOffer.bind(this)}
-	                    confirmStyle='success'
-	                    confirmText='Accepter'
-	                    onCancel={this.onCancel.bind(this)}
-	                    cancelStyle='default'
-	                    cancelText='Annuler' />
-	                <DialogConfirmation
-	                    show={this.state.confirmReject}
-	                    title="Rejeter l'offre"
-	                    onConfirm={this.rejectOffer.bind(this)}
-	                    confirmStyle='danger'
-	                    confirmText='Rejeter'
-	                    onCancel={this.onCancel.bind(this)}
-	                    cancelStyle='default'
-	                    cancelText='Annuler' />
-		        </div>
-			);
-		}
+	            	{this._buildOffers()}
+	        	</Panel>
+	        	<DialogConfirmation
+                    show={this.state.confirmAccept}
+                    title="Accepter l'offre"
+                    onConfirm={this.acceptOffer.bind(this)}
+                    confirmStyle='success'
+                    confirmText='Accepter'
+                    onCancel={this.onCancel.bind(this)}
+                    cancelStyle='default'
+                    cancelText='Annuler' />
+                <DialogConfirmation
+                    show={this.state.confirmReject}
+                    title="Rejeter l'offre"
+                    onConfirm={this.rejectOffer.bind(this)}
+                    confirmStyle='danger'
+                    confirmText='Rejeter'
+                    onCancel={this.onCancel.bind(this)}
+                    cancelStyle='default'
+                    cancelText='Annuler' />
+	        </div>
+		);
 	}
+}
+
+AuxiliaryOffers.contextTypes = {
+	router: React.PropTypes.object
 }
 
 export default AuxiliaryOffers;
