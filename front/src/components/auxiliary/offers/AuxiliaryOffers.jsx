@@ -7,8 +7,7 @@ import Utils from 'utils/Utils.js'
 // custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import { APButton } from 'lib/Lib.jsx';
-import AuxiliaryOffer from './AuxiliaryOffer.jsx'
-import OfferSummary from './OfferSummary.jsx'
+import AuxiliaryOfferSummary from './AuxiliaryOfferSummary.jsx'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 
 class AuxiliaryOffers extends AuxiliaryBaseComponent {
@@ -106,26 +105,35 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 
 	_buildOffers() {
 		let offers = Utils.filter(this.state.offers || [], this._filterOffer.bind(this));
-		return offers.map(this._buildOffer.bind(this));
+		let l = offers.length;
+		let result = [];
+		for (let i = 0; i < l; i++) {
+			let offer = offers[i];
+			result.push(
+				<AuxiliaryOfferSummary 
+					key={offer.id} 
+					service={this.state.services[offer.serviceId]}
+					customer={this.state.customers[offer.customerId]}
+					intervention={this.state.interventions[offer.interventionId]}
+					offer={offer}
+					onAccept={this.onOfferAccept.bind(this)}
+					onReject={this.onOfferReject.bind(this)}
+					onView={this.onOfferView.bind(this)} />
+			);
+			if (i%2 === 1) {
+				result.push( <Clearfix visibleSmBlock/>);
+			}
+			if (i%3 === 2) {
+				result.push( <Clearfix visibleMdBlock/>);
+			}
+		}
+		return result;
 	}
 	_filterOffer(offer) {
 		if (this.state.offersFilter) {
 			return (this.state.offersFilter === offer.status);
 		}
 		return true;
-	}
-	_buildOffer(offer) {
-		return (
-			<OfferSummary 
-				key={offer.id} 
-				service={this.state.services[offer.serviceId]}
-				customer={this.state.customers[offer.customerId]}
-				intervention={this.state.interventions[offer.interventionId]}
-				offer={offer}
-				onAccept={this.onOfferAccept.bind(this)}
-				onReject={this.onOfferReject.bind(this)}
-				onView={this.onOfferView.bind(this)} />
-		);
 	}
 
 	render() { 
