@@ -14,14 +14,8 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
-		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
-		this.state = { 
-			offersFilter: '',
-			customers: data.customers,
-			interventions: data.interventions,
-			offers: data.offers,
-			services: data.services
-		};
+		this.state = this._buildState();
+		this.state.offersFilter = '';
 	}
 	
 	componentDidMount() {
@@ -33,14 +27,17 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
     }
 	
 	onStoreUpdate() {
-		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
-		this.setState({ 
-			customers: data.customers,
-			interventions: data.interventions,
-			offers: data.offers,
-			services: data.services
-		});
+		this.setState(this._buildState());
     }
+
+    _buildState() {
+		return {
+			customers: this.getCustomers(),
+			interventions: this.getInterventions(),
+			offers: this.getOffers(),
+			services: this.getServices()
+		}
+	}
 
 	onOffersFilter(status) {
 		return function() {

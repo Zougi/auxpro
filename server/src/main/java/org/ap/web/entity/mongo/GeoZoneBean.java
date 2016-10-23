@@ -6,7 +6,9 @@ public class GeoZoneBean {
 	private String longitude;
 	
 	private String radius;
+	
 	private int postalCode;
+	private String city;
 	
 	public GeoZoneBean() {}
 	
@@ -21,4 +23,7 @@ public class GeoZoneBean {
 
 	public int getPostalCode() { return postalCode; }
 	public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
+
+	public String getCity() { return city; }
+	public void setCity(String city) { this.city = city; }
 }

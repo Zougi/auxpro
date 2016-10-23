@@ -11,6 +11,8 @@ class AuxiliaryBaseComponent extends React.Component {
 		this.auxiliaryStore = StoreRegistry.getStore('AUXILIARY_STORE');
 	}
 
+	// Basic sotre access //
+
 	_getLoginData(path) {
 		return this.loginStore.getData(path);
 	}
@@ -23,27 +25,45 @@ class AuxiliaryBaseComponent extends React.Component {
 	getLoginData() {
 		return this._getLoginData('/');
 	}
+
+	// Auxiliary //
+
+	getAuxiliary() {
+		return this._getAuxiliaryData('/data/auxiliary');
+	}
 	
 	// Customers //
 
+	getCustomers() {
+		return this._getAuxiliaryData('/data/customers');
+	}
 	getCustomer(id) {
 		return this._getAuxiliaryData('/data/customers/' + id);
 	}
 
 	// Services //
 
+	getServices() {
+		return this._getAuxiliaryData('/data/services');
+	}
 	getService(id) {
 		return this._getAuxiliaryData('/data/services/' + id);
 	}
 
 	// Interventions //
 
+	getInterventions() {
+		return this._getAuxiliaryData('/data/interventions');
+	}
 	getIntervention(id) {
 		return this._getAuxiliaryData('/data/interventions/' + id);
 	}
 
 	// Offers //
 
+	getOffers() {
+		return this._getAuxiliaryData('/data/offers');
+	}
 	getOffer(id) {
 		return this._getAuxiliaryData('/data/offers/' + id);
 	}
@@ -60,6 +80,17 @@ class AuxiliaryBaseComponent extends React.Component {
 			})
 		});
 	}
+
+	// Geo Zones //
+
+	getGeoZones() {
+		return this._getAuxiliaryData('/data/geoZones');
+	}
+	getGeoZone(index) {
+		return this._getAuxiliaryData('/data/geoZones/' + index);
+	}
+
+	// Dummy renderer //
 
 	render() {
 		return('');

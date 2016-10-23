@@ -25,13 +25,20 @@ export default class GoogleMapHelper {
 	}
 
 	addMarker(args) {
-		return new google.maps.Marker({
+		let marker = new google.maps.Marker({
 			position: new google.maps.LatLng(args.lattitude, args.longitude), 
 			map: this.map,
 			title: args.title,
 			icon: this.getMarkerImage(args),
 			shadow: args.shadow
 		});
+		if (args.infowindow) {
+			let infowindow = new google.maps.InfoWindow({
+			    content: args.infowindow
+  			});
+  			infowindow.open(this.map, marker);
+		}
+		return marker;
 	}
 
 	deleteMarker(marker) {
