@@ -1,6 +1,8 @@
 import React from 'react'
 import Base from '../Base.jsx';
 
+import './APButton.css';
+
 /**
  * @props.type     :
  * @props.bsStyle  : 
@@ -23,13 +25,16 @@ class APButton extends Base {
 	}
 
 	_buildClass() {
-		var clazz = 'btn';
+		var clazz = 'ap-button btn';
 		clazz += ' btn-' + (this.props.outline ? 'outline' : '') + (this.props.bsStyle || 'secondary');
 		if (this.props.bsSize) {
 			clazz += ' btn-' + this.props.bsSize;
 		}
 		if (this.props.active) {
 			clazz += ' active';
+		}
+		if (this.props.block) {
+			clazz += ' block';
 		}
 		return clazz;
 	}
@@ -59,6 +64,7 @@ class APButton extends Base {
 			<button type={this._buildType()} className={this._buildClass()} disabled={this.props.disabled} onClick={this._onClick.bind(this)}>
 				{this._buildIcon()}
 				{this._buildText()}
+				{this.props.children}
 			</button>
 	);}
 }

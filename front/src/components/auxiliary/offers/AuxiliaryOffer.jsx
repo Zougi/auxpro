@@ -6,24 +6,8 @@ import StoreRegistry from 'core/StoreRegistry';
 // custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import { APButton } from 'lib/Lib.jsx';
-
-/*
-function getLoginData() {
-	return StoreRegistry.getStore('LOGIN_STORE').getData('/');
-}
-function getOffer(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/offers/' + id);
-}
-function getCustomer(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/customers/' + id);
-}
-function getService(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/services/' + id);
-}
-function getIntervention(id) {
-	return StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/interventions/' + id);
-}
-*/
+//
+import MomentHelper from 'utils/moment/MomentHelper.js'
 
 class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	
@@ -44,7 +28,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	_buildState() {
-		let offer = this.getOffer(this.props.offerId);
+		let offer = this.getOffer(this.props.params.offerId);
 		return {
 			offer: offer,
 			service: this.getService(offer.serviceId),
@@ -54,48 +38,53 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	acceptOffer() {
-		this._updateOffer(this.state.offer);
+		this.state.offer.status = 'ACCEPTED';
+		this._updateOffer();
 	}
 	rejectOffer() {
-		this._updateOffer(this.state.offer);
+		this.state.offer.status = 'REJECTED';
+		this._updateOffer();
 	}
 
-	_updateOffer(offer) {
-		offer.status = this.state.offerStatus;
-		let params = {
-			data: offer,
-			offerId: offer.id,
-			token: this.getLoginData().token
-		}
-		Dispatcher.issue('PUT_OFFER', params).
+	_updateOffer() {
+		this.updateOffer(this.state.offer).
 		then(function () {
-			return Dispatcher.issue('GET_AUXILIARY_OFFERS', { 
-				token: this.getLoginData().token,
-				auxiliaryId: this.getLoginData().id
-			})
-		}).
-		then(function () {
-			this.onCancel();
+			this._onClose();
 		}.bind(this)).
 		catch(function (error) {
-			offer.status = 'PENDING';
+			this.state.offer.status = 'PENDING';
 			console.log(error);
-		});
+		});;
 	}
 
-	render() { return (
+	_onClose() {
+		this.context.router.push('/aux/offres');
+	}
+
+	render() { 
+		return (
 		<div>
 			<br/>
 			<Panel>
-				<Button block bsStyle='info' onClick={this.props.onClose}>
+				<APButton block bsStyle='info' onClick={this._onClose.bind(this)}>
 					Retour
-				</Button>
+				</APButton>
+				<br/>
 				<br/>
 				<Panel header="Détails de l'offre">
+					{ this.state.intervention.oneTime ?
+						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>
+					:
+						<div>{'Intervention du ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.startDate) + ' au ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.endDate)}</div>
+					}
 				</Panel>
 			</Panel>
 		</div>
 	);}
+}
+
+AuxiliaryOffer.contextTypes = {
+	router: React.PropTypes.object
 }
 
 export default AuxiliaryOffer;
