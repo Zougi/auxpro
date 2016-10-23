@@ -65,22 +65,22 @@ AppStore.onLogon = function (result, param) {
 			header: {
 				brand: { link: '/', name: 'AuxPro' },
 				rightContent: [
-					{ key: 1, link: '/home', query: {}, name: 'Accueil', glyph: 'home' },
-					{ key: 2, link: '/home/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
+					{ key: 1, link: '/sad/home', query: {}, name: 'Accueil', glyph: 'home' },
+					{ key: 2, link: '/sad/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
 					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
 			subHeader: {
 				disabled: false,
 				leftContent: [
-					{ key: 0, link: '/home', query: {}, name: 'Accueil' },
+					{ key: 0, link: '/sad/home', query: {}, name: 'Accueil' },
 					{ key: 1, name: 'Informations', dropdown: [
-						{ key: 1.1, link: '/home/infos', query: {}, name: 'Voir profil' },
-						{ key: 1.2, link: '/home/edit', query: {}, name: 'Editer profil' }
+						{ key: 1.1, link: '/sad/infos', query: {}, name: 'Voir profil' },
+						{ key: 1.2, link: '/sad/edit', query: {}, name: 'Editer profil' }
 					]},
-					{ key: 2, link: '/home/zone', query: {}, name: 'Ma zone' },
-					{ key: 3, link: '/home/customers', query: {}, name: 'Mes clients' },
-					{ key: 4, link: '/home/interventions', query: {}, name: 'Mes interventions' }
+					{ key: 2, link: '/sad/zone', query: {}, name: 'Ma zone' },
+					{ key: 3, link: '/sad/customers', query: {}, name: 'Mes clients' },
+					{ key: 4, link: '/sad/interventions', query: {}, name: 'Mes interventions' }
 				]
 			}
 		}

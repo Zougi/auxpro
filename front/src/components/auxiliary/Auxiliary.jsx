@@ -15,7 +15,6 @@ class Auxiliary extends React.Component {
 		super(props);
 		this.state = {
 			storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
-			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data'),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader')
 		};
@@ -39,8 +38,7 @@ class Auxiliary extends React.Component {
 	onStoreUpdate() {
 		this.setState({ 
 			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') &&
-							StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary/profileCompleted'),
-			data: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data')
+							StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary/profileCompleted')
 		});
     }
 	

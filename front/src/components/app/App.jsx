@@ -58,8 +58,12 @@ class App extends React.Component {
 			let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
 			if (type == "aux") {
 				this.context.router.push("/aux/home");
+			} else if (type == "sad") {
+				this.context.router.push("/sad/home");
+			} else if (type == "guest" || type == "admin") {
+				this.context.router.push("/guest");
 			} else {
-				this.context.router.push("/home");
+				this.context.router.push("/");
 			}
 		}
 		if (user.logged) {

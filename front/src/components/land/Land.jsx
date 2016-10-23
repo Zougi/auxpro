@@ -14,13 +14,6 @@ class Land extends React.Component {
         super(props);
     }
 	
-	componentDidMount() {
-        let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
-		if (logged) {
-			this.context.router.push("/home");
-		}
-    }
-	
     guestLogin(event) {
         event.preventDefault();
         let params = {

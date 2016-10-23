@@ -12,11 +12,12 @@ import ServiceCustomers from './customers/ServiceCustomers.jsx'
 import ServiceInterventions from './interventions/ServiceInterventions.jsx'
 import ServiceMap from './map/ServiceMap.jsx'
 
-class ServiceHome extends React.Component {
+class Service extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			storeData: StoreRegistry.getStore('SERVICE_STORE').getData(),
 			data: StoreRegistry.getStore('SERVICE_STORE').getData('/data'),
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showUserHeader: StoreRegistry.getStore('SERVICE_STORE').getData('/display/home/showUserHeader')
@@ -31,9 +32,17 @@ class ServiceHome extends React.Component {
 		}
 	}
 
+	componentWillMount() {
+        let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
+		if (!logged) {
+			this.context.router.push('/login');
+		}
+    }
+	
 	componentDidMount() {
 		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
 	}
+
 
 	componentWillUnmount() {
 		StoreRegistry.unregister('SERVICE_STORE', this);   
@@ -41,6 +50,7 @@ class ServiceHome extends React.Component {
 	
 	onStoreUpdate(first) {
 		this.setState({ 
+			storeData: StoreRegistry.getStore('SERVICE_STORE').getData(),
 			showUserHeader: StoreRegistry.getStore('SERVICE_STORE').getData('/display/home/showUserHeader'),
 			data: StoreRegistry.getStore('SERVICE_STORE').getData('/data')
 		});
@@ -105,6 +115,7 @@ class ServiceHome extends React.Component {
 	);}
 
 	render() {
+		console.log(this.props);
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>
@@ -117,16 +128,20 @@ class ServiceHome extends React.Component {
 		return(
 			<div className='container'>
 				{this.state.showUserHeader ? 
-					<ServiceHeader storeData={this.props.storeData} />
+					<ServiceHeader storeData={this.state.storeData} />
 				:
 					''
 				}
 				<Row>
-					{this.getContent(this.props.nav)}
+					{this.getContent(this.props.params.nav)}
 				</Row>
 			</div>
 		);
 	}
 }
 
-export default ServiceHome;
+Service.contextTypes = {
+	router: React.PropTypes.object
+}
+
+export default Service;
