@@ -26,10 +26,33 @@ let STATES = {
 class ServiceInterventions extends React.Component {
 	
 	constructor(props) {
-        super(props);
-        this.state = { state: STATES.LIST };		
-    }
+		super(props);
+        this.state = {
+			state: STATES.LIST,
+			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers'),
+			interventions: StoreRegistry.getStore('SERVICE_STORE').getData('/data/interventions'),
+			offers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/offers')
+			};
+	}
+	
+	componentDidMount() {
+		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+	}
 
+
+	componentWillUnmount() {
+		StoreRegistry.unregister('SERVICE_STORE', this);   
+	}
+	
+	onStoreUpdate() {
+		this.setState({ 
+			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers'),
+			interventions: StoreRegistry.getStore('SERVICE_STORE').getData('/data/interventions'),
+			offers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/offers')
+		});
+
+    }
+	
     onCancel() {
         this.setState({ 
             intervention: null,
@@ -138,17 +161,17 @@ class ServiceInterventions extends React.Component {
     }
 
     _buildCustomers() {
-        let customers = Utils.filter(this.props.customers || [], this._filterCustomer.bind(this));
+        let customers = Utils.filter(this.state.customers || [], this._filterCustomer.bind(this));
         return customers.map(this._buildCustomer.bind(this));
     }
     _filterCustomer(customer) {
         return customer.interventions && customer.interventions.length;
     }
     _buildCustomer(customer) {
-        let interventions = Utils.filter(this.props.interventions, function(intervention) {
+        let interventions = Utils.filter(this.state.interventions, function(intervention) {
             return intervention.customerId === customer.id;
         });
-        let offers = Utils.filter(this.props.offers, function(offer) {
+        let offers = Utils.filter(this.state.offers, function(offer) {
             return offer.customerId === customer.id;
         });
         return (
@@ -170,35 +193,35 @@ class ServiceInterventions extends React.Component {
             case STATES.ADD: content = (
                 <InterventionDetails 
                     edit={true}
-                    customers={Utils.map(this.props.customers)}
+                    customers={Utils.map(this.state.customers)}
                     onCancel={this.onCancel.bind(this)} 
                     onCreate={this.createIntervention.bind(this)} />
             );
             case STATES.EDIT: content = (
                 <InterventionDetails 
                     edit={true}
-                    customers={Utils.map(this.props.customers)}
+                    customers={Utils.map(this.state.customers)}
                     intervention={this.state.intervention}
                     onCancel={this.onCancel.bind(this)} 
                     onCreate={this.saveIntervention.bind(this)} />
             );
             case STATES.MATCH:
-                let intervention = this.props.interventions[this.interventionId];
+                let intervention = this.state.interventions[this.interventionId];
                 content = (
                     <InterventionMatch
-                        customer={this.props.customers[intervention.customerId]}
+                        customer={this.state.customers[intervention.customerId]}
                         intervention={intervention}
                         matches={intervention.matches}
                         onCancel={this.onCancel.bind(this)}
                         onSend={this.sendIntervention.bind(this)} />
                 );
             case STATES.VIEW:
-                let offers = Utils.filter(this.props.offers, function(offer) {
+                let offers = Utils.filter(this.state.offers, function(offer) {
                     return offer.interventionId === this.state.intervention.id;
                 }.bind(this));
                 content = (
                     <InterventionOffers
-                        customer={this.props.customers[this.state.intervention.customerId]}
+                        customer={this.state.customers[this.state.intervention.customerId]}
                         intervention={this.state.intervention}
                         offers={offers}
                         onCancel={this.onCancel.bind(this)} />

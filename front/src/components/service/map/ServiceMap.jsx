@@ -1,6 +1,7 @@
 import React from 'react'
 import { Panel, Row, Col } from 'react-bootstrap'
 
+import StoreRegistry from 'core/StoreRegistry.js';
 import Utils from 'utils/Utils.js'
 
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
@@ -9,15 +10,38 @@ import ServiceMapInformation from './ServiceMapInformation.jsx'
 
 class ServiceMap extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { info: {} }
-    }
+	constructor(props) {
+		super(props);
+        this.state = {
+			info: {},
+			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service'),
+			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers'),
+			auxiliaries: StoreRegistry.getStore('SERVICE_STORE').getData('/data/auxiliaries')
+			};
+	}
+	
+	componentDidMount() {
+		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+	}
 
+
+	componentWillUnmount() {
+		StoreRegistry.unregister('SERVICE_STORE', this);   
+	}
+	
+	onStoreUpdate() {
+		this.setState({ 
+			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service'),
+			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers'),
+			auxiliaries: StoreRegistry.getStore('SERVICE_STORE').getData('/data/auxiliaries')
+		});
+
+    }
+	
     onMarkerClicked(marker) {
         switch(marker.type) {
         case 'A':
-            var a = this.props.auxiliaries[marker.id];
+            var a = this.state.auxiliaries[marker.id];
             this.setState({ info: {
                 bsStyle: 'info',
                 header: 'Auxiliaire',
@@ -27,7 +51,7 @@ class ServiceMap extends React.Component {
             }});
             break;
         case 'C':
-            var c = this.props.customers[marker.id];
+            var c = this.state.customers[marker.id];
             this.setState({ info: {
                 bsStyle: 'success',
                 header: 'Client',
@@ -40,9 +64,9 @@ class ServiceMap extends React.Component {
             this.setState({ info: {
                 bsStyle: 'danger',
                 header: 'Ma société',
-                name : this.props.service.society,
-                address1: this.props.service.contact.address.address,
-                address2: this.props.service.contact.address.postalCode + ' ' + this.props.service.contact.address.country
+                name : this.state.service.society,
+                address1: this.state.service.contact.address.address,
+                address2: this.state.service.contact.address.postalCode + ' ' + this.state.service.contact.address.country
             }});
             break;
         }
@@ -54,8 +78,8 @@ class ServiceMap extends React.Component {
 
     _buildCenter() {
         return {
-            lattitude: Number(this.props.service.contact.address.lattitude),
-            longitude: Number(this.props.service.contact.address.longitude)
+            lattitude: Number(this.state.service.contact.address.lattitude),
+            longitude: Number(this.state.service.contact.address.longitude)
         };
     }
 
@@ -63,13 +87,13 @@ class ServiceMap extends React.Component {
         let result = [];
         // Add map center
         result.push({
-            lattitude: Number(this.props.service.contact.address.lattitude),
-            longitude: Number(this.props.service.contact.address.longitude),
+            lattitude: Number(this.state.service.contact.address.lattitude),
+            longitude: Number(this.state.service.contact.address.longitude),
             title: 'Ma société',
             color: 'D9534F'
         })
         // Add customers
-        result.push(...Utils.map(this.props.customers, function (c) {
+        result.push(...Utils.map(this.state.customers, function (c) {
             return {
                 id: c.id,
                 type: 'C',
@@ -80,7 +104,7 @@ class ServiceMap extends React.Component {
             };
         }));
         // Add auxiliaries
-        result.push(...Utils.map(this.props.auxiliaries, function (a) {
+        result.push(...Utils.map(this.state.auxiliaries, function (a) {
             return {
                 id: a.id,
                 type: 'A',

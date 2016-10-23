@@ -31,6 +31,11 @@ import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
 import AuxiliaryEdit from 'components/auxiliary/edit/AuxiliaryEdit.jsx'
 
 import Service from 'components/service/Service.jsx'
+import ServiceProfile from 'components/service/profile/ServiceProfile.jsx'
+import ServiceCustomers from 'components/service/customers/ServiceCustomers.jsx'
+import ServiceInterventions from 'components/service/interventions/ServiceInterventions.jsx'
+import ServiceMap from 'components/service/map/ServiceMap.jsx'
+import ServiceHome from 'components/service/home/ServiceHome.jsx'
 
 import GuestHome from 'components/guest/GuestHome.jsx'
 
@@ -66,7 +71,15 @@ class AppRouter extends React.Component {
 					<Route path='about' component={About} onEnter={this.onRouteEnter}/>
 					<Route path='contact' component={Contact} onEnter={this.onRouteEnter}/>
 					
-					<Route path='sad/:nav' component={Service} onEnter={this.onRouteEnter}/>
+					<Route path='sad' component={Service} onEnter={this.onRouteEnter}>
+						<IndexRoute component={ServiceHome}/>	
+						<Route path='home' component={ServiceHome} onEnter={this.onRouteEnter}/>
+						<Route path='infos' component={ServiceProfile} onEnter={this.onRouteEnter}/>
+						<Route path='edit' component={ServiceProfile} onEnter={this.onRouteEnter}/>
+						<Route path='customers' component={ServiceCustomers} onEnter={this.onRouteEnter}/>
+						<Route path='zone' component={ServiceMap} onEnter={this.onRouteEnter}/>
+						<Route path='interventions' component={ServiceInterventions} onEnter={this.onRouteEnter}/>
+					</Route>
 					
 					<Route path='aux' component={Auxiliary} onEnter={this.onRouteEnter}>
 						<IndexRoute component={AuxiliaryHome}/>	
@@ -78,7 +91,6 @@ class AppRouter extends React.Component {
 
 						<Route path='offres' component={AuxiliaryOffers} onEnter={this.onRouteEnter}/>
 						<Route path='offres/:offerId' component={AuxiliaryOffer} onEnter={this.onRouteEnter}/>
-
 					</Route>
 					
 					<Route path='guest' component={GuestHome} onEnter={this.onRouteEnter}/>

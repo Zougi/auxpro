@@ -21,12 +21,26 @@ class ServiceProfile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.service = {};
-        this.state = { state: props.edit ? STATES.EDIT : STATES.VIEW };
+        this.state = { 
+			state: props.edit ? STATES.EDIT : STATES.VIEW,
+			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service')
+			};
+	}
+	
+	componentDidMount() {
+		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
 	}
 
-    componentWillReceiveProps(props) {
-        this.service = {};
-        this.setState({ state: props.edit ? STATES.EDIT : STATES.VIEW });
+
+	componentWillUnmount() {
+		StoreRegistry.unregister('SERVICE_STORE', this);   
+	}
+	
+	onStoreUpdate() {
+		this.setState({ 
+			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service')
+		});
+
     }
 
     setStateView(event) {
@@ -60,10 +74,10 @@ class ServiceProfile extends React.Component {
             data: {
                 id: user.id,
                 user: user,
-                contact: this.service.contact || this.props.service.contact,
-                siret: service.siret || this.props.service.siret,
-                socialReason: service.socialReason || this.props.service.socialReason,
-                society: service.society || this.props.service.society,
+                contact: this.service.contact || this.state.service.contact,
+                siret: service.siret || this.state.service.siret,
+                socialReason: service.socialReason || this.state.service.socialReason,
+                society: service.society || this.state.service.society,
             }
     	}).then(function() {
     		this.setStateView();
@@ -95,17 +109,17 @@ class ServiceProfile extends React.Component {
                         <Col sm={6}>
                             <ServiceDetails 
                                 edit={this.state.state === STATES.EDIT}
-                                society={this.props.service.society}
-                                socialReason={this.props.service.socialReason}
-                                siret={this.props.service.siret}
+                                society={this.state.service.society}
+                                socialReason={this.state.service.socialReason}
+                                siret={this.state.service.siret}
                                 onChange={this.onServiceChanged.bind(this)}/>
                         </Col>
                         <Col sm={6}>
                             <Contact 
                                 edit={this.state.state === STATES.EDIT}
-                                address={this.props.service.contact ? this.props.service.contact.address : {}}
-                                phone={this.props.service.contact ? this.props.service.contact.phone : ''}
-                                email={this.props.service.contact ? this.props.service.contact.email : ''}
+                                address={this.state.service.contact ? this.state.service.contact.address : {}}
+                                phone={this.state.service.contact ? this.state.service.contact.phone : ''}
+                                email={this.state.service.contact ? this.state.service.contact.email : ''}
                                 onChange={this.onContactChanged.bind(this)}/>
                         </Col>
                     </Panel>

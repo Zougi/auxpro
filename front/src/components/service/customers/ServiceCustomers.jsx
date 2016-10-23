@@ -22,8 +22,26 @@ class ServiceCustomers extends React.Component {
 	
 	constructor(props) {
 		super(props);
-	    this.state = {};
+        this.state = {
+			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers')
+			};
 	}
+	
+	componentDidMount() {
+		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+	}
+
+
+	componentWillUnmount() {
+		StoreRegistry.unregister('SERVICE_STORE', this);   
+	}
+	
+	onStoreUpdate() {
+		this.setState({
+			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers')
+		});
+
+    }
 
     onCancel() {
     	this.setState({ 
@@ -141,7 +159,7 @@ class ServiceCustomers extends React.Component {
 						<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
 						<br/>
 						<CustomerSummaryList 
-							customers={this.props.customers} 
+							customers={this.state.customers} 
 							onEdit={this.onEditCustomer.bind(this)}
 							onView={this.onViewCustomer.bind(this)}
 							onDelete={this.onDeleteCustomer.bind(this)}/>

@@ -11,6 +11,7 @@ import ServiceProfile from './profile/ServiceProfile.jsx'
 import ServiceCustomers from './customers/ServiceCustomers.jsx'
 import ServiceInterventions from './interventions/ServiceInterventions.jsx'
 import ServiceMap from './map/ServiceMap.jsx'
+import ServiceHome from './home/ServiceHome.jsx'
 
 class Service extends React.Component {
 
@@ -22,14 +23,6 @@ class Service extends React.Component {
 			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
 			showUserHeader: StoreRegistry.getStore('SERVICE_STORE').getData('/display/home/showUserHeader')
 		};
-
-		this.content = {
-			home: this.getHome.bind(this),
-			infos: this.getInfos.bind(this),
-			zone: this.getZone.bind(this),
-			customers: this.getCustomers.bind(this),
-			interventions: this.getInterventions.bind(this)	
-		}
 	}
 
 	componentWillMount() {
@@ -67,43 +60,6 @@ class Service extends React.Component {
 		this.setState({ showProfilePrompt: false });
 	}
 
-	getContent(nav) {
-		if (nav) {
-			return (this.content[nav]());
-		} else {
-			return (this.content.home());
-		}
-	}
-	
-	getHome() { return (		
-		<div>Acceuil</div>
-	);}
-
-	getInfos() { return (
-		<ServiceProfile service={this.state.data.service || {}}/>
-	);}
-	
-	getZone() { return (
-		<ServiceMap
-			service={this.state.data.service || {}}
-			customers={this.state.data.customers || {}}
-			auxiliaries={this.state.data.auxiliaries || {}} />
-	);}
-
-	getCustomers() { return (
-		<ServiceCustomers 
-			service={this.state.data.service || {}}
-			customers={this.state.data.customers || {}} />
-	);}
-	
-	getInterventions() { return (
-		<ServiceInterventions 
-			service={this.state.data.service || {}}
-			customers={this.state.data.customers || {}} 
-			interventions={this.state.data.interventions || {}}
-			offers={this.state.data.offers || {}} />
-	);}
-
 	_buildProfilePromptModal() { return (
 		<ModalDialog
 			show={this.state.showProfilePrompt}
@@ -133,7 +89,7 @@ class Service extends React.Component {
 					''
 				}
 				<Row>
-					{this.getContent(this.props.params.nav)}
+					{this.props.children}
 				</Row>
 			</div>
 		);
