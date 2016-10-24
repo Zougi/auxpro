@@ -48,56 +48,46 @@ class AppRouter extends React.Component {
 	constructor(props) {
 		super(props);
 	}
-
-	onRouteEnter(event) {
-		let params = {
-			route: {
-				path: event.location.pathname
-
-			}
-		};
-		Dispatcher.issue('ROUTER_CHANGED', params);
-	}
 	
 	render() {
 		return (
 			<Router history={browserHistory}>
-				<Route path='/' component={App} onEnter={this.onRouteEnter}>
+				<Route path='/' component={App} >
 					<IndexRoute component={Land}/>
-					<Route path='login' component={Login} onEnter={this.onRouteEnter}/>
-					<Route path='registerAux' component={RegisterAux} onEnter={this.onRouteEnter}/>
-					<Route path='registerSad' component={RegisterSad} onEnter={this.onRouteEnter}/>
-					<Route path='presentation' component={Presentation} onEnter={this.onRouteEnter}/>
-					<Route path='about' component={About} onEnter={this.onRouteEnter}/>
-					<Route path='contact' component={Contact} onEnter={this.onRouteEnter}/>
+					<Route path='login' component={Login} />
+					<Route path='registerAux' component={RegisterAux} />
+					<Route path='registerSad' component={RegisterSad} />
+					<Route path='presentation' component={Presentation} />
+					<Route path='about' component={About} />
+					<Route path='contact' component={Contact} />
 					
-					<Route path='sad' component={Service} onEnter={this.onRouteEnter}>
+					<Route path='sad' component={Service} >
 						<IndexRoute component={ServiceHome}/>	
-						<Route path='home' component={ServiceHome} onEnter={this.onRouteEnter}/>
-						<Route path='infos' component={ServiceProfile} onEnter={this.onRouteEnter}/>
-						<Route path='edit' component={ServiceProfile} onEnter={this.onRouteEnter}/>
-						<Route path='customers' component={ServiceCustomers} onEnter={this.onRouteEnter}/>
-						<Route path='zone' component={ServiceMap} onEnter={this.onRouteEnter}/>
-						<Route path='interventions' component={ServiceInterventions} onEnter={this.onRouteEnter}/>
+						<Route path='home' component={ServiceHome} />
+						<Route path='infos' component={ServiceProfile} />
+						<Route path='edit' component={ServiceProfile} />
+						<Route path='customers' component={ServiceCustomers} />
+						<Route path='zone' component={ServiceMap} />
+						<Route path='interventions' component={ServiceInterventions} />
 					</Route>
 					
-					<Route path='aux' component={Auxiliary} onEnter={this.onRouteEnter}>
+					<Route path='aux' component={Auxiliary} >
 						<IndexRoute component={AuxiliaryHome}/>	
-						<Route path='home' component={AuxiliaryHome} onEnter={this.onRouteEnter}/>
-						<Route path='infos' component={AuxiliaryProfile} onEnter={this.onRouteEnter}/>
-						<Route path='edit' component={AuxiliaryEdit} onEnter={this.onRouteEnter}/>
-						<Route path='planning' component={AuxiliaryPlaning} onEnter={this.onRouteEnter}/>
-						<Route path='zone' component={AuxiliaryMap} onEnter={this.onRouteEnter}/>
+						<Route path='home' component={AuxiliaryHome} />
+						<Route path='infos' component={AuxiliaryProfile} />
+						<Route path='edit' component={AuxiliaryEdit} />
+						<Route path='planning' component={AuxiliaryPlaning} />
+						<Route path='zone' component={AuxiliaryMap} />
 
-						<Route path='offres' component={AuxiliaryOffers} onEnter={this.onRouteEnter}/>
-						<Route path='offres/:offerId' component={AuxiliaryOffer} onEnter={this.onRouteEnter}/>
+						<Route path='offres' component={AuxiliaryOffers} />
+						<Route path='offres/:offerId' component={AuxiliaryOffer} />
 					</Route>
 					
-					<Route path='guest' component={GuestHome} onEnter={this.onRouteEnter}/>
+					<Route path='guest' component={GuestHome} />
 					
 				</Route>
-				<Route path='doc/:nav' component={Documentation} onEnter={this.onRouteEnter}/>
-				<Route path='*' component={Redirect} onEnter={this.onRouteEnter}/>
+				<Route path='doc/:nav' component={Documentation}/>
+				<Route path='*' component={Redirect} />
 			</Router>
 		);
 	}

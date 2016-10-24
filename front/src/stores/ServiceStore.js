@@ -28,15 +28,15 @@ ServiceStore.getService = function (id) {
 //------------------------------------------------------------
 
 // ROUTER_CHANGED
-ServiceStore.onRouterChanged = function (result, param) {
-	if (result.path === '/home/edit') {
+ServiceStore.navigate = function (result, param) {
+	if (result === '/home/edit') {
 		ServiceStore.getContent().display.home.showUserHeader = false;
 	} else {
 		ServiceStore.getContent().display.home.showUserHeader = true;
 	}
 	ServiceStore.notify('/display/home/showUserHeader');
 };
-Dispatcher.register('ROUTER_CHANGED', ServiceStore.onRouterChanged);
+Dispatcher.register('NAVIGATE', ServiceStore.navigate);
 
 // LOGOUT
 ServiceStore.onLogout = function (result, param) {

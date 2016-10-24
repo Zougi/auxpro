@@ -78,10 +78,22 @@ class APNavbar extends React.Component {
 		}
 		return '';
 	}
+	
+	onNavigate(url) {
+		return function () {
+			this.props.onNavigate(url)
+		}.bind(this)
+	}
 
 	_buildItem(item) {
 		let content = item.glyph ? (<Glyphicon glyph={item.glyph}/>) : item.name;
 		if (item.link) {
+			return (
+					<NavItem key={item.key} eventKey={item.key} disabled={item.disabled || this.props.disabled} onClick={this.onNavigate(item.link)}>
+						{content}
+					</NavItem>
+			);
+			/*
 			return (
 				<LinkContainer key={item.key} to={{ pathname: item.link, query: item.query }}>
 					<NavItem eventKey={item.key} disabled={item.disabled || this.props.disabled}>
@@ -89,11 +101,12 @@ class APNavbar extends React.Component {
 					</NavItem>
 				</LinkContainer>
 			);
+			*/
 		}
 		if (item.dropdown) {
 			return (
 				<NavDropdown key={item.key} eventKey={item.key} title={item.name} disabled={item.disabled || this.props.disabled}>
-					{item.dropdown.map(this._buildDropdown)}
+					{item.dropdown.map(this._buildDropdown.bind(this))}
 				</NavDropdown>
 			);
 		}
@@ -109,11 +122,9 @@ class APNavbar extends React.Component {
 			return (<MenuItem key={item.key} divider/>);	
 		}
 		return (
-			<LinkContainer id={item.key} key={item.key} to={{ pathname: item.link, query: item.query }}>
-				<MenuItem eventKey={item.key}>
-					{item.name}
-				</MenuItem>
-			</LinkContainer>
+			<MenuItem id={item.key} key={item.key} eventKey={item.key} onClick={this.onNavigate(item.link)}>
+				{item.name}
+			</MenuItem>
 		);
 	}
 

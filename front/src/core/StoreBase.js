@@ -28,6 +28,8 @@ export default class StoreBase extends ObjectBase {
 	
 	notifyPath(path) {
 		this.notify();
+		if (path.charAt(0) == '/')
+			path = path.substring(1);
 		path = path.split("/");
 		var temp = this._callbacks;
 		for (var i = 0; i < path.length; i++) {

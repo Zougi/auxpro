@@ -21,12 +21,12 @@ Logout.do = function () {
 	});
 }
 
-// ROUTING
-var RouterChanged = new ActionBase({ name: 'ROUTER_CHANGED' });
-RouterChanged.do = function (args) {
-	Utils.checkMembers(args, ['route']);
+// NAVIGATE
+var navigate = new ActionBase({ name: 'NAVIGATE' });
+navigate.do = function (args) {
+	Utils.checkMembers(args, ['path']);
 	return new Promise(function (resolve, reject) {
-		resolve(args.route);
+		resolve(args.path);
 	});
 }
 

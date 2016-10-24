@@ -27,15 +27,15 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 //------------------------------------------------------------
 
 // ROUTER_CHANGED
-AuxiliaryStore.onRouterChanged = function (result, param) {
-	if (result.path === '/aux/edit') {
+AuxiliaryStore.navigate = function (result, param) {
+	if (result === '/aux/edit') {
 		AuxiliaryStore.getContent().display.home.showUserHeader = false;
 	} else {
 		AuxiliaryStore.getContent().display.home.showUserHeader = true;
 	}
 	AuxiliaryStore.notify('/display/home/showUserHeader');
 };
-Dispatcher.register('ROUTER_CHANGED', AuxiliaryStore.onRouterChanged);
+Dispatcher.register('NAVIGATE', AuxiliaryStore.navigate);
 
 // LOGOUT
 AuxiliaryStore.onLogout = function (result, param) {

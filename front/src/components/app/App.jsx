@@ -35,112 +35,36 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		StoreRegistry.register('APP_STORE', this, this.onAppStoreUpdate.bind(this));
-		StoreRegistry.register('LOGIN_STORE', this, this.onLogon.bind(this));
+		StoreRegistry.register('APP_STORE/headers', this, this.onAppStoreHeadersUpdate.bind(this));
+		StoreRegistry.register('APP_STORE/path', this, this.onAppStorePathUpdate.bind(this));
 	}
 
 	componentWillUnmount() {
-		StoreRegistry.unregister('LOGIN_STORE', this);
 		StoreRegistry.unregister('APP_STORE', this);
 	}
 	
-	onAppStoreUpdate() {
+	onAppStoreHeadersUpdate() {
 		this.setState({ 
 			header: getHeader(),
 			subHeader: getSubHeader()
 		});
 	}
-
-	onLogon() {
-		let args = {};
-		let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
-		let toHome = function () {
-			let type = StoreRegistry.getStore('LOGIN_STORE').getData('/type');
-			if (type == "aux") {
-				this.context.router.push("/aux/home");
-			} else if (type == "sad") {
-				this.context.router.push("/sad/home");
-			} else if (type == "guest" || type == "admin") {
-				this.context.router.push("/guest");
-			} else {
-				this.context.router.push("/");
-			}
-		}
-		if (user.logged) {
-			switch (user.type) {
-			case 'aux':
-				args.auxiliaryId = user.id;
-				args.token = user.token;
-
-				Dispatcher.issue('GET_AUXILIARY', args).
-				then(function() {
-				 	var promises = [];
-				 	promises.push(Dispatcher.issue('GET_AUXILIARY_GEOZONES', args));
-				 	promises.push(Dispatcher.issue('GET_AUXILIARY_SERVICES', args));
-				 	promises.push(Dispatcher.issue('GET_AUXILIARY_CUSTOMERS', args));
-				 	return Promise.all(promises);
-				}).
-				then(function() {
-				 	return Dispatcher.issue('GET_AUXILIARY_INTERVENTIONS', args);
-				}).
-				then(function() {
-				 	return Dispatcher.issue('GET_AUXILIARY_OFFERS', args);
-				}).
-				then(function() {
-				 	return Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', args);
-				}).
-				then(function() {
-					console.log('==== DONNES INITIALE AUXILIAIRE ====');
-					console.log(StoreRegistry.getStore('AUXILIARY_STORE').getData());
-				}).
-				then(toHome.bind(this)).
-				catch(function(error) {
-					console.log("erreur au chargement de l'auxiliare");
-					console.log(error);
-				});	
-				break;
-			case 'sad':
-				args.serviceId = user.id;
-				args.token = user.token;
-				
-				Dispatcher.issue("GET_SERVICE", args).
-				then(function() {
-					return Dispatcher.issue('GET_SERVICE_CUSTOMERS', args);
-				}).
-				then(function() {
-					return Dispatcher.issue('GET_SERVICE_INTERVENTIONS', args);
-				}).
-				then(function() {
-					return Dispatcher.issue('GET_SERVICE_OFFERS', args);
-				}).
-				then(function() {
-					return Dispatcher.issue('GET_SERVICE_AUXILIARIES', args);
-				}).
-				then(function() {
-					console.log('==== DONNES INITIALE DU SERVICE ====');
-					console.log(StoreRegistry.getStore('SERVICE_STORE').getData());
-				}).
-				then(toHome.bind(this)).
-				catch(function(error) {
-					console.log('erreur au chargement du service');
-					console.log(error);
-				});				
-				break;
-			default:
-				args.token = user.token;
-				Dispatcher.issue("GET_SERVICES", args).
-				then(toHome.bind(this)).
-				catch(function(error) {
-					console.log('erreur au chargement des services');
-					console.log(error);
-				});				
-				break;
-			}	
-			
-		} else {
-			this.context.router.push("/");
+	
+	onAppStorePathUpdate() {
+		let path = StoreRegistry.getStore('APP_STORE').getData('/path');
+		if (path) {
+			this.context.router.push(path);
 		}
 	}
+	
+	onNavigate(url) {
+		if (url == "logout") {
+			Dispatcher.issue('LOGOUT', {});
+			url = "/"
+		}	
+		Dispatcher.issue('NAVIGATE', {path: url});
+	}
+	
 	
 	render() { 
 		if (!this.state.preload) {
@@ -155,6 +79,7 @@ class App extends React.Component {
 						className='no-print'
 						inverse={true}
 						fixedTop={true}
+						onNavigate = {this.onNavigate}
 						brand={this.state.header.brand} 
 						rightContent={this.state.header.rightContent} />
 				</header>
@@ -162,7 +87,8 @@ class App extends React.Component {
 					<Navbar 
 						className='no-print'
 						disabled={this.state.subHeader.disabled}
-						leftContent={this.state.subHeader.leftContent} />
+						leftContent={this.state.subHeader.leftContent}
+						onNavigate = {this.onNavigate} />
 				: '' }
 				{this.props.children}
 				<Footer className='no-print'/>

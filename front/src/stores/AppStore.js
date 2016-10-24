@@ -33,7 +33,6 @@ AppStore.setBusy = function (busy) {
 
 // LOGON
 AppStore.onLogon = function (result, param) {
-	function logout () { Dispatcher.issue('LOGOUT', {}); }
 	switch (result.type) {
 	case 'aux':		
 		AppStore._content.app = {
@@ -42,7 +41,7 @@ AppStore.onLogon = function (result, param) {
 				rightContent: [
 					{ key: 1, link: '/aux/home', query: {}, name: 'Accueil', glyph: 'home' },
 					{ key: 2, link: '/aux/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
-					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
+					{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
 			subHeader: {
@@ -67,7 +66,7 @@ AppStore.onLogon = function (result, param) {
 				rightContent: [
 					{ key: 1, link: '/sad/home', query: {}, name: 'Accueil', glyph: 'home' },
 					{ key: 2, link: '/sad/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
-					{ key: 3, callback: logout, name: 'Déconnexion', glyph: 'off' }
+					{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
 			subHeader: {
@@ -88,7 +87,7 @@ AppStore.onLogon = function (result, param) {
 	default:
 		break;
 	}
-	AppStore.notify();
+	AppStore.notifyPath("/headers");
 };
 Dispatcher.register('LOGON', AppStore.onLogon);
 
@@ -105,16 +104,16 @@ Dispatcher.register('PUT_AUXILIARY', AppStore.onGetAuxiliary);
 // LOGOUT
 AppStore.onLogout = function (result, param) {
 	AppStore._content.app = DEFAULT_APP_CONTENT;
-	AppStore.notify();
+	AppStore.notifyPath("headers");
 };
 Dispatcher.register('LOGOUT', AppStore.onLogout);
 
-// ROUTER_CHANGED
-AppStore.onRouterChanged = function (result, param) {
-	AppStore._content.route = result;
-	AppStore.notify('/route');
+// NAVIGATE
+AppStore.navigate = function (result, param) {
+	AppStore._content.path = result;
+	AppStore.notifyPath('/path');
 };
-Dispatcher.register('LOGOUT', AppStore.onLogout);
+Dispatcher.register('NAVIGATE', AppStore.navigate);
 
 // GET IMAGE
 AppStore.onGetImage = function (result, param) {
