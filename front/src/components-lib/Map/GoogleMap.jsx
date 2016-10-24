@@ -34,7 +34,9 @@ class GoogleMap extends React.Component {
         }
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);
-        
+	}	
+	
+	componentDidUpdate () {		
 		if (this.props.onMapClicked) {
 			google.maps.event.addListener(this.mapHelper.map , 'click', function(e) {
 				this.props.onMapClicked({
@@ -43,12 +45,10 @@ class GoogleMap extends React.Component {
 				});
 			}.bind(this));
 		}
-
+		this.mapHelper.cleanMarkers();
+		this.mapHelper.cleanCircles();
  		this._buildMarkers();
  		this._buildCircles();
-	}	
-	
-	componentDidUpdate () {
 		this.mapHelper.resize();
 	}
 	

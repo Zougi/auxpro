@@ -142,6 +142,10 @@ class AuxiliaryBaseComponent extends React.Component {
 		return this._getAuxiliaryData('/data/geoZones/' + index);
 	}
 	createGeozone(gz) {
+		var args = this._getBaseArgs();
+		args.data = gz;
+		return Dispatcher.issue('POST_AUXILIARY_GEOZONE', args).
+		then(this.loadGeozones.bind(this));
 	}
 	deleteGeozone(gz) {
 	}
