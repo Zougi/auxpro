@@ -223,10 +223,10 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 							onCancel={this.onCancelCreateGeozone.bind(this)}/>
 					:
 						<APButton block
-	                        bsStyle='warning'
-	                        onClick={this.initGeozone.bind(this)}>
-	                        Ajouter une zone
-	                    </APButton>
+							bsStyle='warning'
+							onClick={this.initGeozone.bind(this)}>
+							Ajouter une zone
+						</APButton>
 					}
 					</Col>
 				</Row>

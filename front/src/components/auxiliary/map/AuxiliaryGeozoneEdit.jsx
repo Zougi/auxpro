@@ -103,9 +103,9 @@ class AuxiliaryGeozoneEdit extends React.Component {
 				geozone.city = '';
 				break;
 		}
-		this.setState({ 
+		this.setState({
 			geozone: geozone,
-			type: t 
+			type: t
 		});
 	}
 

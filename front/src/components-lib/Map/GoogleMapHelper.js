@@ -13,17 +13,17 @@ export default class GoogleMapHelper {
 
 	resize() {
 		let c = this.map.getCenter();
- 		google.maps.event.trigger(this.map, 'resize');
- 		this.map.setCenter(c);
+		google.maps.event.trigger(this.map, 'resize');
+		this.map.setCenter(c);
 	}
 
 	getMarkerImage(args) {
 		return new google.maps.MarkerImage(
-    		args.icon || 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + (args.color || this.colors.MARKER_COLOR_RED),
-        	new google.maps.Size(21, 34),
-        	new google.maps.Point(0, 0),
-        	new google.maps.Point(10, 34)
-        );
+			args.icon || 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + (args.color || this.colors.MARKER_COLOR_RED),
+			new google.maps.Size(21, 34),
+			new google.maps.Point(0, 0),
+			new google.maps.Point(10, 34)
+		);
 	}
 
 
@@ -49,8 +49,8 @@ export default class GoogleMapHelper {
 		if (args.infowindow) {
 			let infowindow = new google.maps.InfoWindow({
 			    content: args.infowindow
-  			});
-  			infowindow.open(this.map, marker);
+			});
+			infowindow.open(this.map, marker);
 		}
 		this.markers.push(marker);
 		return marker;
@@ -108,13 +108,13 @@ export default class GoogleMapHelper {
 	refreshMyCircle() {
 		this.myCircle = this.refreshCircle(this.myCircle, this.circleMarker.position, parseInt(this.refs.radius.value));
 	}
-  
-  	setCenter(location) {
-  		this.deleteMarker(this.centerMarker);
-  		this.centerMarker = this.addMarker(location, 'center');
-  		this.map.setCenter(location);
+
+	setCenter(location) {
+		this.deleteMarker(this.centerMarker);
+		this.centerMarker = this.addMarker(location, 'center');
+		this.map.setCenter(location);
 	}
-  
+
 	autocompleteChange() {
 		var place = this.autocomplete.getPlace();
 		this.setCenter(place.geometry.location);
@@ -125,7 +125,7 @@ export default class GoogleMapHelper {
 			this.refreshMyCircle();
 		}
 	}
-  
+
 	reverseGeoCodeResult(result, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
 			this.refs.autocomplete.value = result[0].formatted_address;
@@ -133,16 +133,16 @@ export default class GoogleMapHelper {
 			alert('ReverseGeoCode Error: ' + status);
 		}
 	}
-  
- 	clickMapEvent(event) {
- 		if (this.state.editMode === 'circle') {
- 			this.circleMarker = this.refreshMarker(this.circleMarker, event.latLng, 'marker');
- 			this.refreshMyCircle();
- 			var geocoder = new google.maps.Geocoder;
- 			geocoder.geocode({'location': event.latLng}, this.reverseGeoCodeResult.bind(this));
- 		}
+
+	clickMapEvent(event) {
+		if (this.state.editMode === 'circle') {
+			this.circleMarker = this.refreshMarker(this.circleMarker, event.latLng, 'marker');
+			this.refreshMyCircle();
+			var geocoder = new google.maps.Geocoder;
+			geocoder.geocode({'location': event.latLng}, this.reverseGeoCodeResult.bind(this));
+		}
 	}
-  
+
 	activeCircle() {
 		if (this.state.editMode == 'circle') {
 			this.desactiveCircle();
@@ -150,7 +150,7 @@ export default class GoogleMapHelper {
 			this.setState({ editMode: 'circle' });
 		}
 	}
-  
+
 	desactiveCircle() {
 		this.deleteMarker(this.circleMarker);
 		this.deleteCircle(this.myCircle);
@@ -158,9 +158,9 @@ export default class GoogleMapHelper {
 		this.refs.radius.value = '';
 		this.setState({editMode: null});
 	}
-  
-  	validCircle() {
-  	/*
+
+	validCircle() {
+	/*
 	  console.log("###########################################INFO###########################################");
 	  console.log(this.circleMarker);
 	  console.log(this.myCircle);
@@ -168,19 +168,19 @@ export default class GoogleMapHelper {
 	  console.log(this.circleMarker.position.lat());
 	  console.log("##########################################################################################");
 	  */
-	    let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
-	    this.props.sendGeoZone(geoZone);
-	    this.setState({
-	    	areas: this.state.areas.concat({
-	    		type: 'circle',
-	    		adress: this.refs.autocomplete.value,
-	    		marker: this.circleMarker,
-	    		circle: this.myCircle
-	    	})
-	    });
-	    this.circleMarker = null;
-	    this.myCircle = null;
-	    this.desactiveCircle();
+		let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
+		this.props.sendGeoZone(geoZone);
+		this.setState({
+			areas: this.state.areas.concat({
+				type: 'circle',
+				adress: this.refs.autocomplete.value,
+				marker: this.circleMarker,
+				circle: this.myCircle
+			})
+		});
+		this.circleMarker = null;
+		this.myCircle = null;
+		this.desactiveCircle();
 	}
 
 	deleteArea(index) {
