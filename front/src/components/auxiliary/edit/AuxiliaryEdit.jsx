@@ -72,7 +72,7 @@ class AuxiliaryEdit extends React.Component {
 			}
 		}).
 		then(function () {
-			this.context.router.push('/home/infos');
+			this.context.router.push('/aux/infos');
 		}.bind(this));
 	}
 

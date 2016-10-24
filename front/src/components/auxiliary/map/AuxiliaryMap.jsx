@@ -5,9 +5,10 @@ import StoreRegistry from 'core/StoreRegistry'
 import Utils from 'utils/Utils.js'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
-import AuxiliaryGeoPanel from './AuxiliaryGeoPanel.jsx'
+import AuxiliaryGeozoneEdit from './AuxiliaryGeozoneEdit.jsx'
 import AuxiliaryMapInformation from './AuxiliaryMapInformation.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
+import APButton from 'lib/Button/ApButton.jsx'
 
 var MARKER_TYPE = {
 	HOME: 'H',
@@ -17,7 +18,7 @@ var MARKER_TYPE = {
 	SERVICE: 'S',
 }
 
-var MODES = {
+var MAP_MODES = {
 	SELECT: 'SELECT',
 	NONE: 'NONE'
 }
@@ -28,7 +29,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		super(props);
 		this.state = this._buildState();
 		this.state.info = null;
-		this.state.mode = MODES.NONE;
+		this.state.geozone = null;
+		this.state.mapMode = MAP_MODES.NONE;
 	}
 
 	componentDidMount() {
@@ -53,16 +55,15 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	onMarkerClicked(marker) {
-		if (this.state.mode === MODES.NONE) {
+		if (this.state.mapMode === MAP_MODES.NONE) {
 			this.setState({ info: marker });
 		}
 	}
 
 	onMapClicked(event) {
-		if (this.state.mode === MODES.SELECT) {
+		this.setState({ info: null });
+		if (this.state.mapMode === MAP_MODES.SELECT) {
 			console.log(event);
-		} else {
-			this.setState({ info: null });
 		}
 	}
 
@@ -163,32 +164,50 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		return result;
 	}
 
-	
-	switchMode() {
-		if (this.state.mode === MODES.NONE) {
-			this.setState({ mode: MODES.SELECT });
-		} else {
-			this.setState({ mode: MODES.NONE });
-		}
+	toMapNoneMode() {
+		this.setState({ mapMode: MAP_MODES.NONE });
+	}
+	toMapSelectMode() {
+		this.setState({ mapMode: MAP_MODES.SELECT });
+	}
+
+	initGeozone() {
+		this.setState({ geozone: { postal: '' } });
+	}
+	resetGeozone() {
+		this.setState({ geozone: null });
 	}
 
 	render() {
 		return (
-			<div>
-				<br/>
-				<Col sm={4}>
-					<AuxiliaryGeoPanel onToggleSelect={this.switchMode.bind(this)}/>
-					<AuxiliaryMapInformation info={this.state.info}/>
-				</Col>
-				<Col sm={8}>
-					<GoogleMap 
-						center={this._buildCenter()} 
-						onMapClicked={this.onMapClicked.bind(this)}
-						markers={this._buildMarkers()} 
-						circles={this._buildCircles()}
-						onMarkerClicked={this.onMarkerClicked.bind(this)} />
-				</Col>
-			</div>
+			<Panel header="Mes zones d'intervention">
+				<Row>
+					<Col xs={12}>
+					{this.state.geozone ?
+						<AuxiliaryGeozoneEdit/>
+					:
+						<APButton block
+	                        bsStyle='warning'
+	                        onClick={this.initGeozone.bind(this)}>
+	                        Ajouter une zone
+	                    </APButton>
+					}
+					</Col>
+				</Row>
+				<Row>
+					<Col sm={4}>
+						<AuxiliaryMapInformation info={this.state.info}/>
+					</Col>
+					<Col sm={8}>
+						<GoogleMap 
+							center={this._buildCenter()} 
+							onMapClicked={this.onMapClicked.bind(this)}
+							markers={this._buildMarkers()} 
+							circles={this._buildCircles()}
+							onMarkerClicked={this.onMarkerClicked.bind(this)} />
+					</Col>
+				</Row>
+			</Panel>
 		);
 	}
 }
