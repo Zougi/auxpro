@@ -7,6 +7,8 @@ export default class GoogleMapHelper {
 			MARKER_COLOR_GREEN: '28FE38',
 			MARKER_COLOR_BLUE: '3552FE'
 		}
+		this.markers = [];
+		this.circles = [];
 	}
 
 	resize() {
@@ -24,6 +26,18 @@ export default class GoogleMapHelper {
         );
 	}
 
+
+	// MARKERS //
+	// -------------------------------------------------------------------------
+
+	cleanMarkers() {
+		let l = this.markers.length;
+		for (let i = 0; i < l; i++) {
+			this.deleteMarker(this.markers[i]);
+		}
+		this.markers = [];
+	}
+
 	addMarker(args) {
 		let marker = new google.maps.Marker({
 			position: new google.maps.LatLng(args.lattitude, args.longitude), 
@@ -38,6 +52,7 @@ export default class GoogleMapHelper {
   			});
   			infowindow.open(this.map, marker);
 		}
+		this.markers.push(marker);
 		return marker;
 	}
 
@@ -52,8 +67,20 @@ export default class GoogleMapHelper {
 		return this.addMarker(location, title);
 	}
 	
+
+	// CIRCLES //
+	// -------------------------------------------------------------------------
+
+	cleanCircles() {
+		let l = this.circles.length;
+		for (let i = 0; i < l; i++) {
+			this.deleteCircle(this.circles[i]);
+		}
+		this.circles = [];
+	}
+
 	addCircle(args) {
-		return new google.maps.Circle({
+		let circle = new google.maps.Circle({
 			strokeColor: args.strokeColor || '#FF0000',
 			strokeOpacity: args.strokeOpacity || 0.8,
 			strokeWeight: args.strokeWeight || 2,
@@ -63,6 +90,8 @@ export default class GoogleMapHelper {
 			center: new google.maps.LatLng(args.lattitude, args.longitude),
 			radius: args.radius
 		});
+		this.circles.push(circle);
+		return circle;
 	}
 	
 	deleteCircle(circle) {

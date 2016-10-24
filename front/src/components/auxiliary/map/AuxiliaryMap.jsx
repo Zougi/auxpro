@@ -22,6 +22,10 @@ var MAP_MODES = {
 	SELECT: 'SELECT',
 	NONE: 'NONE'
 }
+var GEO_MODES = {
+	ADD: 'ADD',
+	NONE: 'NONE'
+}
 
 class AuxiliaryMap extends AuxiliaryBaseComponent {
 
@@ -31,6 +35,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		this.state.info = null;
 		this.state.geozone = null;
 		this.state.mapMode = MAP_MODES.NONE;
+		this.state.geoMode = GEO_MODES.NONE;
 	}
 
 	componentDidMount() {
@@ -62,9 +67,10 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 
 	onMapClicked(event) {
 		this.setState({ info: null });
-		if (this.state.mapMode === MAP_MODES.SELECT) {
-			console.log(event);
-		}
+		let gz = this.state.geozone || {};
+		gz.lattitude = event.lattitude;
+		gz.longitute = event.longitute;
+		this.setState({ geozone: gz });
 	}
 
 	_buildCenter() {
@@ -144,6 +150,15 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				address2: s.contact.address.postalCode + ' ' + s.contact.address.city
 			};
 		}));
+		// Add temporary marker
+		if (this.state.geozone) {
+			result.push({
+				id: 'temp',
+				lattitude: Number(this.state.geozone.lattitude),
+				longitude: Number(this.state.geozone.longitude),
+				title: 'Nouvelle zone'
+			});
+		}
 		return result;
 	}
 
@@ -155,6 +170,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			let gz = this.state.geoZones[i];
 			if (gz.radius) {
 				result.push({
+					id: 'gz' + i,
 					lattitude: Number(gz.lattitude),
 					longitude: Number(gz.longitude),
 					radius: parseFloat(gz.radius)
@@ -172,10 +188,26 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	initGeozone() {
-		this.setState({ geozone: { postal: '' } });
+		this.setState({ geozone: {} });
 	}
 	resetGeozone() {
 		this.setState({ geozone: null });
+	}
+
+	onGeozoneChanged(geozone) {
+		this.setState({ geozone: geozone });
+	}
+	onCreateGeozone(geozone) {
+		this.createGeozone(geozone).
+		then(function () {
+			this.resetGeozone();
+		}.bind(this)).
+		catch(function () {
+			console.log('ERROR WHILE CREATING GEOZONE')
+		})
+	}
+	onCancelCreateGeozone() {
+		this.resetGeozone();
 	}
 
 	render() {
@@ -183,8 +215,12 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			<Panel header="Mes zones d'intervention">
 				<Row>
 					<Col xs={12}>
-					{this.state.geozone ?
-						<AuxiliaryGeozoneEdit/>
+					{this.state.geozone !== null ?
+						<AuxiliaryGeozoneEdit
+							geozone={this.state.geozone}
+							onLiveChange={this.onGeozoneChanged.bind(this)}
+							onCreate={this.onCreateGeozone.bind(this)}
+							onCancel={this.onCancelCreateGeozone.bind(this)}/>
 					:
 						<APButton block
 	                        bsStyle='warning'

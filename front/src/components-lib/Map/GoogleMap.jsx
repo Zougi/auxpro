@@ -16,25 +16,27 @@ import './GoogleMap.css'
  */
 class GoogleMap extends React.Component {
 
-  	constructor(props) {
-  		super(props);
-  	}
-  
-	componentDidMount () {
-        let center = new google.maps.LatLng(
-        	this.props.center.lattitude,
-        	this.props.center.longitude
-        );
+	constructor(props) {
+		super(props);
+	}
 
-        let mapOptions = {
-            center: center,
-            zoom: 12,
-            streetViewControl: this.props.streetView || false,
-            mapTypeControlOptions: { mapTypeIds: this.props.mapTypes || [] }
-        }
+	componentDidMount () {
+		let center = new google.maps.LatLng(
+			this.props.center.lattitude,
+			this.props.center.longitude
+		);
+
+		let mapOptions = {
+			center: center,
+			zoom: 12,
+			streetViewControl: this.props.streetView || false,
+			mapTypeControlOptions: { mapTypeIds: this.props.mapTypes || [] }
+		}
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);
-        
+	}	
+	
+	componentDidUpdate () {		
 		if (this.props.onMapClicked) {
 			google.maps.event.addListener(this.mapHelper.map , 'click', function(e) {
 				this.props.onMapClicked({
@@ -43,12 +45,10 @@ class GoogleMap extends React.Component {
 				});
 			}.bind(this));
 		}
-
- 		this._buildMarkers();
- 		this._buildCircles();
-	}	
-	
-	componentDidUpdate () {
+		this.mapHelper.cleanMarkers();
+		this.mapHelper.cleanCircles();
+		this._buildMarkers();
+		this._buildCircles();
 		this.mapHelper.resize();
 	}
 	
@@ -76,8 +76,8 @@ class GoogleMap extends React.Component {
 	render() {
 		return (
 			<div ref={(c) => this.mapDiv = c} className='ap-google-map'></div>
-  		);
-  	}
+		);
+	}
 }
 
 export default GoogleMap;
