@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Button } from 'react-bootstrap';
+import { Panel, Col } from 'react-bootstrap';
 // core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
@@ -7,6 +7,7 @@ import StoreRegistry from 'core/StoreRegistry';
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import { APButton } from 'lib/Lib.jsx';
 //
+import OffersHelper from 'components/common/offers/OffersHelper.js'
 import MomentHelper from 'utils/moment/MomentHelper.js'
 
 class AuxiliaryOffer extends AuxiliaryBaseComponent {
@@ -15,6 +16,8 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		super(props);
 		this.state = this._buildState();
 	}
+
+	// State Management functions //
 
 	componentDidMount() {
 	 	StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
@@ -37,6 +40,8 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		}
 	}
 
+	// Control callbacks //
+
 	acceptOffer() {
 		this.state.offer.status = 'ACCEPTED';
 		this._updateOffer();
@@ -54,7 +59,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		catch(function (error) {
 			this.state.offer.status = 'PENDING';
 			console.log(error);
-		});;
+		}.bind(this));;
 	}
 
 	_onClose() {
@@ -62,22 +67,37 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	render() { 
+		console.log(OffersHelper.getBsStyle(this.state.offer.status))
 		return (
 		<div>
 			<br/>
 			<Panel>
-				<APButton block bsStyle='info' onClick={this._onClose.bind(this)}>
+				<APButton block onClick={this._onClose.bind(this)}>
 					Retour
 				</APButton>
 				<br/>
 				<br/>
-				<Panel header="Détails de l'offre">
+				<Panel bsStyle={OffersHelper.getBsStyle(this.state.offer.status)} header="Détails de l'offre">
 					{ this.state.intervention.oneTime ?
 						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>
 					:
 						<div>{'Intervention du ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.startDate) + ' au ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.endDate)}</div>
 					}
 				</Panel>
+				{this.state.offer.status === 'PENDING' ?
+				<div>
+					<Col xs={6}>
+						<APButton block bsStyle='danger' onClick={this.rejectOffer.bind(this)}>
+							Refuser
+						</APButton>
+					</Col>
+					<Col xs={6}>
+						<APButton block bsStyle='success' onClick={this.acceptOffer.bind(this)}>
+							Accepter
+						</APButton>
+					</Col>
+				</div>
+				: '' }
 			</Panel>
 		</div>
 	);}

@@ -22,8 +22,8 @@ class AuxiliaryBaseComponent extends React.Component {
 
 	// Login //
 
-	getLoginData() {
-		return this._getLoginData('/');
+	getLoginData(path) {
+		return this._getLoginData(path ? path : '/');
 	}
 
 	// Auxiliary //
@@ -67,18 +67,18 @@ class AuxiliaryBaseComponent extends React.Component {
 	getOffer(id) {
 		return this._getAuxiliaryData('/data/offers/' + id);
 	}
-	updateOffer(offer) { return 
-		Dispatcher.issue('PUT_OFFER', {
+	updateOffer(offer) {
+		return Dispatcher.issue('PUT_OFFER', {
 			data: offer,
 			offerId: offer.id,
-			token: this.getLoginData().token
+			token: this.getLoginData('/token')
 		}).
 		then(function () {
 			return Dispatcher.issue('GET_AUXILIARY_OFFERS', { 
-				token: this.getLoginData().token,
-				auxiliaryId: this.getLoginData().id
+				token: this.getLoginData('/token'),
+				auxiliaryId: this.getLoginData('/id')
 			})
-		});
+		}.bind(this));
 	}
 
 	// Geo Zones //

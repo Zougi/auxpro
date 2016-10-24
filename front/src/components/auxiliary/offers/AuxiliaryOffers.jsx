@@ -63,34 +63,21 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		this.context.router.push('/aux/offres/' + offer.id);
 	}
 
-	acceptOffer() {
+	onAccept() {
 		this._updateOffer(this.state.offer);
 	}
-	rejectOffer() {
-		this._updateOffer(this.state.offer);
-	}
-
 	onCancel() {
 		this.setState({
 			confirmAccept: false,
-			confirmReject: false
+			confirmReject: false,
+			offerStatus: 'PENDING',
+			offer: null
 		});
 	}
 
 	_updateOffer(offer) {
 		offer.status = this.state.offerStatus;
-		let params = {
-			data: offer,
-			offerId: offer.id,
-			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token')
-		}
-        Dispatcher.issue('PUT_OFFER', params).
-        then(function () {
-        	return Dispatcher.issue('GET_AUXILIARY_OFFERS', { 
-        		token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-        		auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id')
-        	})
-        }).
+        this.updateOffer(offer).
         then(function () {
         	this.onCancel();
         }.bind(this)).
@@ -118,10 +105,10 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 					onView={this.onOfferView.bind(this)} />
 			);
 			if (i%2 === 1) {
-				result.push( <Clearfix visibleSmBlock/>);
+				result.push( <Clearfix key={'c2' + offer.id} visibleSmBlock/>);
 			}
 			if (i%3 === 2) {
-				result.push( <Clearfix visibleMdBlock/>);
+				result.push( <Clearfix key={'c3' + offer.id} visibleMdBlock/>);
 			}
 		}
 		return result;
@@ -153,7 +140,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	        	<DialogConfirmation
                     show={this.state.confirmAccept}
                     title="Accepter l'offre"
-                    onConfirm={this.acceptOffer.bind(this)}
+                    onConfirm={this.onAccept.bind(this)}
                     confirmStyle='success'
                     confirmText='Accepter'
                     onCancel={this.onCancel.bind(this)}
@@ -162,7 +149,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
                 <DialogConfirmation
                     show={this.state.confirmReject}
                     title="Rejeter l'offre"
-                    onConfirm={this.rejectOffer.bind(this)}
+                    onConfirm={this.onAccept.bind(this)}
                     confirmStyle='danger'
                     confirmText='Rejeter'
                     onCancel={this.onCancel.bind(this)}
