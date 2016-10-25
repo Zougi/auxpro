@@ -82,7 +82,9 @@ class Auxiliary extends React.Component {
 		return (
 			<div className='container'>
 				{this.state.showUserHeader ? 
-					<AuxiliaryHeader storeData={this.state.storeData} />
+					<Row>
+						<AuxiliaryHeader storeData={this.state.storeData} />
+					</Row>
 				:
 					''
 				}

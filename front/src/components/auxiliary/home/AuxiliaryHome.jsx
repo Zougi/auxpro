@@ -29,25 +29,22 @@ class AuxiliaryHome extends React.Component {
 		});
     }
 	render() { 
-			return(
+		return(
+			<Row>
 				<Col sm={12}>
-				<Row>
-					<Col sm={12}>
-					{ (this.state.profileCompleted) ?
-						<Panel bsStyle='success' header='Statut profil'>
-							Votre profil est actif.
-						</Panel>
-					:
-						<Panel bsStyle='danger' header='Statut profil'>
-							Votre profil est incomplet.
-						</Panel>
-					}
-					</Col>
-				</Row>
-			</Col>
-			);
-
-		}
+				{ (this.state.profileCompleted) ?
+					<Panel bsStyle='success' header='Statut profil'>
+						Votre profil est actif.
+					</Panel>
+				:
+					<Panel bsStyle='danger' header='Statut profil'>
+						Votre profil est incomplet.
+					</Panel>
+				}
+				</Col>
+			</Row>
+		);
+	}
 }
 
 export default AuxiliaryHome;

@@ -1,10 +1,11 @@
 import React from 'react';
+import { Panel } from 'react-bootstrap';
+import { Col, Row, ITable } from 'lib/Lib.jsx';
 
 import StoreRegistry from 'core/StoreRegistry';
 
 import AsyncImage from 'lib/image/AsyncImage.jsx'
 import ImageUploader from 'lib/image/ImageUploader.jsx'
-import { Col, Row, ITable, Panel } from 'lib/Lib.jsx';
 
 class AuxiliaryHeader extends React.Component {
 
@@ -51,21 +52,17 @@ class AuxiliaryHeader extends React.Component {
 	render() {
 		return(	
 			<Panel>
-				<Row>
-					<Col sm={4}>
-						<AsyncImage src={this.state.src || this.props.storeData.data.auxiliary.user.avatar} width={200} height={200}/>
-						{this.props.edit ? 
-							<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
-						:
-							''
-						}
-					</Col>
-					<Col sm={8}>
-						<Panel>
-							<ITable rows={this._buildTable()} bordered striped hover fill/>
-						</Panel>
-					</Col>
-				</Row>
+				<Col sm={4}>
+					<AsyncImage src={this.state.src || this.props.storeData.data.auxiliary.user.avatar} width={200} height={200}/>
+					{this.props.edit ? 
+						<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
+					:
+						''
+					}
+				</Col>
+				<Col sm={8}>
+					<ITable rows={this._buildTable()} bordered striped hover fill/>
+				</Col>
 			</Panel>
 		);
 	}

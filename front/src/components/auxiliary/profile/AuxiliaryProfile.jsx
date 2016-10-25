@@ -37,8 +37,8 @@ class AuxiliaryProfile extends React.Component {
 	
 	render() { 
 		return (
-		<Form horizontal>
-			<div>
+		<Row>
+			<Form horizontal>
 				<Col md={9}>
 					<Row>
 						<Col sm={6}>
@@ -87,8 +87,8 @@ class AuxiliaryProfile extends React.Component {
 						</Panel>
 					</Panel>
 				</Col>
-			</div>
-		</Form>
+			</Form>
+		</Row>
 		);
 	}
 }

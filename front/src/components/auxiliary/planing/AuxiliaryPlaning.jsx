@@ -145,8 +145,7 @@ class AuxiliaryPlaning extends React.Component {
 			value: 'Tous'
 		});
 		return (
-			<div>
-				<br/>
+			<Row>
 				<Col sm={2} md={2} lg={3}>
 					<Panel header="Actions" className='no-print'>
 						<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.print.bind(this)}>Imprimer mon planning</Button>
@@ -154,8 +153,8 @@ class AuxiliaryPlaning extends React.Component {
 						<Form horizontal>
 							<FormSelect title='Clients' placeholder='<Tous>' values={customersValues}/>
 							<FormSelect title='SAD' placeholder='<Tous>' values={servicesValues}/>
-      					</Form>
-      					<p>Total heures interventions:</p><br/>
+							</Form>
+							<p>Total heures interventions:</p><br/>
 						<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
 					</Panel>
 				</Col>
@@ -169,15 +168,15 @@ class AuxiliaryPlaning extends React.Component {
 							specialsWarning={this.state.indisponibilities}
 							onDaySelect={this.onDaySelect.bind(this)} />
 					</Panel>
-	    		</Col>
-	    		<Col sm={2} md={3} lg={4}>
-	    			<AuxiliaryPlaningInformation
-	    				date={this.state.selected}
+				</Col>
+				<Col sm={2} md={3} lg={4}>
+					<AuxiliaryPlaningInformation
+						date={this.state.selected}
 						indisponibilities={this.state.indisponibilities}
-	    				interventions={this.state.interventions}
+						interventions={this.state.interventions}
 						offers={this.state.offers} />
-	    		</Col>
-	    	</div>
+				</Col>
+			</Row>
 		);
 	}
 }

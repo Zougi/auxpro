@@ -84,7 +84,9 @@ class Service extends React.Component {
 		return(
 			<div className='container'>
 				{this.state.showUserHeader ? 
-					<ServiceHeader storeData={this.state.storeData} />
+					<Row>
+						<ServiceHeader storeData={this.state.storeData} />
+					</Row>
 				:
 					''
 				}
