@@ -19,7 +19,7 @@ class ServiceCustomers extends ServiceBaseComponent {
 
 	// State Management functions //
 	// --------------------------------------------------------------------------------
-	
+
 	componentDidMount() {
 		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
 	}

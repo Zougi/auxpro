@@ -7,10 +7,10 @@ class ServiceHome extends React.Component {
 	}
 	
 	render() { 
-			return(
-				<div>Acceuil</div>
-			);
-		}
+		return(
+			<div>Acceuil</div>
+		);
+	}
 }
 
 export default ServiceHome;
