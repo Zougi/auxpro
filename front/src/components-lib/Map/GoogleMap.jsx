@@ -18,6 +18,7 @@ class GoogleMap extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.mapListener;
 	}
 
 	componentDidMount () {
@@ -34,34 +35,47 @@ class GoogleMap extends React.Component {
 		}
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);
-	}	
-	
-	componentDidUpdate () {		
+		
 		if (this.props.onMapClicked) {
-			google.maps.event.addListener(this.mapHelper.map , 'click', function(e) {
+			this.mapListener = google.maps.event.addListener(this.mapHelper.map , 'click', function(e) {
 				this.props.onMapClicked({
 					lattitude: e.latLng.lat(),
 					longitude: e.latLng.lng()
 				});
 			}.bind(this));
 		}
-		this.mapHelper.cleanMarkers();
-		this.mapHelper.cleanCircles();
+		
 		this._buildMarkers();
 		this._buildCircles();
-		this.mapHelper.resize();
+		
+	}	
+	
+	shouldComponentUpdate (nextProps, nextState) {	
+		this._updateMapListener(nextProps);
+		this.mapHelper.updateMarkers(nextProps.markers);
+
+		return false;
+	}
+	
+	_updateMapListener(nextProps) {
+		if (nextProps.onMapClicked) {
+			if (this.props.onMapClicked != nextProps.onMapClicked) {
+				if (this.mapListener)
+					google.maps.event.removeListener(this.mapListener);
+				this.mapListener =  google.maps.event.addListener(this.mapHelper.map , 'click', function(e) {
+					nextProps.onMapClicked({
+						lattitude: e.latLng.lat(),
+						longitude: e.latLng.lng()
+					});
+				});
+			}
+		}
 	}
 	
 	_buildMarkers() {
 		let l = (this.props.markers || []).length;
 		for (let i = 0; i < l; i++) {
-			let marker = this.props.markers[i];
-			let googleMarker = this.mapHelper.addMarker(marker);
-			if (this.props.onMarkerClicked) {
-				google.maps.event.addListener(googleMarker , 'click', function() {
-					this.props.onMarkerClicked(marker);
-				}.bind(this));
-			}
+			this.mapHelper.addMarker(this.props.markers[i]);
 		}
 	}
 
@@ -74,6 +88,7 @@ class GoogleMap extends React.Component {
 	}
 
 	render() {
+		
 		return (
 			<div ref={(c) => this.mapDiv = c} className='ap-google-map'></div>
 		);

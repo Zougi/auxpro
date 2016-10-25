@@ -44,7 +44,8 @@ class GoogleAutocomplete extends React.Component {
 				disabled={!this.props.edit}
 				placeholder={!this.props.edit ? (this.props.placeholder || '') : 'Saisir addresse'}
 				type='text'
-				ref={(c) => { this.input = c; } } />
+				ref={(c) => { this.input = c; } }
+				defaultValue={this.props.defaultValue}	/>
   		);
   	}
 }

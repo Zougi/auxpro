@@ -12,9 +12,7 @@ export default class GoogleMapHelper {
 	}
 
 	resize() {
-		let c = this.map.getCenter();
 		google.maps.event.trigger(this.map, 'resize');
-		this.map.setCenter(c);
 	}
 
 	getMarkerImage(args) {
@@ -38,28 +36,75 @@ export default class GoogleMapHelper {
 		this.markers = [];
 	}
 
-	addMarker(args) {
-		let marker = new google.maps.Marker({
-			position: new google.maps.LatLng(args.lattitude, args.longitude), 
-			map: this.map,
-			title: args.title,
-			icon: this.getMarkerImage(args),
-			shadow: args.shadow
-		});
-		if (args.infowindow) {
-			let infowindow = new google.maps.InfoWindow({
-			    content: args.infowindow
-			});
-			infowindow.open(this.map, marker);
+	addMarkerIfNoExist(marker) {
+		var found = false;
+		let l = this.markers.length;
+		for (let i = 0; i < l; i++) {
+			if (this.markers[i].longitude == marker.longitude && this.markers[i].lattitude == marker.lattitude) {
+				found = true;
+				break;
+			}
 		}
+		if (!found)
+			this.addMarker(marker)
+	}
+	
+	deleteMarkersFromNewList(markers) {
+		let l = markers.length;
+		for (let i = 0; i < this.markers.length; i++) {
+			var found = false;
+			for (let j = 0; j < l; j++) {
+				if (this.markers[i].longitude == markers[j].longitude && this.markers[i].lattitude == markers[j].lattitude) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				this.deleteMarker(this.markers[i]);
+				i--;
+			}
+		}
+	}
+	
+	updateMarkers(markers) {
+		let l = markers.length;
+		for (let i = 0; i < l; i++) {
+			this.addMarkerIfNoExist(markers[i]);
+		}
+		this.deleteMarkersFromNewList(markers);
+		
+	}
+	
+	addMarker(marker) {		
+		let googleMarker = new google.maps.Marker({
+			position: new google.maps.LatLng(marker.lattitude, marker.longitude), 
+			map: this.map,
+			title: marker.title,
+			icon: this.getMarkerImage(marker),
+			shadow: marker.shadow
+		});
+		if (marker.infowindow) {
+			let infowindow = new google.maps.InfoWindow({
+			    content: marker.infowindow
+			});
+			infowindow.open(this.map, googleMarker);
+		}
+		
+		if (marker.onClick) {
+			google.maps.event.addListener(googleMarker , 'click', function() {
+				marker.onClick(marker);
+			});
+		}
+		
+		marker.googleMarker = googleMarker;
 		this.markers.push(marker);
-		return marker;
 	}
 
 	deleteMarker(marker) {
-		if (marker) {
-			marker.setMap(null);
+		if (marker.googleMarker) {
+			marker.googleMarker.setMap(null);
 		}
+		this.markers.splice(this.markers.indexOf(marker), 1);
 	}
 
 	refreshMarker(marker, location, title) {

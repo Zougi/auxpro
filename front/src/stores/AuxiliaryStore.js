@@ -33,7 +33,7 @@ AuxiliaryStore.navigate = function (result, param) {
 	} else {
 		AuxiliaryStore.getContent().display.home.showUserHeader = true;
 	}
-	AuxiliaryStore.notify('/display/home/showUserHeader');
+	AuxiliaryStore.notifyPath('/display/home/showUserHeader');
 };
 Dispatcher.register('NAVIGATE', AuxiliaryStore.navigate);
 
