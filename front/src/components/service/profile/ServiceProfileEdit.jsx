@@ -5,7 +5,7 @@ import { Row, Col, Panel, Button, Form } from 'react-bootstrap'
 import Dispatcher from 'core/Dispatcher.js';
 import StoreRegistry from 'core/StoreRegistry.js';
 // custom components
-import ServiceHeader from '../ServiceHeader.jsx';
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import ServiceDetails from './ServiceDetails.jsx';
 import Contact from 'components/common/entity/Contact.jsx'
 import Utils from 'utils/Utils.js'
@@ -16,42 +16,38 @@ let STATES = {
     EDIT: 'EDIT'
 };
 
-class ServiceProfile extends React.Component {
+class ServiceProfileEdit extends ServiceBaseComponent {
 
 	constructor(props) {
 		super(props);
-		this.service = {};
-        this.state = { 
-			state: props.edit ? STATES.EDIT : STATES.VIEW,
-			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service')
-			};
+        this.state = this._buildState();
 	}
 	
+
+    // State Management functions //
+    // --------------------------------------------------------------------------------
+
 	componentDidMount() {
-		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+		StoreRegistry.register('SERVICE_STORE', this, this._onStoreUpdate.bind(this));
 	}
-
-
 	componentWillUnmount() {
 		StoreRegistry.unregister('SERVICE_STORE', this);   
 	}
-	
-	onStoreUpdate() {
+	_onStoreUpdate() {
 		this.setState({ 
 			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service')
 		});
-
+    }
+    _buildState() {
+        return {
+            service: this.getService()
+        };
     }
 
-    setStateView(event) {
-        if (event) event.preventDefault();
-        this.setState({ state: STATES.VIEW });
-    }
-    setStateEdit(event) {
-        if (event) event.preventDefault();
-        this.setState({ state: STATES.EDIT });
-    }
 
+    // Callbacks functions //
+    // --------------------------------------------------------------------------------
+   
     onAvatarChanged(avatar) {
         this.service.avatar = avatar;
     }
@@ -63,44 +59,29 @@ class ServiceProfile extends React.Component {
     }
 
     saveProfile() {
-        event.preventDefault();
     	let user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
         user.avatar = this.service.avatar || user.avatar;
     	var service = this.service.service || {};
-    	Dispatcher.issue('PUT_SERVICE', {
-			serviceId: user.id,
-        	token: user.token,
-        	refresh: true,
-            data: {
-                id: user.id,
-                user: user,
-                contact: this.service.contact || this.state.service.contact,
-                siret: service.siret || this.state.service.siret,
-                socialReason: service.socialReason || this.state.service.socialReason,
-                society: service.society || this.state.service.society,
-            }
-    	}).then(function() {
+        this.updateService(this.state.service).
+    	then(function() {
     		this.setStateView();
     	}.bind(this));
-    	
     }
+
+
+    // Rendering functions //
+    // --------------------------------------------------------------------------------
 
 	render() { 
 		return(
             <Form horizontal>
                 <br/>
                 <Col sm={12}>
-                    { (this.state.state === STATES.EDIT) ?
                     <div style={{textAlign:'right'}}>
                         <Button bsStyle='default' onClick={this.setStateView.bind(this)}>Annuler</Button>
                         {' '}
                         <Button bsStyle='success' onClick={this.saveProfile.bind(this)}>Enregistrer modifications</Button>
                     </div>
-                :
-                    <div style={{textAlign:'right'}}>
-                        <Button bsStyle='primary' onClick={this.setStateEdit.bind(this)}>Editer mon profil</Button>
-                    </div>
-                }
                 </Col>
                 <br/>
                 <br/>
@@ -108,7 +89,7 @@ class ServiceProfile extends React.Component {
                     <Panel>
                         <Col sm={6}>
                             <ServiceDetails 
-                                edit={this.state.state === STATES.EDIT}
+                                edit={true}
                                 society={this.state.service.society}
                                 socialReason={this.state.service.socialReason}
                                 siret={this.state.service.siret}
@@ -116,10 +97,10 @@ class ServiceProfile extends React.Component {
                         </Col>
                         <Col sm={6}>
                             <Contact 
-                                edit={this.state.state === STATES.EDIT}
-                                address={this.state.service.contact ? this.state.service.contact.address : {}}
-                                phone={this.state.service.contact ? this.state.service.contact.phone : ''}
-                                email={this.state.service.contact ? this.state.service.contact.email : ''}
+                                edit={true}
+                                address={this.state.service.contact.address}
+                                phone={this.state.service.contact.phone}
+                                email={this.state.service.contact.email}
                                 onChange={this.onContactChanged.bind(this)}/>
                         </Col>
                     </Panel>
@@ -129,4 +110,4 @@ class ServiceProfile extends React.Component {
 	}
 }
 
-export default ServiceProfile;
+export default ServiceProfileEdit;

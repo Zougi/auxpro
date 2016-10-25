@@ -48,9 +48,9 @@ AppStore.onLogon = function (result, param) {
 				disabled: true,
 				leftContent: [
 					{ key: 0, link: '/aux/home', query: {}, name: 'Accueil' },
-					{ key: 1, name: 'Profil', dropdown: [
-						{ key: 1.1, link: '/aux/infos', query: {}, name: 'Voir profil' },
-						{ key: 1.2, link: '/aux/edit', query: {}, name: 'Editer profil' }
+					{ key: 1, name: 'Informations', dropdown: [
+						{ key: 1.1, link: '/aux/infos', query: {}, name: 'Voir mes informations' },
+						{ key: 1.2, link: '/aux/edit', query: {}, name: 'Modifier mes informations' }
 					]},
 					{ key: 2, link: '/aux/planning', query: {}, name: 'Planning' },
 					{ key: 3, link: '/aux/zone', query: {}, name: 'Zone' },
@@ -74,8 +74,8 @@ AppStore.onLogon = function (result, param) {
 				leftContent: [
 					{ key: 0, link: '/sad/home', query: {}, name: 'Accueil' },
 					{ key: 1, name: 'Informations', dropdown: [
-						{ key: 1.1, link: '/sad/infos', query: {}, name: 'Voir profil' },
-						{ key: 1.2, link: '/sad/edit', query: {}, name: 'Editer profil' }
+						{ key: 1.1, link: '/sad/infos', query: {}, name: 'Voir mes informations' },
+						{ key: 1.2, link: '/sad/infos/edit', query: {}, name: 'Modifier mes informations' }
 					]},
 					{ key: 2, link: '/sad/zone', query: {}, name: 'Ma zone' },
 					{ key: 3, link: '/sad/customers', query: {}, name: 'Mes clients' },
