@@ -70,27 +70,37 @@ class AppRouter extends React.Component {
 					
 					<Route path='sad' component={Service} >
 						<IndexRoute component={ServiceHome}/>	
+
 						<Route path='home' component={ServiceHome} />
+
 						<Route path='infos' component={ServiceProfile} />
 						<Route path='infos/edit' component={ServiceProfileEdit} />
+
 						<Route path='zone' component={ServiceMap} />
+
 						<Route path='customers' component={ServiceCustomers} />
 						<Route path='customers/new' component={ServiceCustomerEdit} />
 						<Route path='customers/:customerId' component={ServiceCustomer} />
 						<Route path='customers/:customerId/edit' component={ServiceCustomerEdit} />
+
 						<Route path='interventions' component={ServiceInterventions} />
 						<Route path='interventions/new' component={ServiceInterventionEdit} />
 						<Route path='interventions/:interventionId' component={ServiceIntervention} />
-						<Route path='interventions/:interventionId/edit' component={ServiceInterventionEdit} />	
+						<Route path='interventions/:interventionId/edit' component={ServiceInterventionEdit} />
 					</Route>
 					
 					<Route path='aux' component={Auxiliary} >
 						<IndexRoute component={AuxiliaryHome}/>	
+						
 						<Route path='home' component={AuxiliaryHome} />
+
 						<Route path='infos' component={AuxiliaryProfile} />
 						<Route path='edit' component={AuxiliaryEdit} />
+
 						<Route path='planning' component={AuxiliaryPlaning} />
+
 						<Route path='zone' component={AuxiliaryMap} />
+
 						<Route path='offres' component={AuxiliaryOffers} />
 						<Route path='offres/:offerId' component={AuxiliaryOffer} />
 					</Route>

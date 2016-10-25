@@ -127,6 +127,12 @@ class ServiceBaseComponent extends React.Component {
 	getOffer(id) {
 		return this._getServiceData('/data/offers/' + id);
 	}
+	createOffer(offer) {
+		return Dispatcher.issue('POST_OFFER', {
+			data: offer,
+			token: this.getLoginData('/token')
+		});
+	}
 	updateOffer(offer) {
 		return Dispatcher.issue('PUT_OFFER', {
 			data: offer,

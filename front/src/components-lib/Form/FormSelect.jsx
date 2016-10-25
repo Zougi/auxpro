@@ -21,6 +21,23 @@ class FormSelect extends FormBase {
 		});
 	}
 
+	getFormControlStatic() {
+		let value = this.props.defaultValue || this.props.value;
+		let l = (this.props.values || []).length;
+		for (let i = 0; i < l; i++) {
+			let v = this.props.values[i];
+			if (v.key === this.props.defaultValue || v.key === this.props.value) {
+				value = v.value;
+				break;
+			}
+		}
+		return (
+			<FormControl.Static>
+				{value}
+			</FormControl.Static>
+		);
+	}
+
 	getFormControlEditable() {
 		return (
 			<FormControl 

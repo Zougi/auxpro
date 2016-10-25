@@ -13,7 +13,7 @@ import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.j
 
 let MODES = {
 	CREATE: 'CREATE',
-	'EDIT': 'EDIT'
+	EDIT: 'EDIT'
 }
 
 class ServiceCustomerEdit extends ServiceBaseComponent {
