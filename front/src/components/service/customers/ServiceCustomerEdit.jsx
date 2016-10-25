@@ -46,6 +46,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 			return { 
 				mode: MODES.CREATE,
 				customer: {
+					serviceId: this.getLoginData('/id'),
 					person: { birthPlace: {} },
 					contact: { address: {} },
 					skills: {}
@@ -77,15 +78,15 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 
 	onPersonChanged(person) {
 		this.state.customer.person = person;
-		this.setState();
+		this.forceUpdate();
 	}
 	onContactChanged(contact) {
 		this.state.customer.contact = contact;	
-		this.setState();
+		this.forceUpdate();
 	}
 	onSkillsChanged(skills) {
 		this.state.customer.skills = skills;
-		this.setState();
+		this.forceUpdate();
 	}
 
 
@@ -93,6 +94,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	render() { return (
+	<Row>
 		<Panel header={(<strong>Modifier informations client</strong>)}>
 			<Form horizontal>
 				<Row>
@@ -132,6 +134,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 				onOk={this.onSaveCustomer.bind(this)} okTitle='Enregistrer modifications' 
 				onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
 		</Panel>
+	</Row>
 	);}
 }
 

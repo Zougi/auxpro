@@ -56,6 +56,7 @@ class ServiceCustomers extends ServiceBaseComponent {
     }
     doDeleteCustomer() {
     	this.deleteCustomer(this.state.customerToDelete);
+    	this.cancelDeleteCustomer();
     }    
     cancelDeleteCustomer() {
     	this.setState({ 
