@@ -6,14 +6,15 @@ export default class StringValidator {
 	}
 
 	getState(value) {
-		var l = value.length;
-		var isMinOk = !isNaN(this.lengthMin) ? l >= this.lengthMin : true;
-		var isMaxOk = !isNaN(this.lengthMax) ? l <= this.lengthMax : true;
-		if (isMinOk && isMaxOk) {
-			return 'success';
-		} else {
-			return 'error';
+		if (value || value === '') {
+			var l = value.length;
+			var isMinOk = !isNaN(this.lengthMin) ? l >= this.lengthMin : true;
+			var isMaxOk = !isNaN(this.lengthMax) ? l <= this.lengthMax : true;
+			if (isMinOk && isMaxOk) {
+				return 'success';
+			} 
 		}
+		return 'error';
 	}
 
 	getMessage(value) {

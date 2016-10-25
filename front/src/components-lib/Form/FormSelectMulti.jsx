@@ -36,7 +36,7 @@ class FormSelectMulti extends FormBase {
 	_buildValues(disabled) {
 		return this.state.values.map(function(v) {
 			return (
-				<Col xs={6} sm={3} md={2}>
+				<Col key={v.key} xs={6} sm={3} md={2}>
 					<Checkbox key={v.key} disabled={disabled} checked={v.selected} inline onChange={this.onChange.bind(this, v)}>
 						{v.value}
 					</Checkbox>

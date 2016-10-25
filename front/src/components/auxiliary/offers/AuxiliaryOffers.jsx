@@ -123,7 +123,6 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	render() { 
 		return (
 			<div>
-				<br/>
 				<Panel header='Offres en cours'>
 					<Row style={{textAlign:'center'}}>
 						<ButtonGroup>

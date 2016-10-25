@@ -3,11 +3,12 @@ var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-
 export default class EmailValidator {
 
 	static getState(value) {
-		if (reg.test(value)) {
-			return 'success';
-		} else {
-			return 'error';
+		if (value || value === '') {
+			if (reg.test(value)) {
+				return 'success';
+			}
 		}
+		return 'error';
 	}
 
 	static getMessage(value) {

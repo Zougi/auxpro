@@ -117,30 +117,26 @@ class ServiceMap extends React.Component {
         return result;
     }
 
-	render() {
-        return (
-            <div>
-                <div>
-                    <Panel header={(<strong>Répartition géographique</strong>)}>
-                        <Col sm={8}>
-                            <GoogleMap 
-                                center={this._buildCenter()} 
-                                markers={this._buildMarkers()}
-                                onMarkerClicked={this.onMarkerClicked.bind(this)} />
-                        </Col>
-                        <Col sm={4}>
-                            <ServiceMapInformation
-                                bsStyle={this.state.info.bsStyle} 
-                                header={this.state.info.header}
-                                name={this.state.info.name}
-                                address1={this.state.info.address1}
-                                address2={this.state.info.address2}/>
-                        </Col>
-                    </Panel>
-                </div>
-            </div>
-        );
-    }
+	render() { return (
+        <Row>
+            <Panel header={(<strong>Répartition géographique</strong>)}>
+                <Col sm={8}>
+                    <GoogleMap 
+                        center={this._buildCenter()} 
+                        markers={this._buildMarkers()}
+                        onMarkerClicked={this.onMarkerClicked.bind(this)} />
+                </Col>
+                <Col sm={4}>
+                    <ServiceMapInformation
+                        bsStyle={this.state.info.bsStyle} 
+                        header={this.state.info.header}
+                        name={this.state.info.name}
+                        address1={this.state.info.address1}
+                        address2={this.state.info.address2}/>
+                </Col>
+            </Panel>
+        </Row>
+    );}
 }
 
 export default ServiceMap;

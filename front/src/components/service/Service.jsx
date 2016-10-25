@@ -71,7 +71,6 @@ class Service extends React.Component {
 	);}
 
 	render() {
-		console.log(this.props);
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>
@@ -84,7 +83,9 @@ class Service extends React.Component {
 		return(
 			<div className='container'>
 				{this.state.showUserHeader ? 
-					<ServiceHeader storeData={this.state.storeData} />
+					<Row>
+						<ServiceHeader storeData={this.state.storeData} />
+					</Row>
 				:
 					''
 				}

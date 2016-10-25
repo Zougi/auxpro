@@ -78,39 +78,30 @@ class InterventionDetailsRecurence extends React.Component {
 					static={!this.props.edit}
 					title='Du'
 					onChange={this.onStartDateChanged.bind(this)}/>
-				<br className='hidden-xs'/><br className='hidden-xs'/>
+				<br className='hidden-xs'/>
+				<br className='hidden-xs'/>
 				<FormDate
 					defaultValue={this.data.endDate}
 					static={!this.props.edit}
 					title='Au'
 					onChange={this.onEndDateChanged.bind(this)}/>
 				<br className='hidden-xs'/>
-				<Row>
-					<Col>
-						<FormSelectMulti
-							static={!this.props.edit}
-							title='Jours'
-							values={this._buildDays()}
-							onChange={this.onDaysChanged.bind(this)}/>
-					</Col>
-				</Row>
+				<FormSelectMulti
+					static={!this.props.edit}
+					title='Jours'
+					values={this._buildDays()}
+					onChange={this.onDaysChanged.bind(this)}/>
 				<br/>
-				<Row>
-					<Col>
-						<FormTime
-							defaultValue={this.data.startTime}
-							static={!this.props.edit}
-							title='Début'
-							onChange={this.onStartTimeChanged.bind(this)}/>
-					</Col>
-					<Col>
-						<FormTime
-							defaultValue={this.data.endTime}
-							static={!this.props.edit}
-							title='Fin'
-							onChange={this.onEndTimeChanged.bind(this)}/>
-					</Col>
-				</Row>
+				<FormTime
+					defaultValue={this.data.startTime}
+					static={!this.props.edit}
+					title='Début'
+					onChange={this.onStartTimeChanged.bind(this)}/>
+				<FormTime
+					defaultValue={this.data.endTime}
+					static={!this.props.edit}
+					title='Fin'
+					onChange={this.onEndTimeChanged.bind(this)}/>
 			</div>
 		);
 	}

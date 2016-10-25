@@ -18,24 +18,30 @@ import Contact      from 'components/app/static/Contact.jsx'
 import CGV          from 'components/app/static/CGV.jsx'
 import CGU          from 'components/app/static/CGU.jsx'
 import Presentation from 'components/app/static/Presentation.jsx'
+import Services     from 'components/app/static/Services.jsx'
 // Documentation pages
 import Documentation from 'documentation/Documentation.jsx'
 
 import Auxiliary from 'components/auxiliary/Auxiliary.jsx'
 import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome.jsx'
-import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
-import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning.jsx'
-import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers.jsx'
-import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer.jsx'
 import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
 import AuxiliaryEdit from 'components/auxiliary/edit/AuxiliaryEdit.jsx'
+import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
+import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning.jsx'
+import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer.jsx'
+import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers.jsx'
 
 import Service from 'components/service/Service.jsx'
-import ServiceProfile from 'components/service/profile/ServiceProfile.jsx'
-import ServiceCustomers from 'components/service/customers/ServiceCustomers.jsx'
-import ServiceInterventions from 'components/service/interventions/ServiceInterventions.jsx'
-import ServiceMap from 'components/service/map/ServiceMap.jsx'
 import ServiceHome from 'components/service/home/ServiceHome.jsx'
+import ServiceProfile from 'components/service/profile/ServiceProfile.jsx'
+import ServiceProfileEdit from 'components/service/profile/ServiceProfileEdit.jsx'
+import ServiceMap from 'components/service/map/ServiceMap.jsx'
+import ServiceCustomer from 'components/service/customers/ServiceCustomer.jsx'
+import ServiceCustomers from 'components/service/customers/ServiceCustomers.jsx'
+import ServiceCustomerEdit from 'components/service/customers/ServiceCustomerEdit.jsx'
+import ServiceIntervention from 'components/service/interventions/ServiceIntervention.jsx'
+import ServiceInterventions from 'components/service/interventions/ServiceInterventions.jsx'
+import ServiceInterventionEdit from 'components/service/interventions/ServiceInterventionEdit.jsx'
 
 import GuestHome from 'components/guest/GuestHome.jsx'
 
@@ -58,25 +64,41 @@ class AppRouter extends React.Component {
 					<Route path='registerAux' component={RegisterAux} />
 					<Route path='registerSad' component={RegisterSad} />
 					<Route path='presentation' component={Presentation} />
+					<Route path='services' component={Services} />
 					<Route path='about' component={About} />
 					<Route path='contact' component={Contact} />
 					
 					<Route path='sad' component={Service} >
 						<IndexRoute component={ServiceHome}/>	
+
 						<Route path='home' component={ServiceHome} />
+
 						<Route path='infos' component={ServiceProfile} />
-						<Route path='edit' component={ServiceProfile} />
-						<Route path='customers' component={ServiceCustomers} />
+						<Route path='infos/edit' component={ServiceProfileEdit} />
+
 						<Route path='zone' component={ServiceMap} />
+
+						<Route path='customers' component={ServiceCustomers} />
+						<Route path='customers/new' component={ServiceCustomerEdit} />
+						<Route path='customers/:customerId' component={ServiceCustomer} />
+						<Route path='customers/:customerId/edit' component={ServiceCustomerEdit} />
+
 						<Route path='interventions' component={ServiceInterventions} />
+						<Route path='interventions/new' component={ServiceInterventionEdit} />
+						<Route path='interventions/:interventionId' component={ServiceIntervention} />
+						<Route path='interventions/:interventionId/edit' component={ServiceInterventionEdit} />
 					</Route>
 					
 					<Route path='aux' component={Auxiliary} >
 						<IndexRoute component={AuxiliaryHome}/>	
+						
 						<Route path='home' component={AuxiliaryHome} />
+
 						<Route path='infos' component={AuxiliaryProfile} />
 						<Route path='edit' component={AuxiliaryEdit} />
+
 						<Route path='planning' component={AuxiliaryPlaning} />
+
 						<Route path='zone' component={AuxiliaryMap} />
 
 						<Route path='offres' component={AuxiliaryOffers} />
