@@ -13,7 +13,7 @@ class Footer extends React.Component {
 	render() { 
 		var items1 = [
 			{ url: '/presentation', name: 'Qui sommes-nous ?'},
-			{ url: '', name: 'Nos services'}
+			{ url: '/services', name: 'Nos services'}
 		];
 		var items2 = [
 			{ url: '', name: 'CGU'},

@@ -27,11 +27,12 @@ export default class PhoneValidator {
 	}
 
 	static getState(value) {
-		if (reg.test(value)) {
-			return 'success';
-		} else {
-			return 'error';
+		if (value || value === '') {
+			if (reg.test(value)) {
+				return 'success';
+			} 
 		}
+		return 'error';
 	}
 
 	static getMessage(value) {

@@ -71,7 +71,6 @@ class Service extends React.Component {
 	);}
 
 	render() {
-		console.log(this.props);
 		if (this.state.showTuto) {
 			return(
 				<div className='container'>

@@ -47,8 +47,8 @@ class ServiceHeader extends React.Component {
 		];
 	}
 
-	render() {
-		return(
+	render() { return(
+		<Row>
 			<Panel>				
 				<Col sm={4}>
 					<AsyncImage src={this.state.src || this.props.storeData.data.service.user.avatar} width={200} height={200}/>
@@ -62,6 +62,7 @@ class ServiceHeader extends React.Component {
 					<ITable rows={this._buildTable()} bordered striped hover fill/>
 				</Col>
 			</Panel>
+		</Row>
 	);}
 }
 

@@ -9,13 +9,14 @@ export default class CustomValidator {
 	}
 
 	getState(value) {
-		if (this.regSuccess.test(value)) {
-			return 'success';
-		} else if (this.regWarning && this.regWarning.test(value)) {
-			return 'warning';
-		} else {
-			return 'error';
+		if (value || value === '') {
+			if (this.regSuccess.test(value)) {
+				return 'success';
+			} else if (this.regWarning && this.regWarning.test(value)) {
+				return 'warning';
+			} 
 		}
+		return 'error';
 	}
 
 	getMessage(value) {

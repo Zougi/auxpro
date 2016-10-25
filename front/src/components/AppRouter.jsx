@@ -18,6 +18,7 @@ import Contact      from 'components/app/static/Contact.jsx'
 import CGV          from 'components/app/static/CGV.jsx'
 import CGU          from 'components/app/static/CGU.jsx'
 import Presentation from 'components/app/static/Presentation.jsx'
+import Services     from 'components/app/static/Services.jsx'
 // Documentation pages
 import Documentation from 'documentation/Documentation.jsx'
 
@@ -32,6 +33,8 @@ import AuxiliaryEdit from 'components/auxiliary/edit/AuxiliaryEdit.jsx'
 
 import Service from 'components/service/Service.jsx'
 import ServiceProfile from 'components/service/profile/ServiceProfile.jsx'
+import ServiceCustomer from 'components/service/customers/ServiceCustomer.jsx'
+import ServiceCustomerEdit from 'components/service/customers/ServiceCustomerEdit.jsx'
 import ServiceCustomers from 'components/service/customers/ServiceCustomers.jsx'
 import ServiceInterventions from 'components/service/interventions/ServiceInterventions.jsx'
 import ServiceMap from 'components/service/map/ServiceMap.jsx'
@@ -58,6 +61,7 @@ class AppRouter extends React.Component {
 					<Route path='registerAux' component={RegisterAux} />
 					<Route path='registerSad' component={RegisterSad} />
 					<Route path='presentation' component={Presentation} />
+					<Route path='services' component={Services} />
 					<Route path='about' component={About} />
 					<Route path='contact' component={Contact} />
 					
@@ -67,6 +71,9 @@ class AppRouter extends React.Component {
 						<Route path='infos' component={ServiceProfile} />
 						<Route path='edit' component={ServiceProfile} />
 						<Route path='customers' component={ServiceCustomers} />
+						<Route path='customers/new' component={ServiceCustomerEdit} />
+						<Route path='customers/:customerId' component={ServiceCustomer} />
+						<Route path='customers/:customerId/edit' component={ServiceCustomerEdit} />
 						<Route path='zone' component={ServiceMap} />
 						<Route path='interventions' component={ServiceInterventions} />
 					</Route>
