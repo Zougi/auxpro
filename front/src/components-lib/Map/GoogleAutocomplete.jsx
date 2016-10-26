@@ -9,6 +9,7 @@ class GoogleAutocomplete extends React.Component {
 
   	constructor(props) {
   		super(props);
+		this.state = {deFaultValue: props.defaultValue};
   	}
 
   	componentDidMount() {
@@ -16,6 +17,10 @@ class GoogleAutocomplete extends React.Component {
   		 this.autocomplete.addListener('place_changed', this._autocompleteChange.bind(this));
   	}
 
+	componentWillReceiveProps(nextProps) {
+		this.setState({deFaultValue: nextProps.defaultValue});
+	}
+	
   	_autocompleteChange() {
   		var place = this.autocomplete.getPlace();
 
@@ -45,7 +50,7 @@ class GoogleAutocomplete extends React.Component {
 				placeholder={!this.props.edit ? (this.props.placeholder || '') : 'Saisir addresse'}
 				type='text'
 				ref={(c) => { this.input = c; } }
-				defaultValue={this.props.defaultValue}	/>
+				defaultValue={this.state.defaultValue}	/>
   		);
   	}
 }

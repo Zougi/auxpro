@@ -69,7 +69,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	onMapClicked(event) {
-		console.log(event);
 		if (this.state.geoMode == GEO_MODES.ZONE) {
 			this.setState({ 
 				geozone: {
@@ -164,25 +163,32 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				onClick: this.onMarkerClicked.bind(this)
 			});
 		}
+		console.log(result);
 		return result;
 	}
 
+	_buildCircle(geozone, result, id) {
+		if (geozone.radius && geozone.radius  != 0) {
+			result.push({
+				id: 'gz' + id,
+				lattitude: Number(geozone.lattitude),
+				longitude: Number(geozone.longitude),
+				radius: parseFloat(geozone.radius)
+			});
+		}
+	}
+	
 	_buildCircles() {
 		let result = [];
 		// Add geo zones
 		let l = (this.state.geoZones || []).length;
 		for (let i = 0; i < l; i++) {
 			let gz = this.state.geoZones[i];
-			if (gz.radius) {
-				result.push({
-					id: 'gz' + i,
-					lattitude: Number(gz.lattitude),
-					longitude: Number(gz.longitude),
-					radius: parseFloat(gz.radius)
-				});
-			}
+			this._buildCircle(gz, result, i);
 		}
-		return result;
+		if (this.state.geozone)
+			this._buildCircle(this.state.geozone, result, "current");
+		return result;	
 	}
 
 	resetGeozone() {
@@ -201,17 +207,23 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			console.log('ERROR WHILE CREATING GEOZONE')
 		})
 	}
-	onCancelCreateGeozone() {
-		this.resetGeozone();
-	}
-
 	
 	onChangeZonePanel(change) {
 		this.setState({ 
 			geozone: {
 				lattitude: Number(change.address.lattitude),
-				longitude: Number(change.address.longitude)
+				longitude: Number(change.address.longitude),
+				radius: change.radius
 			} 
+		});
+	}
+	
+	validZone(change) {
+		console.log(change)
+		this.createGeozone({
+			lattitude: change.address.lattitude,
+			longitude: change.address.lattitude,
+			radius: change.radius
 		});
 	}
 	
@@ -219,7 +231,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		return (
 			<AuxiliaryAddZone 
 			onChange={this.onChangeZonePanel.bind(this)}
-			defaultLocation={this.state.geozone}/>
+			defaultLocation={this.state.geozone}
+			valid={this.validZone.bind(this)} />
 		);
 	}
 	
@@ -229,7 +242,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				geozone={this.state.geozone}
 				onLiveChange={this.onGeozoneChanged.bind(this)}
 				onCreate={this.onCreateGeozone.bind(this)}
-				onCancel={this.onCancelCreateGeozone.bind(this)}/>
+				onCancel={this.resetGeozone.bind(this)}/>
 		);
 	}
 	

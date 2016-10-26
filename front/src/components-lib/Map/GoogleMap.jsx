@@ -53,6 +53,7 @@ class GoogleMap extends React.Component {
 	shouldComponentUpdate (nextProps, nextState) {	
 		this._updateMapListener(nextProps);
 		this.mapHelper.updateMarkers(nextProps.markers);
+		this.mapHelper.updateCircles(nextProps.circles);
 
 		return false;
 	}
@@ -83,7 +84,7 @@ class GoogleMap extends React.Component {
 		let l = (this.props.circles || []).length;
 		for (let i = 0; i < l; i++) {
 			let circle = this.props.circles[i];
-			let googleCircle = this.mapHelper.addCircle(circle);
+			this.mapHelper.addCircle(circle);
 		}
 	}
 

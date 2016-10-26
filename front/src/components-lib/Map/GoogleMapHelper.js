@@ -24,17 +24,21 @@ export default class GoogleMapHelper {
 		);
 	}
 
+	setCenter(location) {
+		this.map.setCenter(location);
+	}
+	
+	reverseGeoCodeResult(result, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+			this.refs.autocomplete.value = result[0].formatted_address;
+		} else {
+			alert('ReverseGeoCode Error: ' + status);
+		}
+	}
+	
 
 	// MARKERS //
 	// -------------------------------------------------------------------------
-
-	cleanMarkers() {
-		let l = this.markers.length;
-		for (let i = 0; i < l; i++) {
-			this.deleteMarker(this.markers[i]);
-		}
-		this.markers = [];
-	}
 
 	addMarkerIfNoExist(marker) {
 		var found = false;
@@ -47,32 +51,6 @@ export default class GoogleMapHelper {
 		}
 		if (!found)
 			this.addMarker(marker)
-	}
-	
-	deleteMarkersFromNewList(markers) {
-		let l = markers.length;
-		for (let i = 0; i < this.markers.length; i++) {
-			var found = false;
-			for (let j = 0; j < l; j++) {
-				if (this.markers[i].longitude == markers[j].longitude && this.markers[i].lattitude == markers[j].lattitude) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				this.deleteMarker(this.markers[i]);
-				i--;
-			}
-		}
-	}
-	
-	updateMarkers(markers) {
-		let l = markers.length;
-		for (let i = 0; i < l; i++) {
-			this.addMarkerIfNoExist(markers[i]);
-		}
-		this.deleteMarkersFromNewList(markers);
-		
 	}
 	
 	addMarker(marker) {		
@@ -100,16 +78,45 @@ export default class GoogleMapHelper {
 		this.markers.push(marker);
 	}
 
+	updateMarkers(markers) {
+		let l = markers.length;
+		for (let i = 0; i < l; i++) {
+			this.addMarkerIfNoExist(markers[i]);
+		}
+		this.deleteMarkersFromNewList(markers);
+		
+	}
+	
 	deleteMarker(marker) {
 		if (marker.googleMarker) {
 			marker.googleMarker.setMap(null);
 		}
 		this.markers.splice(this.markers.indexOf(marker), 1);
 	}
-
-	refreshMarker(marker, location, title) {
-		this.deleteMarker(marker);
-		return this.addMarker(location, title);
+	
+	deleteMarkersFromNewList(markers) {
+		let l = markers.length;
+		for (let i = 0; i < this.markers.length; i++) {
+			var found = false;
+			for (let j = 0; j < l; j++) {
+				if (this.markers[i].longitude == markers[j].longitude && this.markers[i].lattitude == markers[j].lattitude) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				this.deleteMarker(this.markers[i]);
+				i--;
+			}
+		}
+	}
+	
+	cleanMarkers() {
+		let l = this.markers.length;
+		for (let i = 0; i < l; i++) {
+			this.deleteMarker(this.markers[i]);
+		}
+		this.markers = [];
 	}
 	
 
@@ -124,122 +131,64 @@ export default class GoogleMapHelper {
 		this.circles = [];
 	}
 
-	addCircle(args) {
-		let circle = new google.maps.Circle({
-			strokeColor: args.strokeColor || '#FF0000',
-			strokeOpacity: args.strokeOpacity || 0.8,
-			strokeWeight: args.strokeWeight || 2,
-			fillColor: args.fillColor || '#FF0000',
-			fillOpacity: args.fillOpacity || 0.35,
+	addCircleIfNoExist(circle) {
+		var found = false;
+		let l = this.circles.length;
+		for (let i = 0; i < l; i++) {
+			if (this.circles[i].longitude == circle.longitude && this.circles[i].lattitude == circle.lattitude && this.circles[i].radius == circle.radius) {
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+			this.addCircle(circle)
+	}
+	
+	addCircle(circle) {
+		let googleCircle = new google.maps.Circle({
+			strokeColor: circle.strokeColor || '#FF0000',
+			strokeOpacity: circle.strokeOpacity || 0.8,
+			strokeWeight: circle.strokeWeight || 2,
+			fillColor: circle.fillColor || '#FF0000',
+			fillOpacity: circle.fillOpacity || 0.35,
 			map: this.map,
-			center: new google.maps.LatLng(args.lattitude, args.longitude),
-			radius: args.radius
+			center: new google.maps.LatLng(circle.lattitude, circle.longitude),
+			radius: circle.radius
 		});
+		circle.googleCircle = googleCircle;
 		this.circles.push(circle);
-		return circle;
+	}
+	
+	updateCircles(circles) {
+		let l = circles.length;
+		for (let i = 0; i < l; i++) {
+			this.addCircleIfNoExist(circles[i]);
+		}
+		this.deleteCirclesFromNewList(circles);
+		
+	}
+	
+	deleteCirclesFromNewList(circles) {
+		let l = circles.length;
+		for (let i = 0; i < this.circles.length; i++) {
+			var found = false;
+			for (let j = 0; j < l; j++) {
+				if (this.circles[i].longitude == circles[j].longitude && this.circles[i].lattitude == circles[j].lattitude && this.circles[i].radius == circles[j].radius) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				this.deleteCircle(this.circles[i]);
+				i--;
+			}
+		}
 	}
 	
 	deleteCircle(circle) {
-		if (circle != null) {
-			circle.setMap(null);
+		if (circle.googleCircle) {
+			circle.googleCircle.setMap(null);
 		}
-	}
-	
-	refreshCircle(circle, position, radius) {
-		this.deleteCircle(circle);
-		return this.addCircle(position, radius);
-	}
-	
-	refreshMyCircle() {
-		this.myCircle = this.refreshCircle(this.myCircle, this.circleMarker.position, parseInt(this.refs.radius.value));
-	}
-
-	setCenter(location) {
-		this.deleteMarker(this.centerMarker);
-		this.centerMarker = this.addMarker(location, 'center');
-		this.map.setCenter(location);
-	}
-
-	autocompleteChange() {
-		var place = this.autocomplete.getPlace();
-		this.setCenter(place.geometry.location);
-	}
-	
-	radiusChange() {
-		if (this.centerMarker != null){
-			this.refreshMyCircle();
-		}
-	}
-
-	reverseGeoCodeResult(result, status) {
-		if (status === google.maps.GeocoderStatus.OK) {
-			this.refs.autocomplete.value = result[0].formatted_address;
-		} else {
-			alert('ReverseGeoCode Error: ' + status);
-		}
-	}
-
-	clickMapEvent(event) {
-		if (this.state.editMode === 'circle') {
-			this.circleMarker = this.refreshMarker(this.circleMarker, event.latLng, 'marker');
-			this.refreshMyCircle();
-			var geocoder = new google.maps.Geocoder;
-			geocoder.geocode({'location': event.latLng}, this.reverseGeoCodeResult.bind(this));
-		}
-	}
-
-	activeCircle() {
-		if (this.state.editMode == 'circle') {
-			this.desactiveCircle();
-		} else {
-			this.setState({ editMode: 'circle' });
-		}
-	}
-
-	desactiveCircle() {
-		this.deleteMarker(this.circleMarker);
-		this.deleteCircle(this.myCircle);
-		this.refs.autocomplete.value = '';
-		this.refs.radius.value = '';
-		this.setState({editMode: null});
-	}
-
-	validCircle() {
-	/*
-	  console.log("###########################################INFO###########################################");
-	  console.log(this.circleMarker);
-	  console.log(this.myCircle);
-	  console.log( this.refs.autocomplete.value);
-	  console.log(this.circleMarker.position.lat());
-	  console.log("##########################################################################################");
-	  */
-		let geoZone = {lattitude: this.circleMarker.position.lat(), longitude: this.circleMarker.position.lng(), radius: this.myCircle.radius};
-		this.props.sendGeoZone(geoZone);
-		this.setState({
-			areas: this.state.areas.concat({
-				type: 'circle',
-				adress: this.refs.autocomplete.value,
-				marker: this.circleMarker,
-				circle: this.myCircle
-			})
-		});
-		this.circleMarker = null;
-		this.myCircle = null;
-		this.desactiveCircle();
-	}
-
-	deleteArea(index) {
-		let marker = this.state.areas[index].marker;
-		let circle =  this.state.areas[index].circle;
-		let geoZone = {
-			lattitude: marker.position.lat(), 
-			longitude: marker.position.lng(), 
-			radius: circle.radius
-		};
-		this.props.deleteGeoZone(geoZone);
-		this.deleteMarker(marker);
-		this.deleteCircle(circle);
-		this.state.areas.splice(index, 1);
-		this.setState({ areas: this.state.areas });
+		this.circles.splice(this.circles.indexOf(circle), 1);
 	}
 }
