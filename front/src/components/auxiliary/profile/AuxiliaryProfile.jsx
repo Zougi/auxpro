@@ -68,20 +68,20 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 							<Panel header='Informations personnelles' bsStyle='info'>
 								<Col sm={6}>
 									<Person 
-										civility={this.state.auxiliary.person ? this.state.auxiliary.person.civility : 'Mr'}
-										lastName={this.state.auxiliary.person ? this.state.auxiliary.person.lastName : ''}
-										firstName={this.state.auxiliary.person ? this.state.auxiliary.person.firstName : ''}
-										birthDate={this.state.auxiliary.person ? this.state.auxiliary.person.birthDate : []}
-										birthCity={this.state.auxiliary.person ? this.state.auxiliary.person.birthPlace.city : ''}
-										birthCountry={this.state.auxiliary.person ? this.state.auxiliary.person.birthPlace.country : ''}
-										nationality={this.state.auxiliary.person ? this.state.auxiliary.person.nationality : ''}
-										socialNumber={this.state.auxiliary.person ? this.state.auxiliary.person.socialNumber : ''}/>
+										civility={this.state.auxiliary.person.civility}
+										lastName={this.state.auxiliary.person.lastName}
+										firstName={this.state.auxiliary.person.firstName}
+										birthDate={this.state.auxiliary.person.birthDate}
+										birthCity={this.state.auxiliary.person.birthPlace.city}
+										birthCountry={this.state.auxiliary.person.birthPlace.country}
+										nationality={this.state.auxiliary.nationality}
+										socialNumber={this.state.auxiliary.person.socialNumber}/>
 								</Col>
 								<Col sm={6}>
 									<Contact 
-										address={this.state.auxiliary.contact ? this.state.auxiliary.contact.address : {}}
-										phone={this.state.auxiliary.contact ? this.state.auxiliary.contact.phone : ''}
-										email={this.state.auxiliary.contact ? this.state.auxiliary.contact.email : ''} />
+										address={this.state.auxiliary.contact.address}
+										phone={this.state.auxiliary.contact.phone}
+										email={this.state.auxiliary.contact.email} />
 								</Col>
 							</Panel>
 						</Col>
@@ -91,7 +91,7 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 					<Panel>
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
-							{this.state.auxiliary.infos ? this.state.auxiliary.infos.diploma : ''}
+							{this.state.auxiliary.infos.diploma}
 						</Panel>
 						<Panel bsStyle='info' header='Mes Compétences'>
 							<SkillSummaryList skills={this.state.auxiliary.skills}/>

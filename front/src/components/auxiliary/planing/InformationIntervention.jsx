@@ -1,8 +1,6 @@
-// react modules
 import React from 'react'
-// react-bootstrap modules
 import { ListGroupItem } from 'react-bootstrap';
-// core modules
+// Core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Panel, ListGroup } from 'react-bootstrap';
-
+// Custom components
 import InformationIndisponibility from './InformationIndisponibility.jsx'
 import InformationOffer from './InformationOffer.jsx'
 
@@ -9,6 +9,10 @@ class AuxiliaryPlanningInformation extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	_buildOffers() {
 		let result = [];
@@ -42,7 +46,7 @@ class AuxiliaryPlanningInformation extends React.Component {
 			let date = indispo.date;
 			if (date[0] === y && date[1] === m && date[2] === d) {
 				result.push(
-					<InformationIndisponibility 
+					<InformationIndisponibility
 						key={i}
 						date={date}
 						startTime={indispo.startTime}
@@ -53,15 +57,15 @@ class AuxiliaryPlanningInformation extends React.Component {
 		return result;
 	}
 
-	render() { 
+	render() {
 		return (
 			<Panel header="Informations">
-	    		<ListGroup>
-	    			{this._buildInterventions()}
-	    			{this._buildOffers()}
-	    			{this._buildIndisponibilities()}
-	    		</ListGroup>
-	    	</Panel>
+				<ListGroup>
+					{this._buildInterventions()}
+					{this._buildOffers()}
+					{this._buildIndisponibilities()}
+				</ListGroup>
+			</Panel>
 		);
 	}
 }
