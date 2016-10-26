@@ -1,6 +1,8 @@
 import ObjectBase from 'core/ObjectBase.js';
 import StoreRegistry from 'core/StoreRegistry.js';
 
+import Utils from 'utils/Utils.js';
+
 export default class StoreBase extends ObjectBase {
 
 	constructor(props) {
@@ -109,9 +111,9 @@ export default class StoreBase extends ObjectBase {
 					}
 				}
 			}
-			return current;
+			return Utils.clone(current);
 		} else {
-			return this._content;
+			return Utils.clone(this._content);
 		}
 	}
 }

@@ -1,44 +1,49 @@
 import React from 'react'
 import { Panel, Row, Col } from 'react-bootstrap'
-
+// Core modules
 import StoreRegistry from 'core/StoreRegistry.js';
 import Utils from 'utils/Utils.js'
-
+// Custom components
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 import ServiceHeader from '../ServiceHeader.jsx';
 import ServiceMapInformation from './ServiceMapInformation.jsx'
 
-class ServiceMap extends React.Component {
+class ServiceMap extends ServiceBaseComponent {
 
 	constructor(props) {
 		super(props);
-        this.state = {
-			info: {},
-			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service'),
-			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers'),
-			auxiliaries: StoreRegistry.getStore('SERVICE_STORE').getData('/data/auxiliaries')
-			};
+        this.state = this._buildState();
+        this.state.info = {};
 	}
 	
+
+    // State Management functions //
+    // --------------------------------------------------------------------------------
+
 	componentDidMount() {
-		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
+		StoreRegistry.register('SERVICE_STORE', this, this._onStoreUpdate.bind(this));
 	}
-
-
 	componentWillUnmount() {
 		StoreRegistry.unregister('SERVICE_STORE', this);   
 	}
-	
-	onStoreUpdate() {
-		this.setState({ 
-			service: StoreRegistry.getStore('SERVICE_STORE').getData('/data/service'),
-			customers: StoreRegistry.getStore('SERVICE_STORE').getData('/data/customers'),
-			auxiliaries: StoreRegistry.getStore('SERVICE_STORE').getData('/data/auxiliaries')
-		});
-
+	_onStoreUpdate() {
+		this.setState(this._buildState());
+    }
+     _buildState() {
+        return {
+            service: this.getService(),
+            customers: this.getCustomers(),
+            auxiliaries: this.getAuxiliaries()
+        };
     }
 	
+
+    // Callbacks functions //
+    // --------------------------------------------------------------------------------
+   
     onMarkerClicked(marker) {
+        console.log(marker);
         switch(marker.type) {
         case 'A':
             var a = this.state.auxiliaries[marker.id];
@@ -75,6 +80,10 @@ class ServiceMap extends React.Component {
     onMapClicked(event) {
         console.log(event);
     }
+
+
+    // Rendering functions //
+    // --------------------------------------------------------------------------------
 
     _buildCenter() {
         return {

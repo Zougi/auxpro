@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
-
+// Core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
-
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import AuxiliaryInfos from './AuxiliaryInfos.jsx'
 import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import Person from 'components/common/entity/Person.jsx'
@@ -13,47 +14,48 @@ import APGauge from 'components-lib/charts/APGauge.jsx'
 import AsyncImage from 'lib/image/AsyncImage.jsx'
 import ImageUploader from 'lib/image/ImageUploader.jsx'
 
-
-class AuxiliaryEdit extends React.Component {
+class AuxiliaryEdit extends AuxiliaryBaseComponent {
 
 	constructor(props) {
 		super(props);
-		this.auxiliary = {};
-		this.state = {
-			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
+		this.state = this._buildState();
+	}
+
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
+	componentDidMount() {
+		StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
+	}
+	componentWillUnmount() {
+		StoreRegistry.unregister('AUXILIARY_STORE', this);
+	}
+	_onStoreUpdate() {
+		this.setState(this._buildState());
+	}
+	_buildState() {
+		return {
+			auxiliary: this.getAuxiliary()
 		};
 	}
 
-	componentDidMount() {
-	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
-    }
-    
-    componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);
-    }
-	
-	onStoreUpdate() {
-		this.setState({ 
-			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
-		});
-    }
-	
-	componentWillReceiveProps() {
-		this.auxiliary = {};
-	}
+
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
 
 	onAvatarChanged(avatar) {
-		this.auxiliary.avatar = avatar;
+		this.state.auxiliary.avatar = avatar;
 		this.setState({});
 	}
 	onPersonChanged(person) {
-		this.auxiliary.person = person;
+		this.state.auxiliary.person = person;
 	}
 	onContactChanged(contact) {
-		this.auxiliary.contact = contact;
+		this.state.auxiliary.contact = contact;
 	}
 	onInfosChanged(infos) {
-		this.auxiliary.infos = infos;
+		this.state.auxiliary.infos = infos;
 	}
 
 	saveProfile(event) {
@@ -76,7 +78,11 @@ class AuxiliaryEdit extends React.Component {
 		}.bind(this));
 	}
 
-	render() { 
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	render() {
 		return (
 		<Form horizontal>
 		{ !(this.state.auxiliary.profileCompleted) ?

@@ -49,6 +49,24 @@ export default class Utils {
 	}
 
 	/**
+	 * Clones an object if it is a javascript object.
+	 * @param {object} obj : the object ot clone
+	 * @returns {object} obj : the cloned copy
+	 */
+	static clone(obj) {
+		if (null === obj || 'object' != typeof obj || obj instanceof Image) {
+			return obj;
+		}
+		let copy = obj.constructor();
+		for (let attr in obj) {
+			if (obj.hasOwnProperty(attr)) {
+				copy[attr] = obj[attr];
+			}
+		}
+		return copy;
+	}
+
+	/**
      * 
 	 * @param {object} [obj1]
 	 * @param {object} [obj2]

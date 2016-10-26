@@ -49,7 +49,7 @@ class ServiceBaseComponent extends React.Component {
 	updateService(service) {
 		let args = this._getBaseArgs();
 		args.data = service;
-		return Dispatcher.issue('PUT_SERVICE', service);
+		return Dispatcher.issue('PUT_SERVICE', args);
 	}
 	getService() {
 		return this._getServiceData('/data/service');
