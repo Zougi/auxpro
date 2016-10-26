@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
-// core modules
+// Core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
-// cuistom components
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
 import Person from 'components/common/entity/Person.jsx'
 import Contact from 'components/common/entity/Contact.jsx'
@@ -11,29 +12,39 @@ import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
 import AsyncImage from 'lib/image/AsyncImage.jsx'
 import ImageUploader from 'lib/image/ImageUploader.jsx'
 
-
-class AuxiliaryProfile extends React.Component {
+class AuxiliaryProfile extends AuxiliaryBaseComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
-		};
+		this.state = this._buildState();
 	}
 
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
 	componentDidMount() {
-	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
+	}
+	componentWillUnmount() {
+		StoreRegistry.unregister('AUXILIARY_STORE', this);
+	}
+	_onStoreUpdate() {
+		this.setState(this._buildState());
     }
-    
-    componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);
+    _buildState() {
+    	return {
+    		auxiliary: this.getAuxiliary()
+    	}
     }
 	
-	onStoreUpdate() {
-		this.setState({ 
-			auxiliary: StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary')
-		});
-    }
+
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 	
 	render() { 
 		return (

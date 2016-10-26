@@ -1,18 +1,23 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap'
-
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import FormInput from 'components-lib/Form/FormInput.jsx'
 import FormSelect from 'components-lib/Form/FormSelect.jsx'
 import FormTextArea from 'components-lib/Form/FormTextArea.jsx'
-
+// Lib modules
 import StringValidator from 'utils/form/StringValidator.js'
 
-class AuxiliaryInfos extends React.Component {
+class AuxiliaryInfos extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
 		this.onComponentWillReceiveProps(props);
 	}
+
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
 
 	onComponentWillReceiveProps(props) {
 		this.infos = {};

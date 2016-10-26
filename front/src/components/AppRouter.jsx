@@ -25,7 +25,7 @@ import Documentation from 'documentation/Documentation.jsx'
 import Auxiliary from 'components/auxiliary/Auxiliary.jsx'
 import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome.jsx'
 import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
-import AuxiliaryEdit from 'components/auxiliary/edit/AuxiliaryEdit.jsx'
+import AuxiliaryProfileEdit from 'components/auxiliary/profile/AuxiliaryProfileEdit.jsx'
 import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
 import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning.jsx'
 import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer.jsx'
@@ -95,14 +95,14 @@ class AppRouter extends React.Component {
 						<Route path='home' component={AuxiliaryHome} />
 
 						<Route path='infos' component={AuxiliaryProfile} />
-						<Route path='edit' component={AuxiliaryEdit} />
+						<Route path='infos/edit' component={AuxiliaryProfileEdit} />
 
 						<Route path='planning' component={AuxiliaryPlaning} />
 
 						<Route path='zone' component={AuxiliaryMap} />
 
-						<Route path='offres' component={AuxiliaryOffers} />
-						<Route path='offres/:offerId' component={AuxiliaryOffer} />
+						<Route path='offers' component={AuxiliaryOffers} />
+						<Route path='offers/:offerId' component={AuxiliaryOffer} />
 					</Route>
 					
 					<Route path='guest' component={GuestHome} />

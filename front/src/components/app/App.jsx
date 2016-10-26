@@ -35,7 +35,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		StoreRegistry.register('APP_STORE/headers', this, this.onAppStoreHeadersUpdate.bind(this));
+		StoreRegistry.register('APP_STORE/app', this, this.onAppStoreAppUpdate.bind(this));
 		StoreRegistry.register('APP_STORE/path', this, this.onAppStorePathUpdate.bind(this));
 	}
 
@@ -43,7 +43,7 @@ class App extends React.Component {
 		StoreRegistry.unregister('APP_STORE', this);
 	}
 	
-	onAppStoreHeadersUpdate() {
+	onAppStoreAppUpdate() {
 		this.setState({ 
 			header: getHeader(),
 			subHeader: getSubHeader()

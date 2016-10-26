@@ -50,11 +50,11 @@ AppStore.onLogon = function (result, param) {
 					{ key: 0, link: '/aux/home', query: {}, name: 'Accueil' },
 					{ key: 1, name: 'Informations', dropdown: [
 						{ key: 1.1, link: '/aux/infos', query: {}, name: 'Voir mes informations' },
-						{ key: 1.2, link: '/aux/edit', query: {}, name: 'Modifier mes informations' }
+						{ key: 1.2, link: '/aux/infos/edit', query: {}, name: 'Modifier mes informations' }
 					]},
 					{ key: 2, link: '/aux/planning', query: {}, name: 'Planning' },
 					{ key: 3, link: '/aux/zone', query: {}, name: 'Zone' },
-					{ key: 4, link: '/aux/offres', query: {}, name: 'Offres' }
+					{ key: 4, link: '/aux/offers', query: {}, name: 'Offres' }
 				]
 			}
 		}
@@ -87,7 +87,7 @@ AppStore.onLogon = function (result, param) {
 	default:
 		break;
 	}
-	AppStore.notifyPath("/headers");
+	AppStore.notifyPath('/app');
 };
 Dispatcher.register('LOGON', AppStore.onLogon);
 
@@ -95,7 +95,7 @@ Dispatcher.register('LOGON', AppStore.onLogon);
 AppStore.onGetAuxiliary = function (result, param) {
 	if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'aux') {
 		AppStore._content.app.subHeader.disabled = !result.profileCompleted;
-		AppStore.notify();
+		AppStore.notifyPath('/app/subHeader/disabled');
 	}
 }
 Dispatcher.register('GET_AUXILIARY', AppStore.onGetAuxiliary);
