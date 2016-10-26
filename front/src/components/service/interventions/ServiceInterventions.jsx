@@ -70,7 +70,18 @@ class ServiceInterventions extends ServiceBaseComponent {
 	}
 	doDeleteIntervention() {
 		this.deleteIntervention(this.state.interventionToDelete).
-		this.cancelDeleteIntervention();
+		then(function () {
+			return this.loadInterventions();
+		}.bind(this)).
+		then(function () {
+			return this.loadCustomers();
+		}.bind(this)).
+		then(function () {
+			return this.loadAuxiliaries();
+		}.bind(this)).
+		then(function () {
+			this.cancelDeleteIntervention();
+		}.bind(this));
 	}
 	cancelDeleteIntervention() {
 		this.setState({

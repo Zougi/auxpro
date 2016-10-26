@@ -115,8 +115,13 @@ class ServiceBaseComponent extends React.Component {
 	getInterventions() {
 		return this._getServiceData('/data/interventions');
 	}
-	getIntervention(id) {
-		return this._getServiceData('/data/interventions/' + id);
+	getIntervention(interventionId) {
+		return this._getServiceData('/data/interventions/' + interventionId);
+	}
+	deleteIntervention(interventionId) {
+		let args = this._getBaseArgs();
+		args.interventionId = interventionId;
+		return Dispatcher.issue('DELETE_INTERVENTION', args);
 	}
 
 
