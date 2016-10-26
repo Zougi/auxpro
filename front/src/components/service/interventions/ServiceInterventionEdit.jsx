@@ -105,7 +105,7 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
         this.setState({ interventionMode: INTERVENTION_MODES[modeId] });
     }
     onOneTimeChanged(oneTime) {
-        this.state.intervention.oneTime = onTime;
+        this.state.intervention.oneTime = oneTime;
         this.forceUpdate();
     }
     onRecurenceChanged(recurence) {
