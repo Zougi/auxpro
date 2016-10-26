@@ -1,71 +1,72 @@
-import React from 'react';
-import { Panel } from 'react-bootstrap';
-import { Col, Row, ITable } from 'lib/Lib.jsx';
-
-import StoreRegistry from 'core/StoreRegistry';
-
+import React from 'react'
+import { Panel } from 'react-bootstrap'
+import { Col, Row, ITable } from 'lib/Lib.jsx'
+// Core modules
+import StoreRegistry from 'core/StoreRegistry'
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import AsyncImage from 'lib/image/AsyncImage.jsx'
-import ImageUploader from 'lib/image/ImageUploader.jsx'
 
-class AuxiliaryHeader extends React.Component {
+class AuxiliaryHeader extends AuxiliaryBaseComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = { src: null };
+		this.state = this._buildState();
 	}
 
-	componentWillReceiveProps(props) {
-		this.setState({ src: null });
-	}
 
-	updateImage(id) {
-		this.setState({ src: id });
-		if (this.props.onAvatarChanged) {
-			this.props.onAvatarChanged(id);
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
+	componentDidMount() {
+	 	StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
+	}
+	componentWillUnmount() {
+		StoreRegistry.unregister('AUXILIARY_STORE', this);
+	}
+	_onStoreUpdate() {
+		this.setState(this._buildState());
+	}
+	_buildState() {
+		return {
+			auxiliary: this.getAuxiliary()
 		}
 	}
 
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
 	_buildTable() {
-		let person = this.props.storeData.data.auxiliary.person;
-		let user   = this.props.storeData.data.auxiliary.user;
-		let infos  = this.props.storeData.data.auxiliary.infos;
 		return [
 			[
 				{ th: 'Civilité' },
-				{ td: person ? person.civility : '' }
+				{ td: this.state.auxiliary.person.civility }
 			],
 			[
 				{ th: 'Nom'},
-				{ td: person ? (person.firstName + ' ' + person.lastName) : '' }
+				{ td: this.state.auxiliary.person.firstName + ' ' + this.state.auxiliary.person.lastName }
 			],
 			[
 				{th: 'Adresse electronique' },
-				{td: user ? user.email : '' }
+				{td: this.state.auxiliary.contact.email }
 			],
 			[
 				{th: 'Diplome' },
-				{td: infos ? infos.diploma : '' }
+				{td: this.state.auxiliary.infos.diploma }
 			]
 		];
 	}
 
-	render() {
-		return(	
-			<Panel>
-				<Col sm={4}>
-					<AsyncImage src={this.state.src || this.props.storeData.data.auxiliary.user.avatar} width={200} height={200}/>
-					{this.props.edit ? 
-						<ImageUploader onUploadComplete={this.updateImage.bind(this)}/>
-					:
-						''
-					}
-				</Col>
-				<Col sm={8}>
-					<ITable rows={this._buildTable()} bordered striped hover fill/>
-				</Col>
-			</Panel>
-		);
-	}
+	render() { return(
+		<Panel>
+			<Col sm={4}>
+				<AsyncImage src={this.state.auxiliary.user.avatar} width={200} height={200}/>
+			</Col>
+			<Col sm={8}>
+				<ITable rows={this._buildTable()} bordered striped hover fill/>
+			</Col>
+		</Panel>
+	);}
 }
-
 export default AuxiliaryHeader;

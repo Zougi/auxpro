@@ -27,9 +27,9 @@ ServiceStore.getService = function (id) {
 /* ACTION LISTENERS */
 //------------------------------------------------------------
 
-// ROUTER_CHANGED
+// NAVIGATE
 ServiceStore.navigate = function (result, param) {
-	if (result === '/home/edit') {
+	if (result === '/sad/infos/edit') {
 		ServiceStore.getContent().display.home.showUserHeader = false;
 	} else {
 		ServiceStore.getContent().display.home.showUserHeader = true;

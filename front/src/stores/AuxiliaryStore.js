@@ -26,9 +26,9 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 /* ACTIONS CALLBACKS */
 //------------------------------------------------------------
 
-// ROUTER_CHANGED
+// NAVIGATE
 AuxiliaryStore.navigate = function (result, param) {
-	if (result === '/aux/edit') {
+	if (result === '/aux/infos/edit') {
 		AuxiliaryStore.getContent().display.home.showUserHeader = false;
 	} else {
 		AuxiliaryStore.getContent().display.home.showUserHeader = true;

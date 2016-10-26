@@ -24,20 +24,20 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	componentDidMount() {
-	 	StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
+		StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
 	}
 	componentWillUnmount() {
 		StoreRegistry.unregister('AUXILIARY_STORE', this);
 	}
 	_onStoreUpdate() {
 		this.setState(this._buildState());
-    }
-    _buildState() {
-    	return {
-    		auxiliary: this.getAuxiliary()
-    	}
-    }
-	
+	}
+	_buildState() {
+		return {
+			auxiliary: this.getAuxiliary()
+		}
+	}
+
 
 	// Callbacks functions //
 	// --------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 	
-	render() { 
+	render() {
 		return (
 		<Row>
 			<Form horizontal>
@@ -104,4 +104,3 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 	}
 }
 export default AuxiliaryProfile;
-
