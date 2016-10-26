@@ -49,7 +49,7 @@ class AuxiliaryBaseComponent extends React.Component {
 	getAuxiliary() {
 		return this._getAuxiliaryData('/data/auxiliary');
 	}
-	updateService(auxiliary) {
+	updateAuxiliary(auxiliary) {
 		let args = this._getBaseArgs();
 		args.data = auxiliary;
 		return Dispatcher.issue('PUT_AUXILIARY', args);
