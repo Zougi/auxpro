@@ -1,34 +1,42 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap'
 import { Col, Row} from 'lib/Lib.jsx';
-
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import StoreRegistry from 'core/StoreRegistry';
 
-class AuxiliaryHome extends React.Component {
+class AuxiliaryHome extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
-		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
-		this.state = { 
-			profileCompleted: data.auxiliary.profileCompleted
-		};
+		this.state = this._buildState();
 	}
-	
+
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
 	componentDidMount() {
-	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
-    }
-    
-    componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);
-    }
-	
+		StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+	}
+
+	componentWillUnmount() {
+		StoreRegistry.unregister('AUXILIARY_STORE', this);
+	}
 	onStoreUpdate() {
-		var data = StoreRegistry.getStore('AUXILIARY_STORE').getData('/data');
-		this.setState({ 
-			profileCompleted: data.auxiliary.profileCompleted
-		});
-    }
-	render() { 
+		this.setState(this._buildState());
+	}
+	_buildState() {
+		return {
+			profileCompleted: this.getAuxiliary().profileCompleted
+		}
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	render() {
 		return(
 			<Row>
 				<Col sm={12}>

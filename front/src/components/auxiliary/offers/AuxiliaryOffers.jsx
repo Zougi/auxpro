@@ -18,19 +18,20 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		this.state.offersFilter = '';
 	}
 	
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
 	componentDidMount() {
-	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
-    }
-    
-    componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);
-    }
-	
+		StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
+	}
+	componentWillUnmount() {
+		StoreRegistry.unregister('AUXILIARY_STORE', this);
+	}
 	onStoreUpdate() {
 		this.setState(this._buildState());
-    }
-
-    _buildState() {
+	}
+	_buildState() {
 		return {
 			customers: this.getCustomers(),
 			interventions: this.getInterventions(),
@@ -38,6 +39,10 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 			services: this.getServices()
 		}
 	}
+
+
+	// View callbacks //
+	// --------------------------------------------------------------------------------
 
 	onOffersFilter(status) {
 		return function() {
@@ -60,7 +65,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		});
 	}
 	onOfferView(offer) {
-		this.context.router.push('/aux/offres/' + offer.id);
+		this.context.router.push('/aux/offers/' + offer.id);
 	}
 
 	onAccept() {
@@ -77,15 +82,19 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 
 	_updateOffer(offer) {
 		offer.status = this.state.offerStatus;
-        this.updateOffer(offer).
-        then(function () {
-        	this.onCancel();
-        }.bind(this)).
-        catch(function (error) {
-        	offer.status = 'PENDING';
-        	console.log(error);
-        });
+		this.updateOffer(offer).
+		then(function () {
+			this.onCancel();
+		}.bind(this)).
+		catch(function (error) {
+			offer.status = 'PENDING';
+			console.log(error);
+		});
 	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	_buildOffers() {
 		let offers = Utils.filter(this.state.offers || [], this._filterOffer.bind(this));
@@ -94,8 +103,8 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		for (let i = 0; i < l; i++) {
 			let offer = offers[i];
 			result.push(
-				<AuxiliaryOfferSummary 
-					key={offer.id} 
+				<AuxiliaryOfferSummary
+					key={offer.id}
 					service={this.state.services[offer.serviceId]}
 					customer={this.state.customers[offer.customerId]}
 					intervention={this.state.interventions[offer.interventionId]}
@@ -120,41 +129,41 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		return true;
 	}
 
-	render() { 
+	render() {
 		return (
 			<div>
 				<Panel header='Offres en cours'>
 					<Row style={{textAlign:'center'}}>
 						<ButtonGroup>
-						    <APButton bsStyle='primary' onClick={this.onOffersFilter('').bind(this)} text='Toutes' />
-						    <APButton bsStyle='info' onClick={this.onOffersFilter('PENDING').bind(this)} text='En attente' />
-						    <APButton bsStyle='success' onClick={this.onOffersFilter('ACCEPTED').bind(this)} text='Acceptées' />
-						    <APButton bsStyle='danger' onClick={this.onOffersFilter('REJECTED').bind(this)} text='Rejetées' />
-						    <APButton onClick={this.onOffersFilter('EXPIRED').bind(this)} text='Expirées' />
+							<APButton bsStyle='primary' onClick={this.onOffersFilter('').bind(this)} text='Toutes' />
+							<APButton bsStyle='info' onClick={this.onOffersFilter('PENDING').bind(this)} text='En attente' />
+							<APButton bsStyle='success' onClick={this.onOffersFilter('ACCEPTED').bind(this)} text='Acceptées' />
+							<APButton bsStyle='danger' onClick={this.onOffersFilter('REJECTED').bind(this)} text='Rejetées' />
+							<APButton onClick={this.onOffersFilter('EXPIRED').bind(this)} text='Expirées' />
 						</ButtonGroup>
 					</Row>
-					<br/>
-	            	{this._buildOffers()}
-	        	</Panel>
-	        	<DialogConfirmation
-                    show={this.state.confirmAccept}
-                    title="Accepter l'offre"
-                    onConfirm={this.onAccept.bind(this)}
-                    confirmStyle='success'
-                    confirmText='Accepter'
-                    onCancel={this.onCancel.bind(this)}
-                    cancelStyle='default'
-                    cancelText='Annuler' />
-                <DialogConfirmation
-                    show={this.state.confirmReject}
-                    title="Rejeter l'offre"
-                    onConfirm={this.onAccept.bind(this)}
-                    confirmStyle='danger'
-                    confirmText='Rejeter'
-                    onCancel={this.onCancel.bind(this)}
-                    cancelStyle='default'
-                    cancelText='Annuler' />
-	        </div>
+				<br/>
+				{this._buildOffers()}
+				</Panel>
+				<DialogConfirmation
+					show={this.state.confirmAccept}
+					title="Accepter l'offre"
+					onConfirm={this.onAccept.bind(this)}
+					confirmStyle='success'
+					confirmText='Accepter'
+					onCancel={this.onCancel.bind(this)}
+					cancelStyle='default'
+					cancelText='Annuler' />
+				<DialogConfirmation
+					show={this.state.confirmReject}
+					title="Rejeter l'offre"
+					onConfirm={this.onAccept.bind(this)}
+					confirmStyle='danger'
+					confirmText='Rejeter'
+					onCancel={this.onCancel.bind(this)}
+					cancelStyle='default'
+					cancelText='Annuler' />
+			</div>
 		);
 	}
 }

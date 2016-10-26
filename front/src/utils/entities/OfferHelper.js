@@ -1,16 +1,20 @@
 
 let STATUS = {
 	ACCEPTED: {
-		bsStyle: 'success'
+		bsStyle: 'success',
+		title: 'Offre acceptée'
 	},
 	REJECTED: {
-		bsStyle: 'danger'
+		bsStyle: 'danger',
+		title: 'Offre rejetée'
 	},
 	PENDING: {
-		bsStyle: 'info'
+		bsStyle: 'info',
+		title: 'Offre en attente'
 	},
 	EXPIRED: {
-		bsStyle: 'default'
+		bsStyle: 'default',
+		title: 'Offre expirée'
 	}
 }
 
@@ -20,6 +24,13 @@ export default class OfferHelper {
 		let s = STATUS[status];
 		if (s) {
 			return STATUS[status].bsStyle;
+		} 
+	}
+
+	static getTitle(status) {
+		let s = STATUS[status];
+		if (s) {
+			return STATUS[status].title;
 		} 
 	}
 }

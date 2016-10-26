@@ -13,8 +13,6 @@ class AuxiliaryGeoPanel extends React.Component {
 		super(props);
 	}
 
-	
-
 	render() {
 		return (
 			<Panel header="Nouvelle zone d'intervention">

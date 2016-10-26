@@ -4,12 +4,17 @@ import { Panel, Col } from 'react-bootstrap';
 import PanelHeaderAction from 'components-lib/PanelHeaderAction/PanelHeaderAction.jsx'
 // Utils
 import MomentHelper from 'utils/moment/MomentHelper.js'
+import OfferHelper from 'utils/entities/OfferHelper.js'
 
 class AuxiliaryOfferSummary extends React.Component {
 	
 	constructor(props) {
 		super(props);
 	}
+
+
+	// View callbacks //
+	// --------------------------------------------------------------------------------
 
 	onAccept() {
 		if (this.props.onAccept) {
@@ -27,6 +32,10 @@ class AuxiliaryOfferSummary extends React.Component {
 		}
 	}
 
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
 	_buildActions() {
 		let actions = [];
 		actions .push({ 
@@ -35,35 +44,19 @@ class AuxiliaryOfferSummary extends React.Component {
 			glyph: 'search', 
 			callback: this.onView.bind(this)
 		});
-		switch (this.props.offer.status) {
-			case 'PENDING':
-				actions .push({ 
-					tooltip: 'Accepter offre',
-					bsStyle: 'success', 
-					glyph: 'ok', 
-					callback: this.onAccept.bind(this)
-				});
-				actions .push({ 
-					tooltip: 'Décliner intervention',
-					bsStyle: 'danger', 
-					glyph: 'remove', 
-					callback: this.onReject.bind(this) 
-				});
-				this.title = 'Offre en attente';
-				this.bsStyle = 'info';
-				break;
-			case 'ACCEPTED':
-				this.title = 'Offre acceptée';
-				this.bsStyle = 'success';
-				break;
-			case 'REJECTED':
-				this.title = 'Offre rejetée';
-				this.bsStyle = 'danger';
-				break;
-			case 'EXPIRED':
-				this.title = 'Offre expirée';
-				this.bsStyle = 'default';
-				break;
+		if (this.props.offer.status === 'PENDING') {
+			actions .push({ 
+				tooltip: 'Accepter offre',
+				bsStyle: 'success', 
+				glyph: 'ok', 
+				callback: this.onAccept.bind(this)
+			});
+			actions .push({ 
+				tooltip: 'Décliner intervention',
+				bsStyle: 'danger', 
+				glyph: 'remove', 
+				callback: this.onReject.bind(this) 
+			});
 		}
 		return actions;
 	}
@@ -71,7 +64,7 @@ class AuxiliaryOfferSummary extends React.Component {
 	render() {
 		return (
 			<Col sm={6} md={4}>
-				<PanelHeaderAction bsStyle={this.bsStyle} title={this.title} actions={this._buildActions()}>
+				<PanelHeaderAction bsStyle={OfferHelper.getBsStyle(this.props.offer.status)} title={OfferHelper.getTitle(this.props.offer.status)} actions={this._buildActions()}>
 					<div>{'Service: ' + this.props.service.society}</div>
 					<div>{'Client: ' + this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}</div>
 					{ this.props.intervention.oneTime ?

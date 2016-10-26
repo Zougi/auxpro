@@ -7,7 +7,7 @@ import StoreRegistry from 'core/StoreRegistry';
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import { APButton } from 'lib/Lib.jsx';
 //
-import OffersHelper from 'components/common/offers/OffersHelper.js'
+import OfferHelper from 'utils/entities/OfferHelper.js'
 import MomentHelper from 'utils/moment/MomentHelper.js'
 
 class AuxiliaryOffer extends AuxiliaryBaseComponent {
@@ -17,7 +17,9 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		this.state = this._buildState();
 	}
 
+
 	// State Management functions //
+	// --------------------------------------------------------------------------------
 
 	componentDidMount() {
 	 	StoreRegistry.register('AUXILIARY_STORE', this, this._onStoreUpdate.bind(this));
@@ -40,7 +42,9 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		}
 	}
 
-	// Control callbacks //
+
+	// View callbacks //
+	// --------------------------------------------------------------------------------
 
 	acceptOffer() {
 		this.state.offer.status = 'ACCEPTED';
@@ -63,11 +67,14 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	_onClose() {
-		this.context.router.push('/aux/offres');
+		this.context.router.push('/aux/offers');
 	}
 
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
 	render() { 
-		console.log(OffersHelper.getBsStyle(this.state.offer.status))
 		return (
 		<div>
 			<br/>
@@ -77,7 +84,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 				</APButton>
 				<br/>
 				<br/>
-				<Panel bsStyle={OffersHelper.getBsStyle(this.state.offer.status)} header="Détails de l'offre">
+				<Panel bsStyle={OfferHelper.getBsStyle(this.state.offer.status)} header="Détails de l'offre">
 					{ this.state.intervention.oneTime ?
 						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>
 					:

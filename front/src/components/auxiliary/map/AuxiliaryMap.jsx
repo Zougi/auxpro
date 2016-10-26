@@ -34,6 +34,10 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		this.state.geoMode = GEO_MODES.VIEW;
 	}
 
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
 	componentDidMount() {
 		StoreRegistry.register('AUXILIARY_STORE/data', this, this._onStoreUpdate.bind(this));
 	}
@@ -55,17 +59,15 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		}
 	}
 
-	_buildCenter() {
-		return {
-			lattitude: Number(this.state.auxiliary.contact.address.lattitude),
-			longitude: Number(this.state.auxiliary.contact.address.longitude)
-		};
-	}
+
+	// View callbacks //
+	// --------------------------------------------------------------------------------
 	
 	onMarkerClicked(marker) {
-		this.setState({ 	info: marker,
-								geoMode: GEO_MODES.VIEW
-							});
+		this.setState({
+			info: marker,
+			geoMode: GEO_MODES.VIEW
+		});
 	}
 
 	onMapClicked(event) {
@@ -77,6 +79,115 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				}	 
 			});
 		}
+	}
+
+	resetGeozone() {
+		this.setState({ geozone: null });
+	}
+
+	onGeozoneChanged(geozone) {
+		this.setState({ geozone: geozone });
+	}
+	onCreateGeozone(geozone) {
+		this.createGeozone(geozone).
+		then(function () {
+			this.resetGeozone();
+		}.bind(this)).
+		catch(function () {
+			console.log('ERROR WHILE CREATING GEOZONE')
+		})
+	}
+	
+	onChangeZonePanel(change) {
+		this.setState({ 
+			geozone: {
+				lattitude: Number(change.address.lattitude),
+				longitude: Number(change.address.longitude),
+				radius: change.radius
+			} 
+		});
+	}
+	
+	validZone(change) {
+		console.log(change)
+		this.createGeozone({
+			lattitude: change.address.lattitude,
+			longitude: change.address.lattitude,
+			radius: change.radius
+		});
+	}
+	
+	getZonePanel() {
+		return (
+			<AuxiliaryAddZone 
+			onChange={this.onChangeZonePanel.bind(this)}
+			defaultLocation={this.state.geozone}
+			valid={this.validZone.bind(this)} />
+		);
+	}
+	
+	getCityPanel() {
+		return (
+			<AuxiliaryGeozoneEdit
+				geozone={this.state.geozone}
+				onLiveChange={this.onGeozoneChanged.bind(this)}
+				onCreate={this.onCreateGeozone.bind(this)}
+				onCancel={this.resetGeozone.bind(this)}/>
+		);
+	}
+	
+	getInformationsPanel() {		
+		if (this.state.info) {
+			 return (
+				<Panel bsStyle={this.state.info.bsStyle} header={this.state.info.header}>
+					{this.state.info.name}
+					<br/>
+					{this.state.info.address1}
+					<br/>
+					{this.state.info.address2}
+					<br/>
+				</Panel>
+			);
+		}
+	}
+	
+	getPanel() {
+		if(this.state.geoMode == GEO_MODES.CITY) {
+			return this.getCityPanel();
+		} else if(this.state.geoMode == GEO_MODES.ZONE) {
+			return this.getZonePanel();
+		} else if(this.state.geoMode == GEO_MODES.VIEW) {
+			return this.getInformationsPanel();
+		}
+	}
+	
+	changeCityMode() {
+		if (this.state.geoMode != GEO_MODES.VIEW)
+			this.setState({ geozone: null });
+		if (this.state.geoMode == GEO_MODES.CITY)
+			this.setState({ geoMode: GEO_MODES.VIEW });
+		else
+			this.setState({ geoMode: GEO_MODES.CITY });
+	}
+	
+	changeZoneMode() {
+		if (this.state.geoMode != GEO_MODES.VIEW)
+			this.setState({ geozone: null });
+		if (this.state.geoMode == GEO_MODES.ZONE)
+			this.setState({ geoMode: GEO_MODES.VIEW });
+		else
+			this.setState({ geoMode: GEO_MODES.ZONE });
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	_buildCenter() {
+		return {
+			lattitude: Number(this.state.auxiliary.contact.address.lattitude),
+			longitude: Number(this.state.auxiliary.contact.address.longitude)
+		};
 	}
 
 	_buildMarkers() {
@@ -191,104 +302,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		return result;	
 	}
 
-	resetGeozone() {
-		this.setState({ geozone: null });
-	}
-
-	onGeozoneChanged(geozone) {
-		this.setState({ geozone: geozone });
-	}
-	onCreateGeozone(geozone) {
-		this.createGeozone(geozone).
-		then(function () {
-			this.resetGeozone();
-		}.bind(this)).
-		catch(function () {
-			console.log('ERROR WHILE CREATING GEOZONE')
-		})
-	}
-	
-	onChangeZonePanel(change) {
-		this.setState({ 
-			geozone: {
-				lattitude: Number(change.address.lattitude),
-				longitude: Number(change.address.longitude),
-				radius: change.radius
-			} 
-		});
-	}
-	
-	validZone(change) {
-		console.log(change)
-		this.createGeozone({
-			lattitude: change.address.lattitude,
-			longitude: change.address.lattitude,
-			radius: change.radius
-		});
-	}
-	
-	getZonePanel() {
-		return (
-			<AuxiliaryAddZone 
-			onChange={this.onChangeZonePanel.bind(this)}
-			defaultLocation={this.state.geozone}
-			valid={this.validZone.bind(this)} />
-		);
-	}
-	
-	getCityPanel() {
-		return (
-			<AuxiliaryGeozoneEdit
-				geozone={this.state.geozone}
-				onLiveChange={this.onGeozoneChanged.bind(this)}
-				onCreate={this.onCreateGeozone.bind(this)}
-				onCancel={this.resetGeozone.bind(this)}/>
-		);
-	}
-	
-	getInformationsPanel() {		
-		if (this.state.info) {
-			 return (
-				<Panel bsStyle={this.state.info.bsStyle} header={this.state.info.header}>
-					{this.state.info.name}
-					<br/>
-					{this.state.info.address1}
-					<br/>
-					{this.state.info.address2}
-					<br/>
-				</Panel>
-			);
-		}
-	}
-	
-	getPanel() {
-		if(this.state.geoMode == GEO_MODES.CITY) {
-			return this.getCityPanel();
-		} else if(this.state.geoMode == GEO_MODES.ZONE) {
-			return this.getZonePanel();
-		} else if(this.state.geoMode == GEO_MODES.VIEW) {
-			return this.getInformationsPanel();
-		}
-	}
-	
-	changeCityMode() {
-		if (this.state.geoMode != GEO_MODES.VIEW)
-			this.setState({ geozone: null });
-		if (this.state.geoMode == GEO_MODES.CITY)
-			this.setState({ geoMode: GEO_MODES.VIEW });
-		else
-			this.setState({ geoMode: GEO_MODES.CITY });
-	}
-	
-	changeZoneMode() {
-		if (this.state.geoMode != GEO_MODES.VIEW)
-			this.setState({ geozone: null });
-		if (this.state.geoMode == GEO_MODES.ZONE)
-			this.setState({ geoMode: GEO_MODES.VIEW });
-		else
-			this.setState({ geoMode: GEO_MODES.ZONE });
-	}
-	
 	render() {
 		return (
 			<Panel header="Mes zones d'intervention">
