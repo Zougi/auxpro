@@ -70,7 +70,7 @@ AppStore.onLogon = function (result, param) {
 				]
 			},
 			subHeader: {
-				disabled: false,
+				disabled: true,
 				leftContent: [
 					{ key: 0, link: '/sad/home', query: {}, name: 'Accueil' },
 					{ key: 1, name: 'Informations', dropdown: [
@@ -100,6 +100,16 @@ AppStore.onGetAuxiliary = function (result, param) {
 }
 Dispatcher.register('GET_AUXILIARY', AppStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AppStore.onGetAuxiliary);
+
+// GET_SERVICE - PUT_SERVICE
+AppStore.onGetService = function (result, param) {
+	if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'sad') {
+		AppStore._content.app.subHeader.disabled = !result.profileCompleted;
+		AppStore.notifyPath('/app/subHeader/disabled');
+	}
+}
+Dispatcher.register('GET_SERVICE', AppStore.onGetService);
+Dispatcher.register('PUT_SERVICE', AppStore.onGetService);
 
 // LOGOUT
 AppStore.onLogout = function (result, param) {

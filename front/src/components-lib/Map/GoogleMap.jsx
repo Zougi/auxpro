@@ -21,7 +21,7 @@ class GoogleMap extends React.Component {
 		this.mapListener;
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		let center = new google.maps.LatLng(
 			this.props.center.lattitude,
 			this.props.center.longitude
@@ -31,7 +31,8 @@ class GoogleMap extends React.Component {
 			center: center,
 			zoom: 12,
 			streetViewControl: this.props.streetView || false,
-			mapTypeControlOptions: { mapTypeIds: this.props.mapTypes || [] }
+			mapTypeControlOptions: { mapTypeIds: this.props.mapTypes || [] },
+			clickableIcons: this.props.clickableIcons ? true : false
 		}
 
 		this.mapHelper = new GoogleMapHelper(this.mapDiv, mapOptions);

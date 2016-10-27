@@ -42,6 +42,10 @@ class Service extends ServiceBaseComponent {
 			this.setState({ dataLoaded: true });
 			console.log('==== DONNES INITIALE DU SERVICE ====');
 			console.log(StoreRegistry.getStore('SERVICE_STORE').getData());
+			if (!this.getServiceData('/data/service/profileCompleted')) {
+				Dispatcher.issue('NAVIGATE', { path: '/sad/infos/edit' });
+				return;
+			}
 			if (!this.getServiceData('/data/service/user/tutoSkipped')) {
 				Dispatcher.issue('NAVIGATE', { path: '/sad/tuto' });
 				return;

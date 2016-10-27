@@ -48,6 +48,7 @@ public class AuxiliaryBean extends MongoEntity {
 	public boolean getProfileCompleted() {
 		return (
 			getPerson().isCompleted() &&
+			getInfos().isCompleted() &&
 			getContact().isCompleted() &&
 			getSkills().isCompleted() &&
 			(getGeoZones() != null && getGeoZones().length > 0)			

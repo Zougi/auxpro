@@ -41,15 +41,12 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	componentDidMount() {
 		StoreRegistry.register('AUXILIARY_STORE/data', this, this._onStoreUpdate.bind(this));
 	}
-
 	componentWillUnmount() {
 		StoreRegistry.unregister('AUXILIARY_STORE', this);
 	}
-
 	_onStoreUpdate() {
 		this.setState(this._buildState());
 	}
-
 	_buildState() {
 		return {
 			auxiliary: this.getAuxiliary(),
@@ -60,7 +57,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 
-	// View callbacks //
+	// Callbacks functions //
 	// --------------------------------------------------------------------------------
 	
 	onMarkerClicked(marker) {
@@ -120,9 +117,9 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	getZonePanel() {
 		return (
 			<AuxiliaryAddZone 
-			onChange={this.onChangeZonePanel.bind(this)}
-			defaultLocation={this.state.geozone}
-			valid={this.validZone.bind(this)} />
+				onChange={this.onChangeZonePanel.bind(this)}
+				defaultLocation={this.state.geozone}
+				valid={this.validZone.bind(this)} />
 		);
 	}
 	
@@ -152,31 +149,35 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 	
 	getPanel() {
-		if(this.state.geoMode == GEO_MODES.CITY) {
+		if(this.state.geoMode === GEO_MODES.CITY) {
 			return this.getCityPanel();
-		} else if(this.state.geoMode == GEO_MODES.ZONE) {
+		} else if(this.state.geoMode === GEO_MODES.ZONE) {
 			return this.getZonePanel();
-		} else if(this.state.geoMode == GEO_MODES.VIEW) {
+		} else if(this.state.geoMode === GEO_MODES.VIEW) {
 			return this.getInformationsPanel();
 		}
 	}
 	
 	changeCityMode() {
-		if (this.state.geoMode != GEO_MODES.VIEW)
+		if (this.state.geoMode !== GEO_MODES.VIEW) {
 			this.setState({ geozone: null });
-		if (this.state.geoMode == GEO_MODES.CITY)
+		}
+		if (this.state.geoMode === GEO_MODES.CITY) {
 			this.setState({ geoMode: GEO_MODES.VIEW });
-		else
+		} else {
 			this.setState({ geoMode: GEO_MODES.CITY });
+		}
 	}
 	
 	changeZoneMode() {
-		if (this.state.geoMode != GEO_MODES.VIEW)
+		if (this.state.geoMode !== GEO_MODES.VIEW) {
 			this.setState({ geozone: null });
-		if (this.state.geoMode == GEO_MODES.ZONE)
+		}
+		if (this.state.geoMode === GEO_MODES.ZONE) {
 			this.setState({ geoMode: GEO_MODES.VIEW });
-		else
+		} else {
 			this.setState({ geoMode: GEO_MODES.ZONE });
+		}
 	}
 
 

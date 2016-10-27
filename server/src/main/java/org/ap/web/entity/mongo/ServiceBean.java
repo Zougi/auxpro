@@ -36,4 +36,14 @@ public class ServiceBean extends MongoEntity {
 	
 	public String getSiret() { return siret; }
 	public void setSiret(String siret) { this.siret = siret; }
+	
+	public boolean getProfileCompleted() {
+		return (
+			getContact().isCompleted() &&
+			society != null &&
+			social != null &&
+			siret != null
+		);
+	}
+	public void setProfileCompleted(boolean profileCompleted) {}
 }

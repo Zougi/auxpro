@@ -3,7 +3,10 @@ package org.ap.web.entity.mongo;
 import org.ap.web.entity.MongoEntity;
 import org.ap.web.internal.annotation.MongoObject;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @MongoObject
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class AuxiliaryInfoBean extends MongoEntity {
 	
 	private boolean entrepeneur;
@@ -24,4 +27,12 @@ public class AuxiliaryInfoBean extends MongoEntity {
 	public String getDescription() { return description; }
 	public void setDescription(String description) { this.description = description; }
 
+	/* ADDITIONNAL METHODS */
+	
+	public boolean isCompleted() {
+		return (
+			getDescription() != null
+		);
+	}
+	public void setCompleted() {}
 }

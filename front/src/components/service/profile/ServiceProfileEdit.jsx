@@ -72,6 +72,17 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 
 	render() { return(
 		<Form horizontal>
+		{ !(this.state.service.profileCompleted) ?
+			<Row>
+				<Col sm={12}>
+					<Panel bsStyle='danger' header='Statut profil'>
+						<p>Votre profil est incomplet.</p>
+						<p>Vous devez compléter votre profil afin de pouvoir utiliser nos services.</p>
+						<p>Veuillez remplir les informations obligatoires ci-dessous.</p>
+					</Panel>
+				</Col>
+			</Row>
+		: '' }
 			<Row>
 				<Button block bsStyle='success' onClick={this.onSaveProfile.bind(this)}>Enregistrer modifications</Button>
 			</Row>

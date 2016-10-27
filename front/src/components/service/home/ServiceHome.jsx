@@ -29,6 +29,7 @@ class ServiceHome extends ServiceBaseComponent {
 	}
 	_buildState() {
 		return {
+			profileCompleted: this.getService().profileCompleted,
 			service: this.getService(),
 			auxiliaries: Utils.map(this.getAuxiliaries()),
 			customers: Utils.map(this.getCustomers()),
@@ -47,6 +48,15 @@ class ServiceHome extends ServiceBaseComponent {
 
 	render() { return(
 		<Row>
+		{ (this.state.profileCompleted) ?
+			<Panel bsStyle='success' header='Statut profil'>
+				Votre profil est actif.
+			</Panel>
+		:
+			<Panel bsStyle='danger' header='Statut profil'>
+				Votre profil est incomplet.
+			</Panel>
+		}
 			<Panel>
 				<Col sm={6} md={4}>
 					<Panel header='Clients'>
