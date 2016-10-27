@@ -18,11 +18,14 @@ class Land extends React.Component {
 	// --------------------------------------------------------------------------------
 
 	onPostalCodeChanged(value) {
-		console.log(value);
+		this.postalCode = value;
 	}
 	onGuestLogin(event) {
 		event.preventDefault();
-		Dispatcher.issue('NAVIGATE', { path: '/guest' });
+		Dispatcher.issue('GUEST_FILTER_SERVICES', { postalCode: this.postalCode }).
+		then(function () {
+			Dispatcher.issue('NAVIGATE', { path: '/guest' });
+		})
 	}
 	onRegisterAux(event) {
 		event.preventDefault();

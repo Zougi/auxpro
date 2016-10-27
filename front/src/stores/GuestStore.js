@@ -4,13 +4,20 @@ import StoreRegistry from 'core/StoreRegistry';
 
 function getDefaultContent() {
 	return { 
-		data: {
-			services: {},
-			servicesList: [],
-			servicesLoaded: false
-		} 
+		data: getDefaultDataContent(),
+		display: {
+			postalCode: null
+		}
 	};
 };
+
+function getDefaultDataContent() {
+	return {
+		services: {},
+		servicesList: [],
+		servicesLoaded: false
+	}
+}
 
 var GuestStore = new StoreBase ({ 
 	name: 'GUEST_STORE',
@@ -29,8 +36,7 @@ Dispatcher.register('LOGOUT', GuestStore.onLogout);
 
 // GET SERVICES
 GuestStore.onGetServices = function (result, param) {
-	console.log('guest store receiving')
-	GuestStore.setContent(getDefaultContent());
+	GuestStore._content.data = getDefaultDataContent();
 	let l = result.length;
 	for (let i = 0; i < l; i++) {
 		let serv = result[i];
@@ -44,5 +50,12 @@ GuestStore.onGetServices = function (result, param) {
 	GuestStore.notify();
 };
 Dispatcher.register('GET_SERVICES', GuestStore.onGetServices);
+
+// GUEST_FILTER_SERVICES
+GuestStore.onFilterServices = function (result, param) {
+	GuestStore._content.display.postalCode = param.postalCode;
+	GuestStore.notifyPath('/display/postalCode');
+};
+Dispatcher.register('GUEST_FILTER_SERVICES', GuestStore.onFilterServices);
 
 export default GuestStore;

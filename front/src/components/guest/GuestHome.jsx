@@ -39,14 +39,26 @@ class GuestHome extends GuestBaseComponent {
 		StoreRegistry.unregister('GUEST_STORE', this);
 	}
 	_onStoreUpdate() {
-		this.setState({ postalCode: this.getGuestData('/display/postalCode') });
+		this.setState(this._buildState());
 	}
 	_buildState() {
+		console.log('notify')
 		return {
 			postalCode: this.getGuestData('/display/postalCode'),
 		}
 	}
-	
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------	
+
+	_buildServices() {
+		return Utils.map(this.getServices()).filter(function(service) {
+			if (this.state.postalCode) {
+				return service.contact.address.postalCode === Number(this.state.postalCode);
+			}
+			return true;
+		}.bind(this));
+	}
 
 	render() {
 		if (!this.state.dataLoaded) {
@@ -54,7 +66,7 @@ class GuestHome extends GuestBaseComponent {
 		}
 		return(
 			<div className='container'>
-				<ServicesBox services={Utils.map(this.getServices())} />
+				<ServicesBox services={this._buildServices()} />
 			</div>
 		);
 	}
