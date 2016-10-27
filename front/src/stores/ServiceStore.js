@@ -29,7 +29,7 @@ ServiceStore.getService = function (id) {
 
 // NAVIGATE
 ServiceStore.navigate = function (result, param) {
-	if (result === '/sad/infos/edit') {
+	if (result === '/sad/infos/edit' || result === '/sad/tuto') {
 		ServiceStore.getContent().display.home.showUserHeader = false;
 	} else {
 		ServiceStore.getContent().display.home.showUserHeader = true;

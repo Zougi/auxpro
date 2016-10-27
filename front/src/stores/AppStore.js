@@ -40,7 +40,7 @@ AppStore.onLogon = function (result, param) {
 				brand: { link: '/', name: 'AuxPro' },
 				rightContent: [
 					{ key: 1, link: '/aux/home', query: {}, name: 'Accueil', glyph: 'home' },
-					{ key: 2, link: '/aux/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
+					{ key: 2, link: '/aux/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },
 					{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
 				]
 			},
@@ -65,7 +65,7 @@ AppStore.onLogon = function (result, param) {
 				brand: { link: '/', name: 'AuxPro' },
 				rightContent: [
 					{ key: 1, link: '/sad/home', query: {}, name: 'Accueil', glyph: 'home' },
-					{ key: 2, link: '/sad/infos', query: {}, name: 'Notifications', glyph: 'envelope' },
+					{ key: 2, link: '/sad/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },
 					{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
 				]
 			},

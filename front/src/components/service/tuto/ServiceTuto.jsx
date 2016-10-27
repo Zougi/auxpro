@@ -1,25 +1,24 @@
-import React from 'react';
-import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap';
+import React from 'react'
+import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 
 let TUTO_ITEMS = [
-	{ src: './../../../../../assets/img/tutoaux1.JPG' },
-	{ src: './../../../../../assets/img/tutoaux2.JPG' },
-	{ src: './../../../../../assets/img/tutoaux3.JPG' },
-	{ src: './../../../../../assets/img/tutoaux4.JPG' },
-	{ src: './../../../../../assets/img/tutoaux5.JPG' },
-	{ src: './../../../../../assets/img/tutoaux6.JPG' }
+	{ src: './../../../../../assets/img/tutoservices1.JPG' },
+	{ src: './../../../../../assets/img/tutoservices2.JPG' },
+	{ src: './../../../../../assets/img/tutoservices3.JPG' },
+	{ src: './../../../../../assets/img/tutoservices4.JPG' },
+	{ src: './../../../../../assets/img/tutoservices5.JPG' }
 ];
 
-class AuxiliaryTuto extends React.Component {
+class ServiceTuto extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-            index: 0,
-            direction: null
-        };
+			index: 0,
+			direction: null
+		};
 	}
 
 
@@ -27,7 +26,7 @@ class AuxiliaryTuto extends React.Component {
 	// --------------------------------------------------------------------------------
 
 	onClose() {
-		Dispatcher.issue('NAVIGATE', { path: '/aux' });
+		Dispatcher.issue('NAVIGATE', { path: '/sad' });
 	}
 
 	handleSelect(selectedIndex, e) {
@@ -54,7 +53,8 @@ class AuxiliaryTuto extends React.Component {
 	}
 
 	render() { return (
-		<div className='container'><br/>
+		<div className='container'>
+			<br/>
 			<Grid>
 				<Row>
 					<Col smOffset={1} sm={10} mdOffset={2} md={8}>
@@ -74,4 +74,4 @@ class AuxiliaryTuto extends React.Component {
 		</div>
 	);}
 }
-export default AuxiliaryTuto;
+export default ServiceTuto;

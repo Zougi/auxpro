@@ -34,6 +34,7 @@ import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers.jsx'
 
 import Service from 'components/service/Service.jsx'
 import ServiceHome from 'components/service/home/ServiceHome.jsx'
+import ServiceTuto from 'components/service/tuto/ServiceTuto.jsx'
 import ServiceProfile from 'components/service/profile/ServiceProfile.jsx'
 import ServiceProfileEdit from 'components/service/profile/ServiceProfileEdit.jsx'
 import ServiceMap from 'components/service/map/ServiceMap.jsx'
@@ -73,6 +74,7 @@ class AppRouter extends React.Component {
 						<IndexRoute component={ServiceHome}/>	
 
 						<Route path='home' component={ServiceHome} />
+						<Route path='tuto' component={ServiceTuto} />
 
 						<Route path='infos' component={ServiceProfile} />
 						<Route path='infos/edit' component={ServiceProfileEdit} />
