@@ -217,7 +217,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				lattitude: Number(gz.lattitude),
 				longitude: Number(gz.longitude),
 				title: "Zone d'intervention",
-				infowindow: gz.radius ? null : '<div>' + gz.city + '</div>',
+				infowindow: gz.radius ? null : '<div>' + gz.postalCode + ' ' + gz.city + '</div>',
 
 				type: MARKER_TYPE.GEOZONE,
 				bsStyle: 'danger',

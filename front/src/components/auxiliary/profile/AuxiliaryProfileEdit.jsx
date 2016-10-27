@@ -36,14 +36,11 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 	}
 	_buildState() {
 		let auxiliary = this.getAuxiliary();
-		return {
-			auxiliary: {
-				contact: auxiliary.contact || {},
-				person: auxiliary.person || {},
-				infos: auxiliary.infos || {},
-				user: auxiliary.user || {}
-			}
-		}
+		auxiliary.contact = auxiliary.contact || {};
+		auxiliary.person = auxiliary.person || {};
+		auxiliary.infos = auxiliary.infos || {};
+		auxiliary.user = auxiliary.user || {};
+		return { auxiliary: auxiliary };
 	}
 
 
@@ -81,9 +78,7 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
-	render() {
-		console.log(this.state)
-		return (
+	render() { return (
 		<Form horizontal>
 		{ !(this.state.auxiliary.profileCompleted) ?
 			<Row>
@@ -123,6 +118,7 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 								birthCountry={this.state.auxiliary.person.birthPlace.country}
 								nationality={this.state.auxiliary.person.nationality}
 								socialNumber={this.state.auxiliary.person.socialNumber}
+								ciNumber={this.state.auxiliary.person.ciNumber}
 								onChange={this.onPersonChanged.bind(this)}/>
 						</Col>
 						<Col md={6}>

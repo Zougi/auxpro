@@ -15,11 +15,12 @@
 			"address": "102 avenue de Suffren",
 			"postalCode": 75015,
 			"city": "Paris",
-			"lattitude": "48.8495074",
-			"longitude": "2.3002126"
+			"country": "France",
+			"lattitude": "48.84950389999999",
+			"longitude": "2.3024013000000423"
 		},
 		"addressChecked": true,
-		"phone": "10 10 10 10 10",
+		"phone": "01 25 36 47 58",
 		"phoneChecked": true,
 		"email":"society1@society1.fr",
 		"emailChecked": true

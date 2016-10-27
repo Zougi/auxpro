@@ -7,6 +7,10 @@ import Utils from 'utils/Utils.js'
 import FormInput from 'components-lib/Form/FormInput.jsx'
 import FormDate from 'components-lib/Form/FormDate.jsx'
 import FormSelect from 'components-lib/Form/FormSelect.jsx'
+//
+import CustomValidator from 'utils/form/CustomValidator.js'
+import StringValidator from 'utils/form/StringValidator.js'
+import NonNullValidator from 'utils/form/NonNullValidator.js'
 
 let SERVICE_FIELDS = [
 	{ title: 'Societe', path: 'society', type: 'input' },
@@ -48,6 +52,7 @@ class ServiceDetails extends React.Component {
 		return (
 			<div>
 				<FormInput
+					validator={new StringValidator({ lengthMin: 1 })}
 					static={!this.props.edit}
 					title='Société'
 					defaultValue={this.props.society} 
@@ -59,6 +64,7 @@ class ServiceDetails extends React.Component {
 					values={[ { key: 'mand', value: 'Mandataire' }, { key: 'prest', value: 'Prestataire' } ]}
 					onChange={this.onSocialReasonChanged.bind(this)}/>
 				<FormInput
+					validator={new CustomValidator({ regSuccess: new RegExp("^[0-9]{14}$") })}
 					static={!this.props.edit}
 					title='N° Siret'
 					defaultValue={this.props.siret} 

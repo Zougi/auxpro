@@ -20,7 +20,8 @@ let PERSON_FIELDS = [
 	{ title: 'Ville de naissance', path: 'birthCity', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
 	{ title: 'Pays de naissance', path: 'birthCountry', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
 	{ title: 'Nationnalité', path: 'nationality', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'N° sécurité sociale', path: 'socialNumber', type: 'input', validator: new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") }) }
+	{ title: 'N° sécurité sociale', path: 'socialNumber', type: 'input', validator: new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") }) },
+	{ title: "N° carte d'identité", path: 'ciNumber', type: 'input', validator: new CustomValidator({ regSuccess: new RegExp("^[0-9]{12}$") }) }
 ]
 
 class Person extends React.Component {
@@ -46,7 +47,8 @@ class Person extends React.Component {
 					country: this.person.birthCountry || this.props.birthCountry || null 
 				},
 				nationality: this.person.nationality || this.props.nationality || null,
-				socialNumber: this.person.socialNumber || this.props.socialNumber || null
+				socialNumber: this.person.socialNumber || this.props.socialNumber || null,
+				ciNumber: this.person.ciNumber || this.props.ciNumber || null
 			});
 		}
 	}
@@ -59,6 +61,7 @@ class Person extends React.Component {
 	}
 
 	render() {
+		console.log(this.props)
 		let fields = PERSON_FIELDS.map(function(f) {
 			switch (f.type) {
 			case 'input':

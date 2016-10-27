@@ -75,7 +75,8 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 										birthCity={this.state.auxiliary.person.birthPlace.city}
 										birthCountry={this.state.auxiliary.person.birthPlace.country}
 										nationality={this.state.auxiliary.person.nationality}
-										socialNumber={this.state.auxiliary.person.socialNumber}/>
+										socialNumber={this.state.auxiliary.person.socialNumber} 
+										ciNumber={this.state.auxiliary.person.ciNumber} />
 								</Col>
 								<Col sm={6}>
 									<Contact 
