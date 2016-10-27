@@ -28,6 +28,7 @@ class FormInput extends FormBase {
 				ref={(c) => this.input = c}
 				type={this.props.type?this.props.type:'text'} 
 				value={this.state.value}
+				placeholder={this.props.placeholder}
 				defaultValue={this.props.defaultValue}
 				onChange={this.onChange.bind(this)}/>
 		);

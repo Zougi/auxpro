@@ -10,9 +10,9 @@ class FormBase extends React.Component {
 	constructor(props) {
 		super(props);
 		this.xsLabelSize = this.props.xsLabelSize || DEFAULTS.xsLabelSize;
-		this.smLabelSize = this.props.smLabelSize || DEFAULTS.smLabelSize;
-		this.mdLabelSize = this.props.mdLabelSize || DEFAULTS.mdLabelSize;
-		this.lgLabelSize = this.props.lgLabelSize || DEFAULTS.lgLabelSize;
+		this.smLabelSize = this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.smLabelSize;
+		this.mdLabelSize = this.props.mdLabelSize || this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.mdLabelSize;
+		this.lgLabelSize = this.props.lgLabelSize || this.props.mdLabelSize || this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.lgLabelSize;
 		this.state = {
 			validationState: (!this.props.static && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
 			value: this.props.value

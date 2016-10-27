@@ -1,80 +1,100 @@
 import React from 'react';
-
-import { Button, Panel } from 'react-bootstrap'
-import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
-import { Grid, Row, Col } from 'react-bootstrap'
-import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
-
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import { Button, Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+// Custom components
+import FormInput from 'components-lib/form/FormInput'
+// Lib modules
+import CustomValidator from 'utils/form/CustomValidator.js'
 
 class Land extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-	
-    guestLogin(event) {
-        event.preventDefault();
-        let params = {
-            user: 'guest', 
-            pass: 'guest'
-        };
-        Dispatcher.issue('LOGON', params);
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    render() { 
-		console.log(this.props);
-            return (
-            <div className="container">
-            	<br/>
-            	<Grid>
-            		<Row>
-            			<Col sm={6} xs={12}>
-            				<Panel header="Je recherche un service de soutien à domicile">
-	            				<Form horizontal>
-    								<FormGroup controlId="formHorizontalEmail">
-    									<Col sm={3} componentClass={ControlLabel}>
-    										Commune
-    									</Col>
-    									<Col sm={9}>
-    										<FormControl placeholder="Code postal" />
-    									</Col>
-    								</FormGroup>
-    								<FormGroup>
-    									<Col smOffset={3} sm={9}>
-    										<Button onClick={this.guestLogin}>Valider</Button>
-    									</Col>
-    								</FormGroup>
-    							</Form>
-    						</Panel>
-            				<Row>
-            					<Col sm={6} mdOffset={1} md={5}>
-            						<LinkContainer to='/registerAux'>
-                        				<Button bsStyle="info" bsSize='large' block>Créer un compte<br/>Auxiliaire de vie</Button>
-                    				</LinkContainer>
-                    			</Col>
-                    			<br className="visible-xs-block"/>
-                    			<Col sm={6} md={5}>
-                    				<LinkContainer to='/registerSad'>
-	                        			<Button bsStyle="primary" bsSize='large' block>Créer un compte<br/>SAD</Button>
-    	                			</LinkContainer>
-    	                		</Col>
-    	                	</Row>
-    	                	<br/>
-    	                	<Row>
-    	                		<Col smOffset={3} sm={6}>
-    	                			<LinkContainer to='/login'>
-                        				<Button bsStyle="success" bsSize='large' block>Connexion</Button>
-                    				</LinkContainer>
-                    			</Col>
-                    		</Row>
-            			</Col>
-            		</Row>
-            	</Grid>
-            	<br/>
-            </div>
-            );
-    };
+
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
+
+	onPostalCodeChanged(value) {
+		console.log(value);
+	}
+	onGuestLogin(event) {
+		event.preventDefault();
+		let params = {
+			user: 'guest', 
+			pass: 'guest'
+		};
+		Dispatcher.issue('LOGON', params);
+	}
+	onRegisterAux() {
+		Dispatcher.issue('NAVIGATE', { path: '/registerAux' });
+	}
+	onRegisterSad() {
+		Dispatcher.issue('NAVIGATE', { path: '/registerSad' });
+	}
+	onLogon() {
+		Dispatcher.issue('NAVIGATE', { path: '/login' });
+	}
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	render() { return (
+		<div className='container'>
+			<br/>
+			<Grid>
+				<Row>
+					<Col sm={6} xs={12}>
+						<Panel header='Je recherche un service de soutien à domicile'>
+							<Form horizontal>
+								<FormInput
+									static={false}
+									title='Commune'
+									defaultValue=''
+									placeholder='Code postal'
+									smLabelSize={3}
+									onChange={this.onPostalCodeChanged.bind(this)}/>
+								<FormGroup>
+									<Col smOffset={3} sm={9}>
+										<Button onClick={this.onGuestLogin.bind(this)}>
+											Valider
+										</Button>
+									</Col>
+								</FormGroup>
+							</Form>
+						</Panel>
+						<Row>
+							<Col sm={6}>
+								<Button bsStyle='info' bsSize='large' onClick={this.onRegisterAux.bind(this)} block>
+									Créer un compte<br/>Auxiliaire de vie
+								</Button>
+							</Col>
+							<br className='visible-xs-block'/>
+							<Col sm={6}>
+								<Button bsStyle='primary' bsSize='large' onClick={this.onRegisterSad.bind(this)} block>
+									Créer un compte<br/>SAD
+								</Button>
+							</Col>
+						</Row>
+						<br/>
+						<Row>
+							<Col smOffset={3} sm={6}>
+								<Button bsStyle='success' bsSize='large' onClick={this.onLogon.bind(this)} block>
+									Connexion
+								</Button>
+							</Col>
+						</Row>
+					</Col>
+				</Row>
+			</Grid>
+			<br/>
+		</div>
+	);}
 }
+/*
+
+*/
+
 export default Land;

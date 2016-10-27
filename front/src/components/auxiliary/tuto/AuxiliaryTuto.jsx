@@ -66,7 +66,7 @@ class AuxiliaryTuto extends React.Component {
 				<br/>
 				<Row>
 					<Col smOffset={8} sm={3} mdOffset={7} md={3} className="left">
-						<Button bsStyle="success" bsSize='large' block onClick={this.onClose.bind(this)}>Passer</Button>
+						<Button bsStyle='success' bsSize='large' block onClick={this.onClose.bind(this)}>Passer</Button>
 					</Col>
 				</Row>
 			</Grid>
