@@ -46,13 +46,16 @@ class ServiceBaseComponent extends React.Component {
 	loadService() {
 		return Dispatcher.issue('GET_SERVICE', this._getBaseArgs());
 	}
+	getServiceData(path) {
+		return this._getServiceData(path ? path : '/');
+	}
+	getService() {
+		return this._getServiceData('/data/service');
+	}
 	updateService(service) {
 		let args = this._getBaseArgs();
 		args.data = service;
 		return Dispatcher.issue('PUT_SERVICE', args);
-	}
-	getService() {
-		return this._getServiceData('/data/service');
 	}
 	
 

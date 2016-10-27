@@ -4,9 +4,9 @@ import { Col, Row, ITable } from 'lib/Lib.jsx'
 // Core modules
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import AsyncImage from 'lib/image/AsyncImage.jsx'
-import ImageUploader from 'lib/image/ImageUploader.jsx'
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
+import AsyncImage from 'lib/image/AsyncImage'
+import ImageUploader from 'lib/image/ImageUploader'
 
 class ServiceHeader extends ServiceBaseComponent {
 
@@ -29,9 +29,10 @@ class ServiceHeader extends ServiceBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
-		return {
-			service: this.getService()
-		}
+		let service = this.getService();
+		service.contact = service.contact || {};
+		service.user = service.user || {};
+		return { service: service };
 	}
 
 

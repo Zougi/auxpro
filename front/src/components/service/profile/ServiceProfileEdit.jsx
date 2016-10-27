@@ -31,9 +31,10 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
-		return {
-			service: this.getService()
-		};
+		let service = this.getService();
+		service.contact = service.contact || {};
+		service.user = service.user || {};
+		return { service: service };
 	}
 
 

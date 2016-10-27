@@ -28,8 +28,14 @@ class AuxiliaryHeader extends AuxiliaryBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
+		let auxiliary = this.getAuxiliary();
 		return {
-			auxiliary: this.getAuxiliary()
+			auxiliary: {
+				contact: auxiliary.contact || {},
+				person: auxiliary.person || {},
+				infos: auxiliary.infos || {},
+				user: auxiliary.user || {}
+			}
 		}
 	}
 

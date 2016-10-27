@@ -34,7 +34,7 @@ ServiceStore.navigate = function (result, param) {
 	} else {
 		ServiceStore.getContent().display.home.showUserHeader = true;
 	}
-	ServiceStore.notify('/display/home/showUserHeader');
+	ServiceStore.notifyPath('/display/home/showUserHeader');
 };
 Dispatcher.register('NAVIGATE', ServiceStore.navigate);
 

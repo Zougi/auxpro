@@ -46,6 +46,9 @@ class AuxiliaryBaseComponent extends React.Component {
 	loadAuxiliary() {
 		return Dispatcher.issue('GET_AUXILIARY', this._getBaseArgs());
 	}
+	getAuxiliaryData(path) {
+		return this._getAuxiliaryData(path ? path : '/');
+	}
 	getAuxiliary() {
 		return this._getAuxiliaryData('/data/auxiliary');
 	}

@@ -1,89 +1,74 @@
-import React from 'react';
+import React from 'react'
 import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import AuxiliaryHeader from 'components/auxiliary/AuxiliaryHeader'
 
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-
-import ModalDialog from 'components-lib/Modal/ModalDialog.jsx'
-import AuxiliaryHeader from './AuxiliaryHeader.jsx'
-import AuxiliaryTuto from './AuxiliaryTuto.jsx'
-
-class Auxiliary extends React.Component {
+class Auxiliary extends AuxiliaryBaseComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			storeData: StoreRegistry.getStore('AUXILIARY_STORE').getData(),
-			showTuto: !StoreRegistry.getStore('LOGIN_STORE').getData('/tutoSkipped'),
-			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader')
-		};
+		this.state = this._buildState();
 	}
 	
+
+	// State management functions //
+	// --------------------------------------------------------------------------------
+
 	componentWillMount() {
-        let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
-		if (!logged) {
+		if (!this.getLoginData('/logged')) {
 			Dispatcher.issue('NAVIGATE', { path: '/login' });
+			return;
 		}
-    }
-
+		if (!this.getAuxiliaryData('/data/auxiliary/profileCompleted')) {
+			Dispatcher.issue('NAVIGATE', { path: '/aux/infos/edit' });
+			return;
+		}
+		if (!this.getAuxiliaryData('/data/auxiliary/user/tutoSkipped')) {
+			Dispatcher.issue('NAVIGATE', { path: '/aux/tuto' });
+			return;
+		}
+	}
 	componentDidMount() {
-	 	StoreRegistry.register('AUXILIARY_STORE', this, this.onStoreUpdate.bind(this));
-    }
-    
-    componentWillUnmount() {
-        StoreRegistry.unregister('AUXILIARY_STORE', this);
-    }
-
-	onStoreUpdate() {
-		this.setState({ 
-			showUserHeader: StoreRegistry.getStore('AUXILIARY_STORE').getData('/display/home/showUserHeader') &&
-							StoreRegistry.getStore('AUXILIARY_STORE').getData('/data/auxiliary/profileCompleted')
-		});
-    }
-	
-	// data : {lattitude: "48.862919", longitude: "2.292004", radius: "500"}
-	sendGeoZone(geoZone){
-		let params = { 
-			id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-			data : geoZone
-		};
-		Dispatcher.issue('POST_AUXILIARY_GEOZONE', params);
+	 	StoreRegistry.register('AUXILIARY_STORE/display/home/showUserHeader', this, this._onStoreUpdate.bind(this));
+	}
+	componentWillUnmount() {
+		StoreRegistry.unregister('AUXILIARY_STORE', this);
+	}
+	_onStoreUpdate() {
+		this.setState(this._buildState());
+	}
+	_buildState() {
+		return {
+			showUserHeader: this._getAuxiliaryData('/display/home/showUserHeader'),
+		}
 	}
 	
-	deleteGeoZone(geoZone) {
-		let params = { 
-			id: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-			data : geoZone
-		};
-		Dispatcher.issue('DELETE_AUXILIARY_GEOZONE', params);
-	}	
 
-    _tutoClose() {
-    	this.setState({ showTuto: false });
-    }
-    _tutoSkip() {
-    	this.setState({ showTuto: false });
-    }
+	// Callback functions //
+	// --------------------------------------------------------------------------------
 
+	onTutoClose() {
+		this.setState({ showTuto: false });
+	}
+	onTutoSkip() {
+		this.setState({ showTuto: false });
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	render() { 
-		if (this.state.showTuto) {
-			return(
-				<div className='container'>
-					<br/>
-					<AuxiliaryTuto onClose={this._tutoClose.bind(this)} onNeverShow={this._tutoSkip.bind(this)}/>
-					<br/>
-				</div>
-			);
-		}
 		return (
 			<div className='container'>
 				{this.state.showUserHeader ? 
 					<Row>
-						<AuxiliaryHeader storeData={this.state.storeData} />
+						<AuxiliaryHeader />
 					</Row>
 				:
 					''

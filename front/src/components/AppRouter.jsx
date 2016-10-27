@@ -24,6 +24,7 @@ import Documentation from 'documentation/Documentation.jsx'
 
 import Auxiliary from 'components/auxiliary/Auxiliary.jsx'
 import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome.jsx'
+import AuxiliaryTuto from 'components/auxiliary/tuto/AuxiliaryTuto.jsx'
 import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
 import AuxiliaryProfileEdit from 'components/auxiliary/profile/AuxiliaryProfileEdit.jsx'
 import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
@@ -93,6 +94,7 @@ class AppRouter extends React.Component {
 						<IndexRoute component={AuxiliaryHome}/>	
 						
 						<Route path='home' component={AuxiliaryHome} />
+						<Route path='tuto' component={AuxiliaryTuto} />
 
 						<Route path='infos' component={AuxiliaryProfile} />
 						<Route path='infos/edit' component={AuxiliaryProfileEdit} />
