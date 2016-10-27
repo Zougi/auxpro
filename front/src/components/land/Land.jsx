@@ -22,19 +22,18 @@ class Land extends React.Component {
 	}
 	onGuestLogin(event) {
 		event.preventDefault();
-		let params = {
-			user: 'guest', 
-			pass: 'guest'
-		};
-		Dispatcher.issue('LOGON', params);
+		Dispatcher.issue('NAVIGATE', { path: '/guest' });
 	}
-	onRegisterAux() {
+	onRegisterAux(event) {
+		event.preventDefault();
 		Dispatcher.issue('NAVIGATE', { path: '/registerAux' });
 	}
-	onRegisterSad() {
+	onRegisterSad(event) {
+		event.preventDefault();
 		Dispatcher.issue('NAVIGATE', { path: '/registerSad' });
 	}
-	onLogon() {
+	onLogon(event) {
+		event.preventDefault();
 		Dispatcher.issue('NAVIGATE', { path: '/login' });
 	}
 

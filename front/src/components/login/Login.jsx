@@ -45,7 +45,7 @@ class Login extends React.Component {
 				Dispatcher.issue('NAVIGATE', {path: "/aux/home"});
 				break;
 			case 'sad':
-				Dispatcher.issue('NAVIGATE', {path: "/sad/home"});		
+				Dispatcher.issue('NAVIGATE', {path: "/sad/home"});
 				break;
 			default:
 				args.token = user.token;

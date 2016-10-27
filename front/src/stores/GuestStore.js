@@ -3,11 +3,13 @@ import StoreBase from 'core/StoreBase.js';
 import StoreRegistry from 'core/StoreRegistry';
 
 function getDefaultContent() {
-	return { data: {
-		services: {},
-		servicesList: [],
-		servicesLoaded: false
-	} };
+	return { 
+		data: {
+			services: {},
+			servicesList: [],
+			servicesLoaded: false
+		} 
+	};
 };
 
 var GuestStore = new StoreBase ({ 
@@ -27,6 +29,7 @@ Dispatcher.register('LOGOUT', GuestStore.onLogout);
 
 // GET SERVICES
 GuestStore.onGetServices = function (result, param) {
+	console.log('guest store receiving')
 	GuestStore.setContent(getDefaultContent());
 	let l = result.length;
 	for (let i = 0; i < l; i++) {
