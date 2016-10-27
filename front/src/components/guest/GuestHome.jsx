@@ -42,7 +42,6 @@ class GuestHome extends GuestBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
-		console.log('notify')
 		return {
 			postalCode: this.getGuestData('/display/postalCode'),
 		}
@@ -63,6 +62,15 @@ class GuestHome extends GuestBaseComponent {
 	render() {
 		if (!this.state.dataLoaded) {
 			return ( <div className='container'/> );
+		}
+		let services = this._buildServices();
+		if (services.length === 0) {
+			return (
+				<div className='container'>
+					<ServicesBox services={this._buildServices()} />
+					<h4>Il n'y as pas de SAD sur cette localisation</h4>
+				</div>
+			);				
 		}
 		return(
 			<div className='container'>

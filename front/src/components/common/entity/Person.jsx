@@ -61,7 +61,6 @@ class Person extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
 		let fields = PERSON_FIELDS.map(function(f) {
 			switch (f.type) {
 			case 'input':
