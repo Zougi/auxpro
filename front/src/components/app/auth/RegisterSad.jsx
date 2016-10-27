@@ -89,9 +89,4 @@ class RegisterSad extends React.Component {
         </div>
     );}
 }
-
-RegisterSad.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default RegisterSad;

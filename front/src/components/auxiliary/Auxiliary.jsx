@@ -23,7 +23,7 @@ class Auxiliary extends React.Component {
 	componentWillMount() {
         let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
 		if (!logged) {
-			this.context.router.push('/login');
+			Dispatcher.issue('NAVIGATE', { path: '/login' });
 		}
     }
 
@@ -95,10 +95,4 @@ class Auxiliary extends React.Component {
 		);
 	}
 }
-
-Auxiliary.contextTypes = {
-	router: React.PropTypes.object
-}
-
-
 export default Auxiliary;

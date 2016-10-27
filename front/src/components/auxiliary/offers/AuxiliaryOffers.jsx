@@ -65,7 +65,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		});
 	}
 	onOfferView(offer) {
-		this.context.router.push('/aux/offers/' + offer.id);
+		Dispatcher.issue('NAVIGATE', { path: '/aux/offers'  + offer.id});
 	}
 
 	onAccept() {
@@ -167,9 +167,4 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		);
 	}
 }
-
-AuxiliaryOffers.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default AuxiliaryOffers;

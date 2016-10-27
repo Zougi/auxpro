@@ -77,9 +77,4 @@ class Land extends React.Component {
             );
     };
 }
-
-Land.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default Land;

@@ -1,6 +1,7 @@
-import React from 'react';
-
-import StoreRegistry from 'core/StoreRegistry';
+import React from 'react'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 
 class Redirect extends React.Component {
 
@@ -10,19 +11,15 @@ class Redirect extends React.Component {
 	
 	componentWillMount() {
 		 let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
-		if (logged)
-			this.context.router.push("/home");
-		else
-			this.context.router.push("/login");
+		if (logged) {
+			Dispatcher.issue('NAVIGATE', { path: '/'});
+		} else {
+			Dispatcher.issue('NAVIGATE', { path: '/login'});
+		}
     }
 
     render() {
 		return (<div></div>);
     };
 }
-
-Redirect.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default Redirect;

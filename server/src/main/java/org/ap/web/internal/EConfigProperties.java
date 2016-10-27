@@ -13,7 +13,7 @@ public enum EConfigProperties {
 	SERV_ORIGIN ("serv_origin", "*"),
 	SERV_LOGIN  ("serv_login", "true"),
 	
-	FILES_ROOT  ("files_root", "T:/temp"),
+	FILES_ROOT  ("files_root", "C:/temp"),
 	
 	DB_HOST ("db_host", "127.0.0.1"),
 	DB_PORT ("db_port", "4242"),

@@ -28,6 +28,7 @@ class Service extends React.Component {
 	componentWillMount() {
         let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
 		if (!logged) {
+			Dispatcher.issue('NAVIGATE', { path: '/login'  + offer.id});
 			this.context.router.push('/login');
 		}
     }
@@ -96,9 +97,4 @@ class Service extends React.Component {
 		);
 	}
 }
-
-Service.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default Service;

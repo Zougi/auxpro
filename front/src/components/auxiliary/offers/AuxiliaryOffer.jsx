@@ -67,7 +67,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	}
 
 	_onClose() {
-		this.context.router.push('/aux/offers');
+		Dispatcher.issue('NAVIGATE', { path: '/aux/offers' });
 	}
 
 
@@ -109,9 +109,4 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		</div>
 	);}
 }
-
-AuxiliaryOffer.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default AuxiliaryOffer;

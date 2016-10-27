@@ -85,9 +85,4 @@ class RegisterAux extends React.Component {
 		</div>
 	);}
 }
-
-RegisterAux.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default RegisterAux;

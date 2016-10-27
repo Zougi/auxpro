@@ -145,9 +145,4 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		);
 	}
 }
-
-AuxiliaryProfileEdit.contextTypes = {
-	router: React.PropTypes.object
-}
-
 export default AuxiliaryProfileEdit;
