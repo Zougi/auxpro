@@ -13,6 +13,7 @@ class Auxiliary extends AuxiliaryBaseComponent {
 	constructor(props) {
 		super(props);
 		this.state = this._buildState();
+		this.state.dataLoaded = false;
 	}
 	
 
@@ -24,14 +25,39 @@ class Auxiliary extends AuxiliaryBaseComponent {
 			Dispatcher.issue('NAVIGATE', { path: '/login' });
 			return;
 		}
-		if (!this.getAuxiliaryData('/data/auxiliary/profileCompleted')) {
-			Dispatcher.issue('NAVIGATE', { path: '/aux/infos/edit' });
-			return;
-		}
-		if (!this.getAuxiliaryData('/data/auxiliary/user/tutoSkipped')) {
-			Dispatcher.issue('NAVIGATE', { path: '/aux/tuto' });
-			return;
-		}
+
+		this.loadAuxiliary().
+		then(function () {
+			var promises = [];
+		 	promises.push(this.loadGeozones());
+		 	promises.push(this.loadIndisponibilities());
+		 	promises.push(this.loadCustomers());
+		 	promises.push(this.loadServices());
+		 	return Promise.all(promises);
+		}.bind(this)).
+		then(function () {
+			return this.loadInterventions();
+		}.bind(this)).
+		then(function () {
+			return this.loadOffers();
+		}.bind(this)).
+		then(function () {
+			this.setState({ dataLoaded: true });
+			console.log('==== DONNES INITIALE AUXILIAIRE ====');
+			console.log(this.getAuxiliaryData());
+			if (!this.getAuxiliaryData('/data/auxiliary/profileCompleted')) {
+				Dispatcher.issue('NAVIGATE', { path: '/aux/infos/edit' });
+				return;
+			}
+			if (!this.getAuxiliaryData('/data/auxiliary/user/tutoSkipped')) {
+				Dispatcher.issue('NAVIGATE', { path: '/aux/tuto' });
+				return;
+			}
+		}.bind(this)).
+		catch(function (error) {
+			console.error("erreur au chargement de l'auxiliare");
+			console.error(error);
+		});
 	}
 	componentDidMount() {
 	 	StoreRegistry.register('AUXILIARY_STORE/display/home/showUserHeader', this, this._onStoreUpdate.bind(this));
@@ -40,39 +66,29 @@ class Auxiliary extends AuxiliaryBaseComponent {
 		StoreRegistry.unregister('AUXILIARY_STORE', this);
 	}
 	_onStoreUpdate() {
-		this.setState(this._buildState());
+		this.setState({ showUserHeader: this.getAuxiliaryData('/display/home/showUserHeader') });
 	}
 	_buildState() {
 		return {
-			showUserHeader: this._getAuxiliaryData('/display/home/showUserHeader'),
+			showUserHeader: this.getAuxiliaryData('/display/home/showUserHeader'),
 		}
 	}
 	
-
-	// Callback functions //
-	// --------------------------------------------------------------------------------
-
-	onTutoClose() {
-		this.setState({ showTuto: false });
-	}
-	onTutoSkip() {
-		this.setState({ showTuto: false });
-	}
-
 
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
 	render() { 
+		if (!this.state.dataLoaded) {
+			return ( <div className='container'/> );
+		}
 		return (
 			<div className='container'>
 				{this.state.showUserHeader ? 
 					<Row>
 						<AuxiliaryHeader />
 					</Row>
-				:
-					''
-				}
+				: '' }
 				<Row>
 					{this.props.children}
 				</Row>

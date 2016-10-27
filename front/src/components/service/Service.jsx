@@ -12,6 +12,7 @@ class Service extends ServiceBaseComponent {
 	constructor(props) {
 		super(props);
 		this.state = this._buildState();
+		this.state.dataLoaded = false;
 	}
 
 
@@ -23,10 +24,33 @@ class Service extends ServiceBaseComponent {
 			Dispatcher.issue('NAVIGATE', { path: '/login' });
 			return;
 		}
-		if (!this.getServiceData('/data/service/user/tutoSkipped')) {
-			Dispatcher.issue('NAVIGATE', { path: '/sad/tuto' });
-			return;
-		}
+
+		this.loadService().
+		then(function () {
+			return this.loadCustomers();
+		}.bind(this)).
+		then(function () {
+			return this.loadInterventions();
+		}.bind(this)).
+		then(function () {
+			return this.loadOffers();
+		}.bind(this)).
+		then(function () {
+			return this.loadAuxiliaries();
+		}.bind(this)).
+		then(function () {
+			this.setState({ dataLoaded: true });
+			console.log('==== DONNES INITIALE DU SERVICE ====');
+			console.log(StoreRegistry.getStore('SERVICE_STORE').getData());
+			if (!this.getServiceData('/data/service/user/tutoSkipped')) {
+				Dispatcher.issue('NAVIGATE', { path: '/sad/tuto' });
+				return;
+			}
+		}.bind(this)).
+		catch(function (error) {
+			console.error("erreur au chargement de l'auxiliare");
+			console.error(error);
+		});
 	}
 	componentDidMount() {
 		StoreRegistry.register('SERVICE_STORE/display/home/showUserHeader', this, this._onStoreUpdate.bind(this));
@@ -43,23 +67,14 @@ class Service extends ServiceBaseComponent {
 			showUserHeader: this.getServiceData('/display/home/showUserHeader'),
 		}
 	}
-	
-
-	// Callback functions //
-	// --------------------------------------------------------------------------------
-
-	onTutoClose() {
-		this.setState({ showTuto: false });
-	}
-	onTutoSkip() {
-		this.setState({ showTuto: false });
-	}
-
 
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
 	render() {
+		if (!this.state.dataLoaded) {
+			return ( <div className='container'/> );
+		}
 		return(
 			<div className='container'>
 				{this.state.showUserHeader ? 

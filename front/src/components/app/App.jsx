@@ -1,19 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory } from 'react-router'
-
+// Cor modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
-
+// Custom components
+import Footer from 'components/app/Footer.jsx';
 import AppPreload from 'components-lib/App/Preload/AppPreload.jsx'
-
 import Navbar from 'components-lib/Navbar/Navbar.jsx'
-import Footer from './Footer.jsx';
 
 function getHeader() {
 	return StoreRegistry.getStore('APP_STORE').getData('/app/header');
 }
-
 function getSubHeader() {
 	return StoreRegistry.getStore('APP_STORE').getData('/app/subHeader');
 }
@@ -30,33 +28,37 @@ class App extends React.Component {
 		ap.listeners.push(this._onPreload.bind(this));
 	}
 
-	_onPreload() {
-		this.setState({ preload: ap.preload });
-	}
+
+	// State management functions //
+	// --------------------------------------------------------------------------------
 
 	componentDidMount() {
-		StoreRegistry.register('APP_STORE/app', this, this.onAppStoreAppUpdate.bind(this));
-		StoreRegistry.register('APP_STORE/path', this, this.onAppStorePathUpdate.bind(this));
+		StoreRegistry.register('APP_STORE/app', this, this._onAppStoreAppUpdate.bind(this));
+		StoreRegistry.register('APP_STORE/path', this, this._onAppStorePathUpdate.bind(this));
 	}
-
 	componentWillUnmount() {
 		StoreRegistry.unregister('APP_STORE', this);
 	}
-	
-	onAppStoreAppUpdate() {
+	_onAppStoreAppUpdate() {
 		this.setState({ 
 			header: getHeader(),
 			subHeader: getSubHeader()
 		});
 	}
-	
-	onAppStorePathUpdate() {
+	_onAppStorePathUpdate() {
 		let path = StoreRegistry.getStore('APP_STORE').getData('/path');
 		if (path) {
 			this.context.router.push(path);
 		}
 	}
-	
+	_onPreload() {
+		this.setState({ preload: ap.preload });
+	}
+
+
+	// Callback functions //
+	// --------------------------------------------------------------------------------
+
 	onNavigate(url) {
 		if (url == "logout") {
 			Dispatcher.issue('LOGOUT', {});
@@ -66,6 +68,9 @@ class App extends React.Component {
 	}
 	
 	
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
 	render() { 
 		if (!this.state.preload) {
 			return (

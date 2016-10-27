@@ -1,10 +1,6 @@
 import React from 'react';
-
-import { Button, Panel, Nav, Navbar } from 'react-bootstrap'
-import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
-import { Grid, Row, Col } from 'react-bootstrap'
-import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
-
+import { Button, Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
+// Core modules
 import Dispatcher from 'core/Dispatcher';
 
 class RegisterAux extends React.Component {
@@ -16,9 +12,17 @@ class RegisterAux extends React.Component {
         };
 	}
 
-	register(event) {
+
+	// Callback functions //
+	// --------------------------------------------------------------------------------
+
+	onCancel(event) {
 		event.preventDefault();
-		if (this.state.pass == this.state.confirm) {
+		Dispatcher.issue('NAVIGATE', { path: '/' });
+	}
+	onSubmit(event) {
+		event.preventDefault();
+		if (this.state.pass === this.state.confirm) {
 			let params = {
 				name: this.state.user, 
 				email: this.state.user, 
@@ -31,8 +35,11 @@ class RegisterAux extends React.Component {
 					user: this.state.user, 
 					pass: this.state.pass
 				};
-				Dispatcher.issue('LOGON', params);
+				return Dispatcher.issue('LOGON', params);
 			}.bind(this)).
+			then(function () {
+				Dispatcher.issue('NAVIGATE', { path: '/aux' });
+			}).
 			catch(function (error) {
 				console.log(error);
 				this.setState({ error: 'Erreur lors de la création d\'un utilisateur'});
@@ -42,46 +49,57 @@ class RegisterAux extends React.Component {
 		}
 	}
 
-	handleEmailChanged(e) {  this.state.user = e.target.value; }
-    handlePasswordChanged(e) { this.state.pass = e.target.value; }
-	handleConfirmChanged(e) { this.state.confirm = e.target.value; }
+	handleEmailChanged(event) {
+		event.preventDefault();
+		this.state.user = event.target.value;
+	}
+	handlePasswordChanged(event) { 
+		event.preventDefault();
+		this.state.pass = event.target.value;
+	}
+	handleConfirmChanged(event) {
+		event.preventDefault();
+		this.state.confirm = event.target.value; 
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	render() { return (
 		<div className="container">
 			<br/>
-            <Col smOffset={1} sm={10} mdOffset={2} md={8}>
-            <Panel 
-                header={this.state.error?this.state.error:'Création compte Auxiliaire'} 
-                bsStyle={this.state.error?'danger':'default'}>
-            <Form onSubmit={this.register.bind(this)}>
-                <FormGroup controlId='user'>
-                    <ControlLabel>Adresse électronique</ControlLabel>
-                    <FormControl typeDISABLED='email' onChange={this.handleEmailChanged.bind(this)} placeholder='Adresse électronique'/>
-                </FormGroup>
-                <FormGroup controlId='pass'>
-                    <ControlLabel>Mot de passe</ControlLabel>
-                    <FormControl type='password' onChange={this.handlePasswordChanged.bind(this)}  placeholder='Mot de passe'/>
-                </FormGroup>
-				 <FormGroup controlId='confirm'>
-                    <ControlLabel>Confimer mot de passe</ControlLabel>
-                    <FormControl type='password' onChange={this.handleConfirmChanged.bind(this)}  placeholder='Confimer mot de passe'/>
-                </FormGroup>
-                <br/>
-                <Row>
-                <Col sm={6} md={5} mdOffset={1} lg={4} lgOffset={2}>
-                    <Button type='submit' bsStyle='success' bsSize='large' block>Créer Compte</Button>
-                </Col>
-                <br className="visible-xs-block"/>
-                <Col sm={6} md={5} lg={4}>
-                    <LinkContainer to='/'>
-                        <Button bsStyle='default' bsSize='large' block>Annuler</Button>
-                    </LinkContainer>
-                </Col>                
-                </Row>
-            </Form>
-            </Panel>
-            </Col>
-            <br/>
+			<Col smOffset={1} sm={10} mdOffset={2} md={8}>
+				<Panel 
+					header={this.state.error ? this.state.error : 'Création compte Auxiliaire'} 
+					bsStyle={this.state.error ? 'danger' : 'default'}>
+				<Form>
+					<FormGroup controlId='user'>
+						<ControlLabel>Adresse électronique</ControlLabel>
+						<FormControl type='email' onChange={this.handleEmailChanged.bind(this)} placeholder='Adresse électronique'/>
+					</FormGroup>
+					<FormGroup controlId='pass'>
+						<ControlLabel>Mot de passe</ControlLabel>
+						<FormControl type='password' onChange={this.handlePasswordChanged.bind(this)}  placeholder='Mot de passe'/>
+					</FormGroup>
+					<FormGroup controlId='confirm'>
+						<ControlLabel>Confimer mot de passe</ControlLabel>
+						<FormControl type='password' onChange={this.handleConfirmChanged.bind(this)}  placeholder='Confimer mot de passe'/>
+					</FormGroup>
+					<br/>
+					<Row>
+						<Col sm={6}>
+							<Button bsStyle='default' bsSize='large' onClick={this.onCancel.bind(this)} block>Annuler</Button>
+						</Col>
+						<br className="visible-xs-block"/>
+						<Col sm={6}>
+							<Button bsStyle='success' bsSize='large' onClick={this.onSubmit.bind(this)} block>Créer Compte</Button>
+						</Col>
+					</Row>
+				</Form>
+				</Panel>
+			</Col>
+			<br/>
 		</div>
 	);}
 }
