@@ -42,7 +42,7 @@ class FormBase extends React.Component {
 					{this.props.title}
 				</Col>
 				<Col sm={12 - this.smLabelSize} md={12 - this.mdLabelSize} lg={12 - this.lgLabelSize}>
-					{this.getFormControl()}
+					{this.props.children ? this.props.children : this.getFormControl()}
 					{ !this.props.static ? <FormControl.Feedback/> : '' }
 				</Col>
 			</FormGroup>
