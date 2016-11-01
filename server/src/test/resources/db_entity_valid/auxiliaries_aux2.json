@@ -18,10 +18,8 @@
 		"firstName": "Julie",
 		"lastName": "Legrand",
 		"birthDate":[1992, 5, 1],
-		"birthPlace": {
-			"city": "Versailles",
-			"country": "France"
-		}
+		"birthCity": "Versailles",
+		"birthCountry":"France"
 	},
 	"contact": {
 		"address": {

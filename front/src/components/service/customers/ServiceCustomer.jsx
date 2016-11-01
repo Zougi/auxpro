@@ -58,8 +58,8 @@ class ServiceCustomer extends ServiceBaseComponent {
 								lastName={this.state.customer.person.lastName}
 								firstName={this.state.customer.person.firstName}
 								birthDate={this.state.customer.person.birthDate}
-								birthCity={this.state.customer.person.birthPlace.city}
-								birthCountry={this.state.customer.person.birthPlace.country}
+								birthCity={this.state.customer.person.birthCity}
+								birthCountry={this.state.customer.person.birthCountry}
 								nationality={this.state.customer.person.nationality}
 								socialNumber={this.state.customer.person.socialNumber} />
 		            	</Col>

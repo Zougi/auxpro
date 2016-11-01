@@ -5,10 +5,6 @@
 		"firstName": "Monique",
 		"lastName": "Martin",
 		"birthDate":[1957, 4, 25],
-		"birthPlace": {
-			"city": "Orléans",
-			"country": "France"
-		},
 		"nationality": "Francaise",
 		"socialNumber": "15698685352"
 	},

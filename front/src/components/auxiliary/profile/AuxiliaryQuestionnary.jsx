@@ -349,7 +349,12 @@ class AuxiliaryQuestionnary extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			answers: [0, 0, 0, 0, 0, 0, 0]
+			answers: [
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+				0, 0, 0, 0, 0, 0, 0, 0 
+			]
 		};
 	}
 

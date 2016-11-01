@@ -16,16 +16,15 @@ public class PersonBean {
 	
 	private String socialNumber;
 	private String nationality;
-	private int ciNumber;
+	private String ciNumber;
 	
 	private LocalDate birthDate;
-	private AddressBean birthPlace;
+	private String birthCity;
+	private String birthCountry;
 	
 	/* CONSTRUCTORS */
 	
-	public PersonBean() {
-		birthPlace = new AddressBean();
-	}
+	public PersonBean() { }
 	
 	/* GETTERS & SETTERS */
 	
@@ -44,15 +43,18 @@ public class PersonBean {
 	public String getNationality() { return nationality; }
 	public void setNationality(String nationality) { this.nationality = nationality; }
 	
-	public int getCiNumber() { return ciNumber; }
-	public void setCiNumber(int ciNumber) { this.ciNumber = ciNumber; }
+	public String getCiNumber() { return ciNumber; }
+	public void setCiNumber(String ciNumber) { this.ciNumber = ciNumber; }
 	
 	public LocalDate getBirthDate() { return birthDate; }
 	public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 	
-	public AddressBean getBirthPlace() { return birthPlace; }
-	public void setBirthPlace(AddressBean birthPlace) { this.birthPlace = birthPlace; }
+	public String getBirthCity() { return birthCity; }
+	public void setBirthCity(String birthCity) { this.birthCity = birthCity; }
 	
+	public String getBirthCountry() { return birthCountry; }
+	public void setBirthCountry(String birthCountry) { this.birthCountry = birthCountry; }
+
 	/* ADDITIONNAL METHODS */
 	
 	public boolean isCompleted() {
@@ -62,10 +64,12 @@ public class PersonBean {
 			getLastName() != null &&
 			getSocialNumber() != null &&
 			getNationality() != null &&
-			getCiNumber() != 0 &&
+			getCiNumber() != null &&
 			getBirthDate() != null &&
-			getBirthPlace() != null
+			getBirthCity() != null &&
+			getBirthCountry() != null
 		);
 	}
 	public void setCompleted() {}
+
 }

@@ -31,7 +31,6 @@ import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.OneTimeBean;
 import org.ap.web.entity.mongo.PersonBean;
-import org.ap.web.entity.mongo.QuestionaryBean;
 import org.ap.web.entity.mongo.RecurenceBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.SkillsBean;
@@ -240,24 +239,15 @@ public class TestData {
 		return bean;
 	}
 	public static PersonBean next(PersonBean bean) {
+		bean.setCiNumber("CI" + PERSON_ID++);
 		bean.setBirthDate(LocalDate.now());
-		bean.setBirthPlace(next(new AddressBean()));
-		bean.setCiNumber(PERSON_ID++);
+		bean.setBirthCity("BirthCity" + PERSON_ID);
+		bean.setBirthCountry("BirthCountry" + PERSON_ID);
 		bean.setCivility(EPersonSex.M.getId());
 		bean.setFirstName("Prenom " + PERSON_ID);
 		bean.setLastName("Nom " + PERSON_ID);
 		bean.setNationality("Francaise");
 		bean.setSocialNumber("SecSociale " + PERSON_ID);
-		return bean;
-	}
-	public static QuestionaryBean next(QuestionaryBean bean) {
-		bean.setAnswer0(QUESTIONARY_ID++);
-		bean.setAnswer1(QUESTIONARY_ID++);
-		bean.setAnswer2(QUESTIONARY_ID++);
-		bean.setAnswer3(QUESTIONARY_ID++);
-		bean.setAnswer4(QUESTIONARY_ID++);
-		bean.setAnswer5(QUESTIONARY_ID++);
-		bean.setAnswer6(QUESTIONARY_ID++);
 		return bean;
 	}
 	public static RecurenceBean next(RecurenceBean bean) {

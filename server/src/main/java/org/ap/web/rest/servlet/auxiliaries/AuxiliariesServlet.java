@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.ap.web.entity.constant.EQuestion;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
@@ -129,13 +130,30 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	}
 	private SkillsBean computeSkills(QuestionaryBean questionary) {
 		SkillsBean result = new SkillsBean();
-		result.setHousework(questionary.getAnswer0());
-		result.setNursing(questionary.getAnswer1());
-		result.setChildhood(questionary.getAnswer2());
-		result.setShopping(questionary.getAnswer3());
-		result.setCompagny(questionary.getAnswer4());
-		result.setAdministrative(questionary.getAnswer5());
-		result.setDoityourself(questionary.getAnswer6());
+		int ch = 0;
+		int ho = 0;
+		int co = 0;
+		int sh = 0;
+		int nu = 0;
+		int ad = 0; 
+		int di = 0;
+		for (EQuestion q : EQuestion.values()) {
+			int answer = questionary.getAnswers()[q.getIndex()];
+			ch += q.getAnswers()[answer].getChildhood();
+			ho += q.getAnswers()[answer].getHousework();
+			co += q.getAnswers()[answer].getCompagny();
+			sh += q.getAnswers()[answer].getShopping();
+			nu += q.getAnswers()[answer].getNursing();
+			ad += q.getAnswers()[answer].getAdministrative();
+			di += q.getAnswers()[answer].getDoityourself();
+		}
+		result.setChildhood(Math.round(ch * 5 / 38));
+		result.setHousework(Math.round(ho * 5 / 38));
+		result.setCompagny(Math.round(co * 5 / 38));
+		result.setShopping(Math.round(sh * 5 / 38));
+		result.setNursing(Math.round(nu * 5 / 38));
+		result.setAdministrative(Math.round(ad * 5 / 38));
+		result.setDoityourself(Math.round(di * 5 / 38));
 		return result;
 	}
 	@Override

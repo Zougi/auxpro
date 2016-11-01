@@ -49,8 +49,8 @@ class CustomerDetails extends React.Component {
 							lastName={this.props.customer ? this.props.customer.person.lastName : null}
 							firstName={this.props.customer ? this.props.customer.person.firstName : null}
 							birthDate={this.props.customer ? this.props.customer.person.birthDate : null}
-							birthCity={this.props.customer ? this.props.customer.person.birthPlace.city : null}
-							birthCountry={this.props.customer ? this.props.customer.person.birthPlace.country : null}
+							birthCity={this.props.customer ? this.props.customer.person.birthCity : null}
+							birthCountry={this.props.customer ? this.props.customer.person.birthCountry : null}
 							nationality={this.props.customer ? this.props.customer.person.nationality : null}
 							socialNumber={this.props.customer ? this.props.customer.person.socialNumber : null}
 	            			onChange={this.onPersonChanged.bind(this)}/>

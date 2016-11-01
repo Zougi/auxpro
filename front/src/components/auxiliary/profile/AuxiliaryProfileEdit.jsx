@@ -93,15 +93,7 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		Dispatcher.issue('POST_AUXILIARY_QUESTIONARY', {
 			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
         	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-        	data: {
-        		answer0: answers[0],
-        		answer1: answers[1],
-        		answer2: answers[2],
-        		answer3: answers[3],
-        		answer4: answers[4],
-        		answer5: answers[5],
-        		answer6: answers[6]
-        	}
+        	data: { answers: answers }
         }).
 		then(function() {
 			return this.loadAuxiliary();
@@ -175,8 +167,8 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 									lastName={this.state.auxiliary.person.lastName}
 									firstName={this.state.auxiliary.person.firstName}
 									birthDate={this.state.auxiliary.person.birthDate}
-									birthCity={this.state.auxiliary.person.birthPlace.city}
-									birthCountry={this.state.auxiliary.person.birthPlace.country}
+									birthCity={this.state.auxiliary.person.birthCity}
+									birthCountry={this.state.auxiliary.person.birthCountry}
 									nationality={this.state.auxiliary.person.nationality}
 									socialNumber={this.state.auxiliary.person.socialNumber}
 									ciNumber={this.state.auxiliary.person.ciNumber}

@@ -42,10 +42,8 @@ class Person extends React.Component {
 				lastName: this.person.lastName || this.props.lastName || null,
 				firstName: this.person.firstName || this.props.firstName || null,
 				birthDate: this.person.birthDate || this.props.birthDate || null,
-				birthPlace: {
-					city: this.person.birthCity || this.props.birthCity || null,
-					country: this.person.birthCountry || this.props.birthCountry || null 
-				},
+				birthCity: this.person.birthCity || this.props.birthCity || null,
+				birthCountry: this.person.birthCountry || this.props.birthCountry || null,
 				nationality: this.person.nationality || this.props.nationality || null,
 				socialNumber: this.person.socialNumber || this.props.socialNumber || null,
 				ciNumber: this.person.ciNumber || this.props.ciNumber || null

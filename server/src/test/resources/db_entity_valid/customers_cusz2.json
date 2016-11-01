@@ -5,10 +5,6 @@
 		"firstName": "Andre",
 		"lastName": "Remy",
 		"birthDate":[1945, 4, 25],
-		"birthPlace": {
-			"city": "Bordeaux",
-			"country": "France"
-		},
 		"nationality": "Francaise",
 		"socialNumber": "15698685352"
 	},

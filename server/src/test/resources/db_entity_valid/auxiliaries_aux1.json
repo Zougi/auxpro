@@ -18,10 +18,8 @@
 		"firstName": "Chloe",
 		"lastName": "Durand",
 		"birthDate":[1980, 1, 3],
-		"birthPlace": {
-			"city": "Paris",
-			"country":"France"
-		}
+		"birthCity": "Paris",
+		"birthCountry":"France"
 	},
 	"contact": {
 		"address": {

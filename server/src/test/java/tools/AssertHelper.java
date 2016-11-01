@@ -155,7 +155,8 @@ public class AssertHelper {
 			TestCase.assertEquals(expected.getSocialNumber(), actual.getSocialNumber());
 			TestCase.assertEquals(expected.getNationality(), actual.getNationality());
 			TestCase.assertEquals(expected.getCiNumber(), actual.getCiNumber());
-			assertAddress(expected.getBirthPlace(), actual.getBirthPlace());
+			TestCase.assertEquals(expected.getBirthCity(), actual.getBirthCity());
+			TestCase.assertEquals(expected.getBirthCountry(), actual.getBirthCountry());
 		}
 	}
 	public static void assertRecurence(RecurenceBean expected, RecurenceBean actual) {
