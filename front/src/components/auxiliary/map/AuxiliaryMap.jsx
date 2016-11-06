@@ -130,7 +130,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			geozone: {
 				lattitude: Number(change.lattitude),
 				longitude: Number(change.longitude),
-				postalCode: change.postalCode
+				postalCode: change.postalCode,
+				city:  change.city
 			} 
 		});
 	}
@@ -140,7 +141,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		this.createGeozone({
 			lattitude: change.lattitude,
 			longitude: change.longitude,
-			postalCode: change.postalCode
+			postalCode: change.postalCode,
+			city:  change.city
 		});
 		this.changeCityMode();
 	}

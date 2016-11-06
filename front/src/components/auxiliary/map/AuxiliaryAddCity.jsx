@@ -12,7 +12,7 @@ class AuxiliaryAddCity extends React.Component {
 	}
 	
 	onAutocompleteChanged(address) {
-		console.log("AUTOCOMPLETE")
+		console.log("AUTOCOMPLETE ADRESS")
 		console.log(address)
 		var change = {
 			lattitude: address.lattitude,
@@ -32,8 +32,6 @@ class AuxiliaryAddCity extends React.Component {
 				postalCode: this.state.postalCode,
 				city: this.state.city
 			}
-			console.log("VALID")
-			console.log(change)
 			this.props.valid(change);
 		}
 	}

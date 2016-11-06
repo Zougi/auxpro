@@ -23,6 +23,9 @@ class GoogleAutocomplete extends React.Component {
 	
   	_autocompleteChange() {
   		var place = this.autocomplete.getPlace();
+		
+		console.log("AUTOCOMPLETE RAW")
+		console.log(place)
 
   		var l = place.address_components.length;
   		for (var i = 0; i < l; i++) {
