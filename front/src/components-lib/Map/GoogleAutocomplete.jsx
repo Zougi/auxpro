@@ -9,7 +9,10 @@ class GoogleAutocomplete extends React.Component {
 
   	constructor(props) {
   		super(props);
-		this.state = {deFaultValue: props.defaultValue};
+		console.log("CONSTRUCT")
+		console.log(props)
+		if (props.location)
+			this.state = {location: props.location};
   	}
 
   	componentDidMount() {
@@ -18,7 +21,32 @@ class GoogleAutocomplete extends React.Component {
   	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({deFaultValue: nextProps.defaultValue});
+		console.log("RECEIVE PROPS")
+		console.log(nextProps)
+		if (nextProps.location) {
+			this.getDefaultValue(nextProps)
+			this.setState({location: nextProps.location});
+		}
+		
+		//var nextDefaultLocation = nextProps.location;
+		//if (!this.props.location  || (nextDefaultLocation.lattitude != this.props.location.lattitude && nextDefaultLocation.longitude != this.props.location.longitude))
+		//	this.getDefaultValue(nextProps)
+	}
+	
+	reverseGeoCodeResult(result, status) {
+		if (status === google.maps.GeocoderStatus.OK) {
+			console.log("RESULT");
+			this.input.value = result[0].formatted_address;
+			console.log(result);
+		} else {
+			alert('ReverseGeoCode Error: ' + status);
+		}
+	}
+	
+	getDefaultValue(props) {
+		var latLng = new google.maps.LatLng(props.location.lattitude, props.location.longitude);
+		var geocoder = new google.maps.Geocoder;
+		geocoder.geocode({'location': latLng}, this.reverseGeoCodeResult.bind(this));
 	}
 	
   	_autocompleteChange() {
@@ -33,6 +61,8 @@ class GoogleAutocomplete extends React.Component {
 			place[comp.types[0]] = comp.long_name;			
 		}
 
+		this.setState({location: {lattitude: place.geometry.location.lat(), longitude: place.geometry.location.lng()}});
+		
   		if (this.props.onChange) {
   			this.props.onChange({
   				lattitude: place.geometry.location.lat(),
@@ -46,14 +76,15 @@ class GoogleAutocomplete extends React.Component {
   	}
 
 	render() {
+		console.log("RENDER")
+		console.log(this.state)
 		return (
 			<input 
 				className='ap-google-autocomplete autocomplete form-control'
 				disabled={!this.props.edit}
 				placeholder={!this.props.edit ? (this.props.placeholder || '') : 'Saisir addresse'}
 				type='text'
-				ref={(c) => { this.input = c; } }
-				defaultValue={this.state.defaultValue}	/>
+				ref={(c) => { this.input = c; } } />
   		);
   	}
 }

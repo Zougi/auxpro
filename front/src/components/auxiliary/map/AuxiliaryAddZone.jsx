@@ -97,7 +97,7 @@ class AuxiliaryAddZone extends React.Component {
 				<GoogleAutocomplete
 					edit={true}
 					onChange={this.onAutocompleteChanged.bind(this)}
-					defaultValue={this.state.defaultValue}/>
+					location={this.state.location}/>
 				<input type="number" onChange={this.onRadiusChanged.bind(this)} step="5" disabled={!this.state.lattitude}/>
 				<APButton block
 					bsStyle='success'
