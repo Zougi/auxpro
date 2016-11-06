@@ -98,8 +98,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	onChangeZonePanel(change) {
 		this.setState({ 
 			geozone: {
-				lattitude: Number(change.address.lattitude),
-				longitude: Number(change.address.longitude),
+				lattitude: Number(change.lattitude),
+				longitude: Number(change.longitude),
 				radius: change.radius
 			} 
 		});
@@ -108,17 +108,18 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	validZone(change) {
 		console.log(change)
 		this.createGeozone({
-			lattitude: change.address.lattitude,
-			longitude: change.address.lattitude,
+			lattitude: change.lattitude,
+			longitude: change.longitude,
 			radius: change.radius
 		});
+		this.changeZoneMode();
 	}
 	
 	getZonePanel() {
 		return (
 			<AuxiliaryAddZone 
 				onChange={this.onChangeZonePanel.bind(this)}
-				defaultLocation={this.state.geozone}
+				location={this.state.geozone}
 				valid={this.validZone.bind(this)} />
 		);
 	}
@@ -192,6 +193,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	_buildMarkers() {
+		console.log("BUILD MARKERS")
+		console.log(this.state)
 		let result = [];
 		// Add map center
 		let auxiliary = this.state.auxiliary;
@@ -275,7 +278,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				onClick: this.onMarkerClicked.bind(this)
 			});
 		}
-		console.log(result);
 		return result;
 	}
 
@@ -304,6 +306,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	render() {
+		console.log("RENDER")
 		return (
 			<Panel header="Mes zones d'intervention">
 				<Row>
