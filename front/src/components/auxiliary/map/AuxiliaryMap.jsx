@@ -208,8 +208,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 
 	_buildCenter() {
 		return {
-			lattitude: Number(this.state.auxiliary.contact.address.lattitude),
-			longitude: Number(this.state.auxiliary.contact.address.longitude)
+			lattitude: Number(this.state.auxiliary.lattitude),
+			longitude: Number(this.state.auxiliary.longitude)
 		};
 	}
 
@@ -219,21 +219,21 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		let auxiliary = this.state.auxiliary;
 		result.push({
 			id: 'home',
-			lattitude: Number(auxiliary.contact.address.lattitude),
-			longitude: Number(auxiliary.contact.address.longitude),
+			lattitude: Number(auxiliary.lattitude),
+			longitude: Number(auxiliary.longitude),
 			color: 'D9534F',
 			title: 'Mon domicile',
 
 			type: MARKER_TYPE.HOME,
 			bsStyle: 'danger',
 			header: 'Mon domicile',
-			name: auxiliary.person.civility + ' ' + auxiliary.person.lastName + ' ' + auxiliary.person.firstName,
-			address1: auxiliary.contact.address.address,
-			address2: auxiliary.contact.address.postalCode + ' ' + auxiliary.contact.address.city,
+			name: auxiliary.civility + ' ' + auxiliary.lastName + ' ' + auxiliary.firstName,
+			address1: auxiliary.address,
+			address2: auxiliary.postalCode + ' ' + auxiliary.city,
 			onClick: this.onMarkerClicked.bind(this)
 		})
 		// Add geo zones 
-		result.push(...(this.state.geoZones || []).map(function (gz, i) {
+		function pushGeoZone(gz, i, cb) {
 			return {
 				id: 'gz' + i,
 				lattitude: Number(gz.lattitude),
@@ -247,9 +247,12 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				name: gz.radius ? 'Par proximité' : 'Par ville',
 				address1: gz.radius ? 'Autour de' : gz.postalCode,
 				address2: gz.radius ? 'Zone de ' + (Number(gz.radius)/1000) + 'km' : gz.city,
-				onClick: this.onMarkerClicked.bind(this)
+				onClick: cb
 			};
-		}.bind(this)));
+		}
+		if (auxiliary.geoZone1) result.push(pushGeoZone(auxiliary.geoZone1, 1, this.onMarkerClicked.bind(this)));
+		if (auxiliary.geoZone2) result.push(pushGeoZone(auxiliary.geoZone2, 2, this.onMarkerClicked.bind(this)));
+		if (auxiliary.geoZone3) result.push(pushGeoZone(auxiliary.geoZone3, 3, this.onMarkerClicked.bind(this)));
 		// Add customers
 		result.push(...Utils.map(this.state.customers, function (c) {
 			let mode = (c.type === 'intervention');
