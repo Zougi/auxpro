@@ -37,12 +37,12 @@ public class IndiosponibilityGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_getUnknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), auxiliary1.getUser()).get();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userAuxA).get();
 		AssertHelper.assertException(APException.INDISPONIBILITY_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_notOwner() throws Exception {
-		Response response = prepare(getBaseUrl(), auxiliary2.getUser()).get();
+		Response response = prepare(getBaseUrl(), userAuxB).get();
 		AssertHelper.assertException(APException.INDISPONIBILITY_NOT_FOUND, response);
 	}
 	
@@ -50,13 +50,13 @@ public class IndiosponibilityGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getBaseUrl(), auxiliary1.getUser()).get();
+		Response rsp = prepare(getBaseUrl(), userAuxA).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		IndisponibilityBean indisponibility = prepare(getBaseUrl(), auxiliary1.getUser()).get(IndisponibilityBean.class);
+		IndisponibilityBean indisponibility = prepare(getBaseUrl(), userAuxA).get(IndisponibilityBean.class);
 		AssertHelper.assertIndisponibility(indisponibility1, indisponibility);
 	}
 }

@@ -3,7 +3,7 @@ package module.rest.auxiliaries;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class AuxiliaryPutRestTest extends RestTestBase {
 	}
 
 	public String getBaseUrl() {
-		return "/" + auxiliary1.getId();
+		return "/" + userAuxA.getId();
 	}
 	
 	/* TEST CASES */
@@ -28,22 +28,22 @@ public class AuxiliaryPutRestTest extends RestTestBase {
 
 	@Test
 	public void testI_asUnknown() throws Exception {
-		Response response = prepare(getBaseUrl(), "dummy", "dummy").post(write(auxiliary1));
+		Response response = prepare(getBaseUrl(), "dummy", "dummy").post(write(auxiliaryA));
 		TestCase.assertEquals(401, response.getStatus());
 	}
 	@Test
 	public void testI_putUnknown() throws Exception {
-		Response response = prepare("/dummy", auxiliary1.getUser()).put(write(auxiliary1));
+		Response response = prepare("/dummy", userAuxA).put(write(auxiliaryA));
 		AssertHelper.assertException(APException.AUXILIARY_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_notSameUser() throws Exception {
-		Response response = prepare(getBaseUrl(), auxiliary2.getUser()).put(write(auxiliary1));
+		Response response = prepare(getBaseUrl(), userAuxB).put(write(auxiliaryA));
 		AssertHelper.assertException(APException.AUXILIARY_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_invalidAuxiliary() throws Exception {
-		Response response = prepare(getBaseUrl(), auxiliary1.getUser()).put(write(auxiliary2));
+		Response response = prepare(getBaseUrl(), userAuxA).put(write(auxiliaryB));
 		AssertHelper.assertException(APException.AUXILIARY_INVALID, response);
 	}
 
@@ -52,14 +52,14 @@ public class AuxiliaryPutRestTest extends RestTestBase {
 
 	@Test
 	public void testV_update() throws Exception {
-		AuxiliaryBean userAux = prepare(getBaseUrl(), auxiliary1.getUser()).get(AuxiliaryBean.class);
-		AssertHelper.assertAuxiliary(auxiliary1, userAux);
+		AuxiliaryBean userAux = prepare(getBaseUrl(), userAuxA).get(AuxiliaryBean.class);
+		AssertHelper.assertAuxiliary(auxiliaryA, userAux);
 
-		auxiliary1.getInfos().setDiploma("dummy");
-		Response response = prepare(getBaseUrl(), auxiliary1.getUser()).put(write(auxiliary1));
+		auxiliaryA.setDiploma("dummy");
+		Response response = prepare(getBaseUrl(), userAuxA).put(write(auxiliaryA));
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		userAux = prepare(getBaseUrl(), auxiliary1.getUser()).get(AuxiliaryBean.class);
-		AssertHelper.assertAuxiliary(auxiliary1, userAux);
+		userAux = prepare(getBaseUrl(), userAuxA).get(AuxiliaryBean.class);
+		AssertHelper.assertAuxiliary(auxiliaryA, userAux);
 	}
 }

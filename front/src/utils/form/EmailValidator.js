@@ -1,21 +1,20 @@
-var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import ValidatorBase from 'utils/form/ValidatorBase'
 
-export default class EmailValidator {
+export default class EmailValidator extends ValidatorBase {
 
-	static getState(value) {
-		if (value || value === '') {
-			if (reg.test(value)) {
-				return 'success';
-			}
-		}
-		return 'error';
+	constructor(props) {
+		super(props)
+		this.regSuccess = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		this.msgSuccess = '';
+		this.msgError = 'Veuillez saisir une addresse électronique valide';
 	}
 
-	static getMessage(value) {
-		if (getState(value) === 'success') {
-			return 'Veuillez saisir une addresse électronique valide';
-		} else {
-			return '';
+	getState(value) {
+		if (value || value === '') {
+			if (this.regSuccess.test(value)) {
+				return ValidatorBase.STATES.SUCCESS;
+			} 
 		}
+		return ValidatorBase.STATES.ERROR;
 	}
 }

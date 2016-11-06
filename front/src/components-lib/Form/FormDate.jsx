@@ -16,7 +16,7 @@ class FormDate extends FormBase {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			validationState: (!this.props.static && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
+			validationState: (this.props.edit && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
 			date: this.props.defaultValue ? this.props.defaultValue : null 
 		};
 	}

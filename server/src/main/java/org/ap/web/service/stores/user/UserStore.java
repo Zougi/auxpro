@@ -3,73 +3,55 @@ package org.ap.web.service.stores.user;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
+import java.time.LocalDateTime;
+
+import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.mongo.AccountBean;
-import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
+import org.ap.web.entity.mongo.UserCredentialsBean;
 import org.ap.web.internal.APException;
 import org.ap.web.service.EMongoCollection;
-import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
-import org.ap.web.service.stores.auxiliaries.IAuxiliariesStore;
-import org.ap.web.service.stores.services.IServicesStore;
-import org.ap.web.service.stores.services.ServicesStore;
+import org.ap.web.service.stores.StoreBase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-public class UserStore implements IUserStore {
+public class UserStore extends StoreBase<UserBean> implements IUsersStore {
 
-	private IAuxiliariesStore _auxStore;
-	private IServicesStore _sadStore;
+	private static final String MONGO_ID = "_id";
+	private static final String NAME = "name";
+	private static final String PASSWORD = "password";
 	
 	public UserStore() {
-		_auxStore = new AuxiliariesStore();
-		_sadStore = new ServicesStore();
+		super(EMongoCollection.USERS, UserBean.class);
 	}
 
 	@Override
 	public UserBean check(String name, String password) throws APException {
-		Document document = EMongoCollection.ACCOUNTS.getService().findOne(and(eq("user.name", name), eq("user.password", password)));
+		Document document = EMongoCollection.USERS.getService().findOne(and(eq(NAME, name), eq(PASSWORD, password)));
 		if (document != null) {
-			AccountBean bean = BeanConverter.convertToBean(document, AccountBean.class);
-			UserBean user = bean.getUser();
-			user.setId(bean.getId());
-			return user;
-		}
-		AuxiliaryBean aux = _auxStore.check(name, password);
-		if (aux != null) {
-			UserBean user = aux.getUser();
-			user.setId(aux.getId());
-			return user;
-		}
-		ServiceBean sad = _sadStore.check(name, password);
-		if (sad != null) {
-			UserBean user = sad.getUser();
-			user.setId(sad.getId());
-			return user;
+			return BeanConverter.convertToBean(document, UserBean.class);
 		}
 		return null;
 	}
 	@Override
 	public UserBean get(String id) throws APException {
-		Document document = EMongoCollection.ACCOUNTS.getService().findOne(eq("_id", new ObjectId(id)));
+		Document document = EMongoCollection.USERS.getService().findOne(eq(MONGO_ID, new ObjectId(id)));
 		if (document != null) {
-			UserBean user = BeanConverter.convertToBean(document, AccountBean.class).getUser();
-			user.setId(id);
-			return user;
-		}
-		AuxiliaryBean aux = _auxStore.get(id);
-		if (aux != null) {
-			UserBean user = aux.getUser();
-			user.setId(id);
-			return user;
-		}
-		ServiceBean sad = _sadStore.get(id);
-		if (sad != null) {
-			UserBean user = sad.getUser();
-			user.setId(id);
-			return user;
+			return BeanConverter.convertToBean(document, UserBean.class);
 		}
 		return null;
+	}
+
+	@Override
+	public UserBean create(UserCredentialsBean bean) throws APException {
+		if (!EmailValidator.getInstance().isValid(bean.getName())) throw APException.USER_NAME_INVALID;
+		if (EMongoCollection.USERS.getService().findOne(eq("name", bean.getName())) != null) throw APException.USER_NAME_INUSE;
+		UserBean user = new UserBean();
+		user.setType(bean.getType());
+		user.setName(bean.getName());
+		user.setPassword(bean.getPassword());
+		user.setRegistrationDate(LocalDateTime.now());
+		user.setProfileActive(true);
+		return createEntity(user);
 	}
 }

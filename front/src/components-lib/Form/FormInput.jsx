@@ -14,11 +14,16 @@ class FormInput extends FormBase {
 
 	onChange(event) {
 		var v = event.target.value;
+		var vs = 'success';
 		if (this.props.validator) {
-			this.setState({validationState: this.props.validator.getState(v)})
+			vs = this.props.validator.getState(v)
+			this.setState({validationState: vs})
 		}
 		if (this.props.onChange) {
-			this.props.onChange(v);
+			this.props.onChange({
+				value: v,
+				validationState: vs
+			});
 		}
 	}
 	

@@ -29,7 +29,7 @@ public class BeanConverterTest extends TestModuleBase {
 	
 	@Test
 	public void test_checkAuxiliaryConversion() throws APException {
-		AssertHelper.assertAuxiliary(auxiliary1, _auxStore.get(auxiliary1.getId()));
+		AssertHelper.assertAuxiliary(auxiliaryA, _auxStore.get(auxiliaryA.getId()));
 	}
 	@Test
 	public void test_checkServiceConversion() throws APException {
@@ -37,9 +37,9 @@ public class BeanConverterTest extends TestModuleBase {
 	}
 	@Test
 	public void test_checkUserConversion() throws APException {
-		AssertHelper.assertUser(accountAdmin.getUser(), _userStore.get(accountAdmin.getId()));
-		AssertHelper.assertUser(accountGuest.getUser(), _userStore.get(accountGuest.getId()));
-		AssertHelper.assertUser(auxiliary1.getUser(), _userStore.get(auxiliary1.getId()));
-		AssertHelper.assertUser(service1.getUser(), _userStore.get(service1.getId()));	}
-	
+		AssertHelper.assertUser(userAdmin, _userStore.get(userAdmin.getId()));
+		AssertHelper.assertUser(userGuest, _userStore.get(userGuest.getId()));
+		AssertHelper.assertUser(userAuxA, _userStore.get(userAuxA.getId()));
+		AssertHelper.assertUser(userSadZ, _userStore.get(userSadZ.getId()));
+	}
 }

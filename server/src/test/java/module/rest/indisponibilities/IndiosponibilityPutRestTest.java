@@ -11,7 +11,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class IndiosponibilityPutRestTest extends RestTestBase {
 
@@ -22,7 +22,7 @@ public class IndiosponibilityPutRestTest extends RestTestBase {
 	/* TEST DATA */
 	
 	private IndisponibilityBean next() {
-		return TestData.next(new IndisponibilityBean()); 
+		return TestDataGenerator.next(new IndisponibilityBean()); 
 	}
 	private String getBaseUrl() {
 		return "/" + indisponibility1.getId();
@@ -41,8 +41,8 @@ public class IndiosponibilityPutRestTest extends RestTestBase {
 	@Test
 	public void testV_notOwner() throws Exception {
 		IndisponibilityBean expected = next();
-		expected.setAuxiliaryId(auxiliary2.getId());
-		Response response = prepare(getBaseUrl(), auxiliary1.getUser()).put(write(expected));	
+		expected.setAuxiliaryId(auxiliaryB.getId());
+		Response response = prepare(getBaseUrl(), userAuxA).put(write(expected));	
 		AssertHelper.assertException(APException.INDISPONIBILITY_NOT_FOUND, response);
 	}
 	
@@ -52,8 +52,8 @@ public class IndiosponibilityPutRestTest extends RestTestBase {
 	public void testV_putValid() throws Exception {
 		IndisponibilityBean expected = next();
 		expected.setId(indisponibility1.getId());
-		expected.setAuxiliaryId(auxiliary1.getId());
-		IndisponibilityBean actual = prepare(getBaseUrl(), auxiliary1.getUser()).put(write(expected), IndisponibilityBean.class);	
+		expected.setAuxiliaryId(auxiliaryA.getId());
+		IndisponibilityBean actual = prepare(getBaseUrl(), userAuxA).put(write(expected), IndisponibilityBean.class);	
 		AssertHelper.assertIndisponibility(expected, actual);
 	}
 }

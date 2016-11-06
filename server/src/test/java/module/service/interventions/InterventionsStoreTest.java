@@ -12,7 +12,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.TestModuleBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class InterventionsStoreTest extends TestModuleBase {
 
@@ -34,7 +34,7 @@ public class InterventionsStoreTest extends TestModuleBase {
 	}
 	@Test(expected=APException.class)
 	public void testI_updateUnkwon() throws APException {
-		store.updateIntervention(TestData.next(new InterventionBean()));
+		store.updateIntervention(TestDataGenerator.next(new InterventionBean()));
 	}
 	@Test(expected=APException.class)
 	public void testI_deleteUnkwon() throws APException {
@@ -50,7 +50,7 @@ public class InterventionsStoreTest extends TestModuleBase {
 	}
 	@Test
 	public void testV_createNew() throws APException {
-		InterventionBean intervention = TestData.next(new InterventionBean());
+		InterventionBean intervention = TestDataGenerator.next(new InterventionBean());
 		InterventionBean interventionCreated = store.createIntervention(intervention);
 		AssertHelper.assertIntervention(intervention, interventionCreated);
 		AssertHelper.assertIntervention(intervention, store.getIntervention(interventionCreated.getId()));

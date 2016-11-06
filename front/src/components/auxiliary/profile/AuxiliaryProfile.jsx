@@ -68,21 +68,24 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 							<Panel header='Informations personnelles' bsStyle='info'>
 								<Col sm={6}>
 									<Person 
-										civility={this.state.auxiliary.person.civility}
-										lastName={this.state.auxiliary.person.lastName}
-										firstName={this.state.auxiliary.person.firstName}
-										birthDate={this.state.auxiliary.person.birthDate}
-										birthCity={this.state.auxiliary.person.birthCity}
-										birthCountry={this.state.auxiliary.person.birthCountry}
-										nationality={this.state.auxiliary.person.nationality}
-										socialNumber={this.state.auxiliary.person.socialNumber} 
-										ciNumber={this.state.auxiliary.person.ciNumber} />
+										civility={this.state.auxiliary.civility}
+										lastName={this.state.auxiliary.lastName}
+										firstName={this.state.auxiliary.firstName}
+										birthDate={this.state.auxiliary.birthDate}
+										birthCity={this.state.auxiliary.birthCity}
+										birthCountry={this.state.auxiliary.birthCountry}
+										nationality={this.state.auxiliary.nationality}
+										socialNumber={this.state.auxiliary.socialNumber} 
+										ciNumber={this.state.auxiliary.ciNumber} />
 								</Col>
 								<Col sm={6}>
 									<Contact 
-										address={this.state.auxiliary.contact.address}
-										phone={this.state.auxiliary.contact.phone}
-										email={this.state.auxiliary.contact.email} />
+										address={this.state.auxiliary.address}
+										postalCode={this.state.auxiliary.postalCode}
+										city={this.state.auxiliary.city}
+										country={this.state.auxiliary.country}
+										phone={this.state.auxiliary.phone}
+										email={this.state.auxiliary.email} />
 								</Col>
 							</Panel>
 						</Col>
@@ -92,10 +95,10 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 					<Panel>
 						<br/>
 						<Panel bsStyle='warning' header='Mes Diplômes'>
-							{this.state.auxiliary.infos.diploma}
+							{this.state.auxiliary.diploma}
 						</Panel>
 						<Panel bsStyle='info' header='Mes Compétences'>
-							<SkillSummaryList skills={this.state.auxiliary.skills}/>
+							<SkillSummaryList skills={this.state.auxiliary}/>
 						</Panel>
 					</Panel>
 				</Col>

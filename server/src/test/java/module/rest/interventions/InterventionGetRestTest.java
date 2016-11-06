@@ -37,12 +37,12 @@ public class InterventionGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_unknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).get();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userSadZ).get();
 		AssertHelper.assertException(APException.INTERVENTION_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_notOwner() throws Exception {
-		Response response = prepare(getBaseUrl(), service2.getUser()).get();
+		Response response = prepare(getBaseUrl(), userSadY).get();
 		AssertHelper.assertException(APException.INTERVENTION_NOT_FOUND, response);
 	}
 	
@@ -50,13 +50,13 @@ public class InterventionGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getBaseUrl(), service1.getUser()).get();
+		Response rsp = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		InterventionBean intervention = prepare(getBaseUrl(), service1.getUser()).get(InterventionBean.class);
+		InterventionBean intervention = prepare(getBaseUrl(), userSadZ).get(InterventionBean.class);
 		AssertHelper.assertIntervention(intervention1, intervention);
 	}
 }

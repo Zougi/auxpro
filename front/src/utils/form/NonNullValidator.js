@@ -1,18 +1,18 @@
-export default class NonNullValidator {
+import ValidatorBase from 'utils/form/ValidatorBase'
 
-	static getState(value) {
+export default class NonNullValidator extends ValidatorBase {
+
+	constructor(props) {
+		super(props)
+		this.msgSuccess = '';
+		this.msgError = '';
+	}
+
+	getState(value) {
 		if (value !== null && !(typeof value === 'undefined')) {
 			return 'success';
 		} else {
 			return 'error';
-		}
-	}
-
-	static getMessage(value) {
-		if (getState(value) === 'success') {
-			return 'Veuillez saisir une valeur valide';
-		} else {
-			return '';
 		}
 	}
 }

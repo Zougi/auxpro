@@ -1,10 +1,7 @@
 package org.ap.web.service.stores.services;
 
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Filters.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,8 +10,6 @@ import java.util.Set;
 
 import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.mongo.CredentialsBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
@@ -57,12 +52,7 @@ public class ServicesStore extends StoreBase<ServiceBean> implements IServicesSt
 		List<ServiceBean> result = BeanConverter.convertToBean(iterable, ServiceBean.class);
 		return result.toArray(new ServiceBean[result.size()]);
 	}
-	@Override
-	public ServiceBean check(String name, String password) throws APException {
-		Document document = EMongoCollection.SERVICES.getService().findOne(and(eq("user.name", name), eq("user.password", password)));
-		if (document == null) return null;
-		return BeanConverter.convertToBean(document, ServiceBean.class);
-	}
+	
 	@Override
 	public ServiceBean get(String id) throws APException {
 		Document document = EMongoCollection.SERVICES.getService().findOne(eq("_id", new ObjectId(id)));
@@ -70,20 +60,14 @@ public class ServicesStore extends StoreBase<ServiceBean> implements IServicesSt
 		return BeanConverter.convertToBean(document, ServiceBean.class);
 	}
 	@Override
-	public ServiceBean create(CredentialsBean bean) throws APException {
+	public ServiceBean create(UserBean bean) throws APException {
 		if (!EmailValidator.getInstance().isValid(bean.getName())) throw APException.USER_NAME_INVALID;
-		if (!EmailValidator.getInstance().isValid(bean.getEmail())) throw APException.USER_EMAIL_INVALID;
-		if (EMongoCollection.SERVICES.getService().findOne(eq("user.name", bean.getName())) != null) throw APException.USER_NAME_INUSE;
-		if (EMongoCollection.SERVICES.getService().findOne(eq("user.email", bean.getEmail())) != null) throw APException.USER_EMAIL_INUSE;
-		ServiceBean auxiliary = new ServiceBean();
-		UserBean user = new UserBean();
-		user.setType(EUserType.SAD.getId());
-		user.setName(bean.getName());
-		user.setEmail(bean.getEmail());
-		user.setPassword(bean.getPassword());
-		user.setRegistrationDate(LocalDateTime.now());
-		auxiliary.setUser(user);
-		Document document = BeanConverter.convertToMongo(auxiliary);
+		if (EMongoCollection.SERVICES.getService().findOne(eq("name", bean.getName())) != null) throw APException.USER_NAME_INUSE;
+		if (EMongoCollection.SERVICES.getService().findOne(eq("email", bean.getName())) != null) throw APException.USER_EMAIL_INUSE;
+		ServiceBean service = new ServiceBean();
+		service.setName(bean.getName());
+		service.setEmail(bean.getName());
+		Document document = BeanConverter.convertToMongo(service);
 		document = EMongoCollection.SERVICES.getService().create(document);		
 		return BeanConverter.convertToBean(document, ServiceBean.class);
 	}
@@ -95,11 +79,10 @@ public class ServicesStore extends StoreBase<ServiceBean> implements IServicesSt
 		document = EMongoCollection.SERVICES.getService().update(document);
 		return BeanConverter.convertToBean(document, ServiceBean.class);
 		*/
-		Document initial = EMongoCollection.SERVICES.getService().findOne(eq("user.name", bean.getUser().getName()));
+		Document initial = EMongoCollection.SERVICES.getService().findOne(eq("name", bean.getName()));
 		if (initial == null) throw APException.USER_NAME_INVALID;
 		ServiceBean previous = BeanConverter.convertToBean(initial, ServiceBean.class);
 		bean.setId(previous.getId());
-		bean.getUser().setPassword(previous.getUser().getPassword());
 		return updateEntity(bean);
 	}
 	@Override

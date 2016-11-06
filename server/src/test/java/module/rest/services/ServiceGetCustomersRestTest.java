@@ -17,7 +17,7 @@ public class ServiceGetCustomersRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + service1.getId() + "/customers";
+		return "/" + userSadZ.getId() + "/customers";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class ServiceGetCustomersRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asService_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), service1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asService() throws Exception {
-		CustomerBean[] rsp = prepare(getUrlBase(), service1.getUser()).get(CustomerBean[].class);
+		CustomerBean[] rsp = prepare(getUrlBase(), userSadZ).get(CustomerBean[].class);
 		TestCase.assertEquals(2, rsp.length);
 	}
 }

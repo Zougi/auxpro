@@ -10,7 +10,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.TestModuleBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class OffersStoreTest extends TestModuleBase {
 
@@ -32,7 +32,7 @@ public class OffersStoreTest extends TestModuleBase {
 	}
 	@Test(expected=APException.class)
 	public void testI_updateUnkwon() throws APException {
-		store.updateOffer(TestData.next(new OfferBean()));
+		store.updateOffer(TestDataGenerator.next(new OfferBean()));
 	}
 	@Test(expected=APException.class)
 	public void testI_deleteUnkwon() throws APException {
@@ -48,7 +48,7 @@ public class OffersStoreTest extends TestModuleBase {
 	}
 	@Test
 	public void testV_createNew() throws APException {
-		OfferBean offer = TestData.next(new OfferBean());
+		OfferBean offer = TestDataGenerator.next(new OfferBean());
 		OfferBean offerCreated = store.createOffer(offer);
 		AssertHelper.assertOffer(offer, offerCreated);
 		AssertHelper.assertOffer(offer, store.getOffer(offerCreated.getId()));

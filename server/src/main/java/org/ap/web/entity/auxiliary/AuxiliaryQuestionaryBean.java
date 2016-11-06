@@ -1,10 +1,10 @@
-package org.ap.web.entity.mongo;
+package org.ap.web.entity.auxiliary;
 
-public class QuestionaryBean {
+public class AuxiliaryQuestionaryBean {
 
 	private int[] answers;
 	
-	public QuestionaryBean() {}
+	public AuxiliaryQuestionaryBean() {}
 
 	public int[] getAnswers() { return answers; }
 	public void setAnswers(int[] answers) { this.answers = answers; }

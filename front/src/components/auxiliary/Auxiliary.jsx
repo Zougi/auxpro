@@ -49,7 +49,7 @@ class Auxiliary extends AuxiliaryBaseComponent {
 				Dispatcher.issue('NAVIGATE', { path: '/aux/infos/edit' });
 				return;
 			}
-			if (!this.getAuxiliaryData('/data/auxiliary/user/tutoSkipped')) {
+			if (!this.getAuxiliaryData('/data/auxiliary/tutoSkipped')) {
 				Dispatcher.issue('NAVIGATE', { path: '/aux/tuto' });
 				return;
 			}

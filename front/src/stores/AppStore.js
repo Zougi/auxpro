@@ -99,7 +99,6 @@ AppStore.onGetAuxiliary = function (result, param) {
 	}
 }
 Dispatcher.register('GET_AUXILIARY', AppStore.onGetAuxiliary);
-Dispatcher.register('PUT_AUXILIARY', AppStore.onGetAuxiliary);
 
 // GET_SERVICE - PUT_SERVICE
 AppStore.onGetService = function (result, param) {
@@ -109,7 +108,6 @@ AppStore.onGetService = function (result, param) {
 	}
 }
 Dispatcher.register('GET_SERVICE', AppStore.onGetService);
-Dispatcher.register('PUT_SERVICE', AppStore.onGetService);
 
 // LOGOUT
 AppStore.onLogout = function (result, param) {

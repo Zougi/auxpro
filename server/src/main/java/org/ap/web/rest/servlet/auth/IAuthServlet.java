@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.mongo.UserBean;
+import org.ap.web.entity.mongo.UserCredentialsBean;
 
 /**
  * This interface describes the auth servlet features.
@@ -36,7 +37,7 @@ public interface IAuthServlet {
 	@Path("register")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response registerRequest(UserBean user);
+	public Response registerRequest(UserCredentialsBean user);
 	
 	@GET
 	@Path("register/{token}")

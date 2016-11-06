@@ -133,7 +133,7 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
                 <Row>
                     <Col sm={8} md={7} lg={6}>
                         <FormSelect 
-                            static={!mode}
+                            edit={mode}
                             title={mode ? 'Choisir client' : 'Client'}
                             defaultValue={this.state.intervention.customerId}
                             values={this._buildCustomers()}
@@ -144,7 +144,7 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
                 <Row>
                     <Col sm={8} md={7} lg={6}>
                         <FormSelect 
-                            static={false}
+                            edit={true}
                             title='Type de demande'
                             defaultValue={this.state.interventionMode.key} 
                             values={[ INTERVENTION_MODES.ONE_TIME, INTERVENTION_MODES.RECURENCE ]}

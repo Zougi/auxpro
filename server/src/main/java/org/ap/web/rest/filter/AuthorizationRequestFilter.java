@@ -10,7 +10,7 @@ import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.security.Encoder;
 import org.ap.web.rest.security.UserSecurityContext;
-import org.ap.web.service.stores.user.IUserStore;
+import org.ap.web.service.stores.user.IUsersStore;
 import org.ap.web.service.stores.user.UserStore;
 
 @PreMatching
@@ -22,7 +22,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
 	/* ATTRIBUTES */
 
-	private IUserStore _store;
+	private IUsersStore _store;
 
 	/* CONSTRUCTOR */
 

@@ -17,7 +17,7 @@ public class AuxiliaryGetCustomersRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + auxiliary1.getId() + "/customers";
+		return "/" + userAuxA.getId() + "/customers";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class AuxiliaryGetCustomersRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asService_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), auxiliary1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userAuxA).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asService() throws Exception {
-		CustomerBean[] rsp = prepare(getUrlBase(), auxiliary1.getUser()).get(CustomerBean[].class);
+		CustomerBean[] rsp = prepare(getUrlBase(), userAuxA).get(CustomerBean[].class);
 		TestCase.assertEquals(1, rsp.length);
 	}
 }

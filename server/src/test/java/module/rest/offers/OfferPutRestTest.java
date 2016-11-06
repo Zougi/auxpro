@@ -28,7 +28,7 @@ public class OfferPutRestTest extends RestTestBase {
 
 	@Test
 	public void testI_notOwner() throws Exception {
-		Response response = prepare(getBaseUrl(), service2.getUser()).put(write(offer1));
+		Response response = prepare(getBaseUrl(), userSadY).put(write(offer1));
 		TestCase.assertEquals(Status.FORBIDDEN.getStatusCode(), response.getStatus());
 	}
 	
@@ -37,6 +37,6 @@ public class OfferPutRestTest extends RestTestBase {
 	@Test
 	public void testV_update() throws Exception {
 		offer1.setStatus(EOfferStatus.ACCEPTED.getId());
-		OfferBean offer = prepare(getBaseUrl(), service1.getUser()).put(write(offer1), OfferBean.class);
+		OfferBean offer = prepare(getBaseUrl(), userSadZ).put(write(offer1), OfferBean.class);
 		AssertHelper.assertOffer(offer1, offer);
 	}}

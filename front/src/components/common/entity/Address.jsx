@@ -1,11 +1,10 @@
-// lib modules
-import React from 'react';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
-// custom modules
-import Utils from 'utils/Utils.js'
-// custom components
+import React from 'react'
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
+// Custom components
 import FormInput from 'components-lib/Form/FormInput.jsx'
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete.jsx'
+// Custom modules
+import Utils from 'utils/Utils.js'
 
 class Address extends React.Component {
 
@@ -39,19 +38,19 @@ class Address extends React.Component {
 				placeholder={this.state.address + ', ' + this.state.postalCode + ' ' + this.state.city}/>
 		: '' }
 			<FormInput 
-				static={true}
+				edit={false}
 				title='Addresse'
 				value={this.state.address} />
 			<FormInput 
-				static={true}
+				edit={false}
 				title='Code postal'
 				value={this.state.postalCode} />
 			<FormInput 
-				static={true}
+				edit={false}
 				title='Ville'
 				value={this.state.city} />
 			<FormInput 
-				static={true}
+				edit={false}
 				title='Pays'
 				value={this.state.country} />
 		</div>

@@ -11,7 +11,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class CustomerPostRestTest extends RestTestBase {
 
@@ -22,7 +22,7 @@ public class CustomerPostRestTest extends RestTestBase {
 	/* TEST DATA */
 	
 	private CustomerBean next() {
-		return TestData.next(new CustomerBean()); 
+		return TestDataGenerator.next(new CustomerBean()); 
 	}
 	private String getBaseUrl() {
 		return "/";
@@ -42,7 +42,7 @@ public class CustomerPostRestTest extends RestTestBase {
 	public void testV_notOwner() throws Exception {
 		CustomerBean expected = next();
 		expected.setServiceId(service2.getId());
-		Response response = prepare(getBaseUrl(), service1.getUser()).post(write(expected));	
+		Response response = prepare(getBaseUrl(), userSadZ).post(write(expected));	
 		AssertHelper.assertException(APException.CUSTOMER_SERVICE_INVALID, response);
 	}
 
@@ -52,7 +52,7 @@ public class CustomerPostRestTest extends RestTestBase {
 	public void testV_postValid() throws Exception {
 		CustomerBean expected = next();
 		expected.setServiceId(service1.getId());
-		CustomerBean actual = prepare(getBaseUrl(), service1.getUser()).post(write(expected), CustomerBean.class);	
+		CustomerBean actual = prepare(getBaseUrl(), userSadZ).post(write(expected), CustomerBean.class);	
 		AssertHelper.assertCustomer(expected, actual);
 	}
 }

@@ -14,16 +14,16 @@ class FormBase extends React.Component {
 		this.mdLabelSize = this.props.mdLabelSize || this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.mdLabelSize;
 		this.lgLabelSize = this.props.lgLabelSize || this.props.mdLabelSize || this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.lgLabelSize;
 		this.state = {
-			validationState: (!this.props.static && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
+			validationState: (this.props.edit && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
 			value: this.props.value
 		}
 	}
 
 	getFormControl() {
-		if (this.props.static) {
-			return this.getFormControlStatic();	
-		} else {
+		if (this.props.edit) {
 			return this.getFormControlEditable();
+		} else {
+			return this.getFormControlStatic();	
 		}
 	}
 
@@ -43,7 +43,7 @@ class FormBase extends React.Component {
 				</Col>
 				<Col sm={12 - this.smLabelSize} md={12 - this.mdLabelSize} lg={12 - this.lgLabelSize}>
 					{this.props.children ? this.props.children : this.getFormControl()}
-					{ !this.props.static ? <FormControl.Feedback/> : '' }
+					{ this.props.edit ? <FormControl.Feedback/> : '' }
 				</Col>
 			</FormGroup>
 		);

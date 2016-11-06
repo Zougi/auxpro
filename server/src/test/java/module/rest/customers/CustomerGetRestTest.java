@@ -37,12 +37,12 @@ public class CustomerGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_unknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).get();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userSadZ).get();
 		AssertHelper.assertException(APException.CUSTOMER_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_notOwner() throws Exception {
-		Response response = prepare(getBaseUrl(), service2.getUser()).get();
+		Response response = prepare(getBaseUrl(), userSadY).get();
 		AssertHelper.assertException(APException.CUSTOMER_NOT_FOUND, response);
 	}
 	
@@ -50,13 +50,13 @@ public class CustomerGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getBaseUrl(), service1.getUser()).get();
+		Response rsp = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		CustomerBean customer = prepare(getBaseUrl(), service1.getUser()).get(CustomerBean.class);
+		CustomerBean customer = prepare(getBaseUrl(), userSadZ).get(CustomerBean.class);
 		AssertHelper.assertCustomer(customer1, customer);
 	}
 }

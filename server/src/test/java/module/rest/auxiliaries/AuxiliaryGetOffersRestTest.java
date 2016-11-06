@@ -17,7 +17,7 @@ public class AuxiliaryGetOffersRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + auxiliary1.getId() + "/offers";
+		return "/" + userAuxA.getId() + "/offers";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class AuxiliaryGetOffersRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), auxiliary1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userAuxA).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_validGet() throws Exception {
-		OfferBean[] rsp = prepare(getUrlBase(), auxiliary1.getUser()).get(OfferBean[].class);
+		OfferBean[] rsp = prepare(getUrlBase(), userAuxA).get(OfferBean[].class);
 		TestCase.assertEquals(4, rsp.length);
 	}
 }

@@ -40,19 +40,19 @@ class InterventionDetailsOneTime extends React.Component {
 			<div>
 				<FormDate
 					defaultValue={this.data.oneTime.date}
-					static={!this.props.edit}
+					edit={this.props.edit}
 					title='Date'
 					onChange={this.onDateChanged.bind(this)}/>
 				<br/><br/>
 				<FormTime
 					defaultValue={this.data.oneTime.startTime}
-					static={!this.props.edit}
+					edit={this.props.edit}
 					title='Début'
 					onChange={this.onStartTimeChanged.bind(this)}/>
 				<br/><br/>
 				<FormTime
 					defaultValue={this.data.oneTime.endTime}
-					static={!this.props.edit}
+					edit={this.props.edit}
 					title='Fin'
 					onChange={this.onEndTimeChanged.bind(this)}/>
 			</div>

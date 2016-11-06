@@ -1,28 +1,32 @@
-import React from 'react';
+import React from 'react'
 import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
-import AuxiliaryQuestionnary from 'components/auxiliary/profile/AuxiliaryQuestionnary.jsx'
-import Person from 'components/common/entity/Person.jsx'
-import Contact from 'components/common/entity/Contact.jsx'
-import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
-import APGauge from 'components-lib/charts/APGauge.jsx'
-import FormBase from 'components-lib/Form/FormBase.jsx'
-import FormInput from 'components-lib/Form/FormInput.jsx'
-import FormSelect from 'components-lib/Form/FormSelect.jsx'
-import FormTextArea from 'components-lib/Form/FormTextArea.jsx'
-import AsyncImage from 'lib/image/AsyncImage.jsx'
-import ImageUploader from 'lib/image/ImageUploader.jsx'
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import AuxiliaryQuestionnary from 'components/auxiliary/profile/AuxiliaryQuestionnary'
+import Person from 'components/common/entity/Person'
+import Contact from 'components/common/entity/Contact'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList'
+import APGauge from 'components-lib/charts/APGauge'
+import FormBase from 'components-lib/Form/FormBase'
+import FormBuilder from 'components-lib/Form/FormBuilder'
+import FormInput from 'components-lib/Form/FormInput'
+import FormSelect from 'components-lib/Form/FormSelect'
+import FormTextArea from 'components-lib/Form/FormTextArea'
+import AsyncImage from 'lib/image/AsyncImage'
+import ImageUploader from 'lib/image/ImageUploader'
 // Lib modules
-import StringValidator from 'utils/form/StringValidator.js'
+import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
+import Validators from 'utils/form/Validators'
+import Utils from 'utils/Utils'
 
 let STATES = {
 	PROFILE: 'PROFILE',
 	QUESTION: 'QUESTION'
 }
+
 
 class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 
@@ -45,45 +49,41 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
-		let auxiliary = this.getAuxiliary();
-		auxiliary.contact = auxiliary.contact || {};
-		auxiliary.person = auxiliary.person || {};
-		auxiliary.infos = auxiliary.infos || {};
-		auxiliary.user = auxiliary.user || {};
-		return { auxiliary: auxiliary };
+		let auxiliary = this.getAuxiliary()
+		return { 
+			auxiliary: auxiliary,
+			validationState: AuxiliaryHelper.checkProfileValidation(auxiliary),
+			progression: AuxiliaryHelper.computeProfileProgression(auxiliary)
+		};
 	}
 
 
 	// Callbacks functions //
 	// --------------------------------------------------------------------------------
 
-	onAvatarChanged(avatar) {
-		this.state.auxiliary.user.avatar = avatar;
-		this.forceUpdate();
+	onAddressChanged(address) {
+		this.state.auxiliary.address = address.address;
+		this.state.auxiliary.postalCode = address.postalCode;
+		this.state.auxiliary.city = address.city;
+		this.state.auxiliary.country = address.country;
+		this.state.auxiliary.lattitude = address.lattitude;
+		this.state.auxiliary.longitude = address.longitude;
+		this.setState({ 
+			validationState: AuxiliaryHelper.checkProfileValidation(this.state.auxiliary),
+			progression: AuxiliaryHelper.computeProfileProgression(this.state.auxiliary)
+		});
 	}
-	onPersonChanged(person) {
-		this.state.auxiliary.person = person;
-		this.forceUpdate();
-	}
-	onContactChanged(contact) {
-		this.state.auxiliary.contact = contact;
-		this.forceUpdate();
-	}
-	onInfosChanged(infos) {
-		this.state.auxiliary.infos = infos;
-		this.forceUpdate();
-	}
-	onEntrepreneurChanged(value) {
-		this.state.auxiliary.infos.entrepreneur = value;
-		this.forceUpdate();
-	}
-	onDiplomaChanged(value) {
-		this.state.auxiliary.infos.diploma = value;
-		this.forceUpdate();
-	}
-	onDescriptionChanged(value) {
-		this.state.auxiliary.infos.description = value;
-		this.forceUpdate();
+
+	changeHandler(field) { 
+		return function (event) {
+			let value = event.value || event;
+			console.log(event)
+			Utils.setField(this.state.auxiliary, field, value); 
+			this.setState({ 
+				validationState: AuxiliaryHelper.checkProfileValidation(this.state.auxiliary),
+				progression: AuxiliaryHelper.computeProfileProgression(this.state.auxiliary)
+			});
+		}.bind(this);
 	}
 
 	onQuestionnary() {
@@ -123,6 +123,171 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
+	_buildPersonalInfos() {
+		return [
+			[
+				{
+					title: 'Civilité',
+					type: 'select',
+					edit: true,
+					defaultValue: this.state.auxiliary.civility,
+					changeHandler: this.changeHandler('civility'),
+					validator: Validators.NonNull,
+					values: [
+						{ key: 'Mr', value: 'Mr' },
+						{ key: 'Mme', value: 'Mme' }
+					]
+				},
+				{
+					title: 'Nom',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.lastName,
+					changeHandler: this.changeHandler('lastName'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Prénom',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.firstName,
+					changeHandler: this.changeHandler('firstName'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Date de naissance',
+					type: 'date',
+					edit: true,
+					defaultValue: this.state.auxiliary.birthDate,
+					changeHandler: this.changeHandler('birthDate'),
+					validator: Validators.NonNull
+				},
+				{
+					title: 'Ville de naissance',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.birthCity,
+					changeHandler: this.changeHandler('birthCity'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Pays de naissance',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.birthCountry,
+					changeHandler: this.changeHandler('birthCountry'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Nationnalité',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.nationality,
+					changeHandler: this.changeHandler('nationality'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'N° sécurité sociale',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.socialNumber,
+					changeHandler: this.changeHandler('socialNumber'),
+					validator: Validators.SocialNumber
+				},
+				{
+					title: "N° carte d'identité",
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.ciNumber,
+					changeHandler: this.changeHandler('ciNumber'),
+					validator: Validators.IDCardNumber
+				}
+			],
+			[
+				{
+					type: 'googleAutocomplete',
+					edit: true,
+					changeHandler: this.onAddressChanged.bind(this),
+					placeholder: this.state.auxiliary.address + ', ' + this.state.auxiliary.postalCode + ' ' + this.state.auxiliary.city
+				},
+				{
+					title: 'Addresse',
+					type: 'input',
+					edit: false,
+					value: this.state.auxiliary.address
+				},
+				{
+					title: 'Code postal',
+					type: 'input',
+					edit: false,
+					value: this.state.auxiliary.postalCode
+				},
+				{
+					title: 'Ville',
+					type: 'input',
+					edit: false,
+					value: this.state.auxiliary.city
+				},
+				{
+					title: 'Pays',
+					type: 'input',
+					edit: false,
+					value: this.state.auxiliary.country
+				},
+				{
+					title: 'Téléphone',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.phone,
+					changeHandler: this.changeHandler('phone'),
+					validator: Validators.Phone
+				},
+				{
+					title: 'Addresse électronique',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.auxiliary.email,
+					changeHandler: this.changeHandler('email'),
+					validator: Validators.Email
+				}
+			]
+		]
+	}
+	_buildProfessionnalInfos() {
+		return [[
+			{
+				title: 'Auto-entrepreneur ?',
+				path: 'entrepreneur',
+				type: 'select',
+				edit: true,
+				defaultValue: this.state.auxiliary.entrepreneur ? true : false,
+				changeHandler: this.changeHandler('entrepreneur'),
+				values: [
+					{ key: true, value: 'Oui' },
+					{ key: false, value: 'Non' }
+				]
+			},
+			{
+				title: 'Diplôme',
+				path: 'diploma',
+				type: 'input',
+				edit: true,
+				changeHandler: this.changeHandler('diploma'),
+				defaultValue : this.state.auxiliary.diploma,
+				validator: Validators.NonEmptyString
+			},
+			{
+				title: 'Mes plus',
+				type: 'textArea',
+				edit: true,
+				rows: 5,
+				changeHandler: this.changeHandler('description'),
+				defaultValue : this.state.auxiliary.description,
+				validator: Validators.Tweet
+			}
+		]];
+	}
+
 	render() { 
 		if (this.state.state === STATES.QUESTION) {
 			return (
@@ -146,7 +311,12 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 			: '' }
 				<Row>
 					<Col sm={12}>
-						<Button bsStyle='success' onClick={this.onSaveProfile.bind(this)} block>Enregistrer modifications</Button>
+						<Button disabled={!this.state.validationState} 
+								bsStyle={this.state.validationState ? 'success' : 'warning'} 
+								onClick={this.onSaveProfile.bind(this)} 
+								block>
+							Enregistrer modifications
+						</Button>
 					</Col>
 				</Row>
 				<br/>
@@ -154,76 +324,39 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 					<Col sm={9}>
 						<Panel header='Ma photo' bsStyle='info'>
 							<AsyncImage 
-								src={this.state.auxiliary.user.avatar} 
+								src={this.state.auxiliary.avatar} 
 								width={200} 
 								height={200}/>
-							<ImageUploader onUploadComplete={this.onAvatarChanged.bind(this)}/>
+							<ImageUploader onUploadComplete={this.changeHandler('avatar')}/>
 						</Panel>
-						<Panel header='Informations personnelles' bsStyle='info'>
-							<Col md={6}>
-								<Person 
-									edit={true}
-									civility={this.state.auxiliary.person.civility}
-									lastName={this.state.auxiliary.person.lastName}
-									firstName={this.state.auxiliary.person.firstName}
-									birthDate={this.state.auxiliary.person.birthDate}
-									birthCity={this.state.auxiliary.person.birthCity}
-									birthCountry={this.state.auxiliary.person.birthCountry}
-									nationality={this.state.auxiliary.person.nationality}
-									socialNumber={this.state.auxiliary.person.socialNumber}
-									ciNumber={this.state.auxiliary.person.ciNumber}
-									onChange={this.onPersonChanged.bind(this)}/>
-							</Col>
-							<Col md={6}>
-								<Contact 
-									edit={true}
-									address={this.state.auxiliary.contact.address}
-									phone={this.state.auxiliary.contact.phone}
-									email={this.state.auxiliary.contact.email}
-									onChange={this.onContactChanged.bind(this)}/>
-							</Col>
-						</Panel>
-						<Panel header='Informations professionnelles' bsStyle='info'>
-							<FormSelect 
-								static={false}
-								title='Auto-entrepreneur ?'
-								defaultValue={this.state.auxiliary.infos.entrepreneur ? true : false} 
-								values={[ { key: true, value: 'Oui' }, { key: false, value: 'Non' } ]}
-								onChange={this.onEntrepreneurChanged.bind(this)}/>
-							<FormInput 
-								validator={new StringValidator({ lengthMin: 0, lengthMax: 140 })}
-								static={false}
-								title='Diplôme'
-								defaultValue={this.state.auxiliary.infos.diploma} 
-								onChange={this.onDiplomaChanged.bind(this)}/>
-							<FormTextArea
-								validator={new StringValidator({ lengthMin: 0, lengthMax: 140 })}
-								static={false}
-								title='Mes plus'
-								rows={5}
-								defaultValue={this.state.auxiliary.infos.description} 
-								onChange={this.onDescriptionChanged.bind(this)}/>
 
-							{this.state.auxiliary.skills && this.state.auxiliary.skills.completed ?
+						<Panel header='Informations personnelles' bsStyle='info'>
+							{FormBuilder.buildFormGroups(this._buildPersonalInfos())}
+						</Panel>
+
+						<Panel header='Informations professionnelles' bsStyle='info'>
+							{FormBuilder.buildFormGroups(this._buildProfessionnalInfos())}
+							{this.state.auxiliary.answers ?
 								<FormBase
-									static={false}
+									edit={true}
 									validationState='success'
 									title='Mes Compétences'>
-									<SkillSummaryList skills={this.state.auxiliary.skills}/>
+									<SkillSummaryList skills={this.state.auxiliary}/>
 								</FormBase>
 							:
 								<FormBase
-									static={false}
+									edit={true}
 									validationState='error'
 									title='Mes Compétences'>
 									<Button bsStyle='warning' onClick={this.onQuestionnary.bind(this)} block>Remplir questionnaire</Button>
 								</FormBase>
 							}
 						</Panel>
+
 					</Col>
 					<Col sm={3} className='hidden-xs'>
 						<Panel>
-							<APGauge value={75} title='Profil complété à :'/>
+							<APGauge value={this.state.progression} title='Profil complété à :'/>
 						</Panel>
 					</Col>
 				</Row>

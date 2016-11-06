@@ -17,8 +17,8 @@ class Land extends React.Component {
 	// Callbacks functions //
 	// --------------------------------------------------------------------------------
 
-	onPostalCodeChanged(value) {
-		this.postalCode = value;
+	onPostalCodeChanged(event) {
+		this.postalCode = event.value;
 	}
 	onGuestLogin(event) {
 		event.preventDefault();
@@ -52,7 +52,7 @@ class Land extends React.Component {
 						<Panel header='Je recherche un service de soutien à domicile'>
 							<Form horizontal>
 								<FormInput
-									static={false}
+									edit={true}
 									title='Commune'
 									defaultValue=''
 									placeholder='Code postal'

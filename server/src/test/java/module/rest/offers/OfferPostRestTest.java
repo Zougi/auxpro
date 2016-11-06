@@ -11,7 +11,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class OfferPostRestTest extends RestTestBase {
 
@@ -25,11 +25,11 @@ public class OfferPostRestTest extends RestTestBase {
 	
 	@Test
 	public void testI_invalidCustomer() throws Exception {
-		OfferBean bean = TestData.next(new OfferBean());
+		OfferBean bean = TestDataGenerator.next(new OfferBean());
 		bean.setServiceId(service1.getId());
 		bean.setCustomerId(StringConverter.stringToHex("cuz1"));
 		bean.setInterventionId(intervention1.getId());
-		Response response = prepare("", service1.getUser()).post(write(bean));
+		Response response = prepare("", userSadZ).post(write(bean));
 		TestCase.assertEquals(APException.INVALID_REQUEST_DATA.getStatus().getStatusCode(), response.getStatus());
 	}
 	
@@ -37,19 +37,19 @@ public class OfferPostRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_validOffer() throws Exception {
-		OfferBean bean = TestData.next(new OfferBean());
+		OfferBean bean = TestDataGenerator.next(new OfferBean());
 		bean.setServiceId(service1.getId());
 		bean.setCustomerId(customer1.getId());
 		bean.setInterventionId(intervention1.getId());
-		OfferBean response = prepare("", service1.getUser()).post(write(bean), OfferBean.class);
+		OfferBean response = prepare("", userSadZ).post(write(bean), OfferBean.class);
 		AssertHelper.assertOffer(bean, response);
 	}
 	@Test
 	public void testV_noService() throws Exception {
-		OfferBean bean = TestData.next(new OfferBean());
+		OfferBean bean = TestDataGenerator.next(new OfferBean());
 		bean.setCustomerId(customer1.getId());
 		bean.setInterventionId(intervention1.getId());
-		OfferBean response = prepare("", service1.getUser()).post(write(bean), OfferBean.class);
+		OfferBean response = prepare("", userSadZ).post(write(bean), OfferBean.class);
 		bean.setServiceId(service1.getId());
 		AssertHelper.assertOffer(bean, response);
 	}

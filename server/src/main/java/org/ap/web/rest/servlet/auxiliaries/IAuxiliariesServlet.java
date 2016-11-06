@@ -14,9 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.CredentialsBean;
-import org.ap.web.entity.mongo.QuestionaryBean;
+import org.ap.web.entity.mongo.UserCredentialsBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryQuestionaryBean;
 
 /**
  * This interface describes the auxiliaries servlet features.
@@ -50,7 +50,7 @@ public interface IAuxiliariesServlet {
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response createAuxiliaryJSON(@Context SecurityContext sc, CredentialsBean credentials);
+	public Response createAuxiliaryJSON(@Context SecurityContext sc, UserCredentialsBean credentials);
 	
 	@GET
 	@RolesAllowed("authenticated")
@@ -78,7 +78,7 @@ public interface IAuxiliariesServlet {
 	@Path("{auxiliaryId}/questionary")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response postQuestionaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId, QuestionaryBean questionary);
+	public Response postQuestionaryJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId, AuxiliaryQuestionaryBean questionary);
 
 	// SERVICES
 	

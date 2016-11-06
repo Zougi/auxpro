@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.entity.mongo.GeoZoneBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;

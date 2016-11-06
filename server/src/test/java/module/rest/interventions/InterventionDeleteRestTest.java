@@ -34,12 +34,12 @@ public class InterventionDeleteRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_unknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).delete();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userSadZ).delete();
 		AssertHelper.assertException(APException.INTERVENTION_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_notOwner() throws Exception {
-		Response response = prepare(getBaseUrl(), service2.getUser()).delete();
+		Response response = prepare(getBaseUrl(), userSadY).delete();
 		AssertHelper.assertException(APException.INTERVENTION_NOT_FOUND, response);
 	}
 	
@@ -47,14 +47,14 @@ public class InterventionDeleteRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_deleteValid() throws Exception {
-		Response response = prepare(getBaseUrl(), service1.getUser()).get();
+		Response response = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		response = prepare(getBaseUrl(), service1.getUser()).delete();
+		response = prepare(getBaseUrl(), userSadZ).delete();
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		TestCase.assertFalse(response.hasEntity());
 		
-		response = prepare(getBaseUrl(), service1.getUser()).get();
+		response = prepare(getBaseUrl(), userSadZ).get();
 		AssertHelper.assertException(APException.INTERVENTION_NOT_FOUND, response);
 	}
 }

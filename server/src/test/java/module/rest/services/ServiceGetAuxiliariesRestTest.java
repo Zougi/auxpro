@@ -3,7 +3,7 @@ package module.rest.services;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.rest.servlet.services.ServicesServlet;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class ServiceGetAuxiliariesRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + service1.getId() + "/auxiliaries";
+		return "/" + userSadZ.getId() + "/auxiliaries";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class ServiceGetAuxiliariesRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asService_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), service1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asService() throws Exception {
-		AuxiliaryBean[] rsp = prepare(getUrlBase(), service1.getUser()).get(AuxiliaryBean[].class);
+		AuxiliaryBean[] rsp = prepare(getUrlBase(), userSadZ).get(AuxiliaryBean[].class);
 		TestCase.assertEquals(1, rsp.length);
 	}
 }

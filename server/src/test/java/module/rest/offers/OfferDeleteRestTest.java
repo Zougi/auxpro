@@ -32,7 +32,7 @@ public class OfferDeleteRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_deleteUnknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).delete();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userSadZ).delete();
 		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
 	
@@ -40,13 +40,13 @@ public class OfferDeleteRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkResponse() throws Exception {
-		Response response = prepare(getBaseUrl(), service1.getUser()).get();
+		Response response = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		response = prepare(getBaseUrl(), service1.getUser()).delete();
+		response = prepare(getBaseUrl(), userSadZ).delete();
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		response = prepare(getBaseUrl(), service1.getUser()).get();
+		response = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
 }

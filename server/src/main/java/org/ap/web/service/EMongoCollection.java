@@ -1,13 +1,13 @@
 package org.ap.web.service;
 
 import org.ap.web.entity.mongo.IndisponibilityBean;
-import org.ap.web.entity.mongo.AccountBean;
-import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.TokenBean;
+import org.ap.web.entity.mongo.UserBean;
 
 public enum EMongoCollection {
 
@@ -18,7 +18,7 @@ public enum EMongoCollection {
 	OFFERS            (OfferBean.class),
 	SERVICES          (ServiceBean.class),
 	TOKENS            (TokenBean.class),
-	ACCOUNTS          (AccountBean.class),
+	USERS             (UserBean.class),
 	;
 	
 	private String _name;

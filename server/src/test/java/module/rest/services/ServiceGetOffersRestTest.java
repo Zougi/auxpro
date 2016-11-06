@@ -17,7 +17,7 @@ public class ServiceGetOffersRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + service1.getId() + "/offers";
+		return "/" + userSadZ.getId() + "/offers";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class ServiceGetOffersRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asService_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), service1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asService() throws Exception {
-		OfferBean[] rsp = prepare(getUrlBase(), service1.getUser()).get(OfferBean[].class);
+		OfferBean[] rsp = prepare(getUrlBase(), userSadZ).get(OfferBean[].class);
 		TestCase.assertEquals(2, rsp.length);
 	}
 }

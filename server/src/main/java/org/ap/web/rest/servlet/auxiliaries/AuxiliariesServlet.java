@@ -9,16 +9,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
-import org.ap.web.entity.constant.EQuestion;
-import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.UserCredentialsBean;
+import org.ap.web.helpers.AuxiliaryHelper;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
-import org.ap.web.entity.mongo.QuestionaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryQuestionaryBean;
 import org.ap.web.entity.mongo.ServiceBean;
-import org.ap.web.entity.mongo.SkillsBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
@@ -33,6 +33,8 @@ import org.ap.web.service.stores.offers.IOffersStore;
 import org.ap.web.service.stores.offers.OffersStore;
 import org.ap.web.service.stores.services.IServicesStore;
 import org.ap.web.service.stores.services.ServicesStore;
+import org.ap.web.service.stores.user.IUsersStore;
+import org.ap.web.service.stores.user.UserStore;
 
 @Path("/auxiliaries")
 public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServlet {
@@ -43,6 +45,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 
 	/* ATTRIBUTES */
 
+	private IUsersStore _userStore;
 	private IAuxiliariesStore _auxiliaryStore;
 	private IServicesStore _servicesStore;
 	private ICustomersStore _customersStore;
@@ -53,6 +56,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	/* CONSTRUCTOR */
 
 	public AuxiliariesServlet() throws APException {
+		_userStore = new UserStore();
 		_auxiliaryStore = new AuxiliariesStore();
 		_servicesStore = new ServicesStore();
 		_offersStore = new OffersStore();
@@ -73,10 +77,12 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		}
 	}
 	@Override
-	public Response createAuxiliaryJSON(SecurityContext sc, CredentialsBean bean) {
+	public Response createAuxiliaryJSON(SecurityContext sc, UserCredentialsBean bean) {
 		try {
-			AuxiliaryBean auxiliary = _auxiliaryStore.create(bean);
-			return Response.status(Status.CREATED).entity(auxiliary, resolveAnnotations(sc, auxiliary)).build();
+			bean.setType("aux");
+			UserBean user = _userStore.create(bean);
+			_auxiliaryStore.create(user);
+			return Response.status(Status.CREATED).entity(user, resolveAnnotations(sc, user)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
@@ -96,10 +102,9 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		try {
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
 			if (!auxiliary.getId().equals(auxiliaryId)) throw APException.AUXILIARY_INVALID;
-			_auxiliaryStore.get(auxiliary.getId());
-			
+			_auxiliaryStore.get(auxiliary.getId());			
 			auxiliary = _auxiliaryStore.update(auxiliary);
-			return Response.status(Status.OK).entity(auxiliary, resolveAnnotations(sc, auxiliary)).build();
+			return Response.status(Status.OK).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
@@ -115,46 +120,17 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	}
 	
 	@Override
-	public Response postQuestionaryJSON(SecurityContext sc, String auxiliaryId, QuestionaryBean questionary) {
+	public Response postQuestionaryJSON(SecurityContext sc, String auxiliaryId, AuxiliaryQuestionaryBean questionary) {
 		try {
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
 			AuxiliaryBean auxiliary = _auxiliaryStore.get(auxiliaryId);
 			if (!auxiliary.getId().equals(auxiliaryId)) throw APException.AUXILIARY_INVALID;
-			SkillsBean skills = computeSkills(questionary);
-			auxiliary.setSkills(skills);
+			AuxiliaryHelper.computeSkills(auxiliary, questionary);
 			auxiliary = _auxiliaryStore.update(auxiliary);
-			return Response.status(Status.OK).entity(skills, resolveAnnotations(sc)).build();
+			return Response.status(Status.OK).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
-	}
-	private SkillsBean computeSkills(QuestionaryBean questionary) {
-		SkillsBean result = new SkillsBean();
-		int ch = 0;
-		int ho = 0;
-		int co = 0;
-		int sh = 0;
-		int nu = 0;
-		int ad = 0; 
-		int di = 0;
-		for (EQuestion q : EQuestion.values()) {
-			int answer = questionary.getAnswers()[q.getIndex()];
-			ch += q.getAnswers()[answer].getChildhood();
-			ho += q.getAnswers()[answer].getHousework();
-			co += q.getAnswers()[answer].getCompagny();
-			sh += q.getAnswers()[answer].getShopping();
-			nu += q.getAnswers()[answer].getNursing();
-			ad += q.getAnswers()[answer].getAdministrative();
-			di += q.getAnswers()[answer].getDoityourself();
-		}
-		result.setChildhood(Math.round(ch * 5 / 38));
-		result.setHousework(Math.round(ho * 5 / 38));
-		result.setCompagny(Math.round(co * 5 / 38));
-		result.setShopping(Math.round(sh * 5 / 38));
-		result.setNursing(Math.round(nu * 5 / 38));
-		result.setAdministrative(Math.round(ad * 5 / 38));
-		result.setDoityourself(Math.round(di * 5 / 38));
-		return result;
 	}
 	@Override
 	public Response getServicesJSON(SecurityContext sc, String auxiliaryId) {

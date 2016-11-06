@@ -15,19 +15,19 @@ public class EntityTester extends TestBase {
 
 	@Test
 	public void test_printAdmin() throws Exception {
-		String s = Mappers.DEFAULT.getMapper().writeValueAsString(accountAdmin);
+		String s = Mappers.DEFAULT.getMapper().writeValueAsString(userAdmin);
 		s = s.replace(",", ",\n");
 		System.out.println(s);
 	}
 	@Test
 	public void test_printAux1() throws Exception {
-		String s = Mappers.DEFAULT.getMapper().writeValueAsString(auxiliary1);
+		String s = Mappers.DEFAULT.getMapper().writeValueAsString(auxiliaryA);
 		s = s.replace(",", ",\n");
 		System.out.println(s);
 	}
 	@Test
 	public void test_printAux2() throws Exception {
-		String s = Mappers.DEFAULT.getMapper().writeValueAsString(auxiliary2);
+		String s = Mappers.DEFAULT.getMapper().writeValueAsString(auxiliaryB);
 		s = s.replace(",", ",\n");
 		System.out.println(s);
 	}

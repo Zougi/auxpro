@@ -35,16 +35,16 @@ class ServiceDetails extends React.Component {
 		}
 	}
 
-	onSocietyChanged(value) {
-		this.state.society = value;
+	onSocietyChanged(event) {
+		this.state.society = event.value;
 		this.notify();
 	}
 	onSocialReasonChanged(value) {
 		this.state.socialReason = value;
 		this.notify();
 	}
-	onSiretChanged(value) {
-		this.state.siret = value;
+	onSiretChanged(event) {
+		this.state.siret = event.value;
 		this.notify();
 	}
 
@@ -53,19 +53,19 @@ class ServiceDetails extends React.Component {
 			<div>
 				<FormInput
 					validator={new StringValidator({ lengthMin: 1 })}
-					static={!this.props.edit}
+					edit={this.props.edit}
 					title='Société'
 					defaultValue={this.props.society} 
 					onChange={this.onSocietyChanged.bind(this)}/>
 				<FormSelect 
-					static={!this.props.edit}
+					edit={this.props.edit}
 					title='Raison sociale' 
 					defaultValue={this.props.socialReason} 
 					values={[ { key: 'mand', value: 'Mandataire' }, { key: 'prest', value: 'Prestataire' } ]}
 					onChange={this.onSocialReasonChanged.bind(this)}/>
 				<FormInput
 					validator={new CustomValidator({ regSuccess: new RegExp("^[0-9]{14}$") })}
-					static={!this.props.edit}
+					edit={this.props.edit}
 					title='N° Siret'
 					defaultValue={this.props.siret} 
 					onChange={this.onSiretChanged.bind(this)}/>

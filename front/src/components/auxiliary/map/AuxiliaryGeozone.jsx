@@ -33,10 +33,10 @@ class AuxiliaryGeozone extends React.Component {
     }
 
     onPostalChanged(event) {
-        this.setState({ postal: event });
+        this.setState({ postal: event.value });
     }
 
-    onRadiusChanged() {
+    onRadiusChanged(event) {
         
     }
 

@@ -27,7 +27,7 @@ class AuxiliaryBaseComponent extends React.Component {
 	_getBaseArgs() {
 		return {
 			token: this.getLoginData('/token'),
-			auxiliaryId: this.getLoginData('/id')
+			auxiliaryId: this.getLoginData('/userId')
 		}
 	}
 

@@ -17,7 +17,7 @@ public class AuxiliaryGetIndisponibilitiesRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + auxiliary1.getId() + "/indisponibilities";
+		return "/" + userAuxA.getId() + "/indisponibilities";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class AuxiliaryGetIndisponibilitiesRestTest extends RestTestBase {
 
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), auxiliary1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userAuxA).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		IndisponibilityBean[] rsp = prepare(getUrlBase(), auxiliary1.getUser()).get(IndisponibilityBean[].class);
+		IndisponibilityBean[] rsp = prepare(getUrlBase(), userAuxA).get(IndisponibilityBean[].class);
 		TestCase.assertEquals(2, rsp.length);
 	}
 }

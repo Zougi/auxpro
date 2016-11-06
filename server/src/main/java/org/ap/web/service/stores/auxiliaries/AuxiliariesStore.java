@@ -2,9 +2,7 @@ package org.ap.web.service.stores.auxiliaries;
 
 import org.ap.web.common.EmailValidator;
 import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.constant.EUserType;
-import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.entity.mongo.GeoZoneBean;
 import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
@@ -17,7 +15,6 @@ import com.mongodb.client.FindIterable;
 
 import static com.mongodb.client.model.Filters.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,38 +36,24 @@ public class AuxiliariesStore extends StoreBase<AuxiliaryBean> implements IAuxil
 		return result.toArray(new AuxiliaryBean[result.size()]);
 	}
 	@Override
-	public AuxiliaryBean check(String name, String password) throws APException {
-		Document document = EMongoCollection.AUXILIARIES.getService().findOne(and(eq("user.name", name), eq("user.password", password)));
-		if (document == null) return null;
-		return BeanConverter.convertToBean(document, AuxiliaryBean.class);
-	}
-	@Override
 	public AuxiliaryBean get(String id) throws APException {
 		return getEntityById(id);
 	}
 	@Override
-	public AuxiliaryBean create(CredentialsBean bean) throws APException {
+	public AuxiliaryBean create(UserBean bean) throws APException {
 		if (!EmailValidator.getInstance().isValid(bean.getName())) throw APException.USER_NAME_INVALID;
-		if (!EmailValidator.getInstance().isValid(bean.getEmail())) throw APException.USER_EMAIL_INVALID;
-		if (EMongoCollection.AUXILIARIES.getService().findOne(eq("user.name", bean.getName())) != null) throw APException.USER_NAME_INUSE;
-		if (EMongoCollection.AUXILIARIES.getService().findOne(eq("user.email", bean.getEmail())) != null) throw APException.USER_EMAIL_INUSE;
+		if (EMongoCollection.AUXILIARIES.getService().findOne(eq("name", bean.getName())) != null) throw APException.USER_NAME_INUSE;
+		if (EMongoCollection.AUXILIARIES.getService().findOne(eq("email", bean.getName())) != null) throw APException.USER_EMAIL_INUSE;
 		AuxiliaryBean auxiliary = new AuxiliaryBean();
-		UserBean user = new UserBean();
-		user.setType(EUserType.AUX.getId());
-		user.setName(bean.getName());
-		user.setEmail(bean.getEmail());
-		user.setPassword(bean.getPassword());
-		user.setRegistrationDate(LocalDateTime.now());
-		auxiliary.setUser(user);
+		auxiliary.setEmail(bean.getName());
 		return createEntity(auxiliary);
 	}
 	@Override
 	public AuxiliaryBean update(AuxiliaryBean bean) throws APException {
-		Document initial = EMongoCollection.AUXILIARIES.getService().findOne(eq("user.name", bean.getUser().getName()));
+		Document initial = EMongoCollection.AUXILIARIES.getService().findOne(eq("_id", new ObjectId(bean.getId())));
 		if (initial == null) throw APException.USER_NAME_INVALID;
 		AuxiliaryBean previous = BeanConverter.convertToBean(initial, AuxiliaryBean.class);
 		bean.setId(previous.getId());
-		bean.getUser().setPassword(previous.getUser().getPassword());
 		return updateEntity(bean);
 	}
 	@Override

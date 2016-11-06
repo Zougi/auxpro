@@ -10,7 +10,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.TestModuleBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class IndisponibilitiesStoreTest extends TestModuleBase {
 
@@ -47,17 +47,17 @@ public class IndisponibilitiesStoreTest extends TestModuleBase {
 	}
 	@Test
 	public void testV_createNew() throws APException {
-		IndisponibilityBean absence = TestData.next(new IndisponibilityBean());
+		IndisponibilityBean absence = TestDataGenerator.next(new IndisponibilityBean());
 		IndisponibilityBean absenceCreated = store.createIndisponibility(absence);
 		AssertHelper.assertIndisponibility(absence, absenceCreated);
 	}
 	@Test
 	public void testV_createSeveral() throws APException {
-		IndisponibilityBean absence = TestData.next(new IndisponibilityBean());
+		IndisponibilityBean absence = TestDataGenerator.next(new IndisponibilityBean());
 		store.createIndisponibility(absence);
-		absence = TestData.next(new IndisponibilityBean());
+		absence = TestDataGenerator.next(new IndisponibilityBean());
 		store.createIndisponibility(absence);
-		IndisponibilityBean[] absences = store.getAuxIndisponibilities(StringConverter.stringToHex(String.valueOf(TestData.AUXILIARY_ID)));
+		IndisponibilityBean[] absences = store.getAuxIndisponibilities(StringConverter.stringToHex(String.valueOf(TestDataGenerator.AUXILIARY_ID)));
 		TestCase.assertEquals(2, absences.length);
 	}
 	@Test

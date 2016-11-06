@@ -13,7 +13,7 @@ class SkillDetails extends React.Component {
 	render() {
 		return (
 			<FormButtonGroup 
-				static={!this.props.edit}
+				edit={this.props.edit}
 				title={this.props.title}
 				defaultValue={this.props.value}
 				values={[ 0, 1, 2, 3, 4, 5 ]}

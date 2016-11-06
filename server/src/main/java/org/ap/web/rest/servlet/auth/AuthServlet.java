@@ -5,9 +5,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.mongo.UserBean;
+import org.ap.web.entity.mongo.UserCredentialsBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
-import org.ap.web.service.stores.user.IUserStore;
+import org.ap.web.service.stores.user.IUsersStore;
 import org.ap.web.service.stores.user.UserStore;
 
 @Path("/auth")
@@ -19,7 +20,7 @@ public class AuthServlet extends ServletBase implements IAuthServlet {
 
 	/* ATTRIBUTES */
 
-	private IUserStore _store;
+	private IUsersStore _store;
 
 	/* CONSTRUCTOR */
 
@@ -41,7 +42,7 @@ public class AuthServlet extends ServletBase implements IAuthServlet {
 		}
 	}
 	@Override
-	public Response registerRequest(UserBean user) {
+	public Response registerRequest(UserCredentialsBean user) {
 		return sendException(APException.NOT_IMPLEMENTED);
 	}
 	@Override

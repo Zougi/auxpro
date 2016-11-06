@@ -32,12 +32,17 @@ public class AuthGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_getAuth_AdminUser() throws Exception {
-		UserBean user = prepare("", accountAdmin.getUser()).get(UserBean.class);
-		AssertHelper.assertUser(accountAdmin.getUser(), user);
+		UserBean user = prepare("", userAdmin).get(UserBean.class);
+		AssertHelper.assertUser(userAdmin, user);
+	}
+	@Test
+	public void testV_getAuth_GuestUser() throws Exception {
+		UserBean user = prepare("", userGuest).get(UserBean.class);
+		AssertHelper.assertUser(userGuest, user);
 	}
 	@Test
 	public void testV_getAuth_User() throws Exception {
-		UserBean user = prepare("", auxiliary1.getUser()).get(UserBean.class);
-		AssertHelper.assertUser(auxiliary1.getUser(), user);
+		UserBean user = prepare("", userAuxA).get(UserBean.class);
+		AssertHelper.assertUser(userAuxA, user);
 	}
 }

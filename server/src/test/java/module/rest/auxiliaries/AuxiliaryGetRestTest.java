@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.common.string.StringConverter;
-import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.auxiliaries.AuxiliariesServlet;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class AuxiliaryGetRestTest extends RestTestBase {
 	}
  
 	public String getBaseUrl() {
-		return "/" + auxiliary1.getId();
+		return "/" + userAuxA.getId();
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class AuxiliaryGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_invalidPassword() throws Exception {
-		Response rsp = prepare(getBaseUrl(), auxiliary1.getUser().getName(), "dummy").get();
+		Response rsp = prepare(getBaseUrl(), userAuxA.getName(), "dummy").get();
 		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
 	@Test
 	public void testI_getUnknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), accountAdmin.getUser()).get();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userAdmin).get();
 		AssertHelper.assertException(APException.AUXILIARY_NOT_FOUND, response);
 	}
 
@@ -49,24 +49,20 @@ public class AuxiliaryGetRestTest extends RestTestBase {
 
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getBaseUrl(), auxiliary1.getUser()).get();
+		Response rsp = prepare(getBaseUrl(), userAuxA).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		AuxiliaryBean userAux = prepare(getBaseUrl(), auxiliary1.getUser()).get(AuxiliaryBean.class);
-		AssertHelper.assertAuxiliary(auxiliary1, userAux);
+		AuxiliaryBean userAux = prepare(getBaseUrl(), userAuxA).get(AuxiliaryBean.class);
+		AssertHelper.assertAuxiliary(auxiliaryA, userAux);
 	}
 	@Test
 	public void testV_asOther() throws Exception {
-		AuxiliaryBean userAux = prepare(getBaseUrl(), auxiliary2.getUser()).get(AuxiliaryBean.class);
+		AuxiliaryBean userAux = prepare(getBaseUrl(), userAuxB).get(AuxiliaryBean.class);
 		// Informations are private
-		auxiliary1.getUser().setName(null);
-		auxiliary1.getUser().setPassword(null);
-		auxiliary1.getUser().setEmail(null);
-		auxiliary1.getUser().setProfileActive(false);
-		auxiliary1.getUser().setTutoSkipped(false);
-		AssertHelper.assertAuxiliary(auxiliary1, userAux);
+		auxiliaryA.setTutoSkipped(false);
+		AssertHelper.assertAuxiliary(auxiliaryA, userAux);
 	}
 }

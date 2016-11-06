@@ -11,7 +11,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class InterventionPutRestTest extends RestTestBase {
 
@@ -22,7 +22,7 @@ public class InterventionPutRestTest extends RestTestBase {
 	/* TEST DATA */
 	
 	private InterventionBean next() {
-		return TestData.next(new InterventionBean()); 
+		return TestDataGenerator.next(new InterventionBean()); 
 	}
 	private String getBaseUrl() {
 		return "/" + intervention1.getId();
@@ -43,7 +43,7 @@ public class InterventionPutRestTest extends RestTestBase {
 		InterventionBean expected = next();
 		expected.setServiceId(service2.getId());
 		expected.setCustomerId(customer1.getId());
-		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(expected));	
+		Response response = prepare(getBaseUrl(), userSadZ).put(write(expected));	
 		AssertHelper.assertException(APException.INTERVENTION_SERVICE_INVALID, response);
 	}
 	@Test
@@ -51,7 +51,7 @@ public class InterventionPutRestTest extends RestTestBase {
 		InterventionBean expected = next();
 		expected.setServiceId(service1.getId());
 		expected.setCustomerId(customer3.getId());
-		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(expected));	
+		Response response = prepare(getBaseUrl(), userSadZ).put(write(expected));	
 		AssertHelper.assertException(APException.INTERVENTION_CUSTOMER_INVALID, response);
 	}
 	@Test
@@ -60,7 +60,7 @@ public class InterventionPutRestTest extends RestTestBase {
 		expected.setId(intervention1.getId());
 		expected.setServiceId(service1.getId());
 		expected.setCustomerId(customer2.getId());
-		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(expected));	
+		Response response = prepare(getBaseUrl(), userSadZ).put(write(expected));	
 		AssertHelper.assertException(APException.INTERVENTION_CUSTOMER_INVALID, response);
 	}
 	
@@ -72,7 +72,7 @@ public class InterventionPutRestTest extends RestTestBase {
 		expected.setId(intervention1.getId());
 		expected.setServiceId(service1.getId());
 		expected.setCustomerId(customer1.getId());
-		InterventionBean actual = prepare(getBaseUrl(), service1.getUser()).put(write(expected), InterventionBean.class);	
+		InterventionBean actual = prepare(getBaseUrl(), userSadZ).put(write(expected), InterventionBean.class);	
 		AssertHelper.assertIntervention(expected, actual);
 	}
 }

@@ -33,17 +33,17 @@ public class ServicePutRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_notSameUser() throws Exception {
-		Response response = prepare(getBaseUrl(), service2.getUser()).put(write(service1));
+		Response response = prepare(getBaseUrl(), userSadY).put(write(service1));
 		AssertHelper.assertException(APException.SERVICE_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_invalidName() throws Exception {
-		Response response = prepare("/dummy", service1.getUser()).put(write(service1));
+		Response response = prepare("/dummy", userSadZ).put(write(service1));
 		AssertHelper.assertException(APException.SERVICE_NOT_FOUND, response);
 	}
 	@Test
 	public void testI_invalidService() throws Exception {
-		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(service2));
+		Response response = prepare(getBaseUrl(), userSadZ).put(write(service2));
 		AssertHelper.assertException(APException.SERVICE_INVALID, response);
 	}
 	
@@ -51,14 +51,14 @@ public class ServicePutRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_update() throws Exception {
-		ServiceBean userAux = prepare(getBaseUrl(), service1.getUser()).get(ServiceBean.class);
+		ServiceBean userAux = prepare(getBaseUrl(), userSadZ).get(ServiceBean.class);
 		AssertHelper.assertService(service1, userAux);
 		
 		service1.setSiret("dummy");
-		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(service1));
+		Response response = prepare(getBaseUrl(), userSadZ).put(write(service1));
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		userAux = prepare(getBaseUrl(), service1.getUser()).get(ServiceBean.class);
+		userAux = prepare(getBaseUrl(), userSadZ).get(ServiceBean.class);
 		AssertHelper.assertService(service1, userAux);
 	}
 }

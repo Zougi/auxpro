@@ -1,11 +1,7 @@
 import React from 'react'
-import { Row, Col, Panel, Button } from 'react-bootstrap'
+import { Panel, Button } from 'react-bootstrap'
 // Custom components
 import AuxiliaryGeozone from './AuxiliaryGeozone.jsx'
-import FormInput from 'components-lib/Form/FormInput.jsx'
-import FormSelect from 'components-lib/Form/FormSelect.jsx'
-// Libs
-import Utils from 'utils/Utils.js'
 
 class AuxiliaryGeoPanel extends React.Component {
 

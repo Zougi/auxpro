@@ -11,7 +11,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.rest.RestTestBase;
 import tools.AssertHelper;
-import tools.TestData;
+import tools.TestDataGenerator;
 
 public class CustomerPutRestTest extends RestTestBase {
 
@@ -22,7 +22,7 @@ public class CustomerPutRestTest extends RestTestBase {
 	/* TEST DATA */
 	
 	private CustomerBean next() {
-		return TestData.next(new CustomerBean()); 
+		return TestDataGenerator.next(new CustomerBean()); 
 	}
 	private String getBaseUrl() {
 		return "/" + customer1.getId();
@@ -42,7 +42,7 @@ public class CustomerPutRestTest extends RestTestBase {
 	public void testV_notOwner() throws Exception {
 		CustomerBean expected = next();
 		expected.setServiceId(service2.getId());
-		Response response = prepare(getBaseUrl(), service1.getUser()).put(write(expected));	
+		Response response = prepare(getBaseUrl(), userSadZ).put(write(expected));	
 		AssertHelper.assertException(APException.CUSTOMER_NOT_FOUND, response);
 	}
 	
@@ -53,7 +53,7 @@ public class CustomerPutRestTest extends RestTestBase {
 		CustomerBean expected = next();
 		expected.setId(customer1.getId());
 		expected.setServiceId(service1.getId());
-		CustomerBean actual = prepare(getBaseUrl(), service1.getUser()).put(write(expected), CustomerBean.class);	
+		CustomerBean actual = prepare(getBaseUrl(), userSadZ).put(write(expected), CustomerBean.class);	
 		AssertHelper.assertCustomer(expected, actual);
 	}
 }

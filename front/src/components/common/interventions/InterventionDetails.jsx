@@ -83,7 +83,7 @@ class InterventionDetails extends React.Component {
 					<Row>
 						<Col sm={8} md={7} lg={6}>
 							<FormSelect 
-								static={this.props.intervention ? true : false}
+								edit={this.props.intervention ? false : true}
 								title={this.props.intervention ? 'Client' : 'Choisir client'}
 								defaultValue={currentCustomer || (customers.length ? customers[0].id : 'Pas de clients')} 
 								values={customers}
@@ -94,7 +94,7 @@ class InterventionDetails extends React.Component {
 					<Row>
 						<Col sm={8} md={7} lg={6}>
 							<FormSelect 
-								static={!this.props.edit}
+								edit={this.props.edit}
 								title='Type de demande'
 								defaultValue={this.state.mode} 
 								values={modes}

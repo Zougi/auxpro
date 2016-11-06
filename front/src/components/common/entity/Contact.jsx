@@ -6,7 +6,7 @@ import Utils from 'utils/Utils.js'
 import PhoneValidator from 'utils/form/PhoneValidator.js'
 import EmailValidator from 'utils/form/EmailValidator.js'
 // custom components
-import Address from './Address.jsx'
+import FormGoogleAutocomplete from 'components-lib/Form/FormGoogleAutocomplete.jsx'
 import FormInput from 'components-lib/Form/FormInput.jsx'
 
 class Contact extends React.Component {
@@ -17,7 +17,8 @@ class Contact extends React.Component {
 	}
 
 	onComponentWillReceiveProps(props) {
-		this.contact = {};
+		this.contact = {
+		};
 	}
 
 	notify() {
@@ -30,16 +31,16 @@ class Contact extends React.Component {
 		}
 	}
 
-	onAddressChanged(value) {
-    	this.contact.address = value;
+    onAutocompleteChanged(address) {
+		this.contact.address = address;
     	this.notify();
-    }
-	onPhoneChanged(value) {
-		this.contact.phone = value;
+	}
+	onPhoneChanged(event) {
+		this.contact.phone = event.value;
 		this.notify();
 	}
-	onEmailChanged(value) {
-		this.contact.email = value;
+	onEmailChanged(event) {
+		this.contact.email = event.value;
 		this.notify();
 	}
 
@@ -47,22 +48,41 @@ class Contact extends React.Component {
 
 		return (
 		<div>
-			<Address 
+			{this.props.edit ?
+			<FormGoogleAutocomplete 
 				edit={this.props.edit}
-				address={this.props.address ? this.props.address.address : null}
-				city={this.props.address ? this.props.address.city : null}
-				postalCode={this.props.address ? this.props.address.postalCode : null}
-				country={this.props.address ? this.props.address.country : null}
-				onChange={this.onAddressChanged.bind(this)}/>
+				onChange={this.onAutocompleteChanged.bind(this)}
+				placeholder={this.props.address + ', ' + this.props.postalCode + ' ' + this.props.city}/>
+			: '' }
+			<FormInput 
+				validator={null}
+				edit={false}
+				title='Addresse'
+				value={this.props.address} />
+			<FormInput
+				validator={null}
+				edit={false}
+				title='Code postal'
+				value={this.props.postalCode} />
+			<FormInput
+				validator={null}
+				edit={false}
+				title='Ville'
+				value={this.props.city} />
+			<FormInput
+				validator={null}
+				edit={false}
+				title='Pays'
+				value={this.props.country} />
 			<FormInput 
 				validator={PhoneValidator}
-				static={!this.props.edit}
+				edit={this.props.edit}
 				title='Téléphone'
 				defaultValue={this.props.phone} 
 				onChange={this.onPhoneChanged.bind(this)}/>
 			<FormInput 
-				validator={EmailValidator}
-				static={!this.props.edit}
+				validator={new EmailValidator()}
+				edit={this.props.edit}
 				title='Addresse électronique'
 				defaultValue={this.props.email} 
 				onChange={this.onEmailChanged.bind(this)}/>

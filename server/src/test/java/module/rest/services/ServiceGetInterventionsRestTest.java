@@ -17,7 +17,7 @@ public class ServiceGetInterventionsRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + service1.getId() + "/interventions";
+		return "/" + userSadZ.getId() + "/interventions";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class ServiceGetInterventionsRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asService_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), service1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asService() throws Exception {
-		InterventionBean[] rsp = prepare(getUrlBase(), service1.getUser()).get(InterventionBean[].class);
+		InterventionBean[] rsp = prepare(getUrlBase(), userSadZ).get(InterventionBean[].class);
 		TestCase.assertEquals(3, rsp.length);
 	}
 }

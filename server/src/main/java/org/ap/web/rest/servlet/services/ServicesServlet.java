@@ -9,12 +9,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.CredentialsBean;
+import org.ap.web.entity.mongo.UserCredentialsBean;
+import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
+import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
@@ -27,6 +28,8 @@ import org.ap.web.service.stores.offers.IOffersStore;
 import org.ap.web.service.stores.offers.OffersStore;
 import org.ap.web.service.stores.services.IServicesStore;
 import org.ap.web.service.stores.services.ServicesStore;
+import org.ap.web.service.stores.user.IUsersStore;
+import org.ap.web.service.stores.user.UserStore;
 
 @Path("/services")
 public class ServicesServlet extends ServletBase implements IServicesServlet {
@@ -37,6 +40,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 
 	/* ATTRIBUTES */
 
+	private IUsersStore _userStore;
 	private IServicesStore _servicesStore;
 	private ICustomersStore _customersStore;
 	private IInterventionsStore _interventionsStore;
@@ -46,6 +50,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	/* CONSTRUCTOR */
 
 	public ServicesServlet() throws APException {
+		_userStore = new UserStore();
 		_servicesStore = new ServicesStore();
 		_customersStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
@@ -70,10 +75,12 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 		}
 	}
 	@Override
-	public Response createServiceJSON(SecurityContext sc, CredentialsBean bean) {
+	public Response createServiceJSON(SecurityContext sc, UserCredentialsBean bean) {
 		try {
-			ServiceBean service = _servicesStore.create(bean);
-			return Response.status(Status.CREATED).entity(service, resolveAnnotations(sc, service)).build();
+			bean.setType("sad");
+			UserBean user = _userStore.create(bean);
+			_servicesStore.create(user);
+			return Response.status(Status.CREATED).entity(user, resolveAnnotations(sc, user)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

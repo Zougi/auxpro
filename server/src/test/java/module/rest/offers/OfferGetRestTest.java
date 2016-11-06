@@ -28,7 +28,7 @@ public class OfferGetRestTest extends RestTestBase {
 
 	@Test
 	public void testI_getUnknown() throws Exception {
-		Response rsp = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).get();
+		Response rsp = prepare("/" + StringConverter.stringToHex("dummy"), userSadZ).get();
 		TestCase.assertEquals(Status.NOT_FOUND.getStatusCode(), rsp.getStatus());
 	}
 	@Test
@@ -39,7 +39,7 @@ public class OfferGetRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_invalidPassword() throws Exception {
-		Response rsp = prepare(getBaseUrl(), service1.getUser().getName(), "dummy").get();
+		Response rsp = prepare(getBaseUrl(), userSadZ.getName(), "dummy").get();
 		TestCase.assertEquals(Status.UNAUTHORIZED.getStatusCode(), rsp.getStatus());
 		TestCase.assertFalse(rsp.hasEntity());
 	}
@@ -48,13 +48,13 @@ public class OfferGetRestTest extends RestTestBase {
 
 	@Test
 	public void testV_getResponse() throws Exception {
-		Response rsp = prepare(getBaseUrl(), service1.getUser()).get();
+		Response rsp = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_asSelf() throws Exception {
-		OfferBean offer = prepare(getBaseUrl(), service1.getUser()).get(OfferBean.class);
+		OfferBean offer = prepare(getBaseUrl(), userSadZ).get(OfferBean.class);
 		AssertHelper.assertOffer(offer1, offer);
 	}
 }

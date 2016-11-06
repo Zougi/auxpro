@@ -34,7 +34,7 @@ public class ServicesGetRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_asAdmin_checkStatus() throws Exception {
-		Response response = prepare("", accountAdmin.getUser()).get();
+		Response response = prepare("", userAdmin).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		TestCase.assertTrue(response.hasEntity());
 	}
@@ -42,7 +42,7 @@ public class ServicesGetRestTest extends RestTestBase {
 	public void testV_asAdmin_withFilter() throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("postal", 31000);
-		ServiceBean[] rsp = prepare("", params, accountAdmin.getUser()).get(ServiceBean[].class);
+		ServiceBean[] rsp = prepare("", params, userAdmin).get(ServiceBean[].class);
 		TestCase.assertEquals(1, rsp.length);
 	}
 }

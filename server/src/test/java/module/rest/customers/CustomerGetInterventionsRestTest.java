@@ -37,7 +37,7 @@ public class CustomerGetInterventionsRestTest extends RestTestBase {
 	}
 	@Test
 	public void testI_unknown() throws Exception {
-		Response response = prepare("/" + StringConverter.stringToHex("dummy"), service1.getUser()).get();
+		Response response = prepare("/" + StringConverter.stringToHex("dummy"), userSadZ).get();
 		AssertHelper.assertException(APException.CUSTOMER_NOT_FOUND, response);
 	}
 	
@@ -45,13 +45,13 @@ public class CustomerGetInterventionsRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getBaseUrl(), service1.getUser()).get();
+		Response rsp = prepare(getBaseUrl(), userSadZ).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		InterventionBean[] interventions = prepare(getBaseUrl(), service1.getUser()).get(InterventionBean[].class);
+		InterventionBean[] interventions = prepare(getBaseUrl(), userSadZ).get(InterventionBean[].class);
 		TestCase.assertEquals(2, interventions.length);
 	}
 }

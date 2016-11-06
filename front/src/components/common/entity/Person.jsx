@@ -13,15 +13,63 @@ import StringValidator from 'utils/form/StringValidator.js'
 import NonNullValidator from 'utils/form/NonNullValidator.js'
 
 let PERSON_FIELDS = [
-	{ title: 'Civilité', path: 'civility', type: 'select', values: [ { key: 'Mr', value: 'Mr' }, { key: 'Mme', value: 'Mme' } ] },
-	{ title: 'Nom', path: 'lastName', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'Prénom', path: 'firstName', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'Date de naissance', path: 'birthDate', type: 'date', validator: NonNullValidator },
-	{ title: 'Ville de naissance', path: 'birthCity', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'Pays de naissance', path: 'birthCountry', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'Nationnalité', path: 'nationality', type: 'input', validator: new StringValidator({ lengthMin: 3 }) },
-	{ title: 'N° sécurité sociale', path: 'socialNumber', type: 'input', validator: new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") }) },
-	{ title: "N° carte d'identité", path: 'ciNumber', type: 'input', validator: new CustomValidator({ regSuccess: new RegExp("^[0-9]{12}$") }) }
+	{ 
+		title: 'Civilité', 
+		path: 'civility', 
+		type: 'select', 
+		values: [ 
+			{ key: 'Mr', value: 'Mr' }, 
+			{ key: 'Mme', value: 'Mme' } 
+		] 
+	},
+	{ 
+		title: 'Nom', 
+		path: 'lastName', 
+		type: 'input', 
+		validator: new StringValidator({ lengthMin: 3 }) 
+	},
+	{ 
+		title: 'Prénom', 
+		path: 'firstName', 
+		type: 'input', 
+		validator: new StringValidator({ lengthMin: 3 }) 
+	},
+	{ 
+		title: 'Date de naissance', 
+		path: 'birthDate', 
+		type: 'date', 
+		validator: NonNullValidator 
+	},
+	{ 
+		title: 'Ville de naissance', 
+		path: 'birthCity', 
+		type: 'input', 
+		validator: new StringValidator({ lengthMin: 3 }) 
+	},
+	{ 
+		title: 'Pays de naissance', 
+		path: 'birthCountry', 
+		type: 'input', 
+		validator: new StringValidator({ lengthMin: 3 }) 
+	},
+	{ 
+		title: 'Nationnalité', 
+		path: 'nationality', 
+		type: 'input', 
+		validator: new StringValidator({ lengthMin: 3 }) 
+	},
+	{ 
+		title: 'N° sécurité sociale', 
+		path: 'socialNumber', 
+		type: 'input', 
+		validator: new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") }) 
+	},
+	{ 
+		title: "N° carte d'identité", 
+		path: 'ciNumber', 
+		type: 'input', 
+		validator: new CustomValidator({ regSuccess: new RegExp("^[0-9]{12}$") }) 
+	}
 ]
 
 class Person extends React.Component {
@@ -52,8 +100,8 @@ class Person extends React.Component {
 	}
 
 	changeHandler(field) { 
-		return function (value) {
-			Utils.setField(this.person, field, value); 
+		return function (event) {
+			Utils.setField(this.person, field, event.value || event); 
 			this.notify(); 
 		}.bind(this);
 	}
@@ -65,7 +113,7 @@ class Person extends React.Component {
 				return (
 					<FormInput
 						validator={f.validator}
-						static={!this.props.edit}
+						edit={this.props.edit}
 						key={f.title}
 						title={f.title}
 						defaultValue={Utils.getField(this.props, f.path)} 
@@ -74,7 +122,7 @@ class Person extends React.Component {
 			case 'select':
 				return (
 					<FormSelect 
-						static={!this.props.edit}
+						edit={this.props.edit}
 						key={f.title}
 						title={f.title} 
 						defaultValue={Utils.getField(this.props, f.path)} 
@@ -85,7 +133,7 @@ class Person extends React.Component {
 				return (
 					<FormDate
 						validator={f.validator}
-						static={!this.props.edit}
+						edit={this.props.edit}
 						key={f.title}
 						title={f.title}
 						defaultValue={Utils.getField(this.props, f.path)} 

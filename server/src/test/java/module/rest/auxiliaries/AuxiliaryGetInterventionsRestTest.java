@@ -17,7 +17,7 @@ public class AuxiliaryGetInterventionsRestTest extends RestTestBase {
 	}
 	
 	public String getUrlBase() {
-		return "/" + auxiliary1.getId() + "/interventions";
+		return "/" + userAuxA.getId() + "/interventions";
 	}
 	
 	/* TEST CASES */
@@ -35,13 +35,13 @@ public class AuxiliaryGetInterventionsRestTest extends RestTestBase {
 	
 	@Test
 	public void testV_checkStatus() throws Exception {
-		Response rsp = prepare(getUrlBase(), auxiliary1.getUser()).get();
+		Response rsp = prepare(getUrlBase(), userAuxA).get();
 		TestCase.assertEquals(Status.OK.getStatusCode(), rsp.getStatus());
 		TestCase.assertTrue(rsp.hasEntity());
 	}
 	@Test
 	public void testV_getValid() throws Exception {
-		InterventionBean[] rsp = prepare(getUrlBase(), auxiliary1.getUser()).get(InterventionBean[].class);
+		InterventionBean[] rsp = prepare(getUrlBase(), userAuxA).get(InterventionBean[].class);
 		TestCase.assertEquals(2, rsp.length);
 	}
 }

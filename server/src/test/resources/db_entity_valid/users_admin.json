@@ -1,0 +1,7 @@
+{
+	"name":"admin",
+	"password":"secret",
+	"active":true,
+	"type":"admin",
+	"registrationDate":[2016, 1, 1, 0, 0]
+}

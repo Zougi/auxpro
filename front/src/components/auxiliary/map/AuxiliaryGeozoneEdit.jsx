@@ -65,9 +65,9 @@ class AuxiliaryGeozoneEdit extends React.Component {
 		}
 	}
 
-	onRadiusChanged(radius) {
+	onRadiusChanged(event) {
 		let gz = this.state.geozone;
-		gz.radius = Number(radius);
+		gz.radius = Number(event.value);
 		this.setState({ geozone: gz });
 		if (this.props.onLiveChange) {
 			this.props.onLiveChange(this.state.geozone);
@@ -124,7 +124,7 @@ class AuxiliaryGeozoneEdit extends React.Component {
 				<Row>
 					Sélectionnez un point sur la carte:
 					<FormInput 
-						static={!this.state.geozone.lattitude}
+						edit={this.state.geozone.lattitude && true}
 						title='Saisir périmètre (en km):'
 						value={this.state.geozone.radius} 
 						onChange={this.onRadiusChanged.bind(this)}/>
@@ -144,13 +144,13 @@ class AuxiliaryGeozoneEdit extends React.Component {
 					<Row>
 						<Col sm={6}>
 							<FormInput 
-								static={true}
+								edit={false}
 								title='Code postal'
 								value={this.state.geozone.postalCode} />
 						</Col>
 						<Col sm={6}>
 							<FormInput 
-								static={true}
+								edit={false}
 								title='Ville'
 								value={this.state.geozone.city} />
 						</Col>
