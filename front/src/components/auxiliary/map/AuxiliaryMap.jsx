@@ -7,6 +7,7 @@ import Utils from 'utils/Utils.js'
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import AuxiliaryGeozoneEdit from './AuxiliaryGeozoneEdit.jsx'
 import AuxiliaryAddZone from './AuxiliaryAddZone.jsx'
+import AuxiliaryAddCity from './AuxiliaryAddCity.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 import APButton from 'lib/Button/ApButton.jsx'
 
@@ -124,13 +125,31 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		);
 	}
 	
+	onChangeCirtyPanel(change) {
+		this.setState({ 
+			geozone: {
+				lattitude: Number(change.lattitude),
+				longitude: Number(change.longitude),
+				postalCode: change.postalCode
+			} 
+		});
+	}
+	
+	validCity(change) {
+		console.log(change)
+		this.createGeozone({
+			lattitude: change.lattitude,
+			longitude: change.longitude,
+			postalCode: change.postalCode
+		});
+		this.changeCityMode();
+	}
+	
 	getCityPanel() {
 		return (
-			<AuxiliaryGeozoneEdit
-				geozone={this.state.geozone}
-				onLiveChange={this.onGeozoneChanged.bind(this)}
-				onCreate={this.onCreateGeozone.bind(this)}
-				onCancel={this.resetGeozone.bind(this)}/>
+			<AuxiliaryAddCity 
+				onChange={this.onChangeCirtyPanel.bind(this)}
+				valid={this.validCity.bind(this)} />
 		);
 	}
 	
@@ -193,8 +212,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	_buildMarkers() {
-		console.log("BUILD MARKERS")
-		console.log(this.state)
 		let result = [];
 		// Add map center
 		let auxiliary = this.state.auxiliary;
@@ -306,7 +323,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	render() {
-		console.log("RENDER")
 		return (
 			<Panel header="Mes zones d'intervention">
 				<Row>
