@@ -9,18 +9,35 @@ class AuxiliaryAddZone extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { 
-			address: {
-				postalCode: "",
-				city: ""
-			},
-			radius: 0
-		}
+		if (props.location)
+			this.state = {
+					radius: 0,
+					lattitude: props.location.lattitude,
+					longitude: props.location.longitude,
+					location: props.location
+			};
+		else
+			this.state = {radius: 0, location: props.location};
 	}
 	
 	componentWillReceiveProps(nextProps) {
-		//var nextDefaultLocation = nextProps.defaultLocation;
-		//if (!this.props.defaultLocation  || (nextDefaultLocation.lattitude != this.props.defaultLocation.lattitude && nextDefaultLocation.longitude != this.props.defaultLocation.longitude))
+		if (nextProps.location)
+			this.setState({
+					lattitude: nextProps.location.lattitude,
+					longitude: nextProps.location.longitude,
+					location: nextProps.location
+			});
+			
+		if (!nextProps.location.radius && nextProps.location.radius != 0) {
+			var change = {
+				lattitude: nextProps.location.lattitude,
+				longitude: nextProps.location.longitude,
+				radius: this.state.radius
+			}
+			this.props.onChange(change);
+		}
+		//var nextDefaultLocation = nextProps.location;
+		//if (!this.props.location  || (nextDefaultLocation.lattitude != this.props.location.lattitude && nextDefaultLocation.longitude != this.props.location.longitude))
 		//	this.getDefaultValue(nextProps)
 	}
 	
@@ -34,8 +51,8 @@ class AuxiliaryAddZone extends React.Component {
 	}
 	
 	getDefaultValue(props) {
-		if (props.defaultLocation) {
-			var latLng = new google.maps.LatLng(props.defaultLocation.lattitude, props.defaultLocation.longitude);
+		if (props.location) {
+			var latLng = new google.maps.LatLng(props.location.lattitude, props.location.longitude);
 			var geocoder = new google.maps.Geocoder;
 			geocoder.geocode({'location': latLng}, this.reverseGeoCodeResult.bind(this));
 		}
@@ -43,28 +60,19 @@ class AuxiliaryAddZone extends React.Component {
 	
 	onAutocompleteChanged(address) {
 		var change = {
-			address: {
-				postalCode: address.postalCode,
-				city: address.city,
-				lattitude: address.lattitude,
-				longitude: address.longitude
-			},
+			lattitude: address.lattitude,
+			longitude: address.longitude,
 			radius: this.state.radius
 		}
-		
-		this.setState({ address: change.address });
+		this.setState({ lattitude: change.lattitude,  longitude: change.longitude});
 		this.props.onChange(change);
 	}
 	
 	onRadiusChanged (radius) {
-		if (this.state.address.postalCode != "") {
+		if (this.state.lattitude) {
 			var change = {
-				address: {
-					postalCode: this.state.address.postalCode,
-					city: this.state.address.city,
-					lattitude: this.state.address.lattitude,
-					longitude: this.state.address.longitude
-				},
+				lattitude: this.state.lattitude,
+				longitude: this.state.longitude,
 				radius: radius.target.value
 			}
 			this.setState({ radius: change.radius });
@@ -73,14 +81,10 @@ class AuxiliaryAddZone extends React.Component {
 	}
 	
 	valid() {
-		if (this.state.address.postalCode != "" && this.state.radius != 0) {
+		if (this.state.lattitude && this.state.radius != 0) {
 			var change = {
-				address: {
-					postalCode: this.state.address.postalCode,
-					city: this.state.address.city,
-					lattitude: this.state.address.lattitude,
-					longitude: this.state.address.longitude
-				},
+				lattitude: this.state.lattitude,
+				longitude: this.state.longitude,
 				radius: this.state.radius
 			}
 			this.props.valid(change);
@@ -93,8 +97,8 @@ class AuxiliaryAddZone extends React.Component {
 				<GoogleAutocomplete
 					edit={true}
 					onChange={this.onAutocompleteChanged.bind(this)}
-					defaultValue={this.state.defaultValue}/>
-				<input type="number" onChange={this.onRadiusChanged.bind(this)} step="5"/>
+					location={this.state.location}/>
+				<input type="number" onChange={this.onRadiusChanged.bind(this)} step="5" disabled={!this.state.lattitude}/>
 				<APButton block
 					bsStyle='success'
 					onClick={this.valid.bind(this)}>

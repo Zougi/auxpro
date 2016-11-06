@@ -7,6 +7,7 @@ import Utils from 'utils/Utils.js'
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
 import AuxiliaryGeozoneEdit from './AuxiliaryGeozoneEdit.jsx'
 import AuxiliaryAddZone from './AuxiliaryAddZone.jsx'
+import AuxiliaryAddCity from './AuxiliaryAddCity.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 import APButton from 'lib/Button/ApButton.jsx'
 
@@ -98,8 +99,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	onChangeZonePanel(change) {
 		this.setState({ 
 			geozone: {
-				lattitude: Number(change.address.lattitude),
-				longitude: Number(change.address.longitude),
+				lattitude: Number(change.lattitude),
+				longitude: Number(change.longitude),
 				radius: change.radius
 			} 
 		});
@@ -108,28 +109,49 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	validZone(change) {
 		console.log(change)
 		this.createGeozone({
-			lattitude: change.address.lattitude,
-			longitude: change.address.lattitude,
+			lattitude: change.lattitude,
+			longitude: change.longitude,
 			radius: change.radius
 		});
+		this.changeZoneMode();
 	}
 	
 	getZonePanel() {
 		return (
 			<AuxiliaryAddZone 
 				onChange={this.onChangeZonePanel.bind(this)}
-				defaultLocation={this.state.geozone}
+				location={this.state.geozone}
 				valid={this.validZone.bind(this)} />
 		);
 	}
 	
+	onChangeCirtyPanel(change) {
+		this.setState({ 
+			geozone: {
+				lattitude: Number(change.lattitude),
+				longitude: Number(change.longitude),
+				postalCode: change.postalCode,
+				city:  change.city
+			} 
+		});
+	}
+	
+	validCity(change) {
+		console.log(change)
+		this.createGeozone({
+			lattitude: change.lattitude,
+			longitude: change.longitude,
+			postalCode: change.postalCode,
+			city:  change.city
+		});
+		this.changeCityMode();
+	}
+	
 	getCityPanel() {
 		return (
-			<AuxiliaryGeozoneEdit
-				geozone={this.state.geozone}
-				onLiveChange={this.onGeozoneChanged.bind(this)}
-				onCreate={this.onCreateGeozone.bind(this)}
-				onCancel={this.resetGeozone.bind(this)}/>
+			<AuxiliaryAddCity 
+				onChange={this.onChangeCirtyPanel.bind(this)}
+				valid={this.validCity.bind(this)} />
 		);
 	}
 	
@@ -275,7 +297,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				onClick: this.onMarkerClicked.bind(this)
 			});
 		}
-		console.log(result);
 		return result;
 	}
 

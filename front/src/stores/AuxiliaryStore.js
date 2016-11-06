@@ -49,7 +49,7 @@ Dispatcher.register('LOGOUT', AuxiliaryStore.onLogout);
 AuxiliaryStore.onGetAuxiliary = function (result, param) {
 	AuxiliaryStore.getContent().data.auxiliary = result || {};
 	AuxiliaryStore.getContent().data.auxiliaryLoaded = true;
-	AuxiliaryStore.notify('/data/auxiliary');
+	AuxiliaryStore.notifyPath('/data/auxiliary');
 };
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
@@ -66,7 +66,7 @@ AuxiliaryStore.onGetAuxiliaryServices = function (result, param) {
 		}
 	}
 	data.servicesLoaded = true;
-	AuxiliaryStore.notify('/data/services');
+	AuxiliaryStore.notifyPath('/data/services');
 }
 Dispatcher.register('GET_AUXILIARY_SERVICES', AuxiliaryStore.onGetAuxiliaryServices);
 
@@ -141,7 +141,7 @@ AuxiliaryStore.onGetAuxiliaryGeoZones = function (result, param) {
 	let data = AuxiliaryStore.getContent().data;
 	data.geoZones = result.geoZones || [];
 	data.geoZonesLoaded = true;
-	AuxiliaryStore.notify();
+	AuxiliaryStore.notifyPath('/data/geozones');
 };
 Dispatcher.register('GET_AUXILIARY_GEOZONES', AuxiliaryStore.onGetAuxiliaryGeoZones);
 
