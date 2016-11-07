@@ -1,16 +1,12 @@
-import React from 'react';
+import React from 'react'
 import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
-import AuxiliaryHeader from '../AuxiliaryHeader.jsx'
-import Person from 'components/common/entity/Person.jsx'
-import Contact from 'components/common/entity/Contact.jsx'
-import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
-import AsyncImage from 'lib/image/AsyncImage.jsx'
-import ImageUploader from 'lib/image/ImageUploader.jsx'
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import FormBuilder from 'components-lib/Form/FormBuilder'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList'
 
 class AuxiliaryProfile extends AuxiliaryBaseComponent {
 
@@ -46,6 +42,94 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 	
+	_buildPersonalInfos() {
+		return [
+			[
+				{
+					title: 'Civilité',
+					type: 'select',
+					defaultValue: this.state.auxiliary.civility,
+					values: [
+						{ key: 'Mr', value: 'Mr' },
+						{ key: 'Mme', value: 'Mme' }
+					]
+				},
+				{
+					title: 'Nom',
+					type: 'input',
+					defaultValue: this.state.auxiliary.lastName
+				},
+				{
+					title: 'Prénom',
+					type: 'input',
+					defaultValue: this.state.auxiliary.firstName
+				},
+				{
+					title: 'Date de naissance',
+					type: 'date',
+					defaultValue: this.state.auxiliary.birthDate
+				},
+				{
+					title: 'Ville de naissance',
+					type: 'input',
+					defaultValue: this.state.auxiliary.birthCity
+				},
+				{
+					title: 'Pays de naissance',
+					type: 'input',
+					defaultValue: this.state.auxiliary.birthCountry
+				},
+				{
+					title: 'Nationnalité',
+					type: 'input',
+					defaultValue: this.state.auxiliary.nationality
+				},
+				{
+					title: 'N° sécurité sociale',
+					type: 'input',
+					defaultValue: this.state.auxiliary.socialNumber
+				},
+				{
+					title: "N° carte d'identité",
+					type: 'input',
+					defaultValue: this.state.auxiliary.ciNumber
+				}
+			],
+			[
+				{
+					title: 'Addresse',
+					type: 'input',
+					value: this.state.auxiliary.address
+				},
+				{
+					title: 'Code postal',
+					type: 'input',
+					value: this.state.auxiliary.postalCode
+				},
+				{
+					title: 'Ville',
+					type: 'input',
+					value: this.state.auxiliary.city
+				},
+				{
+					title: 'Pays',
+					type: 'input',
+					value: this.state.auxiliary.country
+				},
+				{
+					title: 'Téléphone',
+					type: 'input',
+					defaultValue: this.state.auxiliary.phone
+				},
+				{
+					title: 'Addresse électronique',
+					type: 'input',
+					defaultValue: this.state.auxiliary.email
+				}
+			]
+		]
+	}
+
 	render() {
 		return (
 		<Row>
@@ -65,28 +149,8 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 					</Row>
 					<Row>
 						<Col sm={12}>
-							<Panel header='Informations personnelles' bsStyle='info'>
-								<Col sm={6}>
-									<Person 
-										civility={this.state.auxiliary.civility}
-										lastName={this.state.auxiliary.lastName}
-										firstName={this.state.auxiliary.firstName}
-										birthDate={this.state.auxiliary.birthDate}
-										birthCity={this.state.auxiliary.birthCity}
-										birthCountry={this.state.auxiliary.birthCountry}
-										nationality={this.state.auxiliary.nationality}
-										socialNumber={this.state.auxiliary.socialNumber} 
-										ciNumber={this.state.auxiliary.ciNumber} />
-								</Col>
-								<Col sm={6}>
-									<Contact 
-										address={this.state.auxiliary.address}
-										postalCode={this.state.auxiliary.postalCode}
-										city={this.state.auxiliary.city}
-										country={this.state.auxiliary.country}
-										phone={this.state.auxiliary.phone}
-										email={this.state.auxiliary.email} />
-								</Col>
+							<Panel header='Informations personnelles v2' bsStyle='info'>
+								{FormBuilder.buildFormGroups(this._buildPersonalInfos())}
 							</Panel>
 						</Col>
 					</Row>
@@ -94,10 +158,13 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 				<Col md={3}>
 					<Panel>
 						<br/>
-						<Panel bsStyle='warning' header='Mes Diplômes'>
+						<Panel bsStyle='primary' header='Mes Plus'>
+							{this.state.auxiliary.description}
+						</Panel>
+						<Panel bsStyle='primary' header='Mes Diplômes'>
 							{this.state.auxiliary.diploma}
 						</Panel>
-						<Panel bsStyle='info' header='Mes Compétences'>
+						<Panel bsStyle='primary' header='Mes Compétences'>
 							<SkillSummaryList skills={this.state.auxiliary}/>
 						</Panel>
 					</Panel>
