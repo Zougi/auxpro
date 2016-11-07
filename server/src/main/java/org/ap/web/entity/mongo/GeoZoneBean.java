@@ -1,6 +1,19 @@
 package org.ap.web.entity.mongo;
 
-public class GeoZoneBean {
+import org.ap.web.entity.MongoEntity;
+import org.ap.web.internal.annotation.MongoId;
+import org.ap.web.internal.annotation.MongoObject;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@MongoObject
+@JsonIgnoreProperties({"_id"})
+public class GeozoneBean extends MongoEntity {
+
+	/* ATTRIBUTES */
+	
+	@MongoId
+	private String auxiliaryId;
 
 	private String lattitude;
 	private String longitude;
@@ -10,7 +23,11 @@ public class GeoZoneBean {
 	private int postalCode;
 	private String city;
 	
-	public GeoZoneBean() {}
+	/* CONSTRUCTORS */
+	
+	public GeozoneBean() {}
+	
+	/* METHODS */
 	
 	public String getLattitude() { return lattitude; }
 	public void setLattitude(String lattitude) { this.lattitude = lattitude; }
@@ -26,4 +43,7 @@ public class GeoZoneBean {
 
 	public String getCity() { return city; }
 	public void setCity(String city) { this.city = city; }
+
+	public String getAuxiliaryId() { return auxiliaryId; }
+	public void setAuxiliaryId(String auxiliaryId) { this.auxiliaryId = auxiliaryId;	}
 }
