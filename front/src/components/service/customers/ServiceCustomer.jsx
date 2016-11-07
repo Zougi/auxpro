@@ -1,10 +1,10 @@
-import React from 'react';
-import { Panel, Row, Col, Form } from 'react-bootstrap';
-import { APButton } from 'lib/Lib.jsx';
-// core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-// custom components
+import React from 'react'
+import { Panel, Row, Col, Form } from 'react-bootstrap'
+import { APButton } from 'lib/Lib.jsx'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
+// Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import FormBuilder from 'components-lib/Form/FormBuilder'
 
@@ -12,9 +12,9 @@ class ServiceCustomer extends ServiceBaseComponent {
 	
 	constructor(props) {
 		super(props);
-        this.state = this._buildState();
+		this.state = this._buildState();
 	}
-	
+
 
 	// State Management functions //
 	// --------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ class ServiceCustomer extends ServiceBaseComponent {
 	}
 	_buildState() {
 		return { customer: this.getCustomer(this.props.params.customerId) };
-    }
+	}
 
 
 	// Callbacks functions //
@@ -151,7 +151,7 @@ class ServiceCustomer extends ServiceBaseComponent {
 					<Row>
 						{FormBuilder.buildFormGroups(this._buildSkills())}
 					</Row>
-		        </Form>
+				</Form>
 				<br/>
 				<APButton bsStyle='primary' onClick={this.onBack.bind(this)} block>Retour à la liste</APButton>
 			</Panel>

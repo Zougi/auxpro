@@ -22,7 +22,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 		super(props);
 		this.state = this._buildState();
 	}
-	
+
 
 	// State Management functions //
 	// --------------------------------------------------------------------------------
@@ -89,7 +89,6 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 		Dispatcher.issue('NAVIGATE', {path: '/sad/customers'});
 	}
 
-	
 	onSkillsChanged(skills) {
 		this.state.customer.skills = skills;
 		this.forceUpdate();
