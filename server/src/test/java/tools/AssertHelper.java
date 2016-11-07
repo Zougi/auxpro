@@ -149,12 +149,15 @@ public class AssertHelper {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
-			assertAddress(expected.getAddress(), actual.getAddress());
-			assertOneTime(expected.getOneTime(), actual.getOneTime());
-			assertRecurence(expected.getRecurence(), actual.getRecurence());
+//			TestCase.assertEquals(expected.getAddress(), actual.getAddress());
+//			TestCase.assertEquals(expected.getCity(), actual.getCity());
+//			TestCase.assertEquals(expected.getPostalCode(), actual.getPostalCode());
+//			TestCase.assertEquals(expected.getCountry(), actual.getCountry());
 			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
 			TestCase.assertEquals(expected.getServiceId(), actual.getServiceId());
 			TestCase.assertEquals(expected.getCustomerId(), actual.getCustomerId());
+			assertOneTime(expected.getOneTime(), actual.getOneTime());
+			assertRecurence(expected.getRecurence(), actual.getRecurence());
 		}
 	}
 	public static void assertOffer(OfferBean expected, OfferBean actual) {

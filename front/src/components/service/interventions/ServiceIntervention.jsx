@@ -93,11 +93,11 @@ class ServiceInterventions extends ServiceBaseComponent {
 
     _buildMatches() {
         return (this.state.intervention.matches || []).map(function(auxiliary) {
-            let name = "Information non renseignée";
-            if (auxiliary.person) {
-                name = auxiliary.person.firstName + ' ' + auxiliary.person.lastName;
-            }
-            return (<p key={auxiliary.id}>{name}</p>);
+            return (
+                <p key={auxiliary.id}>
+                    {auxiliary.firstName + ' ' + auxiliary.lastName}
+                </p>
+            );
         });
     }
 

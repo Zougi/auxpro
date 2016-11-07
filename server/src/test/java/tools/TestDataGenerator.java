@@ -141,7 +141,12 @@ public class TestDataGenerator {
 	}
 	public static InterventionBean next(InterventionBean bean) {
 		bean.setId(StringConverter.stringToHex(String.valueOf(INTERVENTION_ID++)));
-		bean.setAddress(next(new AddressBean()));
+//		bean.setAddress(INTERVENTION_ID + " nouvelle rue");
+//		bean.setCity("Paris");
+//		bean.setCountry("France");
+//		bean.setLattitude("0");
+//		bean.setLongitude("0");
+//		bean.setPostalCode(75000);
 		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
 		bean.setCustomerId(StringConverter.stringToHex(String.valueOf(CUSTOMER_ID)));
 		bean.setServiceId(StringConverter.stringToHex(String.valueOf(SERVICE_ID)));

@@ -10,11 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"_id"})
 public class InterventionBean extends MongoEntity {
 
-	private AddressBean address;
-	
-	private OneTimeBean oneTime;
-	private RecurenceBean recurence;
-	
 	@MongoId
 	private String customerId;
 	@MongoId
@@ -22,19 +17,12 @@ public class InterventionBean extends MongoEntity {
 	@MongoId
 	private String auxiliaryId;
 	
-	public InterventionBean() {
-		address = new AddressBean();
-	}
+	private OneTimeBean oneTime;
+	private RecurenceBean recurence;
+	
+	
+	public InterventionBean() {}
 
-	public AddressBean getAddress() { return address; }
-	public void setAddress(AddressBean address) { this.address = address; }
-	
-	public OneTimeBean getOneTime() { return oneTime; }
-	public void setOneTime(OneTimeBean oneTime) { this.oneTime = oneTime; }
-	
-	public RecurenceBean getRecurence() { return recurence; }
-	public void setRecurence(RecurenceBean recurence) { this.recurence = recurence; }
-	
 	public String getCustomerId() { return customerId; }
 	public void setCustomerId(String customerId) { this.customerId = customerId; }
 
@@ -43,4 +31,12 @@ public class InterventionBean extends MongoEntity {
 
 	public String getAuxiliaryId() { return auxiliaryId; }
 	public void setAuxiliaryId(String auxiliaryId) { this.auxiliaryId = auxiliaryId; }
+	
+	public OneTimeBean getOneTime() { return oneTime; }
+	public void setOneTime(OneTimeBean oneTime) { this.oneTime = oneTime; }
+	
+	public RecurenceBean getRecurence() { return recurence; }
+	public void setRecurence(RecurenceBean recurence) { this.recurence = recurence; }
+	
+
 }

@@ -11,7 +11,7 @@ class ServiceCustomerInterventions extends React.Component {
 
 	render() {
 		return (
-			<Panel header={this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}>
+			<Panel header={this.props.customer.lastName + ' ' + this.props.customer.firstName}>
 				<InterventionSummaryList 
 					interventions={this.props.interventions}
 					offers={this.props.offers}

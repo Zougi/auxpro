@@ -46,7 +46,7 @@ class Service extends ServiceBaseComponent {
 				Dispatcher.issue('NAVIGATE', { path: '/sad/infos/edit' });
 				return;
 			}
-			if (!this.getServiceData('/data/service/user/tutoSkipped')) {
+			if (!this.getServiceData('/data/service/tutoSkipped')) {
 				Dispatcher.issue('NAVIGATE', { path: '/sad/tuto' });
 				return;
 			}

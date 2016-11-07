@@ -64,13 +64,14 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
                 intervention: intervention
             };
         } else {
+            let customers = Utils.map(this.getCustomers());
             return {
                 mode: MODES.CREATE,
-                customers: Utils.map(this.getCustomers()),
+                customers: customers,
                 interventionMode: INTERVENTION_MODES.ONE_TIME,
                 intervention: {
                     serviceId: this.getLoginData('/id'),
-                    customerId: ''
+                    customerId: customers[0].id
                 }
             };
         }
@@ -120,7 +121,7 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
         return (this.state.customers || []).map(function(customer) {
             return {
                 key: customer.id,
-                value: customer.person.lastName + ' ' + customer.person.firstName
+                value: customer.lastName + ' ' + customer.firstName
             };
         }.bind(this))
     }

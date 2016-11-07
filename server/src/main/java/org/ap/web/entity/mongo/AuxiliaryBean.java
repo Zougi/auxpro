@@ -42,6 +42,7 @@ public class AuxiliaryBean extends MongoEntity {
 
 	private boolean entrepreneur;
 	private String diploma;
+	private String diplomaCopy;
 	private boolean diplomaChecked;
 	private String description;
 
@@ -125,6 +126,8 @@ public class AuxiliaryBean extends MongoEntity {
 
 	public String getDiploma() { return diploma; }
 	public void setDiploma(String diploma) { this.diploma = diploma; }
+	public String getDiplomaCopy() { return diplomaCopy; }
+	public void setDiplomaCopy(String diplomaCopy) { this.diplomaCopy = diplomaCopy; }
 	public boolean getDiplomaChecked() { return diplomaChecked; }
 	public void setDiplomaChecked(boolean diplomaChecked) { this.diplomaChecked = diplomaChecked; }
 

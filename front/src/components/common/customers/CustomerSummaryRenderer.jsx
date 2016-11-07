@@ -14,7 +14,7 @@ class CustomerSummaryRenderer extends React.Component {
     }
 
     render() {
-        let age = moment(this.props.customer.person.birthDate).toNow(true);
+        let age = moment(this.props.customer.birthDate).toNow(true);
         let actions = (this.props.actions || []).map(function(action) {
             return (
                 <ButtonAction
@@ -31,7 +31,7 @@ class CustomerSummaryRenderer extends React.Component {
             <div>
                 <Row>
                     <Col xs={actions.length ? 6 : 12}>
-                        {this.props.customer.person.firstName} {this.props.customer.person.lastName} - {age}
+                        {this.props.customer.firstName} {this.props.customer.lastName} - {age}
                     </Col>
                     {actions.length ?
                     <Col style={{textAlign:'right'}} xs={6}>
@@ -42,7 +42,7 @@ class CustomerSummaryRenderer extends React.Component {
                 <br className='hidden-sm hidden-md hidden-lg'/>
                 <Row>
                     <Col sm={12}>
-                        <SkillSummaryList skills={this.props.customer.skills}/>
+                        <SkillSummaryList skills={this.props.customer}/>
                     </Col>
                 </Row>
             </div>
