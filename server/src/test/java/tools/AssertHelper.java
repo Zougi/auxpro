@@ -203,7 +203,10 @@ public class AssertHelper {
 		TestCase.assertEquals(expected.getEmailChecked(), actual.getEmailChecked());
 		TestCase.assertEquals(expected.getPhone(), actual.getPhone());
 		TestCase.assertEquals(expected.getPhoneChecked(), actual.getPhoneChecked());
-		assertAddress(expected.getAddress(), actual.getAddress());
+		TestCase.assertEquals(expected.getAddress(), actual.getAddress());
+		TestCase.assertEquals(expected.getCity(), actual.getCity());
+		TestCase.assertEquals(expected.getPostalCode(), actual.getPostalCode());
+		TestCase.assertEquals(expected.getCountry(), actual.getCountry());
 		TestCase.assertEquals(expected.getSociety(), actual.getSociety());
 		TestCase.assertEquals(expected.getSiret(), actual.getSiret());
 		TestCase.assertEquals(expected.getSocialReason(), actual.getSocialReason());

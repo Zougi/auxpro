@@ -29,10 +29,7 @@ class ServiceHeader extends ServiceBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
-		let service = this.getService();
-		service.contact = service.contact || {};
-		service.user = service.user || {};
-		return { service: service };
+		return { service: this.getService() };
 	}
 
 
@@ -47,7 +44,7 @@ class ServiceHeader extends ServiceBaseComponent {
 			],
 			[
 				{th: "Addresse électronique"},
-				{td: this.state.service.contact.email}
+				{td: this.state.service.email}
 			],
 			[
 				{th: "N° Siret"},
@@ -64,7 +61,7 @@ class ServiceHeader extends ServiceBaseComponent {
 		<Row>
 			<Panel>
 				<Col sm={4}>
-					<AsyncImage src={this.state.service.user.avatar} width={200} height={200}/>
+					<AsyncImage src={this.state.service.avatar} width={200} height={200}/>
 				</Col>
 				<Col sm={8}>
 					<ITable rows={this._buildTable()} bordered striped hover fill/>

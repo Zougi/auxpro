@@ -179,9 +179,14 @@ public class TestDataGenerator {
 	}
 	public static ServiceBean next(ServiceBean bean) {
 		bean.setId(StringConverter.stringToHex(String.valueOf(SERVICE_ID++)));
-		bean.setAddress(next(new AddressBean()));
+		bean.setAddress(SERVICE_ID + " nouvelle rue");
+		bean.setCity("Paris");
+		bean.setCountry("France");
+		bean.setLattitude("0");
+		bean.setLongitude("0");
+		bean.setPostalCode(75000);
 		bean.setAddressChecked(true);
-		bean.setEmail("contact" + CONTACT_ID++ + "@contact.com");
+		bean.setEmail("contact" + SERVICE_ID + "@contact.com");
 		bean.setEmailChecked(true);
 		bean.setPhone("0102030405");
 		bean.setPhoneChecked(false);

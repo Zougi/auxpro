@@ -65,7 +65,6 @@ public class ServicesStore extends StoreBase<ServiceBean> implements IServicesSt
 		if (EMongoCollection.SERVICES.getService().findOne(eq("name", bean.getName())) != null) throw APException.USER_NAME_INUSE;
 		if (EMongoCollection.SERVICES.getService().findOne(eq("email", bean.getName())) != null) throw APException.USER_EMAIL_INUSE;
 		ServiceBean service = new ServiceBean();
-		service.setName(bean.getName());
 		service.setEmail(bean.getName());
 		Document document = BeanConverter.convertToMongo(service);
 		document = EMongoCollection.SERVICES.getService().create(document);		
@@ -73,13 +72,7 @@ public class ServicesStore extends StoreBase<ServiceBean> implements IServicesSt
 	}
 	@Override
 	public ServiceBean update(ServiceBean bean) throws APException {
-		/*
-		if (EMongoCollection.SERVICES.getService().findOne(eq("user.name", bean.getUser().getName())) == null) throw APException.USER_NAME_INVALID;
-		Document document = BeanConverter.convertToMongo(bean);
-		document = EMongoCollection.SERVICES.getService().update(document);
-		return BeanConverter.convertToBean(document, ServiceBean.class);
-		*/
-		Document initial = EMongoCollection.SERVICES.getService().findOne(eq("name", bean.getName()));
+		Document initial = EMongoCollection.SERVICES.getService().findOne(eq("_id", new ObjectId(bean.getId())));
 		if (initial == null) throw APException.USER_NAME_INVALID;
 		ServiceBean previous = BeanConverter.convertToBean(initial, ServiceBean.class);
 		bean.setId(previous.getId());

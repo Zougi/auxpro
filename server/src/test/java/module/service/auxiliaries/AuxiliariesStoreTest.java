@@ -1,7 +1,6 @@
 package module.service.auxiliaries;
 
 import org.ap.web.entity.mongo.AuxiliaryBean;
-import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.internal.APException;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
 import org.junit.Before;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import module.TestModuleBase;
 import tools.AssertHelper;
-import tools.TestDataGenerator;
 
 public class AuxiliariesStoreTest extends TestModuleBase {
 

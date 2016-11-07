@@ -1,0 +1,19 @@
+{
+	"avatar": "escargot",
+	"tutoSkipped":true,
+	"profileComplete":true,
+	"address": "102 avenue de Suffren",
+	"postalCode": 75015,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.84950389999999",
+	"longitude": "2.3024013000000423",
+	"addressChecked": true,
+	"phone": "01 25 36 47 58",
+	"phoneChecked": true,
+	"email":"society1@society1.fr",
+	"emailChecked": true,
+	"society": "Auxiliaire Pro",
+	"socialReason":"Mand",
+	"siret":"6565789"
+}

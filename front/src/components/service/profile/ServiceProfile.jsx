@@ -58,9 +58,9 @@ class ServiceProfile extends ServiceBaseComponent {
 					<Col sm={6}>
 						<Contact
 							edit={false}
-							address={this.state.service.contact.address}
-							phone={this.state.service.contact.phone}
-							email={this.state.service.contact.email} />
+							address={this.state.service.address}
+							phone={this.state.service.phone}
+							email={this.state.service.email} />
 					</Col>
 				</Panel>
 			</Row>

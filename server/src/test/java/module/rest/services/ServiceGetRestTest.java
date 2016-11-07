@@ -67,7 +67,6 @@ public class ServiceGetRestTest extends RestTestBase {
 	public void testV_asOther() throws Exception {
 		ServiceBean service = prepare(getBaseUrl(), userSadY).get(ServiceBean.class);
 		// Informations are private
-		service1.setName(null);
 		service1.setEmail(null);
 		service1.setTutoSkipped(false);
 		AssertHelper.assertService(service1, service);

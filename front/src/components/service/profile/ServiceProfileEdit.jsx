@@ -7,8 +7,11 @@ import StoreRegistry from 'core/StoreRegistry.js'
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import AsyncImage from 'lib/image/AsyncImage.jsx'
 import ImageUploader from 'lib/image/ImageUploader.jsx'
-import ServiceDetails from './ServiceDetails.jsx'
-import Contact from 'components/common/entity/Contact.jsx'
+import FormBuilder from 'components-lib/Form/FormBuilder'
+// Lib modules
+import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
+import Validators from 'utils/form/Validators'
+import Utils from 'utils/Utils'
 
 class ServiceProfileEdit extends ServiceBaseComponent {
 
@@ -31,29 +34,28 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
-		let service = this.getService();
-		service.contact = service.contact || {};
-		service.user = service.user || {};
-		return { service: service };
+		return { service: this.getService() };
 	}
 
 
 	// Callbacks functions //
 	// --------------------------------------------------------------------------------
 
-	onAvatarChanged(avatar) {
-		this.state.service.user.avatar = avatar;
+	onAddressChanged(address) {
+		this.state.service.address = address.address;
+		this.state.service.postalCode = address.postalCode;
+		this.state.service.city = address.city;
+		this.state.service.country = address.country;
+		this.state.service.lattitude = address.lattitude;
+		this.state.service.longitude = address.longitude;
 		this.forceUpdate();
 	}
-	onServiceChanged(service) {
-		this.state.service.society = service.society;
-		this.state.service.socialReason = service.socialReason;
-		this.state.service.siret = service.siret;
-		this.forceUpdate();
-	}
-	onContactChanged(contact) {
-		this.state.service.contact = contact;
-		this.forceUpdate();
+	changeHandler(field) { 
+		return function (event) {
+			let value = event.value || event;
+			Utils.setField(this.state.service, field, value); 
+			this.forceUpdate();
+		}.bind(this);
 	}
 
 	onSaveProfile() {
@@ -69,6 +71,90 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
+
+	_buildInfos() {
+		return [
+			[
+				{
+					title: 'Société',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.service.society,
+					changeHandler: this.changeHandler('society'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Raison sociale',
+					type: 'select',
+					edit: true,
+					defaultValue: this.state.service.socialReason,
+					changeHandler: this.changeHandler('socialReason'),
+					validator: Validators.NonNull,
+					values: [
+						{ key: 'Mandataire', value: 'Mandataire' },
+						{ key: 'Prestataire', value: 'Prestataire' },
+						{ key: 'Mandataire & prestataire', value: 'Mandataire & prestataire' }
+					]
+				},
+				{
+					title: 'N° Siret',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.service.siret,
+					changeHandler: this.changeHandler('siret'),
+					validator: Validators.SiretNumber
+				}
+			],
+			[
+				{
+					type: 'googleAutocomplete',
+					edit: true,
+					changeHandler: this.onAddressChanged.bind(this),
+					placeholder: this.state.service.address + ', ' + this.state.service.postalCode + ' ' + this.state.service.city
+				},
+				{
+					title: 'Addresse',
+					type: 'input',
+					edit: false,
+					value: this.state.service.address
+				},
+				{
+					title: 'Code postal',
+					type: 'input',
+					edit: false,
+					value: this.state.service.postalCode
+				},
+				{
+					title: 'Ville',
+					type: 'input',
+					edit: false,
+					value: this.state.service.city
+				},
+				{
+					title: 'Pays',
+					type: 'input',
+					edit: false,
+					value: this.state.service.country
+				},
+				{
+					title: 'Téléphone',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.service.phone,
+					changeHandler: this.changeHandler('phone'),
+					validator: Validators.Phone
+				},
+				{
+					title: 'Addresse électronique',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.service.email,
+					changeHandler: this.changeHandler('email'),
+					validator: Validators.Email
+				}
+			]
+		]
+	}
 
 	render() { return(
 		<Form horizontal>
@@ -88,28 +174,13 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 			<Row>
 				<Panel header='Ma photo' bsStyle='info'>
 					<AsyncImage
-						src={this.state.service.user.avatar}
+						src={this.state.service.avatar}
 						width={200}
 						height={200}/>
-					<ImageUploader onUploadComplete={this.onAvatarChanged.bind(this)}/>
+					<ImageUploader onUploadComplete={this.changeHandler('avatar')}/>
 				</Panel>
-					<Panel header='Mes informations'>
-					<Col sm={6}>
-						<ServiceDetails
-							edit={true}
-							society={this.state.service.society}
-							socialReason={this.state.service.socialReason}
-							siret={this.state.service.siret}
-							onChange={this.onServiceChanged.bind(this)}/>
-					</Col>
-					<Col sm={6}>
-						<Contact
-							edit={true}
-							address={this.state.service.contact.address}
-							phone={this.state.service.contact.phone}
-							email={this.state.service.contact.email}
-							onChange={this.onContactChanged.bind(this)}/>
-					</Col>
+				<Panel header='Mes informations'>
+					{FormBuilder.buildFormGroups(this._buildInfos())}
 				</Panel>
 			</Row>
 		</Form>

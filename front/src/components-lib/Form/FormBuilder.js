@@ -7,7 +7,6 @@ import FormGoogleAutocomplete from 'components-lib/Form/FormGoogleAutocomplete'
 import FormTextArea from 'components-lib/Form/FormTextArea'
 import FormSelect from 'components-lib/Form/FormSelect'
 
-
 export default class FormBuilder {
 	
 	static buildFormGroups(fields) {
@@ -20,10 +19,10 @@ export default class FormBuilder {
 		}
 		return (
 			<div>
-				<Col md={6}>
+				<Col sm={6}>
 					{fields[0].map(FormBuilder.buildFormGroup)}
 				</Col>
-				<Col md={6}>
+				<Col sm={6}>
 					{fields[1].map(FormBuilder.buildFormGroup)}
 				</Col>
 			</div>

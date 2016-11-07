@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"_id"})
 public class ServiceBean extends MongoEntity {
 
-	private String name;
 	private String avatar;
 	private boolean tutoSkipped;
 
@@ -19,7 +18,13 @@ public class ServiceBean extends MongoEntity {
 	private boolean emailChecked;
 	private String phone;
 	private boolean phoneChecked;
-	private AddressBean address;
+	private String address;
+	private int postalCode;
+	private String city;
+	private String country;
+
+	private String lattitude;
+	private String longitude;
 	private boolean addressChecked;
 
 	private String society;
@@ -27,10 +32,6 @@ public class ServiceBean extends MongoEntity {
 	private String siret;
 
 	public ServiceBean() {}
-
-	@PrivateInformation
-	public String getName() { return name; }
-	public void setName(String name) { this.name = name; }
 
 	@PrivateInformation
 	public boolean getTutoSkipped() { return tutoSkipped; }
@@ -49,10 +50,27 @@ public class ServiceBean extends MongoEntity {
 	public boolean getPhoneChecked() { return phoneChecked; }
 	public void setPhoneChecked(boolean phoneChecked) { this.phoneChecked = phoneChecked; }
 
-	public AddressBean getAddress() { return address; }
-	public void setAddress(AddressBean address) { this.address = address; }
+	public String getAddress() { return address; }
+	public void setAddress(String address) { this.address = address; }
+	
+	public int getPostalCode() { return postalCode; }
+	public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
+	
+	public String getCity() { return city; }
+	public void setCity(String city) { this.city = city; }
+	
+	public String getCountry() { return country; }
+	public void setCountry(String country) { this.country = country; }
+
+	public String getLattitude() { return lattitude; }
+	public void setLattitude(String lattitude) { this.lattitude = lattitude; }
+
+	public String getLongitude() { return longitude; }
+	public void setLongitude(String longitude) { this.longitude = longitude; }
+	
 	public boolean getAddressChecked() { return addressChecked; }
 	public void setAddressChecked(boolean addressChecked) { this.addressChecked = addressChecked; };
+	
 	public String getSociety() { return society; }
 	public void setSociety(String society) { this.society = society; }
 

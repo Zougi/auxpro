@@ -10,6 +10,7 @@ let nnull = new NonNullValidator();
 let phone = new PhoneValidator();
 let ssnum = new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") });
 let idnum = new CustomValidator({ regSuccess: new RegExp("^[0-9]{12}$") });
+let siret = new CustomValidator({ regSuccess: new RegExp("^[0-9]{14}$") });
 let tweet = new StringValidator({ lengthMin: 1, lengthMax: 140 });
 
 export default class Validators {
@@ -36,6 +37,10 @@ export default class Validators {
 
 	static get IDCardNumber() {
 		return idnum;
+	}
+
+	static get SiretNumber() {
+		return siret;
 	}
 
 	static get Tweet() {
