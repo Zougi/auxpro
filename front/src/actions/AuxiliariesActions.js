@@ -140,29 +140,3 @@ GetAuxiliaryGeoZones.do = function (args) {
 	};
 	return RestService._request(reqParam);
 }
-
-// POST GEO ZONE
-let PostAuxiliaryGeoZone = new ActionBase({ name: 'POST_AUXILIARY_GEOZONE' });
-PostAuxiliaryGeoZone.do = function (args) {
-	Utils.checkMembers(args, ['auxiliaryId', 'data', 'token']);
-	var reqParam = {
-		url   : '/auxiliaries/' + args.auxiliaryId + '/geozones',
-		method: 'POST',
-		token : args.token,
-		data: args.data
-	};
-	return RestService._request(reqParam);
-}
-
-// DELETE GEO ZONE
-let DeleteAuxiliaryGeoZone = new ActionBase({ name: 'DELETE_AUXILIARY_GEOZONE' });
-DeleteAuxiliaryGeoZone.do = function (args) {
-	Utils.checkMembers(args, ['auxiliaryId', 'data', 'token']);
-	var reqParam = {
-		url   : '/auxiliaries/' + args.auxiliaryId + '/geozones',
-		method: 'DELETE',
-		token : args.token,
-		data: args.data
-	};
-	return RestService._request(reqParam);
-}

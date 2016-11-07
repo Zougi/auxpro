@@ -41,6 +41,14 @@ public class UserStore extends StoreBase<UserBean> implements IUsersStore {
 		}
 		return null;
 	}
+	@Override
+	public UserBean getByUserId(String id) throws APException {
+		Document document = EMongoCollection.USERS.getService().findOne(eq("userId", id));
+		if (document != null) {
+			return BeanConverter.convertToBean(document, UserBean.class);
+		}
+		return null;
+	}
 
 	@Override
 	public UserBean create(UserCredentialsBean bean) throws APException {
@@ -53,5 +61,14 @@ public class UserStore extends StoreBase<UserBean> implements IUsersStore {
 		user.setRegistrationDate(LocalDateTime.now());
 		user.setProfileActive(true);
 		return createEntity(user);
+	}
+	
+	@Override
+	public UserBean update(UserBean bean) throws APException {
+		Document initial = EMongoCollection.USERS.getService().findOne(eq("_id", new ObjectId(bean.getId())));
+		if (initial == null) throw APException.USER_NAME_INVALID;
+		UserBean previous = BeanConverter.convertToBean(initial, UserBean.class);
+		bean.setId(previous.getId());
+		return updateEntity(bean);
 	}
 }

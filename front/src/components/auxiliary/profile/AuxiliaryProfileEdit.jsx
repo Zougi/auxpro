@@ -6,15 +6,10 @@ import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
 import AuxiliaryQuestionnary from 'components/auxiliary/profile/AuxiliaryQuestionnary'
-import Person from 'components/common/entity/Person'
-import Contact from 'components/common/entity/Contact'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList'
 import APGauge from 'components-lib/charts/APGauge'
 import FormBase from 'components-lib/Form/FormBase'
 import FormBuilder from 'components-lib/Form/FormBuilder'
-import FormInput from 'components-lib/Form/FormInput'
-import FormSelect from 'components-lib/Form/FormSelect'
-import FormTextArea from 'components-lib/Form/FormTextArea'
 import AsyncImage from 'lib/image/AsyncImage'
 import ImageUploader from 'lib/image/ImageUploader'
 // Lib modules
@@ -90,11 +85,7 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		this.setState({state: STATES.QUESTION});
 	}
 	onSendQuestionnary(answers) {
-		Dispatcher.issue('POST_AUXILIARY_QUESTIONARY', {
-			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-        	token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-        	data: { answers: answers }
-        }).
+		this.postQuestionary({ answers: answers }).
 		then(function() {
 			return this.loadAuxiliary();
 		}.bind(this)).

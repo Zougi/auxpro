@@ -10,7 +10,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.ap.web.entity.mongo.UserCredentialsBean;
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;

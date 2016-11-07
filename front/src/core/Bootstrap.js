@@ -7,6 +7,7 @@ import StoreRegistry from 'core/StoreRegistry';
 import AuthActions from 'actions/AuthActions';
 import AuxiliariesActions from 'actions/AuxiliariesActions';
 import CustomersActions from 'actions/CustomersActions';
+import GeozonesActions from 'actions/GeozonesActions';
 import GuestActions from 'actions/GuestActions';
 import IndisponibilitiesActions from 'actions/IndisponibilitiesActions';
 import InterventionsActions from 'actions/InterventionsActions';

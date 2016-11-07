@@ -5,11 +5,11 @@ import java.time.DayOfWeek;
 import javax.ws.rs.core.Response;
 
 import org.ap.web.entity.BeanConverter;
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.entity.error.ErrorBean;
 import org.ap.web.entity.error.ErrorDetailsBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.AddressBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.UserCredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;

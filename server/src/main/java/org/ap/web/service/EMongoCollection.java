@@ -1,8 +1,9 @@
 package org.ap.web.service;
 
 import org.ap.web.entity.mongo.IndisponibilityBean;
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
@@ -13,6 +14,7 @@ public enum EMongoCollection {
 
 	AUXILIARIES       (AuxiliaryBean.class),
 	CUSTOMERS         (CustomerBean.class),
+	GEOZONES          (GeozoneBean.class),
 	INDISPONIBILITIES (IndisponibilityBean.class),
 	INTERVENTIONS     (InterventionBean.class),
 	OFFERS            (OfferBean.class),

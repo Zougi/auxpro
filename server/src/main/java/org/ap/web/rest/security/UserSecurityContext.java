@@ -63,6 +63,6 @@ public class UserSecurityContext implements SecurityContext, Principal {
 	
 	@Override
 	public String getName() {
-		return _user.getId();
+		return _user.getUserId();
 	}
 }

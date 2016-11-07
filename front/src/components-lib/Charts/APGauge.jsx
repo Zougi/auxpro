@@ -23,6 +23,7 @@ class APGauge extends React.Component {
 
 	componentWillReceiveProp(props) {
 		this.setState({ value: props.value ? (Math.max(Math.min(100, props.value), 0)) : 0 });
+		this._drawChart();
 	}
 
 	componentDidMount () {

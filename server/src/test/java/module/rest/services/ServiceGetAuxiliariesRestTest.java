@@ -3,7 +3,7 @@ package module.rest.services;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.rest.servlet.services.ServicesServlet;
 import org.junit.Test;
 

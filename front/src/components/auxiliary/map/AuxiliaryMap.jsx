@@ -53,7 +53,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			auxiliary: this.getAuxiliary(),
 			customers: this.getCustomers(),
 			services: this.getServices(),
-			geoZones: this.getGeoZones()
+			geozones: this.getGeozones()
 		}
 	}
 
@@ -89,7 +89,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	onCreateGeozone(geozone) {
 		this.createGeozone(geozone).
 		then(function () {
-			this.resetGeozone();
+			this.changeZoneMode();
+			this.loadGeozones();
 		}.bind(this)).
 		catch(function () {
 			console.log('ERROR WHILE CREATING GEOZONE')
@@ -108,12 +109,11 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	
 	validZone(change) {
 		console.log(change)
-		this.createGeozone({
+		this.onCreateGeozone({
 			lattitude: change.lattitude,
 			longitude: change.longitude,
 			radius: change.radius
 		});
-		this.changeZoneMode();
 	}
 	
 	getZonePanel() {
@@ -137,14 +137,12 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 	
 	validCity(change) {
-		console.log(change)
-		this.createGeozone({
+		this.onCreateGeozone({
 			lattitude: change.lattitude,
 			longitude: change.longitude,
 			postalCode: change.postalCode,
 			city:  change.city
 		});
-		this.changeCityMode();
 	}
 	
 	getCityPanel() {
@@ -214,6 +212,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	_buildMarkers() {
+		console.log(this.state)
 		let result = [];
 		// Add map center
 		let auxiliary = this.state.auxiliary;
@@ -233,9 +232,9 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			onClick: this.onMarkerClicked.bind(this)
 		})
 		// Add geo zones 
-		function pushGeoZone(gz, i, cb) {
+		result.push(...Utils.map(this.state.geozones, function (gz) {
 			return {
-				id: 'gz' + i,
+				id: gz.id,
 				lattitude: Number(gz.lattitude),
 				longitude: Number(gz.longitude),
 				title: "Zone d'intervention",
@@ -247,12 +246,9 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				name: gz.radius ? 'Par proximité' : 'Par ville',
 				address1: gz.radius ? 'Autour de' : gz.postalCode,
 				address2: gz.radius ? 'Zone de ' + (Number(gz.radius)/1000) + 'km' : gz.city,
-				onClick: cb
+				onClick: this.onMarkerClicked.bind(this)
 			};
-		}
-		if (auxiliary.geoZone1) result.push(pushGeoZone(auxiliary.geoZone1, 1, this.onMarkerClicked.bind(this)));
-		if (auxiliary.geoZone2) result.push(pushGeoZone(auxiliary.geoZone2, 2, this.onMarkerClicked.bind(this)));
-		if (auxiliary.geoZone3) result.push(pushGeoZone(auxiliary.geoZone3, 3, this.onMarkerClicked.bind(this)));
+		}.bind(this)));
 		// Add customers
 		result.push(...Utils.map(this.state.customers, function (c) {
 			let mode = (c.type === 'intervention');

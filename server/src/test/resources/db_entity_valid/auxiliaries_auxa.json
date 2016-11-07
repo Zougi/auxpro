@@ -31,16 +31,5 @@
 	"shopping": 1,
 	"compagny": 5,
 	"administrative": 4,
-	"doityourself": 1,
-	"geoZone1": {
-		"lattitude": "48.849274", 
-		"longitude": "2.336302", 
-		"radius":"500"
-	},
-	"geoZone2": {
-		"lattitude": "48.839696", 
-		"longitude": "2.239912", 
-		"postalCode":"92100", 
-		"city": "Boulogne-Billancourt"
-	}
+	"doityourself": 1
 }

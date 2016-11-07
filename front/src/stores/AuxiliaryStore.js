@@ -139,8 +139,15 @@ Dispatcher.register('GET_AUXILIARY_INDISPONIBILITIES', AuxiliaryStore.onGetAuxil
 // GET AUXILIARY GEOZONES
 AuxiliaryStore.onGetAuxiliaryGeoZones = function (result, param) {
 	let data = AuxiliaryStore.getContent().data;
-	data.geoZones = result.geoZones || [];
-	data.geoZonesLoaded = true;
+	data.geozones = {};
+	if (result && result.length) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
+			let geozone = result[i];
+			data.geozones[geozone.id] = geozone;
+		}
+	}
+	data.geozonesLoaded = true;
 	AuxiliaryStore.notifyPath('/data/geozones');
 };
 Dispatcher.register('GET_AUXILIARY_GEOZONES', AuxiliaryStore.onGetAuxiliaryGeoZones);

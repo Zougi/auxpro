@@ -137,25 +137,49 @@ class AuxiliaryBaseComponent extends React.Component {
 	}
 
 
+	// Questionary //
+	// --------------------------------------------------------------------------------
+
+	postQuestionary(answers) {
+		let args = this._getBaseArgs();
+		args.data = answers;
+		return Dispatcher.issue('POST_AUXILIARY_QUESTIONARY', args)
+	}
+
 	// Geo Zones //
 	// --------------------------------------------------------------------------------
 
+	getGeozones() {
+		return this._getAuxiliaryData('/data/geozones');
+	}
+	getGeozone(id) {
+		return this._getAuxiliaryData('/data/geozones/' + id);
+	}
+	
 	loadGeozones() {
 		return Dispatcher.issue('GET_AUXILIARY_GEOZONES', this._getBaseArgs());
 	}
-	getGeoZones() {
-		return this._getAuxiliaryData('/data/geoZones');
-	}
-	getGeoZone(index) {
-		return this._getAuxiliaryData('/data/geoZones/' + index);
-	}
-	createGeozone(gz) {
+	loadGeozone(id) {
 		var args = this._getBaseArgs();
-		args.data = gz;
-		return Dispatcher.issue('POST_AUXILIARY_GEOZONE', args).
-		then(this.loadGeozones.bind(this));
+		args.geozoneId = gz.id;
+		return Dispatcher.issue('GET_GEOZONE', args);
 	}
-	deleteGeozone(gz) {
+	createGeozone(geozone) {
+		var args = this._getBaseArgs();
+		geozone.auxiliaryId = args.auxiliaryId;
+		args.data = geozone;
+		return Dispatcher.issue('POST_GEOZONE', args);
+	}
+	updateGeozone(geozone) {
+		var args = this._getBaseArgs();
+		args.geozoneId = geozone.id;
+		args.data = geozone;
+		return Dispatcher.issue('PUT_GEOZONE', args);
+	}
+	deleteGeozone(id) {
+		var args = this._getBaseArgs();
+		args.geozoneId = id;
+		return Dispatcher.issue('DELETE_GEOZONE', args);
 	}
 
 	// Dummy renderer //

@@ -1,7 +1,7 @@
 package module.service.auxiliaries;
 
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
-import org.ap.web.entity.mongo.GeoZoneBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.internal.APException;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
 import org.junit.Before;

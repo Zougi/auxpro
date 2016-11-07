@@ -54,6 +54,10 @@ public class APException extends Exception {
 	public static final APException CUSTOMER_SERVICE_INVALID = new APException("CUSTOMER_SERVICE_INVALID", Status.BAD_REQUEST);
 	public static final APException CUSTOMER_SERVICE_MISSING = new APException("CUSTOMER_SERVICE_MISSING", Status.BAD_REQUEST);
 	
+	public static final APException GEOZONE_NOT_FOUND = new APException("GEOZONE_NOT_FOUND", Status.NOT_FOUND);
+	public static final APException GEOZONE_AUXILIARY_INVALID = new APException("GEOZONE_AUXILIARY_INVALID", Status.BAD_REQUEST);
+	public static final APException GEOZONE_AUXILIARY_MISSING = new APException("GEOZONE_AUXILIARY_MISSING", Status.BAD_REQUEST);
+	
 	public static final APException INTERVENTION_NOT_FOUND = new APException("INTERVENTION_NOT_FOUND", Status.NOT_FOUND);
 	public static final APException INTERVENTION_SERVICE_INVALID = new APException("INTERVENTION_SERVICE_INVALID", Status.BAD_REQUEST);
 	public static final APException INTERVENTION_SERVICE_MISSING = new APException("INTERVENTION_SERVICE_MISSING", Status.BAD_REQUEST);

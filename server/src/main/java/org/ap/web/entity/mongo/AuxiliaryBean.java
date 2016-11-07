@@ -1,10 +1,9 @@
-package org.ap.web.entity.auxiliary;
+package org.ap.web.entity.mongo;
 
 import java.time.LocalDate;
 
 import org.ap.web.entity.MongoEntity;
 import org.ap.web.entity.constant.EPersonSex;
-import org.ap.web.entity.mongo.GeoZoneBean;
 import org.ap.web.internal.annotation.MongoObject;
 import org.ap.web.rest.security.annotation.PrivateInformation;
 
@@ -45,10 +44,6 @@ public class AuxiliaryBean extends MongoEntity {
 	private String diploma;
 	private boolean diplomaChecked;
 	private String description;
-
-	private GeoZoneBean geoZone1;
-	private GeoZoneBean geoZone2;
-	private GeoZoneBean geoZone3;
 
 	private int[] answers;
 
@@ -135,15 +130,6 @@ public class AuxiliaryBean extends MongoEntity {
 
 	public String getDescription() { return description; }
 	public void setDescription(String description) { this.description = description; }
-
-	public GeoZoneBean getGeoZone1() { return geoZone1; }
-	public void setGeoZone1(GeoZoneBean geoZone) { this.geoZone1 = geoZone; }
-
-	public GeoZoneBean getGeoZone2() { return geoZone2; }
-	public void setGeoZone2(GeoZoneBean geoZone) { this.geoZone2 = geoZone; }
-
-	public GeoZoneBean getGeoZone3() { return geoZone3; }
-	public void setGeoZone3(GeoZoneBean geoZone) { this.geoZone3 = geoZone; }
 
 	public int[] getAnswers() { return answers; }
 	public void setAnswers(int[] answers) { this.answers = answers; }

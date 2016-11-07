@@ -11,12 +11,13 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.ap.web.entity.mongo.UserCredentialsBean;
 import org.ap.web.helpers.AuxiliaryHelper;
+import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryQuestionaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
+import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
-import org.ap.web.entity.auxiliary.AuxiliaryQuestionaryBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
 import org.ap.web.internal.APException;
@@ -25,6 +26,8 @@ import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
 import org.ap.web.service.stores.auxiliaries.IAuxiliariesStore;
 import org.ap.web.service.stores.customers.CustomersStore;
 import org.ap.web.service.stores.customers.ICustomersStore;
+import org.ap.web.service.stores.geozones.GeozonesStore;
+import org.ap.web.service.stores.geozones.IGeozonesStore;
 import org.ap.web.service.stores.indisponibilities.IIndisponibilitiesStore;
 import org.ap.web.service.stores.indisponibilities.IndisponibilitiesStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
@@ -48,6 +51,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	private IUsersStore _userStore;
 	private IAuxiliariesStore _auxiliaryStore;
 	private IServicesStore _servicesStore;
+	private IGeozonesStore _geozonesStore;
 	private ICustomersStore _customersStore;
 	private IOffersStore _offersStore;
 	private IInterventionsStore _interventionsStore;
@@ -61,6 +65,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		_servicesStore = new ServicesStore();
 		_offersStore = new OffersStore();
 		_customersStore = new CustomersStore();
+		_geozonesStore = new GeozonesStore();
 		_interventionsStore = new InterventionsStore();
 		_indiponibilitiesStore = new IndisponibilitiesStore();
 	}
@@ -81,8 +86,10 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		try {
 			bean.setType("aux");
 			UserBean user = _userStore.create(bean);
-			_auxiliaryStore.create(user);
-			return Response.status(Status.CREATED).entity(user, resolveAnnotations(sc, user)).build();
+			AuxiliaryBean auxiliary = _auxiliaryStore.create(user);
+			user.setUserId(auxiliary.getId());
+			_userStore.update(user);
+			return Response.status(Status.CREATED).build();
 		} catch (APException e) {
 			return sendException(e);
 		}
@@ -208,6 +215,16 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
 			IndisponibilityBean[] indisponibilities = _indiponibilitiesStore.getAuxIndisponibilities(auxiliaryId);
 			return Response.status(Status.OK).entity(indisponibilities, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	@Override
+	public Response getGeoZonesJSON(SecurityContext sc, String auxiliaryId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			GeozoneBean[] geozones = _geozonesStore.getAuxiliaryGeozones(auxiliaryId);
+			return Response.status(Status.OK).entity(geozones, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

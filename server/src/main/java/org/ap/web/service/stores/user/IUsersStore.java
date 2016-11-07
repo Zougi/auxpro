@@ -11,4 +11,8 @@ public interface IUsersStore {
 	public UserBean check(String username, String password) throws APException;
 	
 	public UserBean get(String id) throws APException;
+	
+	public UserBean getByUserId(String id) throws APException;
+	
+	public UserBean update(UserBean bean) throws APException;
 }

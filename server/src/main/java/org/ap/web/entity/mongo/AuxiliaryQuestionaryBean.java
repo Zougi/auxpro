@@ -1,4 +1,4 @@
-package org.ap.web.entity.auxiliary;
+package org.ap.web.entity.mongo;
 
 public class AuxiliaryQuestionaryBean {
 

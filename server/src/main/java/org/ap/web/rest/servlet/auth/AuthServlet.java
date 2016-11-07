@@ -35,8 +35,8 @@ public class AuthServlet extends ServletBase implements IAuthServlet {
 	@Override
 	public Response getAuth(SecurityContext sc) {
 		try {
-			UserBean userB = _store.get(sc.getUserPrincipal().getName());
-			return Response.status(200).entity(userB, resolveAnnotations(sc, userB)).build();
+			UserBean userB = _store.getByUserId(sc.getUserPrincipal().getName());
+			return Response.status(200).entity(userB, resolveAnnotations(sc, userB.getUserId())).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

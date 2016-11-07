@@ -6,16 +6,16 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.ap.web.common.string.StringConverter;
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
 import org.ap.web.entity.constant.EPersonSex;
 import org.ap.web.entity.constant.ERecurencePeriod;
 import org.ap.web.entity.constant.ESadType;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.AddressBean;
+import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.UserCredentialsBean;
 import org.ap.web.entity.mongo.CustomerBean;
-import org.ap.web.entity.mongo.GeoZoneBean;
+import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.OneTimeBean;
@@ -207,7 +207,7 @@ public class TestDataGenerator {
 		bean.setId(id);
 		return bean;
 	}
-	public static GeoZoneBean next(GeoZoneBean bean) {
+	public static GeozoneBean next(GeozoneBean bean) {
 		bean.setRadius("500");
 		bean.setLattitude("0");
 		bean.setLongitude("0");

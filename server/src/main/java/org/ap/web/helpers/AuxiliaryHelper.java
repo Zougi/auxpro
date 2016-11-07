@@ -1,8 +1,8 @@
 package org.ap.web.helpers;
 
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
-import org.ap.web.entity.auxiliary.AuxiliaryQuestionaryBean;
 import org.ap.web.entity.constant.EQuestion;
+import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryQuestionaryBean;
 
 public class AuxiliaryHelper {
 

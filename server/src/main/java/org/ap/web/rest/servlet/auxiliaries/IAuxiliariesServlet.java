@@ -14,9 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.ap.web.entity.mongo.AuxiliaryBean;
+import org.ap.web.entity.mongo.AuxiliaryQuestionaryBean;
 import org.ap.web.entity.mongo.UserCredentialsBean;
-import org.ap.web.entity.auxiliary.AuxiliaryBean;
-import org.ap.web.entity.auxiliary.AuxiliaryQuestionaryBean;
 
 /**
  * This interface describes the auxiliaries servlet features.
@@ -119,5 +119,14 @@ public interface IAuxiliariesServlet {
 	@Path("{auxiliaryId}/indisponibilities")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getIndisponibilitiesJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+	
+	// GEOZONES
+	
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{auxiliaryId}/geozones")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getGeoZonesJSON(@Context SecurityContext sc, @PathParam("auxiliaryId") final String auxiliaryId);
+
 	
 }
