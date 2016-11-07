@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col } from 'react-bootstrap'
 // Custom Modules
+import FormButtonGroup from 'components-lib/Form/FormButtonGroup'
 import FormDate from 'components-lib/Form/FormDate'
 import FormInput from 'components-lib/Form/FormInput'
 import FormGoogleAutocomplete from 'components-lib/Form/FormGoogleAutocomplete'
@@ -65,6 +66,17 @@ export default class FormBuilder {
 					defaultValue={f.defaultValue}
 					value={f.value}
 					placeholder={f.placeholder}
+					values={f.values}
+					onChange={f.changeHandler}/>
+			);
+		case 'selectGroup':
+			return (
+				<FormButtonGroup
+					key={i}
+					edit={f.edit}
+					title={f.title}
+					defaultValue={f.defaultValue}
+					value={f.value}
 					values={f.values}
 					onChange={f.changeHandler}/>
 			);

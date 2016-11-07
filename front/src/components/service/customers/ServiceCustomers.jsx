@@ -1,19 +1,24 @@
-// lib modules
-import React from 'react';
-import { Panel, Button, Row, Col, Modal } from 'react-bootstrap';
-// core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-// custom components
-import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import CustomerSummaryList from 'components/common/customers/CustomerSummaryList.jsx';
-import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
+import React from 'react'
+import moment from 'moment';
+import { Panel, Button, Row, Col, Modal, ListGroup, ListGroupItem } from 'react-bootstrap'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
+// Custom components
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
+import CustomerSummaryList from 'components/common/customers/CustomerSummaryList';
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
+import ButtonAction from 'components-lib/ButtonAction/ButtonAction.jsx'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
+import SearchBar from 'components-lib/SearchBar/SearchBar.jsx';
+// Lib modules
+import Utils from 'utils/Utils'
 
 class ServiceCustomers extends ServiceBaseComponent {
 	
 	constructor(props) {
 		super(props);
-        this.state = this._buildState();
+		this.state = this._buildState();
 	}
 
 
@@ -24,74 +29,148 @@ class ServiceCustomers extends ServiceBaseComponent {
 		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
 	}
 	componentWillUnmount() {
-		StoreRegistry.unregister('SERVICE_STORE', this);   
+		StoreRegistry.unregister('SERVICE_STORE', this);
 	}
 	onStoreUpdate() {
 		this.setState(this._buildState());
-    }
-    _buildState() {
-    	return { 
-    		customers: this.getCustomers() 
-    	};
-    }
+	}
+	_buildState() {
+		return { 
+			customers: this.getCustomers(),
+			serach: ''
+		};
+	}
 
 
 	// Callbacks functions //
 	// --------------------------------------------------------------------------------
 
-    onAddCustomer(customer) {
-    	Dispatcher.issue('NAVIGATE', {path: '/sad/customers/new'});
-    }
-    onEditCustomer(customer) {
- 		Dispatcher.issue('NAVIGATE', {path: '/sad/customers/' + customer.id + '/edit'});
-    }
-    onViewCustomer(customer) {
-    	Dispatcher.issue('NAVIGATE', {path: '/sad/customers/' + customer.id});
-    }
-    onDeleteCustomer(customer) {
-    	this.setState({ 
-    		showDeleteConfirm: true,
-    		customerToDelete: customer.id
-    	});
-    }
-    doDeleteCustomer() {
-    	this.deleteCustomer(this.state.customerToDelete);
-    	this.cancelDeleteCustomer();
-    }    
-    cancelDeleteCustomer() {
-    	this.setState({ 
-    		showDeleteConfirm: false,
-    		customerToDelete: null 
-    	});
-    }
+	onSearch(value) {
+		this.setState({ search: value });
+	}
+
+	onAddCustomer() {
+		Dispatcher.issue('NAVIGATE', {path: '/sad/customers/new'});
+	}
+	onEditCustomer(customer) {
+		return function() {
+			Dispatcher.issue('NAVIGATE', {path: '/sad/customers/' + customer.id + '/edit'});	
+		}		
+	}
+	onViewCustomer(customer) {
+		return function() {
+			Dispatcher.issue('NAVIGATE', {path: '/sad/customers/' + customer.id});
+		}
+	}
+	onDeleteCustomer(customer) {
+		return function() {
+			this.setState({
+				showDeleteConfirm: true,
+				customerToDelete: customer.id
+			});
+		}.bind(this)
+	}
+
+	doDeleteCustomer() {
+		this.deleteCustomer(this.state.customerToDelete);
+		this.cancelDeleteCustomer();
+	}
+	cancelDeleteCustomer() {
+		this.setState({ 
+			showDeleteConfirm: false,
+			customerToDelete: null
+		});
+	}
 
 
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
-	render() { return (
-		<Row>
-			<Panel header={(<strong>Clients enregistrés</strong>)}>
-				<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
-				<br/>
-				<CustomerSummaryList 
-					customers={this.state.customers} 
-					onEdit={this.onEditCustomer.bind(this)}
-					onView={this.onViewCustomer.bind(this)}
-					onDelete={this.onDeleteCustomer.bind(this)}/>
-			</Panel>
-			<DialogConfirmation
-				show={this.state.showDeleteConfirm}
-				title='Supprimer client ?'
-				onConfirm={this.doDeleteCustomer.bind(this)}
-				confirmStyle='danger'
-				confirmText='Supprimer'
-				onCancel={this.cancelDeleteCustomer.bind(this)}
-				cancelStyle='default'
-				cancelText='Annuler'/>
-			
-		</Row>
-	);}
+	_buildCustomers() {
+		return Utils.map(this.state.customers).filter(this._filterCustomer.bind(this)).map(this._buildCustomer.bind(this))
+	}
+	_filterCustomer(customer) {
+		if (this.state.search) {
+			let s = this.state.search.toUpperCase();
+			return (customer.firstName.toUpperCase().startsWith(s) || customer.lastName.toUpperCase().startsWith(s));
+		}
+		return true;
+	}
+	_buildCustomer(customer, i) {
+		let age = moment(customer.birthDate).toNow(true);
+		return (
+			<ListGroupItem key={i}>
+				<Row>
+                    <Col xs={6}>
+                        {customer.firstName} {customer.lastName} - {age}
+                    </Col>
+                    <Col style={{textAlign:'right'}} xs={6}>
+                        <ButtonAction
+							bsSize='xsmall' 
+							glyph='user'
+							tooltip='Voir informations client'
+							onClick={this.onViewCustomer(customer)} />
+						<ButtonAction
+							bsSize='xsmall' 
+							glyph='pencil'
+							tooltip='Editer informations client'
+							onClick={this.onEditCustomer(customer)} />
+						<ButtonAction
+							bsStyle='danger'
+							bsSize='xsmall' 
+							glyph='remove'
+							tooltip='Supprimer client'
+							onClick={this.onDeleteCustomer(customer)} />
+					</Col>
+				</Row>
+				<br className='hidden-sm hidden-md hidden-lg'/>
+				<Row>
+					<Col sm={12}>
+						<SkillSummaryList skills={customer}/>
+					</Col>
+				</Row>
+			</ListGroupItem>
+		);
+	}
+	_buildCustomerActions(action, i) {
+		return (
+			<ButtonAction
+				key={i}
+				bsSize='xsmall' 
+				bsStyle={action.bsStyle} 
+				glyph={action.glyph}
+				tooltip={action.tooltip}
+				onClick={action.callback} />
+			);
+	}
+
+	render() {
+		let customers = this._buildCustomers();
+		return (
+			<Row>
+				<Panel header={(<strong>Clients enregistrés</strong>)}>
+					<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
+					<br/>
+					<SearchBar onChange={this.onSearch.bind(this)}/>
+					<Panel>
+						<ListGroup fill>
+							{customers}
+						</ListGroup>
+						<strong>Total : {customers.length} clients.</strong>
+					</Panel>
+				</Panel>
+				<DialogConfirmation
+					show={this.state.showDeleteConfirm}
+					title='Supprimer client ?'
+					onConfirm={this.doDeleteCustomer.bind(this)}
+					confirmStyle='danger'
+					confirmText='Supprimer'
+					onCancel={this.cancelDeleteCustomer.bind(this)}
+					cancelStyle='default'
+					cancelText='Annuler'/>
+			</Row>
+		);
+	}
 }
 
 export default ServiceCustomers;

@@ -115,11 +115,21 @@ public class TestDataGenerator {
 		return bean;
 	}
 	public static CustomerBean next(CustomerBean bean) {
-		bean.setAddresses(new AddressBean[] { next(new AddressBean()) });
-		bean.setContact(next(new ContactBean()));
 		bean.setId(StringConverter.stringToHex(String.valueOf(CUSTOMER_ID++)));
 		bean.setServiceId(String.valueOf(CUSTOMER_ID));
-		bean.setPerson(new PersonBean());
+		bean.setBirthDate(LocalDate.now());
+		bean.setCivility(EPersonSex.M.getId());
+		bean.setFirstName("Prenom " + CUSTOMER_ID);
+		bean.setLastName("Nom " + CUSTOMER_ID);
+		bean.setNationality("Francaise");
+		bean.setEmail("contact" + CUSTOMER_ID++ + "@contact.com");
+		bean.setPhone("0102030405");
+		bean.setAddress(CUSTOMER_ID + " nouvelle rue");
+		bean.setCity("Paris");
+		bean.setCountry("France");
+		bean.setLattitude("0");
+		bean.setLongitude("0");
+		bean.setPostalCode(75000);
 		bean.setAdministrative(1 + CUSTOMER_ID);
 		bean.setChildhood(2 + CUSTOMER_ID);
 		bean.setCompagny(3 + CUSTOMER_ID);

@@ -6,9 +6,7 @@ import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 // custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import Contact from 'components/common/entity/Contact.jsx'
-import Person from 'components/common/entity/Person.jsx'
-import SkillDetailsList from 'components/common/skills/SkillDetailsList.jsx'
+import FormBuilder from 'components-lib/Form/FormBuilder'
 
 class ServiceCustomer extends ServiceBaseComponent {
 	
@@ -46,38 +44,113 @@ class ServiceCustomer extends ServiceBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
+	_buildInfos() {
+		return [
+			[
+				{
+					title: 'Civilité',
+					type: 'select',
+					edit: false,
+					value: this.state.customer.civility,
+					values: [
+						{ key: 'Mr', value: 'Mr' },
+						{ key: 'Mme', value: 'Mme' }
+					]
+				},
+				{
+					title: 'Nom',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.lastName
+				},
+				{
+					title: 'Prénom',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.firstName
+				},
+				{
+					title: 'Date de naissance',
+					type: 'date',
+					edit: false,
+					defaultValue: this.state.customer.birthDate
+				},
+				{
+					title: 'Nationnalité',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.nationality
+				},
+			],
+			[
+				{
+					title: 'Addresse',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.address
+				},
+				{
+					title: 'Code postal',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.postalCode
+				},
+				{
+					title: 'Ville',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.city
+				},
+				{
+					title: 'Pays',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.country
+				},
+				{
+					title: 'Téléphone',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.phone
+				},
+				{
+					title: 'Addresse électronique',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.email
+				}
+			]
+		]
+	}
+	_buildSkills() { return [
+		[
+			this.__buildSkill('Entretien maison', 'housework'),
+			this.__buildSkill('Aide petite enfance', 'childhood'),
+			this.__buildSkill('Courses & aide au repas', 'shopping'),
+			this.__buildSkill('Nursing', 'nursing'),
+			this.__buildSkill('Dame de compagnie', 'compagny'),
+			this.__buildSkill('Aide administrative', 'administrative'),
+			this.__buildSkill('Petit bricolage', 'doityourself')
+		]
+	];}
+	__buildSkill(title, field) { return {
+		title: title,
+		type: 'selectGroup',
+		edit: false,
+		defaultValue: this.state.customer[field],
+		values: [ 0, 1, 2, 3, 4, 5 ]
+	};}
+
 	render() { return (
 		<Row>
 			<Panel header={(<strong>Détails client</strong>)}>
 				<Form horizontal>
 					<Row>
-						<Col sm={6}>
-		            		<Person 
-		            			edit={false}
-		            			civility={this.state.customer.person.civility}
-								lastName={this.state.customer.person.lastName}
-								firstName={this.state.customer.person.firstName}
-								birthDate={this.state.customer.person.birthDate}
-								birthCity={this.state.customer.person.birthCity}
-								birthCountry={this.state.customer.person.birthCountry}
-								nationality={this.state.customer.person.nationality}
-								socialNumber={this.state.customer.person.socialNumber} />
-		            	</Col>
-		            	<Col sm={6}>
-		            		<Contact 
-		            			edit={false}
-		            			address={this.state.customer.contact.address}
-		            			phone={this.state.customer.contact.phone}
-		            			email={this.state.customer.contact.email} />
-		            	</Col>
-	            	</Row>
-	            	<Row>
-						<Col sm={12}>
-		            		<SkillDetailsList 
-		            			edit={false}
-		            			skills={this.state.customer.skills} />
-		            	</Col>
-	            	</Row>
+						{FormBuilder.buildFormGroups(this._buildInfos())}
+					</Row>
+					<Row>
+						{FormBuilder.buildFormGroups(this._buildSkills())}
+					</Row>
 		        </Form>
 				<br/>
 				<APButton bsStyle='primary' onClick={this.onBack.bind(this)} block>Retour à la liste</APButton>

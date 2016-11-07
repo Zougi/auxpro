@@ -113,8 +113,17 @@ public class AssertHelper {
 		if (expected == null) {
 			TestCase.assertNull(actual);
 		} else {
-			assertContact(expected.getContact(), actual.getContact());
-			assertPerson(expected.getPerson(), actual.getPerson());
+			TestCase.assertEquals(expected.getEmail(), actual.getEmail());
+			TestCase.assertEquals(expected.getPhone(), actual.getPhone());
+			TestCase.assertEquals(expected.getAddress(), actual.getAddress());
+			TestCase.assertEquals(expected.getCity(), actual.getCity());
+			TestCase.assertEquals(expected.getPostalCode(), actual.getPostalCode());
+			TestCase.assertEquals(expected.getCountry(), actual.getCountry());
+			TestCase.assertEquals(expected.getCivility(), actual.getCivility());
+			TestCase.assertEquals(expected.getFirstName(), actual.getFirstName());
+			TestCase.assertEquals(expected.getLastName(), actual.getLastName());
+			TestCase.assertEquals(expected.getBirthDate(), actual.getBirthDate());
+			TestCase.assertEquals(expected.getNationality(), actual.getNationality());
 			TestCase.assertEquals(expected.getAdministrative(), actual.getAdministrative());
 			TestCase.assertEquals(expected.getChildhood(), actual.getChildhood());
 			TestCase.assertEquals(expected.getCompagny(), actual.getCompagny());

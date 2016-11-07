@@ -1,0 +1,23 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mr",
+	"firstName": "Andre",
+	"lastName": "Remy",
+	"birthDate":[1945, 4, 25],
+	"nationality": "Francaise",
+	"address": "7 rue Delambre",
+	"postalCode": 75014,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.8415751",
+	"longitude": "2.3265145",
+	"phone": "01 01 01 01 01",
+	"email":"monique.martin@outlook.fr",
+	"housework": 2,
+	"nursing": 5,
+	"childhood": 0,
+	"shopping": 1,
+	"compagny": 3,
+	"administrative": 1,
+	"doityourself": 4
+}

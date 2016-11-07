@@ -1,7 +1,6 @@
 package module.service.customers;
 
 import org.ap.web.common.string.StringConverter;
-import org.ap.web.entity.mongo.ContactBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.internal.APException;
 import org.ap.web.service.stores.customers.CustomersStore;
@@ -24,10 +23,8 @@ public class CustomersStoreTest extends TestModuleBase {
 
 	public CustomerBean getTestCustomer() {
 		CustomerBean customer = new CustomerBean();
-		ContactBean contact = new ContactBean();
-		contact.setEmail("dummy@kiko.com");
-		contact.setPhone("0102030405");
-		customer.setContact(contact);
+		customer.setEmail("dummy@kiko.com");
+		customer.setPhone("0102030405");
 		customer.setId(StringConverter.stringToHex("dummy"));
 		return customer;
 	}
@@ -65,7 +62,7 @@ public class CustomersStoreTest extends TestModuleBase {
 	}
 	@Test
 	public void testV_updateExisting() throws APException {
-		customer1.getPerson().setFirstName("dummy");
+		customer1.setFirstName("dummy");
 		CustomerBean customer = store.updateCustomer(customer1);
 		AssertHelper.assertCustomer(customer1, customer);
 	}

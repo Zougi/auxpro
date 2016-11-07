@@ -1,15 +1,15 @@
-// lib modules
-import React from 'react';
-import { Panel, Row, Col, Form } from 'react-bootstrap';
+import React from 'react'
+import { Panel, Row, Col, Form } from 'react-bootstrap'
 // core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 // custom components
-import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import Contact from 'components/common/entity/Contact.jsx'
-import Person from 'components/common/entity/Person.jsx'
-import SkillDetailsList from 'components/common/skills/SkillDetailsList.jsx'
-import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
+import FormBuilder from 'components-lib/Form/FormBuilder'
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
+// Lib modules
+import Utils from 'utils/Utils'
+import Validators from 'utils/form/Validators'
 
 let MODES = {
 	CREATE: 'CREATE',
@@ -45,12 +45,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 		} else {
 			return { 
 				mode: MODES.CREATE,
-				customer: {
-					serviceId: this.getLoginData('/id'),
-					person: {},
-					contact: { address: {} },
-					skills: {}
-				} 
+				customer: { serviceId: this.getLoginData('/id') } 
 			};	
 		}
 	}
@@ -58,6 +53,24 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 
 	// Callbacks functions //
 	// --------------------------------------------------------------------------------
+
+	onAddressChanged(address) {
+		this.state.customer.address = address.address;
+		this.state.customer.postalCode = address.postalCode;
+		this.state.customer.city = address.city;
+		this.state.customer.country = address.country;
+		this.state.customer.lattitude = address.lattitude;
+		this.state.customer.longitude = address.longitude;
+		this.forceUpdate();
+	}
+
+	changeHandler(field) {
+		return function (event) {
+			let value = event.value || event;
+			Utils.setField(this.state.customer, field, value);
+			this.forceUpdate();
+		}.bind(this);
+	}
 
 	onSaveCustomer() {
 		if (this.state.mode === MODES.CREATE) {
@@ -76,14 +89,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 		Dispatcher.issue('NAVIGATE', {path: '/sad/customers'});
 	}
 
-	onPersonChanged(person) {
-		this.state.customer.person = person;
-		this.forceUpdate();
-	}
-	onContactChanged(contact) {
-		this.state.customer.contact = contact;	
-		this.forceUpdate();
-	}
+	
 	onSkillsChanged(skills) {
 		this.state.customer.skills = skills;
 		this.forceUpdate();
@@ -93,48 +99,142 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
+	_buildInfos() {
+		return [
+			[
+				{
+					title: 'Civilité',
+					type: 'select',
+					edit: true,
+					defaultValue: this.state.customer.civility,
+					changeHandler: this.changeHandler('civility'),
+					validator: Validators.NonNull,
+					values: [
+						{ key: 'Mr', value: 'Mr' },
+						{ key: 'Mme', value: 'Mme' }
+					]
+				},
+				{
+					title: 'Nom',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.customer.lastName,
+					changeHandler: this.changeHandler('lastName'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Prénom',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.customer.firstName,
+					changeHandler: this.changeHandler('firstName'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Date de naissance',
+					type: 'date',
+					edit: true,
+					defaultValue: this.state.customer.birthDate,
+					changeHandler: this.changeHandler('birthDate'),
+					validator: Validators.NonNull
+				},
+				{
+					title: 'Nationnalité',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.customer.nationality,
+					changeHandler: this.changeHandler('nationality'),
+					validator: Validators.NonEmptyString
+				},
+			],
+			[
+				{
+					type: 'googleAutocomplete',
+					edit: true,
+					changeHandler: this.onAddressChanged.bind(this),
+					placeholder: this.state.customer.address + ', ' + this.state.customer.postalCode + ' ' + this.state.customer.city
+				},
+				{
+					title: 'Addresse',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.address
+				},
+				{
+					title: 'Code postal',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.postalCode
+				},
+				{
+					title: 'Ville',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.city
+				},
+				{
+					title: 'Pays',
+					type: 'input',
+					edit: false,
+					value: this.state.customer.country
+				},
+				{
+					title: 'Téléphone',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.customer.phone,
+					changeHandler: this.changeHandler('phone'),
+					validator: Validators.Phone
+				},
+				{
+					title: 'Addresse électronique',
+					type: 'input',
+					edit: true,
+					defaultValue: this.state.customer.email,
+					changeHandler: this.changeHandler('email'),
+					validator: Validators.Email
+				}
+			]
+		]
+	}
+	_buildSkills() { return [
+		[
+			this.__buildSkill('Entretien maison', 'housework'),
+			this.__buildSkill('Aide petite enfance', 'childhood'),
+			this.__buildSkill('Courses & aide au repas', 'shopping'),
+			this.__buildSkill('Nursing', 'nursing'),
+			this.__buildSkill('Dame de compagnie', 'compagny'),
+			this.__buildSkill('Aide administrative', 'administrative'),
+			this.__buildSkill('Petit bricolage', 'doityourself')
+		]
+	];}
+	__buildSkill(title, field) { return {
+		title: title,
+		type: 'selectGroup',
+		edit: true,
+		defaultValue: this.state.customer[field],
+		changeHandler: this.changeHandler(field),
+		validator: Validators.NonNull,
+		values: [ 0, 1, 2, 3, 4, 5 ]
+	};}
+
 	render() { return (
-	<Row>
-		<Panel header={(<strong>Modifier informations client</strong>)}>
-			<Form horizontal>
-				<Row>
-					<Col sm={6}>
-	            		<Person 
-	            			edit={true}
-	            			civility={this.state.customer.person.civility}
-							lastName={this.state.customer.person.lastName}
-							firstName={this.state.customer.person.firstName}
-							birthDate={this.state.customer.person.birthDate}
-							birthCity={this.state.customer.person.birthCity}
-							birthCountry={this.state.customer.person.birthCountry}
-							nationality={this.state.customer.person.nationality}
-							socialNumber={this.state.customer.person.socialNumber}
-	            			onChange={this.onPersonChanged.bind(this)}/>
-	            	</Col>
-	            	<Col sm={6}>
-	            		<Contact 
-	            			edit={true}
-	            			address={this.state.customer.contact.address}
-	            			phone={this.state.customer.contact.phone}
-	            			email={this.state.customer.contact.email}
-	            			onChange={this.onContactChanged.bind(this)}/>
-	            	</Col>
-            	</Row>
-            	<Row>
-					<Col sm={12}>
-	            		<SkillDetailsList 
-	            			edit={true}
-	            			skills={this.state.customer.skills}
-	            			onChange={this.onSkillsChanged.bind(this)}/>
-	            	</Col>
-            	</Row>
-	        </Form>
-			<br/>
-			<ButtonsEndDialog 
-				onOk={this.onSaveCustomer.bind(this)} okTitle='Enregistrer modifications' 
-				onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
-		</Panel>
-	</Row>
+		<Row>
+			<Panel header={(<strong>Modifier informations client</strong>)}>
+				<Form horizontal>
+					<Row>
+						{FormBuilder.buildFormGroups(this._buildInfos())}
+					</Row>
+					<Row>
+						{FormBuilder.buildFormGroups(this._buildSkills())}
+					</Row>
+				</Form>
+				<br/>
+				<ButtonsEndDialog
+					onOk={this.onSaveCustomer.bind(this)} okTitle='Enregistrer modifications'
+					onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
+			</Panel>
+		</Row>
 	);}
 }
 

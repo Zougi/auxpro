@@ -1,0 +1,23 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mme",
+	"firstName": "Monique",
+	"lastName": "Martin",
+	"birthDate":[1957, 4, 25],
+	"nationality": "Francaise",
+	"email":"monique.martin@outlook.fr",
+	"phone": "01 01 01 01 01",
+	"address": "58 avenue Montaigne",
+	"postalCode": 75008,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.8681022",
+	"longitude": "2.3069114",
+	"housework": 1,
+	"nursing": 3,
+	"childhood": 2,
+	"shopping": 4,
+	"compagny": 5,
+	"administrative": 0,
+	"doityourself": 0
+}
