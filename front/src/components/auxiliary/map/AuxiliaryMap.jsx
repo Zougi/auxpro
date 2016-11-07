@@ -89,7 +89,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	onCreateGeozone(geozone) {
 		this.createGeozone(geozone).
 		then(function () {
-			this.changeZoneMode();
 			this.loadGeozones();
 		}.bind(this)).
 		catch(function () {
@@ -108,12 +107,12 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 	
 	validZone(change) {
-		console.log(change)
 		this.onCreateGeozone({
 			lattitude: change.lattitude,
 			longitude: change.longitude,
 			radius: change.radius
 		});
+		this.changeZoneMode();
 	}
 	
 	getZonePanel() {
@@ -143,6 +142,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			postalCode: change.postalCode,
 			city:  change.city
 		});
+		this.changeCityMode();
 	}
 	
 	getCityPanel() {
@@ -212,7 +212,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	_buildMarkers() {
-		console.log(this.state)
 		let result = [];
 		// Add map center
 		let auxiliary = this.state.auxiliary;
@@ -310,14 +309,18 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		}
 	}
 	
-	_buildCircles() {
+	_buildCircles() {		
 		let result = [];
-		// Add geo zones
-		let l = (this.state.geoZones || []).length;
-		for (let i = 0; i < l; i++) {
-			let gz = this.state.geoZones[i];
-			this._buildCircle(gz, result, i);
-		}
+		
+		result.push(...Utils.map(this.state.geozones, function (gz) {
+			return {
+				id: gz.id,
+				lattitude: Number(gz.lattitude),
+				longitude: Number(gz.longitude),
+				radius: parseFloat(gz.radius)
+			};
+		}.bind(this)));
+		
 		if (this.state.geozone)
 			this._buildCircle(this.state.geozone, result, "current");
 		return result;	
