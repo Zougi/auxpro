@@ -1,4 +1,4 @@
-let MONDAY    = { key: 'Monday', value: 'Lundi' }
+let MONDAY    = { key: 'MONDAY', value: 'Lundi' }
 let TUESDAY   = { key: 'TUESDAY', value: 'Mardi' }
 let WEDNESDAY = { key: 'WEDNESDAY', value: 'Mercredi' }
 let THURSDAY  = { key: 'THURSDAY', value: 'Jeudi' }

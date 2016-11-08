@@ -16,6 +16,7 @@ import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
 import Utils from 'utils/Utils'
 import MathUtils from 'utils/MathUtils'
 import GeoHelper from 'utils/geo/GeoHelper'
+import OfferStatus from 'utils/constants/OfferStatus'
 
 moment.locale('fr');
 
@@ -30,7 +31,7 @@ let INTERVENTION_MODES = {
     }
 }
 
-class ServiceInterventions extends ServiceBaseComponent {
+class ServiceIntervention extends ServiceBaseComponent {
     
     constructor(props) {
         super(props);
@@ -72,13 +73,13 @@ class ServiceInterventions extends ServiceBaseComponent {
     }
     onSendOffers() {
         var promises = [];
-        let l = this.state.intervention.matches.length
+        let l = this.state.selected.length
         for (let i = 0; i < l; i++) {
             let offer = {
                 serviceId: this.state.intervention.serviceId,
                 customerId: this.state.intervention.customerId,
                 interventionId: this.state.intervention.id,
-                auxiliaryId: this.state.intervention.matches[i].id,
+                auxiliaryId: this.state.selected[i].id,
                 status: "PENDING"
             }
             promises.push(this.createOffer(offer));
@@ -134,10 +135,38 @@ class ServiceInterventions extends ServiceBaseComponent {
             );
         }.bind(this));
     }
+    _buildOffers() {
+        return (this.state.intervention.offers || []).map(function(offerId, i) {
+            let offer = this.getOffer(offerId);
+            let auxiliary = this.getAuxiliary(offer.auxiliaryId);
+            let age = moment(auxiliary.birthDate).toNow(true);
+            let distance = MathUtils.round(GeoHelper.getDistanceFromLatLonInKm(auxiliary.lattitude, auxiliary.longitude, this.state.customer.lattitude, this.state.customer.longitude), 1);
+            return (
+                <ListGroupItem bsStyle={OfferStatus.getStatus(offer.status).bsStyle} key={i}>
+                    <Row>
+                        <Col xs={2}>
+                            <AsyncImage src={auxiliary.avatar} width={50} height={50}/>
+                        </Col>
+                        <Col xs={10} sm={4}>
+                            {auxiliary.firstName + ' ' + auxiliary.lastName}
+                            <br/>
+                            {auxiliary.city + ' - ' + distance + ' km'}
+                            <br/>
+                            {OfferStatus.getStatus(offer.status).value}
+                        </Col>
+                        <Clearfix visibleXsBlock />
+                        <Col xsOffset={2} xs={10} smOffset={0} sm={6}>
+                            <SkillSummaryList skills={auxiliary}/>
+                        </Col>
+                    </Row>
+                </ListGroupItem>
+            );
+        }.bind(this));
+    }
 
     render() { return (
         <Row>
-            <Panel header={(<strong>{'Envoyer offres de prestation'}</strong>)}>
+            <Panel header={(<strong>{this.state.intervention.matches ? 'Envoyer offres de prestation' : 'Statut des offres de prestation'}</strong>)}>
                 <Row>
                     <Col sm={6}>
                         <Panel header='Information usager' bsStyle='primary'>
@@ -156,22 +185,27 @@ class ServiceInterventions extends ServiceBaseComponent {
                 </Row>
                 <Row>
                     <Col lg={12} >
-                        <Panel header={'Sélectionner les auxiliaires de vie'} bsStyle='primary'>
+                        <Panel header={this.state.intervention.matches ? 'Sélectionner les auxiliaires de vie' : 'Offres envoyées'} bsStyle='primary'>
                             <ListGroup fill>
-                                {this._buildMatches()}
+                            {this.state.intervention.matches ?
+                                this._buildMatches()
+                            :
+                                this._buildOffers()
+                            }
                             </ListGroup>
                         </Panel>
                     </Col>
                 </Row>
+                {this.state.intervention.matches ?
                 <ButtonsEndDialog 
                     onOk={this.onSendOffers.bind(this)} 
-                    okTitle='Envoyer'
+                    okTitle={'Envoyer (' + this.state.selected.length + ')'}
                     okDisabled={this.state.selected.length === 0}
                     onCancel={this.onCancel.bind(this)} 
                     cancelTitle='Annuler'/>
+                : <div/> }
             </Panel>
         </Row>
     );}
 }
-
-export default ServiceInterventions;
+export default ServiceIntervention;

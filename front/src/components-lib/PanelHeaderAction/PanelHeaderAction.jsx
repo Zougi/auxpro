@@ -26,10 +26,10 @@ class PanelHeaderAction extends React.Component {
 
 		let header = (
 			<Row>
-				<Col xs={6}>
+				<Col xs={8}>
                     {this.props.title}
                 </Col>
-                <Col className='ap-column' xs={6}>
+                <Col className='ap-column' xs={4}>
                     {actions}
                 </Col>
 			</Row>

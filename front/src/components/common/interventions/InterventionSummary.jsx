@@ -31,12 +31,17 @@ class InterventionSummary extends React.Component {
 	}
 
 	render() {
-		if (this.props.offers) {
+		if (this.props.intervention.auxiliaryId) {
+			return (
+				<InterventionSummaryPlannedRenderer
+					intervention={this.props.intervention} />
+			);
+		} else if (this.props.offers) {
 			return (
 				<InterventionSummaryOfferRenderer 
 					intervention={this.props.intervention}
 					offers={this.props.offers}
-					onViewOffers={this.onViewOffers.bind(this)}/>
+					onViewOffers={this.onViewOffers.bind(this)} />
 			);
 		} else {
 			return (
@@ -44,7 +49,7 @@ class InterventionSummary extends React.Component {
 					intervention={this.props.intervention}
 					onEdit={this.onEdit.bind(this)}
 					onMatch={this.onMatch.bind(this)}
-					onDelete={this.onDelete.bind(this)}/>
+					onDelete={this.onDelete.bind(this)} />
 			);
 		}
 	}

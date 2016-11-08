@@ -9,50 +9,68 @@ class InterventionSummaryList extends React.Component {
 		super(props);
 	}
 
-	render() {
-		let offers = {};
+
+	// State management functions //
+	// --------------------------------------------------------------------------------
+
+	componentWillUpdate(nextProps, nextState) {
+		this.offers = {};
 		if (this.props.offers) {
-			for (let i = 0; i < this.props.offers.length; i++) {
+			let l = this.props.offers.length;
+			for (let i = 0; i < l; i++) {
 				let offer = this.props.offers[i];
-				offers[offer.interventionId] = offers[offer.interventionId] || [];
-				offers[offer.interventionId].push(offer)
+				this.offers[offer.interventionId] = this.offers[offer.interventionId] || [];
+				this.offers[offer.interventionId].push(offer)
 			}
 		}
-		let interventionPending = [];
-		let interventionOffered = [];
+		this.interventionsPending = [];
+		this.interventionsOffered = [];
+		this.interventionsPlanned = [];
 
-		for (let i = 0; i < (this.props.interventions || []).length; i++) {
+		let l = (this.props.interventions || []).length;
+		for (let i = 0; i < l; i++) {
 			let intervention = this.props.interventions[i];
-			let array = interventionPending;
-			if (offers[intervention.id]) {
-				array = interventionOffered;
+			let array = this.interventionsPending;
+			if (intervention.auxiliaryId) {
+				array = this.interventionsPlanned;
+			} else if (this.offers[intervention.id]) {
+				array = this.interventionsOffered;
 			}
 			array.push(
-				<InterventionSummary 
-               		key={intervention.id} 
-               		intervention={intervention}
-               		offers={offers[intervention.id]}
-               		onEdit={this.props.onEdit}
+				<InterventionSummary
+					key={intervention.id}
+					intervention={intervention}
+					offers={this.offers[intervention.id]}
+					onEdit={this.props.onEdit}
 					onMatch={this.props.onMatch}
 					onDelete={this.props.onDelete}
 					onViewOffers={this.props.onViewOffers}/>
 			);
-			if (i%2 === 1) {
+			if (array.length%2 === 1) {
 				array.push( <Clearfix key={'c2' + intervention.id} visibleSmBlock/>);
 			}
-			if (i%3 === 2) {
+			if (array.length%3 === 2) {
 				array.push( <Clearfix key={'c3' + intervention.id} visibleMdBlock/>);
 			}
 		}
+	}
 
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	render() {
 		return (
 			<div>
 				<Row>
-	            	{interventionPending}
-	            </Row>
-	            <Row>
-	            	{interventionOffered}
-	            </Row>
+					{this.interventionsPending}
+				</Row>
+				<Row>
+					{this.interventionsOffered}
+				</Row>
+				<Row>
+					{this.interventionsPlanned}
+				</Row>
 			</div>
 		);
 	}

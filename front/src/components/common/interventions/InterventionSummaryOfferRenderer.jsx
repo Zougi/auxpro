@@ -23,7 +23,7 @@ class InterventionSummaryOfferRenderer extends React.Component {
 	render() {
 		return (
 			<Col sm={6} md={4}>
-				<PanelHeaderAction title={'Offre (' + this.props.offers.length + ')'} actions={this.actions}>
+				<PanelHeaderAction bsStyle='info' title={'Offre (' + this.props.offers.length + ')'} actions={this.actions}>
 				{ this.props.intervention.oneTime ?
 					<InterventionSummaryOneTime oneTime={this.props.intervention.oneTime} />
 				:

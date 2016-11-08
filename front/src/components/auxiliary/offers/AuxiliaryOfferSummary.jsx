@@ -66,7 +66,7 @@ class AuxiliaryOfferSummary extends React.Component {
 			<Col sm={6} md={4}>
 				<PanelHeaderAction bsStyle={OfferHelper.getBsStyle(this.props.offer.status)} title={OfferHelper.getTitle(this.props.offer.status)} actions={this._buildActions()}>
 					<div>{'Service: ' + this.props.service.socialReason}</div>
-					<div>{'Client: ' + this.props.customer.person.lastName + ' ' + this.props.customer.person.firstName}</div>
+					<div>{'Client: ' + this.props.customer.lastName + ' ' + this.props.customer.firstName}</div>
 					{ this.props.intervention.oneTime ?
 						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.props.intervention.oneTime.date)}</div>
 					:

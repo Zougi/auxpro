@@ -78,8 +78,8 @@ AppStore.onLogon = function (result, param) {
 						{ key: 1.2, link: '/sad/infos/edit', query: {}, name: 'Modifier mes informations' }
 					]},
 					{ key: 2, link: '/sad/zone', query: {}, name: 'Ma zone' },
-					{ key: 3, link: '/sad/customers', query: {}, name: 'Mes clients' },
-					{ key: 4, link: '/sad/interventions', query: {}, name: 'Mes interventions' }
+					{ key: 3, link: '/sad/customers', query: {}, name: 'Mes usagers' },
+					{ key: 4, link: '/sad/interventions', query: {}, name: 'Mes prestations' }
 				]
 			}
 		}
