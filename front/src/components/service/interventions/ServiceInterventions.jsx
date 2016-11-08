@@ -123,16 +123,16 @@ class ServiceInterventions extends ServiceBaseComponent {
 
 	render() { return (
 		<Row>
-			<Panel header={(<strong>Interventions en cours</strong>)}>
+			<Panel header={(<strong>Prestations & Offres en cours</strong>)}>
 				<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>
-					Saisir nouvelle intervention
+					Saisir nouvelle prestation
 				</Button>
 				<br/>
 				{this._buildCustomers()}
 			</Panel>
 			<DialogConfirmation
 				show={this.state.showDeleteConfirm}
-				title='Supprimer intervention ?'
+				title='Supprimer prestation ?'
 				onConfirm={this.doDeleteIntervention.bind(this)}
 				confirmStyle='danger'
 				confirmText='Supprimer'

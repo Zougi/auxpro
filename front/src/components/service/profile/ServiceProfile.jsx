@@ -5,8 +5,7 @@ import Dispatcher from 'core/Dispatcher.js'
 import StoreRegistry from 'core/StoreRegistry.js'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import ServiceDetails from './ServiceDetails.jsx'
-import Contact from 'components/common/entity/Contact.jsx'
+import FormBuilder from 'components-lib/Form/FormBuilder'
 // Custom libs
 import Utils from 'utils/Utils.js'
 
@@ -44,28 +43,75 @@ class ServiceProfile extends ServiceBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
+	_buildInfos() {
+		return [
+			[
+				{
+					title: 'Raison sociale',
+					type: 'input',
+					defaultValue: this.state.service.socialReason
+				},
+				{
+					title: 'Fonctionnement',
+					type: 'select',
+					defaultValue: this.state.service.function,
+					values: [
+						{ key: 'Mandataire', value: 'Mandataire' },
+						{ key: 'Prestataire', value: 'Prestataire' },
+						{ key: 'Mandataire & prestataire', value: 'Mandataire & prestataire' }
+					]
+				},
+				{
+					title: 'N° Siret',
+					type: 'input',
+					defaultValue: this.state.service.siret
+				}
+			],
+			[
+				{
+					title: 'Addresse',
+					type: 'input',
+					value: this.state.service.address
+				},
+				{
+					title: 'Code postal',
+					type: 'input',
+					value: this.state.service.postalCode
+				},
+				{
+					title: 'Ville',
+					type: 'input',
+					value: this.state.service.city
+				},
+				{
+					title: 'Pays',
+					type: 'input',
+					value: this.state.service.country
+				},
+				{
+					title: 'Téléphone',
+					type: 'input',
+					defaultValue: this.state.service.phone
+				},
+				{
+					title: 'Addresse électronique',
+					type: 'input',
+					defaultValue: this.state.service.email
+				}
+			]
+		]
+	}
 	render() { return(
 		<Form horizontal>
 			<Row>
 				<Panel header='Mes informations'>
-					<Col sm={6}>
-						<ServiceDetails
-							edit={false}
-							society={this.state.service.society}
-							socialReason={this.state.service.socialReason}
-							siret={this.state.service.siret} />
-					</Col>
-					<Col sm={6}>
-						<Contact
-							edit={false}
-							address={this.state.service.address}
-							phone={this.state.service.phone}
-							email={this.state.service.email} />
-					</Col>
+					{FormBuilder.buildFormGroups(this._buildInfos())}					
 				</Panel>
 			</Row>
 		</Form>
 	);}
 }
+/*
 
+*/
 export default ServiceProfile;

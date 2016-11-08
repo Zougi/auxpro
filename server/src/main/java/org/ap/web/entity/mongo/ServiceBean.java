@@ -27,8 +27,8 @@ public class ServiceBean extends MongoEntity {
 	private String longitude;
 	private boolean addressChecked;
 
-	private String society;
-	private String social;
+	private String socialReason;
+	private String function;
 	private String siret;
 
 	public ServiceBean() {}
@@ -71,11 +71,11 @@ public class ServiceBean extends MongoEntity {
 	public boolean getAddressChecked() { return addressChecked; }
 	public void setAddressChecked(boolean addressChecked) { this.addressChecked = addressChecked; };
 	
-	public String getSociety() { return society; }
-	public void setSociety(String society) { this.society = society; }
+	public String getSocialReason() { return socialReason; }
+	public void setSocialReason(String socialReason) { this.socialReason = socialReason; }
 
-	public String getSocialReason() { return social; }
-	public void setSocialReason(String social) { this.social = social; }
+	public String getFunction() { return function; }
+	public void setFunction(String function) { this.function = function; }
 
 	public String getSiret() { return siret; }
 	public void setSiret(String siret) { this.siret = siret; }
@@ -85,8 +85,8 @@ public class ServiceBean extends MongoEntity {
 				getEmailChecked() &&
 				getPhoneChecked() &&
 				getAddressChecked() &&
-				society != null &&
-				social != null &&
+				socialReason != null &&
+				function != null &&
 				siret != null
 				);
 	}

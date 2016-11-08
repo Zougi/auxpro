@@ -14,7 +14,7 @@ class InterventionSummary extends React.Component {
 		super(props);
 		this.actions = [
 			{ 
-				tooltip: 'Editer intervention',
+				tooltip: 'Editer prestation',
 				bsStyle: 'info', 
 				glyph: 'pencil', 
 				callback: props.onEdit 
@@ -26,7 +26,7 @@ class InterventionSummary extends React.Component {
 				callback: props.onMatch 
 			},
 			{ 
-				tooltip: 'Supprimer intervention',
+				tooltip: 'Supprimer prestation',
 				bsStyle: 'danger', 
 				glyph: 'remove', 
 				callback: props.onDelete 
@@ -37,7 +37,7 @@ class InterventionSummary extends React.Component {
 	render() {
 		return (
 			<Col sm={6} md={4}>
-				<PanelHeaderAction title='Intervention' actions={this.actions}>
+				<PanelHeaderAction title='Prestation' actions={this.actions}>
 				{ this.props.intervention.oneTime ?
 					<InterventionSummaryOneTime oneTime={this.props.intervention.oneTime} />
 				:

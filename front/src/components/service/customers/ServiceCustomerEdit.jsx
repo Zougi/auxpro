@@ -1,5 +1,5 @@
 import React from 'react'
-import { Panel, Row, Col, Form } from 'react-bootstrap'
+import { Panel, Row, Col, Form, Button } from 'react-bootstrap'
 // core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -10,6 +10,7 @@ import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
 // Lib modules
 import Utils from 'utils/Utils'
 import Validators from 'utils/form/Validators'
+import CustomerHelper from 'utils/entities/CustomerHelper'
 
 let MODES = {
 	CREATE: 'CREATE',
@@ -38,14 +39,20 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 	}
 	_buildState() {
 		if (this.props.params.customerId) {
+			let customer = this.getCustomer(this.props.params.customerId);
 			return { 
 				mode: MODES.EDIT,
-				customer: this.getCustomer(this.props.params.customerId)
+				validationState: CustomerHelper.checkValidation(customer),
+				customer: customer
 			};
 		} else {
 			return { 
 				mode: MODES.CREATE,
-				customer: { serviceId: this.getLoginData('/id') } 
+				validationState: false,
+				customer: { 
+					civility: 'Mr',
+					serviceId: this.getLoginData('/id') 
+				}
 			};	
 		}
 	}
@@ -56,19 +63,23 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 
 	onAddressChanged(address) {
 		this.state.customer.address = address.address;
-		this.state.customer.postalCode = address.postalCode;
+		this.state.customer.postalCode = Number(address.postalCode);
 		this.state.customer.city = address.city;
 		this.state.customer.country = address.country;
 		this.state.customer.lattitude = address.lattitude;
 		this.state.customer.longitude = address.longitude;
-		this.forceUpdate();
+		this.setState({ 
+			validationState: CustomerHelper.checkValidation(this.state.customer)
+		});
 	}
 
 	changeHandler(field) {
 		return function (event) {
 			let value = event.value || event;
 			Utils.setField(this.state.customer, field, value);
-			this.forceUpdate();
+			this.setState({ 
+				validationState: CustomerHelper.checkValidation(this.state.customer)
+			});
 		}.bind(this);
 	}
 
@@ -156,42 +167,40 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 				{
 					title: 'Addresse',
 					type: 'input',
-					edit: false,
-					value: this.state.customer.address
+					value: this.state.customer.address,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Code postal',
 					type: 'input',
-					edit: false,
-					value: this.state.customer.postalCode
+					value: this.state.customer.postalCode,
+					validator: Validators.PostalCode					
 				},
 				{
 					title: 'Ville',
 					type: 'input',
-					edit: false,
-					value: this.state.customer.city
+					value: this.state.customer.city,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Pays',
 					type: 'input',
-					edit: false,
-					value: this.state.customer.country
+					value: this.state.customer.country,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Téléphone',
 					type: 'input',
 					edit: true,
 					defaultValue: this.state.customer.phone,
-					changeHandler: this.changeHandler('phone'),
-					validator: Validators.Phone
+					changeHandler: this.changeHandler('phone')
 				},
 				{
 					title: 'Addresse électronique',
 					type: 'input',
 					edit: true,
 					defaultValue: this.state.customer.email,
-					changeHandler: this.changeHandler('email'),
-					validator: Validators.Email
+					changeHandler: this.changeHandler('email')
 				}
 			]
 		]
@@ -219,7 +228,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 
 	render() { return (
 		<Row>
-			<Panel header={(<strong>Modifier informations client</strong>)}>
+			<Panel header={(<strong>{this.state.mode === MODES.CREATE ? 'Saisir nouveau client' : 'Modifier informations client'}</strong>)}>
 				<Form horizontal>
 					<Row>
 						{FormBuilder.buildFormGroups(this._buildInfos())}
@@ -229,9 +238,24 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 					</Row>
 				</Form>
 				<br/>
-				<ButtonsEndDialog
-					onOk={this.onSaveCustomer.bind(this)} okTitle='Enregistrer modifications'
-					onCancel={this.onCancel.bind(this)} cancelTitle='Annuler'/>
+				<Row>
+					<Col sm={6}>
+						<Button bsStyle='primary' 
+								onClick={this.onCancel.bind(this)} 
+								block>
+							Annuler
+						</Button>
+					</Col>
+					<br className='hidden-sm hidden-md hidden-lg'/>
+					<Col sm={6}>
+						<Button disabled={!this.state.validationState} 
+								bsStyle={this.state.validationState ? 'success' : 'warning'}  
+								onClick={this.onSaveCustomer.bind(this)} 
+								block>
+							Enregistrer modifications
+						</Button>
+					</Col>
+				</Row>
 			</Panel>
 		</Row>
 	);}

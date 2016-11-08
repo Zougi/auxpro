@@ -9,13 +9,20 @@ class FormBase extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.xsLabelSize = this.props.xsLabelSize || DEFAULTS.xsLabelSize;
-		this.smLabelSize = this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.smLabelSize;
-		this.mdLabelSize = this.props.mdLabelSize || this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.mdLabelSize;
-		this.lgLabelSize = this.props.lgLabelSize || this.props.mdLabelSize || this.props.smLabelSize || this.props.xsLabelSize || DEFAULTS.lgLabelSize;
-		this.state = {
-			validationState: (this.props.edit && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
-			value: this.props.value
+		this.state = this._buildState(props);
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState(this._buildState(props));
+	}
+	_buildState(props) {
+		return {
+			xsLabelSize: props.xsLabelSize || DEFAULTS.xsLabelSize,
+			smLabelSize: props.smLabelSize || props.xsLabelSize || DEFAULTS.smLabelSize,
+			mdLabelSize: props.mdLabelSize || props.smLabelSize || props.xsLabelSize || DEFAULTS.mdLabelSize,
+			lgLabelSize: props.lgLabelSize || props.mdLabelSize || props.smLabelSize || props.xsLabelSize || DEFAULTS.lgLabelSize,
+			validationState: props.validator ? props.validator.getState(props.defaultValue || props.value) : props.validationState,
+			value: props.value
 		}
 	}
 
@@ -38,12 +45,12 @@ class FormBase extends React.Component {
 	render() { 
 		return (
 			<FormGroup validationState={this.state.validationState}>
-				<Col componentClass={ControlLabel} sm={this.smLabelSize} md={this.mdLabelSize} lg={this.lgLabelSize}>
+				<Col componentClass={ControlLabel} sm={this.state.smLabelSize} md={this.state.mdLabelSize} lg={this.state.lgLabelSize}>
 					{this.props.title}
 				</Col>
-				<Col sm={12 - this.smLabelSize} md={12 - this.mdLabelSize} lg={12 - this.lgLabelSize}>
+				<Col sm={12 - this.state.smLabelSize} md={12 - this.state.mdLabelSize} lg={12 - this.state.lgLabelSize}>
 					{this.props.children ? this.props.children : this.getFormControl()}
-					{ this.props.edit ? <FormControl.Feedback/> : '' }
+					<FormControl.Feedback/>
 				</Col>
 			</FormGroup>
 		);

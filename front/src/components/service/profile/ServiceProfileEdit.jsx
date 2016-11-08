@@ -76,19 +76,19 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 		return [
 			[
 				{
-					title: 'Société',
-					type: 'input',
-					edit: true,
-					defaultValue: this.state.service.society,
-					changeHandler: this.changeHandler('society'),
-					validator: Validators.NonEmptyString
-				},
-				{
 					title: 'Raison sociale',
-					type: 'select',
+					type: 'input',
 					edit: true,
 					defaultValue: this.state.service.socialReason,
 					changeHandler: this.changeHandler('socialReason'),
+					validator: Validators.NonEmptyString
+				},
+				{
+					title: 'Fonctionnement',
+					type: 'select',
+					edit: true,
+					defaultValue: this.state.service.function,
+					changeHandler: this.changeHandler('function'),
 					validator: Validators.NonNull,
 					values: [
 						{ key: 'Mandataire', value: 'Mandataire' },
@@ -115,26 +115,26 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 				{
 					title: 'Addresse',
 					type: 'input',
-					edit: false,
-					value: this.state.service.address
+					value: this.state.service.address,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Code postal',
 					type: 'input',
-					edit: false,
-					value: this.state.service.postalCode
+					value: this.state.service.postalCode,
+					validator: Validators.PostalCode
 				},
 				{
 					title: 'Ville',
 					type: 'input',
-					edit: false,
-					value: this.state.service.city
+					value: this.state.service.city,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Pays',
 					type: 'input',
-					edit: false,
-					value: this.state.service.country
+					value: this.state.service.country,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Téléphone',

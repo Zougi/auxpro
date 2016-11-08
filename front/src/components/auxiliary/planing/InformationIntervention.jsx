@@ -68,7 +68,7 @@ class MissionShort extends React.Component {
 						Addresse: {this.state.customer.contact.address.address} {this.state.customer.contact.address.postalCode} {this.state.customer.contact.address.city}<br/>
 					</div>);
 			} else if (this.state.service) {
-				info = (<div>SAD: {this.state.service.society}<br/></div>);
+				info = (<div>SAD: {this.state.service.socialReason}<br/></div>);
 			} else if (this.state.customer) {
 				info = (
 					<div>

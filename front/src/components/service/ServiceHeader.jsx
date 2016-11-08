@@ -39,20 +39,20 @@ class ServiceHeader extends ServiceBaseComponent {
 	_buildTable() {
 		return [
 			[
-				{th: "Société"},
-				{td: this.state.service.society}
+				{th: 'Raison sociale'},
+				{td: this.state.service.socialReason}
 			],
 			[
-				{th: "Addresse électronique"},
+				{th: 'Addresse électronique'},
 				{td: this.state.service.email}
 			],
 			[
-				{th: "N° Siret"},
+				{th: 'N° Siret'},
 				{td: this.state.service.siret}
 			],
 			[
-				{th: "Raison sociale"},
-				{td: this.state.service.socialReason}
+				{th: 'Fonctionnement'},
+				{td: this.state.service.function}
 			]
 		];
 	}

@@ -124,7 +124,7 @@ export default class GoogleMapHelper {
 	// -------------------------------------------------------------------------
 
 	cleanCircles() {
-		let l = this.circles.length;
+		let l = (this.circles || []).length;
 		for (let i = 0; i < l; i++) {
 			this.deleteCircle(this.circles[i]);
 		}
@@ -133,7 +133,7 @@ export default class GoogleMapHelper {
 
 	addCircleIfNoExist(circle) {
 		var found = false;
-		let l = this.circles.length;
+		let l = (this.circles || []).length;
 		for (let i = 0; i < l; i++) {
 			if (this.circles[i].longitude == circle.longitude && this.circles[i].lattitude == circle.lattitude && this.circles[i].radius == circle.radius) {
 				found = true;
@@ -160,7 +160,7 @@ export default class GoogleMapHelper {
 	}
 	
 	updateCircles(circles) {
-		let l = circles.length;
+		let l = (circles || []).length;
 		for (let i = 0; i < l; i++) {
 			this.addCircleIfNoExist(circles[i]);
 		}
@@ -169,7 +169,7 @@ export default class GoogleMapHelper {
 	}
 	
 	deleteCirclesFromNewList(circles) {
-		let l = circles.length;
+		let l = (circles || []).length;
 		for (let i = 0; i < this.circles.length; i++) {
 			var found = false;
 			for (let j = 0; j < l; j++) {

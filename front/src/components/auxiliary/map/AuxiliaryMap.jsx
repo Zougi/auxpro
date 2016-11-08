@@ -253,17 +253,17 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			let mode = (c.type === 'intervention');
 			return {
 				id: c.id,
-				lattitude: c.contact.address.lattitude,
-				longitude: c.contact.address.longitude,
+				lattitude: c.lattitude,
+				longitude: c.longitude,
 				color: mode ? '5CB85C' : '5BC0DE',
-				title: c.person.civility + ' ' + c.person.lastName + ' ' + c.person.firstName,
+				title: c.civility + ' ' + c.lastName + ' ' + c.firstName,
 				
 				type: mode ? MARKER_TYPE.CUSTOMER : MARKER_TYPE.OFFER,
 				bsStyle: mode ? 'success' : 'info',
 				header: mode ? 'Client' : 'Offre en attente',
-				name: c.person.civility + ' ' + c.person.lastName + ' ' + c.person.firstName,
-				address1: c.contact.address.address,
-				address2: c.contact.address.postalCode + ' ' + c.contact.address.city,
+				name: c.civility + ' ' + c.lastName + ' ' + c.firstName,
+				address1: c.address,
+				address2: c.postalCode + ' ' + c.city,
 				onClick: this.onMarkerClicked.bind(this)
 			};
 		}.bind(this)));
@@ -271,17 +271,17 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		result.push(...Utils.map(this.state.services, function (s) {
 			return {
 				id: s.id,
-				lattitude: s.contact.address.lattitude,
-				longitude: s.contact.address.longitude,
+				lattitude: s.lattitude,
+				longitude: s.longitude,
 				color: '337AB7',
-				title: s.society, 
+				title: s.socialReason, 
 				
 				type: MARKER_TYPE.SERVICE,
 				bsStyle: 'primary',
 				header: 'Service',
-				name: s.society,
-				address1: s.contact.address.address,
-				address2: s.contact.address.postalCode + ' ' + s.contact.address.city,
+				name: s.socialReason,
+				address1: s.address,
+				address2: s.postalCode + ' ' + s.city,
 				onClick: this.onMarkerClicked.bind(this)
 			};
 		}.bind(this)));

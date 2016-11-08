@@ -204,26 +204,26 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 				{
 					title: 'Addresse',
 					type: 'input',
-					edit: false,
-					value: this.state.auxiliary.address
+					value: this.state.auxiliary.address,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Code postal',
 					type: 'input',
-					edit: false,
-					value: this.state.auxiliary.postalCode
+					value: this.state.auxiliary.postalCode,
+					validator: Validators.PostalCode
 				},
 				{
 					title: 'Ville',
 					type: 'input',
-					edit: false,
-					value: this.state.auxiliary.city
+					value: this.state.auxiliary.city,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Pays',
 					type: 'input',
-					edit: false,
-					value: this.state.auxiliary.country
+					value: this.state.auxiliary.country,
+					validator: Validators.NonEmptyString
 				},
 				{
 					title: 'Téléphone',

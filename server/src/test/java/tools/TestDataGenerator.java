@@ -206,8 +206,8 @@ public class TestDataGenerator {
 		bean.setPhone("0102030405");
 		bean.setPhoneChecked(false);
 		bean.setSiret("Siret " + SERVICE_ID);
-		bean.setSocialReason(ESadType.MAND.getId());
-		bean.setSociety("Societe " + SERVICE_ID);
+		bean.setFunction(ESadType.MAND.getId());
+		bean.setSocialReason("Societe " + SERVICE_ID);
 		return bean;
 	}
 	public static SkillsBean next(SkillsBean bean) {

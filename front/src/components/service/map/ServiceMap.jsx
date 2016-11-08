@@ -50,9 +50,9 @@ class ServiceMap extends ServiceBaseComponent {
             this.setState({ info: {
                 bsStyle: 'info',
                 header: 'Auxiliaire',
-                name : a.person.civility + ' ' + a.person.lastName + ' ' + a.person.firstName,
-                address1: a.contact.address.address,
-                address2: a.contact.address.postalCode + ' ' + a.contact.address.country
+                name : a.civility + ' ' + a.lastName + ' ' + a.firstName,
+                address1: a.address,
+                address2: a.postalCode + ' ' + a.country
             }});
             break;
         case 'C':
@@ -60,18 +60,18 @@ class ServiceMap extends ServiceBaseComponent {
             this.setState({ info: {
                 bsStyle: 'success',
                 header: 'Client',
-                name : c.person.civility + ' ' + c.person.lastName + ' ' + c.person.firstName,
-                address1: c.contact.address.address,
-                address2: c.contact.address.postalCode + ' ' + c.contact.address.country
+                name : c.civility + ' ' + c.lastName + ' ' + c.firstName,
+                address1: c.address,
+                address2: c.postalCode + ' ' + c.country
             }});
             break;
         default:
             this.setState({ info: {
                 bsStyle: 'danger',
                 header: 'Ma société',
-                name : this.state.service.society,
-                address1: this.state.service.contact.address.address,
-                address2: this.state.service.contact.address.postalCode + ' ' + this.state.service.contact.address.country
+                name : this.state.service.socialReason,
+                address1: this.state.service.address,
+                address2: this.state.service.postalCode + ' ' + this.state.service.country
             }});
             break;
         }
@@ -87,8 +87,8 @@ class ServiceMap extends ServiceBaseComponent {
 
     _buildCenter() {
         return {
-            lattitude: Number(this.state.service.contact.address.lattitude),
-            longitude: Number(this.state.service.contact.address.longitude)
+            lattitude: Number(this.state.service.lattitude),
+            longitude: Number(this.state.service.longitude)
         };
     }
 
@@ -96,8 +96,8 @@ class ServiceMap extends ServiceBaseComponent {
         let result = [];
         // Add map center
         result.push({
-            lattitude: Number(this.state.service.contact.address.lattitude),
-            longitude: Number(this.state.service.contact.address.longitude),
+            lattitude: Number(this.state.service.lattitude),
+            longitude: Number(this.state.service.longitude),
             title: 'Ma société',
             color: 'D9534F'
         })
@@ -106,9 +106,9 @@ class ServiceMap extends ServiceBaseComponent {
             return {
                 id: c.id,
                 type: 'C',
-                lattitude: c.contact.address.lattitude,
-                longitude: c.contact.address.longitude,
-                title: c.person.civility + ' ' + c.person.lastName + ' ' + c.person.firstName,
+                lattitude: c.lattitude,
+                longitude: c.longitude,
+                title: c.civility + ' ' + c.lastName + ' ' + c.firstName,
                 color: '5CB85C'
             };
         }));
@@ -117,9 +117,9 @@ class ServiceMap extends ServiceBaseComponent {
             return {
                 id: a.id,
                 type: 'A',
-                lattitude: a.contact.address.lattitude,
-                longitude: a.contact.address.longitude,
-                title: a.person.civility + ' ' + a.person.lastName + ' ' + a.person.firstName,
+                lattitude: a.lattitude,
+                longitude: a.longitude,
+                title: a.civility + ' ' + a.lastName + ' ' + a.firstName,
                 color: '5BC0DE'
             };
         }));

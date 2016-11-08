@@ -9,6 +9,7 @@ let nestr = new StringValidator({ lengthMin: 1});
 let nnull = new NonNullValidator();
 let phone = new PhoneValidator();
 let ssnum = new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") });
+let posta = new CustomValidator({ regSuccess: new RegExp("^[0-9]{5}$") });
 let idnum = new CustomValidator({ regSuccess: new RegExp("^[0-9]{12}$") });
 let siret = new CustomValidator({ regSuccess: new RegExp("^[0-9]{14}$") });
 let tweet = new StringValidator({ lengthMin: 1, lengthMax: 140 });
@@ -38,6 +39,11 @@ export default class Validators {
 	static get IDCardNumber() {
 		return idnum;
 	}
+
+	static get PostalCode() {
+		return posta;
+	}
+
 
 	static get SiretNumber() {
 		return siret;

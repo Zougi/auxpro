@@ -219,9 +219,9 @@ public class AssertHelper {
 		TestCase.assertEquals(expected.getCity(), actual.getCity());
 		TestCase.assertEquals(expected.getPostalCode(), actual.getPostalCode());
 		TestCase.assertEquals(expected.getCountry(), actual.getCountry());
-		TestCase.assertEquals(expected.getSociety(), actual.getSociety());
-		TestCase.assertEquals(expected.getSiret(), actual.getSiret());
 		TestCase.assertEquals(expected.getSocialReason(), actual.getSocialReason());
+		TestCase.assertEquals(expected.getSiret(), actual.getSiret());
+		TestCase.assertEquals(expected.getFunction(), actual.getFunction());
 	}
 	public static void assertSkills(SkillsBean expected, SkillsBean actual) {
 		if (expected == null) {

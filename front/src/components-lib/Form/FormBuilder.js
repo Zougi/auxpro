@@ -37,6 +37,7 @@ export default class FormBuilder {
 				<FormInput
 					key={i}
 					validator={f.validator}
+					validationState={f.validationState}
 					edit={f.edit}
 					title={f.title}
 					defaultValue={f.defaultValue}

@@ -160,7 +160,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		let servicesValues = Utils.map(this.state.services, function (service) {
 			return {
 				key: service.id,
-				value: service.society
+				value: service.socialReason
 			}
 		});
 		servicesValues.unshift({

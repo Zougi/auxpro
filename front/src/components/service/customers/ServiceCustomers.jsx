@@ -94,7 +94,7 @@ class ServiceCustomers extends ServiceBaseComponent {
 			let s = this.state.search.toUpperCase();
 			return (customer.firstName.toUpperCase().startsWith(s) || customer.lastName.toUpperCase().startsWith(s));
 		}
-		return true;
+		return false;
 	}
 	_buildCustomer(customer, i) {
 		let age = moment(customer.birthDate).toNow(true);
@@ -151,12 +151,12 @@ class ServiceCustomers extends ServiceBaseComponent {
 				<Panel header={(<strong>Clients enregistrés</strong>)}>
 					<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
 					<br/>
-					<SearchBar onChange={this.onSearch.bind(this)}/>
+					<SearchBar placeholder="Veuillez saisir le nom d'un client" onChange={this.onSearch.bind(this)}/>
 					<Panel>
 						<ListGroup fill>
 							{customers}
 						</ListGroup>
-						<strong>Total : {customers.length} clients.</strong>
+						<strong>Total : {this.state.search ? customers.length : Utils.map(this.state.customers).length} clients{this.state.search ? ' trouvés' : ''}.</strong>
 					</Panel>
 				</Panel>
 				<DialogConfirmation
