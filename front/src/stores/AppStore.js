@@ -112,7 +112,7 @@ Dispatcher.register('GET_SERVICE', AppStore.onGetService);
 // LOGOUT
 AppStore.onLogout = function (result, param) {
 	AppStore._content.app = DEFAULT_APP_CONTENT;
-	AppStore.notifyPath("headers");
+	AppStore.notifyPath('/app');
 };
 Dispatcher.register('LOGOUT', AppStore.onLogout);
 

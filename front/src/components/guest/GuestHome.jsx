@@ -21,7 +21,12 @@ class GuestHome extends GuestBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	componentWillMount() {
-		this.loadServices().
+		Dispatcher.issue('LOGON', {
+			user: 'guest',
+			pass: 'guest'
+		}).then(function () {
+			return this.loadServices();	
+		}.bind(this)).
 		then(function () {
 			this.setState({ dataLoaded: true });
 			console.log('==== DONNES INITIALE GUEST ====');
@@ -37,6 +42,7 @@ class GuestHome extends GuestBaseComponent {
 	}
 	componentWillUnmount() {
 		StoreRegistry.unregister('GUEST_STORE', this);
+		Dispatcher.issue('LOGOUT', {});
 	}
 	_onStoreUpdate() {
 		this.setState(this._buildState());
@@ -53,7 +59,7 @@ class GuestHome extends GuestBaseComponent {
 	_buildServices() {
 		return Utils.map(this.getServices()).filter(function(service) {
 			if (this.state.postalCode) {
-				return service.contact.address.postalCode === Number(this.state.postalCode);
+				return service.postalCode === Number(this.state.postalCode);
 			}
 			return true;
 		}.bind(this));

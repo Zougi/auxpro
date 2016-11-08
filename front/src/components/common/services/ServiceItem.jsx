@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { Panel } from 'react-bootstrap'
+import { Panel, Col } from 'react-bootstrap'
+// Custom components
+import AsyncImage from 'lib/image/AsyncImage'
 
 class ServiceItem extends React.Component {
 
@@ -8,19 +9,24 @@ class ServiceItem extends React.Component {
 		super(props);
 	}
 
-    render() { return (
-    	<Panel>
-            {this.props.service.society}
-            <br/>
-            {this.props.service.contact.address.address}
-            <br/>
-            {this.props.service.contact.address.postalCode} {this.props.service.contact.address.city}
-            <br/>
-            Email: {this.props.service.contact.email}
-            <br/>
-            Téléphone: {this.props.service.contact.phone}
-    	</Panel>
-    );}
+	render() { return (
+		<Panel>
+			<Col xs={4}>
+				<AsyncImage src={this.props.service.avatar}/>
+			</Col>
+			<Col xs={8}>
+				{this.props.service.socialReason}
+				<br/>
+				{this.props.service.address}
+				<br/>
+				{this.props.service.postalCode} {this.props.service.city}
+				<br/>
+				Email: {this.props.service.email}
+				<br/>
+				Téléphone: {this.props.service.phone}
+			</Col>
+		</Panel>
+	);}
 }
 
 export default ServiceItem;

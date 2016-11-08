@@ -65,7 +65,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		});
 	}
 	onOfferView(offer) {
-		Dispatcher.issue('NAVIGATE', { path: '/aux/offers'  + offer.id});
+		Dispatcher.issue('NAVIGATE', { path: '/aux/offers/'  + offer.id});
 	}
 
 	onAccept() {
