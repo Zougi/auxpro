@@ -99,7 +99,8 @@ class ServiceMap extends ServiceBaseComponent {
             lattitude: Number(this.state.service.lattitude),
             longitude: Number(this.state.service.longitude),
             title: 'Ma société',
-            color: 'D9534F'
+            color: 'D9534F',
+			onClick: this.onMarkerClicked.bind(this)
         })
         // Add customers
         result.push(...Utils.map(this.state.customers, function (c) {
@@ -109,9 +110,10 @@ class ServiceMap extends ServiceBaseComponent {
                 lattitude: c.lattitude,
                 longitude: c.longitude,
                 title: c.civility + ' ' + c.lastName + ' ' + c.firstName,
-                color: '5CB85C'
+                color: '5CB85C',
+				onClick: this.onMarkerClicked.bind(this)
             };
-        }));
+        }.bind(this)));
         // Add auxiliaries
         result.push(...Utils.map(this.state.auxiliaries, function (a) {
             return {
@@ -120,9 +122,10 @@ class ServiceMap extends ServiceBaseComponent {
                 lattitude: a.lattitude,
                 longitude: a.longitude,
                 title: a.civility + ' ' + a.lastName + ' ' + a.firstName,
-                color: '5BC0DE'
+                color: '5BC0DE',
+				onClick: this.onMarkerClicked.bind(this)
             };
-        }));
+        }.bind(this)));
         return result;
     }
 
@@ -132,8 +135,7 @@ class ServiceMap extends ServiceBaseComponent {
                 <Col sm={8}>
                     <GoogleMap 
                         center={this._buildCenter()} 
-                        markers={this._buildMarkers()}
-                        onMarkerClicked={this.onMarkerClicked.bind(this)} />
+                        markers={this._buildMarkers()} />
                 </Col>
                 <Col sm={4}>
                     <ServiceMapInformation
