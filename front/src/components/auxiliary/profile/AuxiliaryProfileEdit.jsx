@@ -5,7 +5,7 @@ import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
-import AuxiliaryQuestionnary from 'components/auxiliary/profile/AuxiliaryQuestionnary'
+import AuxiliaryQuestionary from 'components/auxiliary/profile/AuxiliaryQuestionary'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList'
 import APGauge from 'components-lib/charts/APGauge'
 import FormBase from 'components-lib/Form/FormBase'
@@ -16,12 +16,6 @@ import ImageUploader from 'lib/image/ImageUploader'
 import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
 import Validators from 'utils/form/Validators'
 import Utils from 'utils/Utils'
-
-let STATES = {
-	PROFILE: 'PROFILE',
-	QUESTION: 'QUESTION'
-}
-
 
 class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 
@@ -81,25 +75,17 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		}.bind(this);
 	}
 
-	onQuestionnary() {
-		this.setState({state: STATES.QUESTION});
+	onQuestionaryEdit() {
+		this.updateAuxiliary(this.state.auxiliary).
+		then(function() {
+			this.loadAuxiliary();
+			Dispatcher.issue('NAVIGATE', { path: '/aux/infos/questionary/edit' });
+		}.bind(this));
 	}
-	onSendQuestionnary(answers) {
-		this.postQuestionary({ answers: answers }).
-		then(function() {
-			return this.loadAuxiliary();
-		}.bind(this)).
-		then(function() {
-			this.onProfile();
-		}.bind(this)).
-		catch(function (error) {
-        	console.log(error);
-        });
+	onQuestionaryView() {
+		Dispatcher.issue('NAVIGATE', { path: '/aux/infos/questionary' });
 	}
 
-	onProfile() {
-		this.setState({state: STATES.PROFILE});
-	}
 	onSaveProfile() {
 		this.updateAuxiliary(this.state.auxiliary).
 		then(function() {
@@ -279,17 +265,9 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		]];
 	}
 
-	render() { 
-		if (this.state.state === STATES.QUESTION) {
+	_buildProfileWarning() {
+		if(!this.state.auxiliary.profileCompleted) {
 			return (
-				<AuxiliaryQuestionnary 
-					onCancel={this.onProfile.bind(this)} 
-					onSubmit={this.onSendQuestionnary.bind(this)} />
-			);
-		}
-		return (
-			<Form horizontal>
-			{ !(this.state.auxiliary.profileCompleted) ?
 				<Row>
 					<Col sm={12}>
 						<Panel bsStyle='danger' header='Statut profil'>
@@ -299,7 +277,15 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 						</Panel>
 					</Col>
 				</Row>
-			: '' }
+			);
+		}
+		return (<div/>);
+	}
+
+	render() { 
+		return (
+			<Form horizontal>
+				{this._buildProfileWarning()}
 				<Row>
 					<Col sm={12}>
 						<Button disabled={!this.state.validationState} 
@@ -328,18 +314,27 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 						<Panel header='Informations professionnelles' bsStyle='info'>
 							{FormBuilder.buildFormGroups(this._buildProfessionnalInfos())}
 							{this.state.auxiliary.answers ?
-								<FormBase
-									edit={true}
-									validationState='success'
-									title='Mes Compétences'>
-									<SkillSummaryList skills={this.state.auxiliary}/>
-								</FormBase>
+								<div>
+									<FormBase
+										edit={true}
+										validationState='success'
+										title='Mes Compétences'>
+										<SkillSummaryList skills={this.state.auxiliary}/>
+									</FormBase>
+									<FormBase>
+										<Button bsStyle='success' 
+												onClick={this.onQuestionaryView.bind(this)} 
+												block>
+											Voir questionnaire
+										</Button>
+									</FormBase>
+								</div>
 							:
 								<FormBase
 									edit={true}
 									validationState='error'
 									title='Mes Compétences'>
-									<Button bsStyle='warning' onClick={this.onQuestionnary.bind(this)} block>Remplir questionnaire</Button>
+									<Button bsStyle='warning' onClick={this.onQuestionaryEdit.bind(this)} block>Remplir questionnaire</Button>
 								</FormBase>
 							}
 						</Panel>

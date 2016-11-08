@@ -28,7 +28,7 @@ AuxiliaryStore.getAuxiliary = function (auxiliaryId) {
 
 // NAVIGATE
 AuxiliaryStore.navigate = function (result, param) {
-	if (result === '/aux/infos/edit' || result === '/aux/tuto') {
+	if (result === '/aux/infos/edit' || result === '/aux/tuto' || result === '/aux/infos/questionary/edit') {
 		AuxiliaryStore.getContent().display.home.showUserHeader = false;
 	} else {
 		AuxiliaryStore.getContent().display.home.showUserHeader = true;

@@ -9,8 +9,6 @@ class GoogleAutocomplete extends React.Component {
 
   	constructor(props) {
   		super(props);
-		console.log("CONSTRUCT")
-		console.log(props)
 		if (props.location)
 			this.state = {location: props.location};
   	}
@@ -21,8 +19,6 @@ class GoogleAutocomplete extends React.Component {
   	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log("RECEIVE PROPS")
-		console.log(nextProps)
 		if (nextProps.location) {
 			this.getDefaultValue(nextProps)
 			this.setState({location: nextProps.location});
@@ -35,9 +31,7 @@ class GoogleAutocomplete extends React.Component {
 	
 	reverseGeoCodeResult(result, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
-			console.log("RESULT");
 			this.input.value = result[0].formatted_address;
-			console.log(result);
 		} else {
 			alert('ReverseGeoCode Error: ' + status);
 		}
@@ -52,9 +46,6 @@ class GoogleAutocomplete extends React.Component {
   	_autocompleteChange() {
   		var place = this.autocomplete.getPlace();
 		
-		console.log("AUTOCOMPLETE RAW")
-		console.log(place)
-
   		var l = place.address_components.length;
   		for (var i = 0; i < l; i++) {
 			let comp = place.address_components[i];
@@ -76,8 +67,6 @@ class GoogleAutocomplete extends React.Component {
   	}
 
 	render() {
-		console.log("RENDER")
-		console.log(this.state)
 		return (
 			<input 
 				className='ap-google-autocomplete autocomplete form-control'

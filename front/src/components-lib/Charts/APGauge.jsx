@@ -16,14 +16,14 @@ class APGauge extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			value: props.value ? (Math.max(Math.min(100, props.value), 0)) : 0
-		}
 	}
 
-	componentWillReceiveProp(props) {
-		this.setState({ value: props.value ? (Math.max(Math.min(100, props.value), 0)) : 0 });
-		this._drawChart();
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
+	_getValue() {
+		return this.props.value ? (Math.max(Math.min(100, this.props.value), 0)) : 0
 	}
 
 	componentDidMount () {
@@ -35,11 +35,17 @@ class APGauge extends React.Component {
 		window.removeEventListener('resize', this._drawChart.bind(this));
 	};
 
+	componentDidUpdate () {
+		console.log('UPDATED')
+		this._drawChart();
+	}
+
 	_drawChart() {
+		let value = this._getValue();
 		var color = THRESHOLD[0].color
 		for (var i = 1; i < THRESHOLD.length; i++) {
 			var t = THRESHOLD[i];
-			if (this.state.value < t.valueMax && this.state.value >= t.valueMin) {
+			if (value < t.valueMax && value >= t.valueMin) {
 				color = t.color;
 			}
 		}
@@ -47,8 +53,8 @@ class APGauge extends React.Component {
 		this.gaugeBackground.style.background = color;
 		this.gaugeBackground.style['border-width'] = (w / 40) + 'px';
 		this.gaugeContainer.style.height = w + 'px';
-		this.gaugeValue.style.height = (100 - this.state.value) + '%';
-		this.gaugeTextContainer.style.top = '-' + (100 - this.state.value) + '%';
+		this.gaugeValue.style.height = (100 - value) + '%';
+		this.gaugeTextContainer.style.top = '-' + (100 - value) + '%';
 		this.gaugeText.style.fontSize = (w / 4) + 'px';
 	}
 
@@ -59,7 +65,7 @@ class APGauge extends React.Component {
 					<div ref={ (c) => this.gaugeValue = c } className='ap-gauge-value'/>
 						<div ref={ (c) => this.gaugeTextContainer = c } className='ap-gauge-text-container'>
 						<span ref={ (c) => this.gaugeText = c } className='ap-gauge-text'>
-						<strong>{this.state.value}</strong>%
+						<strong>{this._getValue()}</strong>%
 						</span>
 					</div>
 				</div>

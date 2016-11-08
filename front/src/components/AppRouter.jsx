@@ -1,55 +1,50 @@
 import React from 'react'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-
 // Initial display
-import App  from 'components/app/App.jsx'
-import Land from 'components/land/Land.jsx'
+import App  from 'components/app/App'
+import Land from 'components/land/Land'
 // Authentication pages
-import Login       from 'components/login/Login.jsx'
-import Redirect      from 'components/redirect/Redirect.jsx'
-import RegisterAux from 'components/app/auth/RegisterAux.jsx'
-import RegisterSad from 'components/app/auth/RegisterSad.jsx'
+import Login       from 'components/login/Login'
+import Redirect    from 'components/redirect/Redirect'
+import RegisterAux from 'components/app/auth/RegisterAux'
+import RegisterSad from 'components/app/auth/RegisterSad'
 // Static pages
-import About        from 'components/app/static/About.jsx'
-import Contact      from 'components/app/static/Contact.jsx'
-import CGV          from 'components/app/static/CGV.jsx'
-import CGU          from 'components/app/static/CGU.jsx'
-import Presentation from 'components/app/static/Presentation.jsx'
-import Services     from 'components/app/static/Services.jsx'
+import About        from 'components/app/static/About'
+import Contact      from 'components/app/static/Contact'
+import CGV          from 'components/app/static/CGV'
+import CGU          from 'components/app/static/CGU'
+import Presentation from 'components/app/static/Presentation'
+import Services     from 'components/app/static/Services'
 // Documentation pages
-import Documentation from 'documentation/Documentation.jsx'
+import Documentation from 'documentation/Documentation'
 
-import Auxiliary from 'components/auxiliary/Auxiliary.jsx'
-import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome.jsx'
-import AuxiliaryTuto from 'components/auxiliary/tuto/AuxiliaryTuto.jsx'
-import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile.jsx'
-import AuxiliaryProfileEdit from 'components/auxiliary/profile/AuxiliaryProfileEdit.jsx'
-import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap.jsx'
-import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning.jsx'
-import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer.jsx'
-import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers.jsx'
+import Auxiliary from 'components/auxiliary/Auxiliary'
+import AuxiliaryHome from 'components/auxiliary/home/AuxiliaryHome'
+import AuxiliaryTuto from 'components/auxiliary/tuto/AuxiliaryTuto'
+import AuxiliaryProfile from 'components/auxiliary/profile/AuxiliaryProfile'
+import AuxiliaryProfileEdit from 'components/auxiliary/profile/AuxiliaryProfileEdit'
+import AuxiliaryQuestionary from 'components/auxiliary/profile/AuxiliaryQuestionary'
+import AuxiliaryQuestionaryEdit from 'components/auxiliary/profile/AuxiliaryQuestionaryEdit'
+import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap'
+import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning'
+import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer'
+import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers'
 
-import Service from 'components/service/Service.jsx'
-import ServiceHome from 'components/service/home/ServiceHome.jsx'
-import ServiceTuto from 'components/service/tuto/ServiceTuto.jsx'
-import ServiceProfile from 'components/service/profile/ServiceProfile.jsx'
-import ServiceProfileEdit from 'components/service/profile/ServiceProfileEdit.jsx'
-import ServiceMap from 'components/service/map/ServiceMap.jsx'
-import ServiceCustomer from 'components/service/customers/ServiceCustomer.jsx'
-import ServiceCustomers from 'components/service/customers/ServiceCustomers.jsx'
-import ServiceCustomerEdit from 'components/service/customers/ServiceCustomerEdit.jsx'
-import ServiceIntervention from 'components/service/interventions/ServiceIntervention.jsx'
-import ServiceInterventions from 'components/service/interventions/ServiceInterventions.jsx'
-import ServiceInterventionEdit from 'components/service/interventions/ServiceInterventionEdit.jsx'
+import Service from 'components/service/Service'
+import ServiceHome from 'components/service/home/ServiceHome'
+import ServiceTuto from 'components/service/tuto/ServiceTuto'
+import ServiceProfile from 'components/service/profile/ServiceProfile'
+import ServiceProfileEdit from 'components/service/profile/ServiceProfileEdit'
+import ServiceMap from 'components/service/map/ServiceMap'
+import ServiceCustomer from 'components/service/customers/ServiceCustomer'
+import ServiceCustomers from 'components/service/customers/ServiceCustomers'
+import ServiceCustomerEdit from 'components/service/customers/ServiceCustomerEdit'
+import ServiceIntervention from 'components/service/interventions/ServiceIntervention'
+import ServiceInterventions from 'components/service/interventions/ServiceInterventions'
+import ServiceInterventionEdit from 'components/service/interventions/ServiceInterventionEdit'
 
-import GuestHome from 'components/guest/GuestHome.jsx'
-
-function getType() {
-	return StoreRegistry.getStore('LOGIN_STORE').getData('/type') || 'offline';
-}
+import GuestHome from 'components/guest/GuestHome'
 
 class AppRouter extends React.Component {
 
@@ -57,9 +52,13 @@ class AppRouter extends React.Component {
 		super(props);
 	}
 	
+	_onUpdate() {
+		window.scrollTo(0, 0);
+	}
+
 	render() {
 		return (
-			<Router history={browserHistory}>
+			<Router history={browserHistory} onUpdate={this._onUpdate}>
 				<Route path='/' component={App} >
 					<IndexRoute component={Land}/>
 					<Route path='login' component={Login} />
@@ -100,6 +99,8 @@ class AppRouter extends React.Component {
 
 						<Route path='infos' component={AuxiliaryProfile} />
 						<Route path='infos/edit' component={AuxiliaryProfileEdit} />
+						<Route path='infos/questionary' component={AuxiliaryQuestionary} />
+						<Route path='infos/questionary/edit' component={AuxiliaryQuestionaryEdit} />
 
 						<Route path='planning' component={AuxiliaryPlaning} />
 
