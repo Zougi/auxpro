@@ -1,15 +1,23 @@
 import React from 'react';
-import { Panel, Button, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import moment from 'moment';
+import { Panel, Button, Row, Col, ListGroup, ListGroupItem, Clearfix } from 'react-bootstrap';
 // core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
-import Utils from 'utils/Utils.js'
 // custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import InterventionSummaryOneTime from 'components/common/interventions/InterventionSummaryOneTime.jsx'
 import InterventionSummaryRecurence from 'components/common/interventions/InterventionSummaryRecurence.jsx'
 import CustomerSummary from 'components/common/customers/CustomerSummary.jsx';
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog.jsx';
+import AsyncImage from 'lib/image/AsyncImage.jsx'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
+// Lib modules
+import Utils from 'utils/Utils'
+import MathUtils from 'utils/MathUtils'
+import GeoHelper from 'utils/geo/GeoHelper'
+
+moment.locale('fr');
 
 let INTERVENTION_MODES = {
     ONE_TIME: { 
@@ -87,23 +95,40 @@ class ServiceInterventions extends ServiceBaseComponent {
         then(this.onCancel.bind(this));
     }
     
-
+    onAuxiliaryClick() {
+        alert('clicked');
+    }
     // Rendering functions //
     // --------------------------------------------------------------------------------
 
     _buildMatches() {
         return (this.state.intervention.matches || []).map(function(auxiliary, i) {
+            let age = moment(auxiliary.birthDate).toNow(true);
+            let distance = MathUtils.round(GeoHelper.getDistanceFromLatLonInKm(auxiliary.lattitude, auxiliary.longitude, this.state.customer.lattitude, this.state.customer.longitude), 1);
             return (
-                <ListGroupItem key={i}>
-                    {auxiliary.firstName + ' ' + auxiliary.lastName}
+                <ListGroupItem key={i} onClick={this.onAuxiliaryClick.bind(this)}>
+                    <Row>
+                        <Col xs={2}>
+                            <AsyncImage src={auxiliary.avatar} width={50} height={50}/>
+                        </Col>
+                        <Col xs={10} sm={4}>
+                            {auxiliary.firstName + ' ' + auxiliary.lastName}
+                            <br/>
+                            {auxiliary.city + ' - ' + distance + 'km'}
+                        </Col>
+                        <Clearfix visibleXsBlock />
+                        <Col xsOffset={2} xs={10} smOffset={0} sm={6}>
+                            <SkillSummaryList skills={auxiliary}/>
+                        </Col>
+                    </Row>
                 </ListGroupItem>
             );
-        });
+        }.bind(this));
     }
 
     render() { return (
         <Row>
-            <Panel header={(<strong>{"Envoyer offres de prestations"}</strong>)}>
+            <Panel header={(<strong>{'Envoyer offres de prestation'}</strong>)}>
                 <Row>
                     <Col sm={6}>
                         <Panel header='Information usager' bsStyle='info'>
@@ -122,7 +147,7 @@ class ServiceInterventions extends ServiceBaseComponent {
                 </Row>
                 <Row>
                     <Col lg={12} >
-                        <Panel header={'Résultats Matching'} bsStyle='warning'>
+                        <Panel header={'Sélectionner les auxiliaires de vie'} bsStyle='warning'>
                             <ListGroup fill>
                                 {this._buildMatches()}
                             </ListGroup>
