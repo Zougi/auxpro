@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Button, Row, Col } from 'react-bootstrap';
+import { Panel, Button, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 // core modules
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
@@ -92,40 +92,50 @@ class ServiceInterventions extends ServiceBaseComponent {
     // --------------------------------------------------------------------------------
 
     _buildMatches() {
-        return (this.state.intervention.matches || []).map(function(auxiliary) {
+        return (this.state.intervention.matches || []).map(function(auxiliary, i) {
             return (
-                <p key={auxiliary.id}>
+                <ListGroupItem key={i}>
                     {auxiliary.firstName + ' ' + auxiliary.lastName}
-                </p>
+                </ListGroupItem>
             );
         });
     }
 
     render() { return (
-        <Panel header="Détail d'intervention">
-            <Col sm={6}>
-                <Panel header='Information usager' bsStyle='info'>
-                    <CustomerSummary customer={this.state.customer}/>
-                </Panel>
-                <Panel header='Plannification' bsStyle='info'>
-                { this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
-                    <InterventionSummaryOneTime oneTime={this.state.intervention.oneTime}/>
-                :
-                    <InterventionSummaryRecurence recurence={this.state.intervention.recurence}/>
-                }
-                </Panel>
-            </Col>
-            <Col sm={6} >
-                <Panel header={'Résultats Matching'} bsStyle='warning'>
-                    {this._buildMatches()}
-                </Panel>
-            </Col>
-            <ButtonsEndDialog 
-                onOk={this.onSendOffers.bind(this)} 
-                okTitle='Envoyer'
-                onCancel={this.onCancel.bind(this)} 
-                cancelTitle='Annuler'/>
-        </Panel>
+        <Row>
+            <Panel header={(<strong>{"Envoyer offres de prestations"}</strong>)}>
+                <Row>
+                    <Col sm={6}>
+                        <Panel header='Information usager' bsStyle='info'>
+                            <CustomerSummary customer={this.state.customer}/>
+                        </Panel>
+                    </Col>
+                    <Col sm={6}>
+                        <Panel header='Prestation' bsStyle='info'>
+                        { this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
+                            <InterventionSummaryOneTime oneTime={this.state.intervention.oneTime}/>
+                        :
+                            <InterventionSummaryRecurence recurence={this.state.intervention.recurence}/>
+                        }
+                        </Panel>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col lg={12} >
+                        <Panel header={'Résultats Matching'} bsStyle='warning'>
+                            <ListGroup fill>
+                                {this._buildMatches()}
+                            </ListGroup>
+                        </Panel>
+                    </Col>
+                </Row>
+                <ButtonsEndDialog 
+                    onOk={this.onSendOffers.bind(this)} 
+                    okTitle='Envoyer'
+                    onCancel={this.onCancel.bind(this)} 
+                    cancelTitle='Annuler'/>
+            </Panel>
+        </Row>
     );}
 }
 

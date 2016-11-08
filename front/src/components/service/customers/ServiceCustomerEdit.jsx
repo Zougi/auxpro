@@ -228,7 +228,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 
 	render() { return (
 		<Row>
-			<Panel header={(<strong>{this.state.mode === MODES.CREATE ? 'Saisir nouveau client' : 'Modifier informations client'}</strong>)}>
+			<Panel header={(<strong>{this.state.mode === MODES.CREATE ? 'Saisir nouvel usager' : 'Modifier informations usager'}</strong>)}>
 				<Form horizontal>
 					<Row>
 						{FormBuilder.buildFormGroups(this._buildInfos())}

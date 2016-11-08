@@ -148,10 +148,10 @@ class ServiceCustomers extends ServiceBaseComponent {
 		let customers = this._buildCustomers();
 		return (
 			<Row>
-				<Panel header={(<strong>Clients enregistrés</strong>)}>
+				<Panel header={(<strong>Usagers enregistrés</strong>)}>
 					<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
 					<br/>
-					<SearchBar placeholder="Veuillez saisir le nom d'un client" onChange={this.onSearch.bind(this)}/>
+					<SearchBar placeholder="Veuillez saisir le nom d'un usager" onChange={this.onSearch.bind(this)}/>
 					<Panel>
 						<ListGroup fill>
 							{customers}
@@ -161,7 +161,7 @@ class ServiceCustomers extends ServiceBaseComponent {
 				</Panel>
 				<DialogConfirmation
 					show={this.state.showDeleteConfirm}
-					title='Supprimer client ?'
+					title='Supprimer usager ?'
 					onConfirm={this.doDeleteCustomer.bind(this)}
 					confirmStyle='danger'
 					confirmText='Supprimer'

@@ -164,52 +164,54 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 	render() {
 		let mode = (this.state.mode === MODES.CREATE);
 		return (
-			<Form horizontal>
-				<Panel header={mode ? 'Saisir une nouvelle demande' : 'Modifier demande'}>
-					<Row>
-						<Col sm={6}>
-							<FormSelect 
-								edit={mode}
-								title={mode ? 'Choisir client' : 'Client'}
-								defaultValue={this.state.intervention.customerId}
-								values={this._buildCustomers()}
-								onChange={this.onCustomerChanged.bind(this)}/>
-							<FormSelect 
+			<Row>
+				<Form horizontal>
+					<Panel header={(<strong>{mode ? 'Saisir une nouvelle demande' : 'Modifier demande'}</strong>)}>
+						<Row>
+							<Col sm={6}>
+								<FormSelect 
+									edit={mode}
+									title={mode ? 'Choisir client' : 'Client'}
+									defaultValue={this.state.intervention.customerId}
+									values={this._buildCustomers()}
+									onChange={this.onCustomerChanged.bind(this)}/>
+								<FormSelect 
+									edit={true}
+									title='Type de demande'
+									defaultValue={this.state.interventionMode.key} 
+									values={[ INTERVENTION_MODES.ONE_TIME, INTERVENTION_MODES.RECURENCE ]}
+									onChange={this.onInterventionModeChanged.bind(this)}/>
+							</Col>
+						</Row>
+						<Row>
+							{this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
+							<InterventionDetailsOneTime
 								edit={true}
-								title='Type de demande'
-								defaultValue={this.state.interventionMode.key} 
-								values={[ INTERVENTION_MODES.ONE_TIME, INTERVENTION_MODES.RECURENCE ]}
-								onChange={this.onInterventionModeChanged.bind(this)}/>
-						</Col>
-					</Row>
-					<Row>
-						{this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
-						<InterventionDetailsOneTime
-							edit={true}
-							onChange={this.onOneTimeChanged.bind(this)}
-							date={this.state.intervention.oneTime.date}
-							startTime={this.state.intervention.oneTime.startTime}
-							endTime={this.state.intervention.oneTime.endTime} />
-						:
-						<InterventionDetailsRecurence
-							edit={true}
-							onChange={this.onRecurenceChanged.bind(this)}
-							startDate={this.state.intervention.recurence.startDate}
-							endDate={this.state.intervention.recurence.endDate}
-							startTime={this.state.intervention.recurence.startTime}
-							endTime={this.state.intervention.recurence.endTime}
-							period={this.state.intervention.recurence.period}
-							days={this.state.intervention.recurence.days}/>
-						}
-					</Row>
-					<ButtonsEndDialog 
-						onOk={this.onSaveIntervention.bind(this)} 
-						okTitle='Enregistrer modifications' 
-						okDisabled={!this.state.validationState}
-						onCancel={this.onCancel.bind(this)} 
-						cancelTitle='Annuler'/>
-				</Panel>
-			</Form>
+								onChange={this.onOneTimeChanged.bind(this)}
+								date={this.state.intervention.oneTime.date}
+								startTime={this.state.intervention.oneTime.startTime}
+								endTime={this.state.intervention.oneTime.endTime} />
+							:
+							<InterventionDetailsRecurence
+								edit={true}
+								onChange={this.onRecurenceChanged.bind(this)}
+								startDate={this.state.intervention.recurence.startDate}
+								endDate={this.state.intervention.recurence.endDate}
+								startTime={this.state.intervention.recurence.startTime}
+								endTime={this.state.intervention.recurence.endTime}
+								period={this.state.intervention.recurence.period}
+								days={this.state.intervention.recurence.days}/>
+							}
+						</Row>
+						<ButtonsEndDialog 
+							onOk={this.onSaveIntervention.bind(this)} 
+							okTitle='Enregistrer modifications' 
+							okDisabled={!this.state.validationState}
+							onCancel={this.onCancel.bind(this)} 
+							cancelTitle='Annuler'/>
+					</Panel>
+				</Form>
+				</Row>
 		);
 	}
 }

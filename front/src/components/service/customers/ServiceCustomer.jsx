@@ -143,7 +143,7 @@ class ServiceCustomer extends ServiceBaseComponent {
 
 	render() { return (
 		<Row>
-			<Panel header={(<strong>Détails client</strong>)}>
+			<Panel header={(<strong>Détails usager</strong>)}>
 				<Form horizontal>
 					<Row>
 						{FormBuilder.buildFormGroups(this._buildInfos())}
