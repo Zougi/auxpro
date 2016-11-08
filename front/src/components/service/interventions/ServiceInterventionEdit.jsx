@@ -1,5 +1,6 @@
 // lib modules
 import React from 'react'
+import moment from 'moment'
 import { Panel, Button, Row, Col, Clearfix, Form } from 'react-bootstrap'
 // core modules
 import Dispatcher from 'core/Dispatcher'
@@ -12,7 +13,10 @@ import InterventionDetailsRecurence from 'components/common/interventions/Interv
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
 // Lib modules
 import Utils from 'utils/Utils'
+import MomentHelper from 'utils/moment/MomentHelper'
 import InterventionHelper from 'utils/entities/InterventionHelper'
+
+moment.locale('fr')
 
 let MODES = {
 	CREATE: 'CREATE',
@@ -69,13 +73,23 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 				intervention: {
 					serviceId: this.getLoginData('/id'),
 					customerId: customers[0].id,
-					oneTime: {},
-					recurence: {
-						period: 'P1W'
-					}
+					oneTime: this._getDefaultOneTime(),
+					recurence: this._getDefaultRecurence()
 				},
 				validationState: false
 			};
+		}
+	}
+	_getDefaultOneTime() {
+		return {
+			date: MomentHelper.toLocalDate(moment())
+		}
+	}
+	_getDefaultRecurence() {
+		return {
+			startDate: MomentHelper.toLocalDate(moment()),
+			endDate: MomentHelper.toLocalDate(moment()),
+			period: 'P1W'
 		}
 	}
 
@@ -84,6 +98,11 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	onSaveIntervention() {
+		if (this.state.interventionMode === INTERVENTION_MODES.ONE_TIME) {
+			delete this.state.intervention.recurence;
+		} else {
+			delete this.state.intervention.oneTime;
+		}
 		if (this.state.mode === MODES.CREATE) {
 			this.createIntervention(this.state.intervention).
 			then(function () {
@@ -108,9 +127,9 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 	onInterventionModeChanged(modeId) {
 		this.state.interventionMode = INTERVENTION_MODES[modeId];
 		if (this.state.interventionMode === INTERVENTION_MODES.ONE_TIME) {
-			this.state.intervention.oneTime = this.state.intervention.oneTime || {};
+			this.state.intervention.oneTime = this.state.intervention.oneTime || this._getDefaultOneTime();
 		} else {
-			this.state.intervention.recurence = this.state.intervention.recurence || {};
+			this.state.intervention.recurence = this.state.intervention.recurence || this._getDefaultRecurence();
 		}
 		this._setValidationState();
 	}

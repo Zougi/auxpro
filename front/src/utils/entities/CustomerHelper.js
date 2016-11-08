@@ -18,8 +18,6 @@ export default class CustomerHelper {
 	static checkValidation(customer) {
 		let validators = CustomerHelper.Validators;
 		for (let v in validators) {
-			console.log('here')
-			console.log(v)
 			let state = validators[v].getState(customer[v])
 			if (state !== 'success') {
 				return false;

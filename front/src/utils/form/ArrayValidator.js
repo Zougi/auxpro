@@ -11,7 +11,6 @@ export default class ArrayValidator {
 			var isMinOk = !isNaN(this.lengthMin) ? l >= this.lengthMin : true;
 			var isMaxOk = !isNaN(this.lengthMax) ? l <= this.lengthMax : true;
 			if (isMinOk && isMaxOk) {
-				console.log('success')
 				return 'success';
 			} 
 		}

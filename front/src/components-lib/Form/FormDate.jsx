@@ -15,47 +15,63 @@ class FormDate extends FormBase {
 
 	constructor(props) {
 		super(props);
-		this.state = { 
-			validationState: (this.props.edit && this.props.validator) ? this.props.validator.getState(this.props.defaultValue || this.props.value) : this.props.validationState,
-			date: this.props.defaultValue ? this.props.defaultValue : null 
-		};
 	}
 
-	onDaySelect(date) {
-		this.setState({ date: date });
-		if (this.props.validator) {
-			this.setState({validationState: this.props.validator.getState(date)})
-		}
-		if (this.props.onChange) {
-			this.props.onChange(date);
-		}
+
+	// State management functions //
+	// --------------------------------------------------------------------------------
+
+	_getDefaultDate() {
+		return this.props.defaultValue || MomentHelper.toLocalDate(moment());
 	}
+
+
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
+
+	onDaySelect(date) {
+		let vs = 'success'
+		if (this.props.validator) {
+			vs = this.props.validator.getState(date);
+			this.setState({ validationState: vs })
+		}
+		this.props.onChange({
+			value: date,
+			validationState: vs
+		});
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	getFormControlStatic() {
 		return (
 			<FormControl.Static>
-				{MomentHelper.localDateToHumanDate(this.state.date)}
+				{MomentHelper.localDateToHumanDate(this._getDefaultDate())}
 			</FormControl.Static>
 		);
 	}
 
-	getFormControlEditable() {
-		let overlay = (
+	_buildOverlay() {
+		return (
 			<Popover id='formDateOverlay' title="Popover">
 				<Calendar 
-					moment={this.state.date} 
-					selected={this.state.date} 
+					moment={this._getDefaultDate()}
+					selected={this._getDefaultDate()}
 					bsSize='xsmall'
 					onDaySelect={this.onDaySelect.bind(this)}/>
 			</Popover>
 		);
+	}
+
+	getFormControlEditable() {
 		return (
-			<OverlayTrigger trigger="click" placement="bottom" overlay={overlay} rootClose>
+			<OverlayTrigger trigger="click" placement="bottom" overlay={this._buildOverlay()} rootClose>
 				<FormControl 
 					type='text'
-					value={MomentHelper.localDateToHumanDate(this.state.date)}/>
-			</OverlayTrigger>
-			
+					value={MomentHelper.localDateToHumanDate(this._getDefaultDate())}/>
+			</OverlayTrigger>	
 		);
 	}
 

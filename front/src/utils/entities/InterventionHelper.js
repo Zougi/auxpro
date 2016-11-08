@@ -37,7 +37,6 @@ export default class InterventionHelper {
 		if (intervention.oneTime) {
 			let validators = InterventionHelper.ValidatorsOneTime;
 			for (let v in validators) {
-				console.log(v)
 				let state = validators[v].getState(intervention.oneTime[v])
 				if (state !== 'success') {
 					return false;

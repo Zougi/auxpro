@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from 'react-bootstrap';
+import { Row, Clearfix } from 'react-bootstrap';
 // custom components
 import InterventionSummary from './InterventionSummary.jsx';
 
@@ -37,6 +37,12 @@ class InterventionSummaryList extends React.Component {
 					onDelete={this.props.onDelete}
 					onViewOffers={this.props.onViewOffers}/>
 			);
+			if (i%2 === 1) {
+				array.push( <Clearfix key={'c2' + intervention.id} visibleSmBlock/>);
+			}
+			if (i%3 === 2) {
+				array.push( <Clearfix key={'c3' + intervention.id} visibleMdBlock/>);
+			}
 		}
 
 		return (

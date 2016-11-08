@@ -44,7 +44,6 @@ export default class AuxiliaryHelper {
 				r += 4;
 			}
 		}
-		console.log(r)
 		return r;
 	}
 }

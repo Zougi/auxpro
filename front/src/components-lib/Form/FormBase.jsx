@@ -17,12 +17,11 @@ class FormBase extends React.Component {
 	}
 	_buildState(props) {
 		return {
-			xsLabelSize: props.xsLabelSize || DEFAULTS.xsLabelSize,
+			xsLabelSize: Number(props.xsLabelSize) || DEFAULTS.xsLabelSize,
 			smLabelSize: props.smLabelSize || props.xsLabelSize || DEFAULTS.smLabelSize,
 			mdLabelSize: props.mdLabelSize || props.smLabelSize || props.xsLabelSize || DEFAULTS.mdLabelSize,
 			lgLabelSize: props.lgLabelSize || props.mdLabelSize || props.smLabelSize || props.xsLabelSize || DEFAULTS.lgLabelSize,
-			validationState: props.validator ? props.validator.getState(props.defaultValue || props.value) : props.validationState,
-			value: props.value
+			validationState: props.validator ? props.validator.getState(props.defaultValue || props.value) : props.validationState
 		}
 	}
 
