@@ -55,7 +55,8 @@ class ServiceInterventions extends ServiceBaseComponent {
         return {
             customer: this.getCustomer(intervention.customerId),
             interventionMode: intervention.oneTime ? INTERVENTION_MODES.ONE_TIME : INTERVENTION_MODES.RECURENCE,
-            intervention: intervention
+            intervention: intervention,
+            selected: []
         };
     }
 
@@ -95,9 +96,17 @@ class ServiceInterventions extends ServiceBaseComponent {
         then(this.onCancel.bind(this));
     }
     
-    onAuxiliaryClick() {
-        alert('clicked');
+    onAuxiliaryClick(auxiliary) {
+        let i = this.state.selected.indexOf(auxiliary);
+        if (i === -1) {
+            this.state.selected.push(auxiliary);
+        } else {
+            this.state.selected.splice(i, 1);
+        }
+        this.forceUpdate();
     }
+
+
     // Rendering functions //
     // --------------------------------------------------------------------------------
 
@@ -106,7 +115,7 @@ class ServiceInterventions extends ServiceBaseComponent {
             let age = moment(auxiliary.birthDate).toNow(true);
             let distance = MathUtils.round(GeoHelper.getDistanceFromLatLonInKm(auxiliary.lattitude, auxiliary.longitude, this.state.customer.lattitude, this.state.customer.longitude), 1);
             return (
-                <ListGroupItem key={i} onClick={this.onAuxiliaryClick.bind(this)}>
+                <ListGroupItem bsStyle={this.state.selected.indexOf(auxiliary) !== -1 ? 'info' : 'default'} key={i} onClick={this.onAuxiliaryClick.bind(this, auxiliary)}>
                     <Row>
                         <Col xs={2}>
                             <AsyncImage src={auxiliary.avatar} width={50} height={50}/>
@@ -114,7 +123,7 @@ class ServiceInterventions extends ServiceBaseComponent {
                         <Col xs={10} sm={4}>
                             {auxiliary.firstName + ' ' + auxiliary.lastName}
                             <br/>
-                            {auxiliary.city + ' - ' + distance + 'km'}
+                            {auxiliary.city + ' - ' + distance + ' km'}
                         </Col>
                         <Clearfix visibleXsBlock />
                         <Col xsOffset={2} xs={10} smOffset={0} sm={6}>
@@ -131,12 +140,12 @@ class ServiceInterventions extends ServiceBaseComponent {
             <Panel header={(<strong>{'Envoyer offres de prestation'}</strong>)}>
                 <Row>
                     <Col sm={6}>
-                        <Panel header='Information usager' bsStyle='info'>
+                        <Panel header='Information usager' bsStyle='primary'>
                             <CustomerSummary customer={this.state.customer}/>
                         </Panel>
                     </Col>
                     <Col sm={6}>
-                        <Panel header='Prestation' bsStyle='info'>
+                        <Panel header='Prestation' bsStyle='primary'>
                         { this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
                             <InterventionSummaryOneTime oneTime={this.state.intervention.oneTime}/>
                         :
@@ -147,7 +156,7 @@ class ServiceInterventions extends ServiceBaseComponent {
                 </Row>
                 <Row>
                     <Col lg={12} >
-                        <Panel header={'Sélectionner les auxiliaires de vie'} bsStyle='warning'>
+                        <Panel header={'Sélectionner les auxiliaires de vie'} bsStyle='primary'>
                             <ListGroup fill>
                                 {this._buildMatches()}
                             </ListGroup>
@@ -157,6 +166,7 @@ class ServiceInterventions extends ServiceBaseComponent {
                 <ButtonsEndDialog 
                     onOk={this.onSendOffers.bind(this)} 
                     okTitle='Envoyer'
+                    okDisabled={this.state.selected.length === 0}
                     onCancel={this.onCancel.bind(this)} 
                     cancelTitle='Annuler'/>
             </Panel>
