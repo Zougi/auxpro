@@ -1,0 +1,23 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mr",
+	"firstName": "Maurice",
+	"lastName": "Durand",
+	"birthDate":[1962, 7, 3],
+	"nationality": "Francaise",
+	"address": "5 rue de Logelbach",
+	"postalCode": 75017,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.881188",
+	"longitude": "2.307961",
+	"phone": "01 01 01 01 01",
+	"email":"maurice.durand@outlook.fr",
+	"housework": 0,
+	"nursing": 0,
+	"childhood": 0,
+	"shopping": 2,
+	"compagny": 5,
+	"administrative": 0,
+	"doityourself": 0
+}

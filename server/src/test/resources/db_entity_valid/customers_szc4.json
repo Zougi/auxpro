@@ -1,0 +1,22 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mme",
+	"firstName": "Georgette",
+	"lastName": "Boulard",
+	"birthDate":[1922, 12, 28],
+	"nationality": "Francaise",
+	"address": "67 rue Ampere",
+	"postalCode": 75017,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.885310", 
+	"longitude": "2.300468",
+	"phone": "01 01 01 01 01",
+	"housework": 4,
+	"nursing": 5,
+	"childhood": 0,
+	"shopping": 4,
+	"compagny": 2,
+	"administrative": 3,
+	"doityourself": 2
+}

@@ -1,0 +1,23 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mme",
+	"firstName": "Ginette",
+	"lastName": "De Trimes",
+	"birthDate":[1941, 6, 14],
+	"nationality": "Francaise",
+	"address": "87 rue de Levis",
+	"postalCode": 75017,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.884824",
+	"longitude": "2.311516", 
+	"phone": "01 01 01 01 01",
+	"email":"ginette.detrimes@outlook.fr",
+	"housework": 4,
+	"nursing": 0,
+	"childhood": 5,
+	"shopping": 1,
+	"compagny": 1,
+	"administrative": 0,
+	"doityourself": 2
+}

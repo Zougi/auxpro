@@ -1,0 +1,22 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mme",
+	"firstName": "Simone",
+	"lastName": "Carfe",
+	"birthDate":[1933, 1, 7],
+	"nationality": "Francaise",
+	"address": "21 rue des Tapisseries",
+	"postalCode": 75017,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.888980", 
+	"longitude": "2.307791",
+	"phone": "01 01 01 01 01",
+	"housework": 0,
+	"nursing": 3,
+	"childhood": 0,
+	"shopping": 2,
+	"compagny": 3,
+	"administrative": 5,
+	"doityourself": 1
+}

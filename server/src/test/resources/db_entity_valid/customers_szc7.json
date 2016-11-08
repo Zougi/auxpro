@@ -1,0 +1,23 @@
+{
+	"serviceId":"sadz",
+	"civility":"Mr",
+	"firstName": "Alfred",
+	"lastName": "Rambert",
+	"birthDate":[1941, 1, 1],
+	"nationality": "Francaise",
+	"address": "18 rue de Saint-Senoch",
+	"postalCode": 750147,
+	"city": "Paris",
+	"country": "France",
+	"lattitude": "48.882348", 
+	"longitude": "2.294248",
+	"phone": "01 01 01 01 01",
+	"email":"alfred.rambert@outlook.fr",
+	"housework": 2,
+	"nursing": 3,
+	"childhood": 2,
+	"shopping": 2,
+	"compagny": 3,
+	"administrative": 2,
+	"doityourself": 2
+}
