@@ -188,7 +188,7 @@ public class TestDataGenerator {
 		bean.setEndDate(LocalDate.now().plusDays(RECURENCE_ID++ + 60));
 		bean.setStartTime(LocalTime.of(2, 00));
 		bean.setEndTime(LocalTime.of(4, 30));
-		bean.setPeriod(ERecurencePeriod.P7D.getId());
+		bean.setPeriod(ERecurencePeriod.P1W.getId());
 		bean.setDays(new DayOfWeek[] { DayOfWeek.MONDAY, DayOfWeek.FRIDAY});
 		return bean;
 	}

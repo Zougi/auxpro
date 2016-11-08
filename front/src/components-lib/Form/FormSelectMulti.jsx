@@ -1,46 +1,57 @@
 import React from 'react'
-import { FormGroup, Checkbox, Col } from 'react-bootstrap';
-
-import FormBase from './FormBase.jsx'
+import { FormGroup, Checkbox, Row } from 'react-bootstrap'
+// Custom components
+import FormBase from 'components-lib/form/FormBase'
 
 class FormSelectMulti extends FormBase {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
-		this.onComponentWillReceiveProps(props, true);
 	}
 
-	onComponentWillReceiveProps(props, first) {
-		this.state.values = [];
-		for (let i = 0; i < props.values.length; i++) {
-			let v = props.values[i];
-			this.state.values.push({
-				key: v.key ? v.key : v.value,
-				value: v.value,
-				defaultSelected: v.selected,
-				selected: v.selected
-			});
-		}
-		if (!first) this.setState(this.state);
-	}
+
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
 
 	onChange(value, event) {
-		value.selected = event.target.checked;
-		this.setState(this.state);
+		let v = (this.props.defaultValue || []).map(function (e) { return e; });
+		if (event.target.checked) {
+			if (v.indexOf(value.key) === -1) {
+				v.push(value.key);
+			}
+		} else {
+			if (v.indexOf(value.key) !== -1) {
+				v.splice(v.indexOf(value.key), 1);
+			}
+		}
+		let vs = 'success';
+		if (this.props.validator) {
+			vs = this.props.validator.getState(v)
+			this.setState({ validationState: vs })
+		}
 		if (this.props.onChange) {
-			this.props.onChange(this.state.values);
+			this.props.onChange({
+				value: v,
+				validationState: vs
+			});
 		}
 	}
 
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
 	_buildValues(disabled) {
-		return this.state.values.map(function(v) {
+		return this.props.values.map(function(v, i) {
 			return (
-				<Col key={v.key} xs={6} sm={3} md={2}>
-					<Checkbox key={v.key} disabled={disabled} checked={v.selected} inline onChange={this.onChange.bind(this, v)}>
+				<Row key={i}>
+					<Checkbox disabled={!this.props.edit} 
+							  checked={(this.props.defaultValue || []).indexOf(v.key) !== -1} 
+							  onChange={this.onChange.bind(this, v)}
+							  inline >
 						{v.value}
 					</Checkbox>
-				</Col>
+				</Row>
 			);
 		}.bind(this))
 	}

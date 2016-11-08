@@ -4,8 +4,10 @@ import java.time.Period;
 
 public enum ERecurencePeriod {
 
-	P7D (Period.ofWeeks(1)),
-	P14D (Period.ofWeeks(2))
+	P1W (Period.ofWeeks(1)),
+	P2W (Period.ofWeeks(2)),
+	P3W (Period.ofWeeks(3)),
+	P4W (Period.ofWeeks(4))
 	;
 	
 	private Period _period;
@@ -18,6 +20,6 @@ public enum ERecurencePeriod {
 		for (ERecurencePeriod period : ERecurencePeriod.values()) {
 			if (period.getId().equals(id.toUpperCase())) return period;
 		}
-		return P7D;
+		return P1W;
 	}
 }

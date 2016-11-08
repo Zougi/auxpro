@@ -1,60 +1,86 @@
 import React from 'react';
-import { Panel } from 'react-bootstrap';
-
-import FormDate from 'components-lib/Form/FormDate.jsx'
-import FormTime from 'components-lib/Form/FormTime.jsx'
+import { Row } from 'react-bootstrap';
+// Custom modules
+import FormBuilder from 'components-lib/Form/FormBuilder'
+import Validators from 'utils/form/Validators'
+import Utils from 'utils/Utils'
 
 class InterventionDetailsOneTime extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.data = {
-			oneTime: {
-				date: props.oneTime ? props.oneTime.date : null,
-				startTime: props.oneTime ? props.oneTime.startTime : [0, 0],
-				endTime: props.oneTime ? props.oneTime.endTime : [0, 0]
-			}
-		}
+		this.state = this._buildState(props);
 	}
 
-	onStartTimeChanged(value) {
-		this.data.oneTime.startTime = value;
-		this.onChange();
+
+	// State Management functions //
+	// --------------------------------------------------------------------------------
+
+	onComponentWillReceiveProps(props) {
+		this.setState(this.state = this._buildState(props));
 	}
-	onEndTimeChanged(value) {
-		this.data.oneTime.endTime = value;
-		this.onChange();
+	_buildState(props) {
+		return {
+			date: props.date,
+			startTime: props.startTime,
+			endTime: props.endTime
+		};
 	}
-	onDateChanged(value) {
-		this.data.oneTime.date = value;
-		this.onChange();
+
+
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
+
+	changeHandler(field) { 
+		return function (event) {
+			let value = event.value || event;
+			Utils.setField(this.state, field, value); 
+			if (this.props.onChange) {
+				this.props.onChange(this.state);
+			}
+		}.bind(this);
 	}
-	onChange() {
-		if (this.props.onChange) {
-			this.props.onChange(this.data.oneTime);
-		}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	_buildInfos() {
+		return [
+			[
+				{
+					title: 'Date',
+					type: 'date',
+					edit: this.props.edit,
+					defaultValue: this.state.date,
+					changeHandler: this.changeHandler('date'),
+					validator: Validators.NonNull
+				},
+				{
+					title: 'Début',
+					type: 'time',
+					edit: this.props.edit,
+					defaultValue: this.state.startTime,
+					changeHandler: this.changeHandler('startTime'),
+					validator: Validators.NonNull
+				},
+				{
+					title: 'Fin',
+					type: 'time',
+					edit: this.props.edit,
+					defaultValue: this.state.endTime,
+					changeHandler: this.changeHandler('endTime'),
+					validator: Validators.NonNull
+				}
+			],
+			[]
+		]
 	}
 
 	render() {
 		return (
 			<div>
-				<FormDate
-					defaultValue={this.data.oneTime.date}
-					edit={this.props.edit}
-					title='Date'
-					onChange={this.onDateChanged.bind(this)}/>
-				<br/><br/>
-				<FormTime
-					defaultValue={this.data.oneTime.startTime}
-					edit={this.props.edit}
-					title='Début'
-					onChange={this.onStartTimeChanged.bind(this)}/>
-				<br/><br/>
-				<FormTime
-					defaultValue={this.data.oneTime.endTime}
-					edit={this.props.edit}
-					title='Fin'
-					onChange={this.onEndTimeChanged.bind(this)}/>
+				{FormBuilder.buildFormGroups(this._buildInfos())}
 			</div>
 		);
 	}

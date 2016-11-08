@@ -1,65 +1,92 @@
-// react modules
 import React from 'react'
-import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
-// custom modules
-import { DEFAULTS } from './FormConstants.js';
-// custom components
-import FormBase from './FormBase.jsx'
+import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap'
+// Custom components
+import FormBase from 'components-lib/form/FormBase'
+// Custom modules
+import { DEFAULTS } from 'components-lib/form/FormConstants'
 
 let HOURS = [];
 for (let i = 0; i < 24; i++) {
-	HOURS.push({ key: i, value: i });
+	HOURS.push({ 
+		key: i, 
+		value: i < 10 ? '0' + i : String(i)
+	});
 }
 let MINUTES = [];
-for (let i = 0; i < 60; i++) {
-	MINUTES.push({ key: i, value: i });
+for (let i = 0; i < 4; i++) {
+	MINUTES.push({ 
+		key: i*15, 
+		value: i*15 < 10 ? '0' + i*15 : String(i*15)
+	});
 }
 
 class FormTime extends FormBase {
 
 	constructor(props) {
 		super(props);
-		let defaultOk = this.props.defaultValue && this.props.defaultValue.length && this.props.defaultValue.length > 1;
-		this.state = {
-			hour: defaultOk ? this.props.defaultValue[0] : 0,
-			minute: defaultOk ? this.props.defaultValue[1] : 0
-		};
 	}
 
-	onChange(event) {
-		this.props.onChange([ this.state.hour, this.state.minute ]);
+	// State management functions //
+	// --------------------------------------------------------------------------------
+
+	_getDefaultHour() {
+		return this.props.defaultValue && this.props.defaultValue[0] ? this.props.defaultValue[0] : 0;
+	}
+	_getDefaultMinute() {
+		return this.props.defaultValue && this.props.defaultValue[1] ? this.props.defaultValue[1] : 0;
 	}
 
+	// Callbacks functions //
+	// --------------------------------------------------------------------------------
+
+	onChange(value) {
+		if (this.props.onChange) {
+			this.props.onChange(value);
+		}
+	}
 	onHourChange(event) {
-		this.state.hour = Number(event.target.value);
-		this.onChange();
+		this.onChange([
+			Number(event.target.value),
+			this._getDefaultMinute()
+		]);
 	}
 	onMinuteChange(event) {
-		this.state.minute = Number(event.target.value);
-		this.onChange();
+		this.onChange([
+			this._getDefaultHour(),
+			Number(event.target.value)
+		]);
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
+
+	_buildHours() {
+		return HOURS.map(function(v) {
+			return (<option key={v.key} value={v.key}>{v.value}</option>);
+		});
+	}
+	_buildMinutes() {
+		return MINUTES.map(function(v) {
+			return (<option key={v.key} value={v.key}>{v.value}</option>);
+		});
 	}
 
 	getFormControlEditable() {
-		let hours = HOURS.map(function(v) {
-			return (<option key={v.key} value={v.key}>{v.value}</option>);
-		});
-		let minutes = MINUTES.map(function(v) {
-			return (<option key={v.key} value={v.key}>{v.value}</option>);
-		});
 		return (
-			<div className='form-time'>			
+			<div className='form-time'>
 				<FormControl 
 					componentClass='select' 
-					defaultValue={this.state.hour} 
+					defaultValue={this._getDefaultHour()}
 					onChange={this.onHourChange.bind(this)}>
-	    			{hours}
+	    			{this._buildHours()}
 	  			</FormControl>
 	  			&nbsp;&nbsp;h&nbsp;&nbsp;
 	  			<FormControl 
 					componentClass='select' 
-					defaultValue={this.state.minute} 
+					defaultValue={this._getDefaultMinute()}
 					onChange={this.onMinuteChange.bind(this)}>
-	    			{minutes}
+	    			{this._buildMinutes()}
 	  			</FormControl>
 	  		</div>
 		);

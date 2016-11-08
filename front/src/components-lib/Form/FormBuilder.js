@@ -6,7 +6,9 @@ import FormDate from 'components-lib/Form/FormDate'
 import FormInput from 'components-lib/Form/FormInput'
 import FormGoogleAutocomplete from 'components-lib/Form/FormGoogleAutocomplete'
 import FormTextArea from 'components-lib/Form/FormTextArea'
+import FormTime from 'components-lib/Form/FormTime'
 import FormSelect from 'components-lib/Form/FormSelect'
+import FormSelectMulti from 'components-lib/Form/FormSelectMulti'
 
 export default class FormBuilder {
 	
@@ -64,6 +66,20 @@ export default class FormBuilder {
 					key={i}
 					edit={f.edit}
 					title={f.title}
+					validator={f.validator}
+					defaultValue={f.defaultValue}
+					value={f.value}
+					placeholder={f.placeholder}
+					values={f.values}
+					onChange={f.changeHandler}/>
+			);
+		case 'selectMulti':
+			return (
+				<FormSelectMulti
+					key={i}
+					edit={f.edit}
+					title={f.title}
+					validator={f.validator}
 					defaultValue={f.defaultValue}
 					value={f.value}
 					placeholder={f.placeholder}
@@ -76,6 +92,7 @@ export default class FormBuilder {
 					key={i}
 					edit={f.edit}
 					title={f.title}
+					validator={f.validator}
 					defaultValue={f.defaultValue}
 					value={f.value}
 					values={f.values}
@@ -84,6 +101,18 @@ export default class FormBuilder {
 		case 'date':
 			return (
 				<FormDate
+					key={i}
+					validator={f.validator}
+					edit={f.edit}
+					title={f.title}
+					defaultValue={f.defaultValue}
+					value={f.value}
+					placeholder={f.placeholder}
+					onChange={f.changeHandler}/>
+			);
+		case 'time':
+			return (
+				<FormTime
 					key={i}
 					validator={f.validator}
 					edit={f.edit}

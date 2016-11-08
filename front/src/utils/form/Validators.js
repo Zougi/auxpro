@@ -1,11 +1,13 @@
-import CustomValidator from 'utils/form/CustomValidator.js'
-import EmailValidator from 'utils/form/EmailValidator.js'
-import NonNullValidator from 'utils/form/NonNullValidator.js'
-import PhoneValidator from 'utils/form/PhoneValidator.js'
+import ArrayValidator from 'utils/form/ArrayValidator'
+import CustomValidator from 'utils/form/CustomValidator'
+import EmailValidator from 'utils/form/EmailValidator'
+import NonNullValidator from 'utils/form/NonNullValidator'
+import PhoneValidator from 'utils/form/PhoneValidator'
 import StringValidator from 'utils/form/StringValidator'
 
 let email = new EmailValidator();
 let nestr = new StringValidator({ lengthMin: 1});
+let nearr = new ArrayValidator({ lengthMin: 1});
 let nnull = new NonNullValidator();
 let phone = new PhoneValidator();
 let ssnum = new CustomValidator({ regSuccess: new RegExp("^[1-2][0-9]{12}$") });
@@ -30,6 +32,10 @@ export default class Validators {
 
 	static get NonEmptyString() {
 		return nestr;
+	}
+
+	static get NonEmptyArray() {
+		return nearr;
 	}
 
 	static get SocialNumber() {
