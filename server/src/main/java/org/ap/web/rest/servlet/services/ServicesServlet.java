@@ -79,7 +79,9 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 		try {
 			bean.setType("sad");
 			UserBean user = _userStore.create(bean);
-			_servicesStore.create(user);
+			ServiceBean service = _servicesStore.create(user);
+			user.setUserId(service.getId());
+			_userStore.update(user);
 			return Response.status(Status.CREATED).entity(user, resolveAnnotations(sc, user)).build();
 		} catch (APException e) {
 			return sendException(e);

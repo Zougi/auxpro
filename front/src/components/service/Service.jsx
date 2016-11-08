@@ -52,7 +52,7 @@ class Service extends ServiceBaseComponent {
 			}
 		}.bind(this)).
 		catch(function (error) {
-			console.error("erreur au chargement de l'auxiliare");
+			console.error("erreur au chargement du service");
 			console.error(error);
 		});
 	}

@@ -82,12 +82,12 @@ public class ServiceBean extends MongoEntity {
 
 	public boolean getProfileCompleted() {
 		return (
-				getEmailChecked() &&
-				getPhoneChecked() &&
-				getAddressChecked() &&
-				socialReason != null &&
-				function != null &&
-				siret != null
+				getEmail() != null &&
+				getPhone() != null &&
+				getAddress() != null &&
+				getSocialReason() != null &&
+				getFunction() != null &&
+				getSiret() != null
 				);
 	}
 	public void setProfileCompleted(boolean profileCompleted) {}

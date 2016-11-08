@@ -27,7 +27,7 @@ class ServiceBaseComponent extends React.Component {
 	_getBaseArgs() {
 		return {
 			token: this.getLoginData('/token'),
-			serviceId: this.getLoginData('/id')
+			serviceId: this.getLoginData('/userId')
 		}
 	}
 
