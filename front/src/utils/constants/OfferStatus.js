@@ -1,4 +1,4 @@
-let PENDING  = { key: 'PENDING', value: 'En attente', bsStyle: 'default' }
+let PENDING  = { key: 'PENDING', value: 'En attente' }
 let ACCEPTED = { key: 'ACCEPTED', value: 'Acceptée', bsStyle: 'success' }
 let REJECTED = { key: 'REJECTED', value: 'Rejetée', bsStyle: 'danger' }
 let EXPIRED  = { key: 'EXPIRED', value: 'Expirée', bsStyle: 'warning' }

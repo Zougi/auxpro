@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { Panel, Col } from 'react-bootstrap'
 // Custom components
-import PanelHeaderAction from 'components-lib/PanelHeaderAction/PanelHeaderAction'
+import PanelHeaderAction from 'components-lib/Panel/PanelHeaderAction'
 import InterventionSummaryOneTime from 'components/common/interventions/InterventionSummaryOneTime'
 import InterventionSummaryRecurence from 'components/common/interventions/InterventionSummaryRecurence'
 

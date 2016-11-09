@@ -1,7 +1,7 @@
 import React from 'react';
 import { Panel, Col } from 'react-bootstrap';
 // Custom Components
-import PanelHeaderAction from 'components-lib/PanelHeaderAction/PanelHeaderAction.jsx'
+import PanelHeaderAction from 'components-lib/Panel/PanelHeaderAction.jsx'
 // Utils
 import MomentHelper from 'utils/moment/MomentHelper.js'
 import OfferHelper from 'utils/entities/OfferHelper.js'

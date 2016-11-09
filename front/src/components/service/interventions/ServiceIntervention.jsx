@@ -86,13 +86,11 @@ class ServiceIntervention extends ServiceBaseComponent {
         }
         Promise.all(promises).
         then(function () {
-            this.loadInterventions();
-        }.bind(this)).
-        then(function () {
-            this.loadAuxiliaries();
-        }.bind(this)).
-        then(function () {
-            this.loadOffers();
+            promises = [];
+            promises.push(this.loadInterventions());
+            promises.push(this.loadAuxiliaries());
+            promises.push(this.loadOffers());
+            Promise.all(promises);
         }.bind(this)).
         then(this.onCancel.bind(this));
     }
@@ -116,7 +114,7 @@ class ServiceIntervention extends ServiceBaseComponent {
             let age = moment(auxiliary.birthDate).toNow(true);
             let distance = MathUtils.round(GeoHelper.getDistanceFromLatLonInKm(auxiliary.lattitude, auxiliary.longitude, this.state.customer.lattitude, this.state.customer.longitude), 1);
             return (
-                <ListGroupItem bsStyle={this.state.selected.indexOf(auxiliary) !== -1 ? 'info' : 'default'} key={i} onClick={this.onAuxiliaryClick.bind(this, auxiliary)}>
+                <ListGroupItem bsStyle={this.state.selected.indexOf(auxiliary) !== -1 ? 'info' : null} key={i} onClick={this.onAuxiliaryClick.bind(this, auxiliary)}>
                     <Row>
                         <Col xs={2}>
                             <AsyncImage src={auxiliary.avatar} width={50} height={50}/>
@@ -203,7 +201,14 @@ class ServiceIntervention extends ServiceBaseComponent {
                     okDisabled={this.state.selected.length === 0}
                     onCancel={this.onCancel.bind(this)} 
                     cancelTitle='Annuler'/>
-                : <div/> }
+                :
+                <Button
+                    bsStyle='info'
+                    onClick={this.onCancel.bind(this)} 
+                    block>
+                    Retour
+                </Button>
+                }
             </Panel>
         </Row>
     );}

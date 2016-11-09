@@ -30,6 +30,10 @@ export default class ValidatorBase {
 		return STATES.SUCCESS;
 	}
 
+	getBlockedValue(value) {
+		return value;
+	}
+
 	getMessage(value) {
 		var s = getState(value);
 		switch (s) {

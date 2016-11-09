@@ -159,8 +159,7 @@ class ServiceBaseComponent extends React.Component {
 	createOffer(offer) {
 		let args = this._getBaseArgs();
 		args.data = offer;
-		return Dispatcher.issue('POST_OFFER', args).
-		then(this.loadOffers.bind(this));
+		return Dispatcher.issue('POST_OFFER', args);
 	}
 	updateOffer(offer) {
 		let args = this._getBaseArgs();

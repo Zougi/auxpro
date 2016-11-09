@@ -13,11 +13,14 @@ class FormInput extends FormBase {
 	}
 
 	onChange(event) {
+		event.preventDefault();
 		var v = event.target.value;
 		var vs = 'success';
 		if (this.props.validator) {
-			vs = this.props.validator.getState(v)
-			this.setState({validationState: vs})
+			v = this.props.validator.getBlockedValue(v);
+			event.target.value = v;
+			vs = this.props.validator.getState(v);
+			this.setState({ validationState: vs })
 		}
 		if (this.props.onChange) {
 			this.props.onChange({
@@ -31,7 +34,7 @@ class FormInput extends FormBase {
 		return (
 			<FormControl 
 				ref={(c) => this.input = c}
-				type={this.props.type?this.props.type:'text'} 
+				type={this.props.type?this.props.type:'text'}
 				value={this.state.value}
 				placeholder={this.props.placeholder}
 				defaultValue={this.props.defaultValue}

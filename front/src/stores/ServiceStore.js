@@ -1,7 +1,8 @@
+// Core modules
 import Dispatcher from 'core/Dispatcher.js';
 import StoreBase from 'core/StoreBase.js';
 import StoreRegistry from 'core/StoreRegistry';
-
+// Lib modules
 import Utils from '../utils/Utils.js';
 
 var DEFAULT_CONTENT = { 
@@ -62,15 +63,12 @@ ServiceStore.onGetServiceCustomers = function (result, param) {
 		var l = result.length;
 		for (let i = 0; i < l; i++) {
 			let customer = result[i];
-			// store customer
+			customer.interventions = [];
 			data.customers[customer.id] = customer;
-			// Replug previous links
-			if (previous[customer.id] && previous[customer.id].interventions) {
-				data.customers[customer.id].interventions = previous[customer.id].interventions;
-			}
 		}
 	}
 	data.customersLoaded = true;
+	ServiceStore._setUpInterventions();
 	ServiceStore.notify();
 };
 Dispatcher.register('GET_SERVICE_CUSTOMERS', ServiceStore.onGetServiceCustomers);
@@ -78,29 +76,23 @@ Dispatcher.register('GET_SERVICE_CUSTOMERS', ServiceStore.onGetServiceCustomers)
 // GET SERVICE INTERVENTIONS
 ServiceStore.onGetServiceInterventions = function (result, param) {
 	let data = ServiceStore.getContent().data;
-	let previous = data.interventions || {};
 	data.interventions = {};
-	let customers = Utils.map(data.customers);
-	var cl = customers.length;
-	for (let c = 0; c < cl; c++) {
-		delete customers[c].interventions;
-	}
+
+	Utils.map(data.customers, function (customer) {
+		customer.interventions = [];
+	});
 	if (result && result.length) {
 		var l = result.length;
 		for (let i = 0; i < l; i++) {
 			let intervention = result[i];
-			// Store intervention
+			intervention.offers = [];
 			data.interventions[intervention.id] = intervention;
-			// Store link in customer
-			data.customers[intervention.customerId].interventions = data.customers[intervention.customerId].interventions || [];
-			data.customers[intervention.customerId].interventions.push(intervention.id);
-			// Replug previous links
-			if (previous[intervention.id] && previous[intervention.id].offers) {
-				data.interventions[intervention.id].offer = previous[intervention.id].offers;
-			}
 		}
 	}
 	data.interventionsLoaded = true;
+	ServiceStore._setUpInterventions();
+	ServiceStore._setUpOffers();
+	ServiceStore._setUpAuxiliaries();
 	ServiceStore.notify();
 };
 Dispatcher.register('GET_SERVICE_INTERVENTIONS', ServiceStore.onGetServiceInterventions);
@@ -109,28 +101,37 @@ Dispatcher.register('GET_SERVICE_INTERVENTIONS', ServiceStore.onGetServiceInterv
 ServiceStore.onGetServiceOffers = function (result, param) {
 	let data = ServiceStore.getContent().data;
 	data.offers = {};
+
+	Utils.map(data.interventions, function (intervention) {
+		intervention.offers = [];
+	});
 	if (result && result.length) {
 		var l = result.length;
 		for (let i = 0; i < l; i++) {
 			let offer = result[i];
-			// store offer
 			data.offers[offer.id] = offer;
-			// Store link in intervention
-			let intervention = data.interventions[offer.interventionId];
-			if (intervention) {
-				intervention.offers = intervention.offers || [];
-				intervention.offers.push(offer.id);
-			}
 		}
 	}
 	data.offersLoaded = true;
+	ServiceStore._setUpOffers();
+	ServiceStore._setUpAuxiliaries();
 	ServiceStore.notify();
 
 };
 Dispatcher.register('GET_SERVICE_OFFERS', ServiceStore.onGetServiceOffers);
 
+// POST OFFER
+ServiceStore.onPostOffer = function (result, param) {
+	let data = ServiceStore.getContent().data;
+	data.offersLoaded = false;
+	data.interventionsLoaded = false;
+	data.auxiliariesLoaded = false;
+};
+Dispatcher.register('POST_OFFER', ServiceStore.onPostOffer);
+
+
 // GET SERVICE AUXILIARIES
-ServiceStore.onGetServiceAuxiliries = function (result, param) {
+ServiceStore.onGetServiceAuxiliaries = function (result, param) {
 	let data = ServiceStore.getContent().data;
 	data.auxiliaries = {};
 	if (result && result.length) {
@@ -142,9 +143,10 @@ ServiceStore.onGetServiceAuxiliries = function (result, param) {
 		}
 	}
 	data.auxiliariesLoaded = true;
+	ServiceStore._setUpAuxiliaries();
 	ServiceStore.notify();
 };
-Dispatcher.register('GET_SERVICE_AUXILIARIES', ServiceStore.onGetServiceAuxiliries);
+Dispatcher.register('GET_SERVICE_AUXILIARIES', ServiceStore.onGetServiceAuxiliaries);
 
 // GET INTERVENTION MATCH
 ServiceStore.onGetInterventionMatch = function (result, param) {
@@ -158,5 +160,44 @@ ServiceStore.onGetInterventionMatch = function (result, param) {
 	}
 };
 Dispatcher.register('GET_INTERVENTION_MATCH', ServiceStore.onGetInterventionMatch);
+
+
+/* INTERNAL DATA MANAGEMENT */
+//------------------------------------------------------------
+
+//
+ServiceStore._setUpInterventions = function () {
+	let data = ServiceStore.getContent().data;
+	if (data.interventionsLoaded && data.customersLoaded) {
+		Utils.map(data.interventions).forEach(function (intervention) {
+			data.customers[intervention.customerId].interventions.push(intervention.id);
+		});
+	}
+}
+
+//
+ServiceStore._setUpOffers = function () {
+	let data = ServiceStore.getContent().data;
+	if (data.interventionsLoaded && data.offersLoaded) {
+		Utils.map(data.offers).forEach(function (offer) {
+			data.interventions[offer.interventionId].offers.push(offer.id);
+		});
+	}
+}
+
+//
+ServiceStore._setUpAuxiliaries = function () {
+	let data = ServiceStore.getContent().data;
+	if (data.auxiliariesLoaded && data.offersLoaded && data.interventionsLoaded) {
+		Utils.map(data.offers).forEach(function (offer) {
+			data.auxiliaries[offer.auxiliaryId]._type = 'offer';
+		});
+		Utils.map(data.interventions).forEach(function (intervention) {
+			if (intervention.auxiliaryId) {
+				data.auxiliaries[intervention.auxiliaryId]._type = 'intervention';
+			}
+		})
+	}
+}
 
 export default ServiceStore;

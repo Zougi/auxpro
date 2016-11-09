@@ -31,4 +31,11 @@ export default class StringValidator {
 				break;
 		}
 	}
+
+	getBlockedValue(value) {
+		if (this.lengthMax && value.length > this.lengthMax) {
+			return value.substr(0, this.lengthMax);
+		}
+		return value;
+	}
 }
