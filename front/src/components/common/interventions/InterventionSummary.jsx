@@ -1,7 +1,8 @@
-import React from 'react';
-
-import InterventionSummaryRenderer from './InterventionSummaryRenderer.jsx'
-import InterventionSummaryOfferRenderer from './InterventionSummaryOfferRenderer.jsx'
+import React from 'react'
+// Custom components
+import InterventionSummaryRenderer from 'components/common/interventions/InterventionSummaryRenderer'
+import InterventionSummaryOfferRenderer from 'components/common/interventions/InterventionSummaryOfferRenderer'
+import InterventionSummaryPlannedRenderer from 'components/common/interventions/InterventionSummaryPlannedRenderer'
 
 class InterventionSummary extends React.Component {
 	

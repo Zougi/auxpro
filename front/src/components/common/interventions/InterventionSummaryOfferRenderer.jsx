@@ -1,10 +1,9 @@
-import React from 'react';
-import { Col } from 'react-bootstrap';
-
-import PanelHeaderAction from 'components-lib/Panel/PanelHeaderAction.jsx'
-
-import InterventionSummaryOneTime from './InterventionSummaryOneTime.jsx'
-import InterventionSummaryRecurence from './InterventionSummaryRecurence.jsx'
+import React from 'react'
+import { Col } from 'react-bootstrap'
+// Custom components
+import APPanelHeaderAction from 'components-lib/Panel/APPanelHeaderAction'
+import InterventionSummaryOneTime from './InterventionSummaryOneTime'
+import InterventionSummaryRecurence from './InterventionSummaryRecurence'
 
 class InterventionSummaryOfferRenderer extends React.Component {
 	
@@ -23,7 +22,7 @@ class InterventionSummaryOfferRenderer extends React.Component {
 	render() {
 		return (
 			<Col sm={6} md={4}>
-				<PanelHeaderAction bsStyle='info' title={'Offre (' + this.props.offers.length + ')'} actions={this.actions}>
+				<APPanelHeaderAction bsStyle='info' title={'Offre (' + this.props.offers.length + ')'} actions={this.actions}>
 				{ this.props.intervention.oneTime ?
 					<InterventionSummaryOneTime oneTime={this.props.intervention.oneTime} />
 				:
@@ -34,7 +33,7 @@ class InterventionSummaryOfferRenderer extends React.Component {
 				:
 					''
 				}	
-				</PanelHeaderAction>
+				</APPanelHeaderAction>
 			</Col>
 		);
 	}

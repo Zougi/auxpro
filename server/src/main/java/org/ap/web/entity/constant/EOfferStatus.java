@@ -2,18 +2,19 @@ package org.ap.web.entity.constant;
 
 public enum EOfferStatus {
 
-	PENDING  ("PENDING"),
-	REJECTED ("REJECTED"),
-	ACCEPTED ("ACCEPTED"),
-	EXPIRED  ("EXPIRED"),
+	PENDING,
+	ACCEPTED,
+	DECLINED,
+	CONFIRMED,
+	REJECTED,
+	EXPIRED,
 	;
 	
-	private String _id;
-	private EOfferStatus(String s) { _id = s; }
+	private EOfferStatus() {}
 	
-	public String getId() { return _id; }
+	public String getId() { return name(); }
 	
-	public static EOfferStatus fromString(String id) { 
+	public static EOfferStatus fromString(String id) {
 		for (EOfferStatus e : EOfferStatus.values()) {
 			if (e.getId().equals(id)) return e;
 		}

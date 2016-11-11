@@ -27,6 +27,9 @@ public class OfferBean extends MongoEntity {
 	private LocalDate creationDate;
 	private LocalDate expiryDate;
 	
+	private boolean hideToAux;
+	private boolean hideToSad;
+	
 	public OfferBean() {}
 
 	public String getServiceId() { return serviceId; }
@@ -49,4 +52,10 @@ public class OfferBean extends MongoEntity {
 
 	public LocalDate getExpiryDate() { return expiryDate; }
 	public void setExpiryDate(LocalDate expiryDate) { this.expiryDate = expiryDate; }
+
+	public boolean getHideToAux() { return hideToAux; }
+	public void setHideToAux(boolean hideToAux) { this.hideToAux = hideToAux; }
+
+	public boolean getHideToSad() { return hideToSad; }
+	public void setHideToSad(boolean hideToSad) { this.hideToSad = hideToSad; }
 }

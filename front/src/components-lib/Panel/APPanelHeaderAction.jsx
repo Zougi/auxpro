@@ -1,11 +1,11 @@
-import React from 'react';
-import { Panel, Col, Row, Button, Glyphicon, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import React from 'react'
+import { Panel, Col, Row, Button, Glyphicon, Tooltip, OverlayTrigger } from 'react-bootstrap'
+// Custom components
+import ButtonAction from '../ButtonAction/ButtonAction'
+// Style
+import 'components-lib/Panel/ap-panels.css';
 
-import './PanelHeaderAction.css';
-
-import ButtonAction from '../ButtonAction/ButtonAction.jsx';
-
-class PanelHeaderAction extends React.Component {
+class APPanelHeaderAction extends React.Component {
 	
 	constructor(props) {
 		super(props);
@@ -43,4 +43,4 @@ class PanelHeaderAction extends React.Component {
 	}
 }
 
-export default PanelHeaderAction;
+export default APPanelHeaderAction;

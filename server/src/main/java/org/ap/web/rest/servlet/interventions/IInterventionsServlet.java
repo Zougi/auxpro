@@ -28,8 +28,6 @@ import org.ap.web.entity.mongo.InterventionBean;
  *  - /interventions/{interId}/match GET > returns the best auxiliary match for an intervention
  */
 public interface IInterventionsServlet {
-
-	
 	
 	@POST
 	@RolesAllowed("authenticated")

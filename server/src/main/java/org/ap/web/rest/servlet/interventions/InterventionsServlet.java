@@ -5,9 +5,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.ap.web.entity.constant.EOfferStatus;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
 import org.ap.web.service.stores.auxiliaries.AuxiliariesStore;
@@ -16,6 +18,10 @@ import org.ap.web.service.stores.customers.CustomersStore;
 import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
+import org.ap.web.service.stores.missions.IMissionsStore;
+import org.ap.web.service.stores.missions.MissionsStore;
+import org.ap.web.service.stores.offers.IOffersStore;
+import org.ap.web.service.stores.offers.OffersStore;
 
 @Path("/interventions")
 public class InterventionsServlet extends ServletBase implements IInterventionsServlet {
@@ -29,6 +35,8 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 	private IAuxiliariesStore _auxiliariesStore;
 	private ICustomersStore _customersStore;
 	private IInterventionsStore _interventionsStore;
+	private IOffersStore _offersStore;
+	private IMissionsStore _missionsStore;
 
 	/* CONSTRUCTOR */
 
@@ -36,6 +44,8 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 		_auxiliariesStore = new AuxiliariesStore();
 		_customersStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
+		_offersStore = new OffersStore();
+		_missionsStore = new MissionsStore();
 	}
 
 	/* METHODS */
@@ -90,7 +100,19 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 			if (!previousIntervention.getServiceId().equals(intervention.getServiceId())) throw APException.INTERVENTION_NOT_FOUND;
 			if (!previousIntervention.getCustomerId().equals(intervention.getCustomerId())) throw APException.INTERVENTION_CUSTOMER_INVALID;
 			intervention = _interventionsStore.updateIntervention(intervention);
-			return Response.status(Status.OK).entity(intervention, resolveAnnotations(sc)).build();
+			if (intervention.getAuxiliaryId() != null) {
+				_missionsStore.createMissions(intervention);
+				OfferBean[] offers = _offersStore.getInterventionOffers(interventionId);
+				for (OfferBean offer : offers) {
+					if (offer.getAuxiliaryId().equals(intervention.getAuxiliaryId())) {
+						offer.setStatus(EOfferStatus.CONFIRMED.getId());
+					} else {
+						offer.setStatus(EOfferStatus.REJECTED.getId());
+					}
+					_offersStore.updateOffer(offer);
+				}
+			}
+			return Response.status(Status.OK).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

@@ -23,12 +23,17 @@ public class OffersStore extends StoreBase<OfferBean> implements IOffersStore {
 	}
 	@Override
 	public OfferBean[] getServiceOffers(String serviceId) throws APException {
-		List<OfferBean> result = getEntityWhere(eq("serviceId", serviceId));
+		List<OfferBean> result = getEntityWhere(and(eq("serviceId", serviceId), eq("hideToSad", false)));
 		return result.toArray(new OfferBean[result.size()]);
 	}
 	@Override
 	public OfferBean[] getAuxiliaryOffers(String auxiliaryId) throws APException {
-		List<OfferBean> result = getEntityWhere(eq("auxiliaryId", auxiliaryId));
+		List<OfferBean> result = getEntityWhere(and(eq("auxiliaryId", auxiliaryId), eq("hideToAux", false)));
+		return result.toArray(new OfferBean[result.size()]);
+	}
+	@Override
+	public OfferBean[] getInterventionOffers(String interventionId) throws APException {
+		List<OfferBean> result = getEntityWhere(eq("interventionId", interventionId));
 		return result.toArray(new OfferBean[result.size()]);
 	}
 	@Override

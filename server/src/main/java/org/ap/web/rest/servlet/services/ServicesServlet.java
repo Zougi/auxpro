@@ -160,8 +160,8 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	public Response getMissionsJSON(SecurityContext sc, String serviceId) {
 		try {
 			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
-			MissionBean[] missions = _missionsStore.getServiceMissions(serviceId);
-			return Response.status(Status.OK).entity(missions, resolveAnnotations(sc)).build();
+			MissionBean[] offers = _missionsStore.getServiceMissions(serviceId);
+			return Response.status(Status.OK).entity(offers, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

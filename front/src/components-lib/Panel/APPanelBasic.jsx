@@ -1,7 +1,8 @@
 import React from 'react';
-import { Panel } from 'react-bootstrap'
+// Custom components
+import APPanelHeaderAction from 'components-lib/Panel/APPanelHeaderAction'
 
-class PanelBasic extends React.Component {
+class APPanelBasic extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -14,21 +15,19 @@ class PanelBasic extends React.Component {
 		}
 		let l = (this.props.text || []).length;
 		for (let i = 0; i < l; i++) {
-			if (i > 0) {
-				//result.push(<br key={'br' + i}/>);
-			}
 			result.push(<div key={i}>{this.props.text[i]}</div>);
 		}
 		return result;
 	}
 	render() { 
-		console.log('here')
-		console.log(this.props)
 		return (
-			<Panel bsStyle={this.props.bsStyle} header={this.props.header}>
+			<APPanelHeaderAction
+				bsStyle={this.props.bsStyle}
+				title={this.props.title}
+				actions={this.props.actions}>
 				{this._buildContent()}
-			</Panel>
+			</APPanelHeaderAction>
 		);
 	}
 }
-export default PanelBasic;
+export default APPanelBasic;

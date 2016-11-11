@@ -1,14 +1,14 @@
-import React from 'react';
-import { Panel, Col } from 'react-bootstrap';
-// core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-// custom components
-import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
-import { APButton } from 'lib/Lib.jsx';
-//
-import OfferHelper from 'utils/entities/OfferHelper.js'
-import MomentHelper from 'utils/moment/MomentHelper.js'
+import React from 'react'
+import { Panel, Col } from 'react-bootstrap'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
+// Custom components
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import { APButton } from 'lib/Lib'
+// Lib mosules
+import OfferStatus from 'utils/constants/OfferStatus'
+import MomentHelper from 'utils/moment/MomentHelper'
 
 class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	
@@ -50,8 +50,8 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 		this.state.offer.status = 'ACCEPTED';
 		this._updateOffer();
 	}
-	rejectOffer() {
-		this.state.offer.status = 'REJECTED';
+	declineOffer() {
+		this.state.offer.status = 'DECLINED';
 		this._updateOffer();
 	}
 
@@ -84,7 +84,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 				</APButton>
 				<br/>
 				<br/>
-				<Panel bsStyle={OfferHelper.getBsStyle(this.state.offer.status)} header="Détails de l'offre">
+				<Panel bsStyle={OfferStatus.getStatus(this.state.offer.status).bsStyle} header="Détails de l'offre">
 					{ this.state.intervention.oneTime ?
 						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>
 					:
@@ -94,7 +94,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 				{this.state.offer.status === 'PENDING' ?
 				<div>
 					<Col xs={6}>
-						<APButton block bsStyle='danger' onClick={this.rejectOffer.bind(this)}>
+						<APButton block bsStyle='danger' onClick={this.declineOffer.bind(this)}>
 							Refuser
 						</APButton>
 					</Col>

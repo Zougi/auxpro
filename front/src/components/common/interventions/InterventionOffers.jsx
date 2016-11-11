@@ -24,12 +24,12 @@ class InterventionsOffers extends React.Component {
 				<ListGroupItem key={offer.id} onClick={this.onAuxiliarySelected(auxiliary)}>
 					{offer.status === 'PENDING'  ? <Glyphicon glyph='question-sign'/> : '' }
 					{offer.status === 'ACCEPTED' ? <Glyphicon glyph='ok-circle'/> : '' }
-					{offer.status === 'REJECTED' ? <Glyphicon glyph='remove-circle'/> : '' }
+					{offer.status === 'DECLINED' ? <Glyphicon glyph='remove-circle'/> : '' }
 					{offer.status === 'EXPIRED'  ? <Glyphicon glyph='option-horizontal'/> : '' }
 					&nbsp;{auxiliary.person.firstName} {auxiliary.person.lastName} 
 					{offer.status === 'PENDING'  ? ' (en attente)' : '' }
 					{offer.status === 'ACCEPTED' ? ' (acceptée)' : '' }
-					{offer.status === 'REJECTED' ? ' (rejectée)' : '' }
+					{offer.status === 'DECLINED' ? ' (déclinée)' : '' }
 					{offer.status === 'EXPIRED'  ? ' (expirée)' : '' }
 				</ListGroupItem>
 			);

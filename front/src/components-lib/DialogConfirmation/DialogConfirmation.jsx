@@ -22,6 +22,11 @@ class DialogConfirmation extends React.Component {
 				<Modal.Header>
 					<Modal.Title>{this.props.title}</Modal.Title>
 				</Modal.Header>
+				{this.props.body ? 
+				<Modal.Body>
+					{this.props.body}
+				</Modal.Body>
+				: <div/> }
 				<Modal.Footer>
 					<Button bsStyle={this.props.confirmStyle || 'success'} onClick={this.props.onConfirm}>{this.props.confirmText}</Button>
 					<Button className={this.props.cancelStyle || 'primary'} onClick={this.props.onCancel}>{this.props.cancelText}</Button>

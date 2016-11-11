@@ -5,7 +5,7 @@ import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import GoogleMap from 'components-lib/Map/GoogleMap'
-import PanelBasic from 'components-lib/Panel/PanelBasic'
+import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 // Lib modules
 import Utils from 'utils/Utils'
 
@@ -48,7 +48,7 @@ class ServiceMap extends ServiceBaseComponent {
             var a = this.state.auxiliaries[marker.id];
             this.setState({ info: {
                 bsStyle: 'info',
-                header: 'Auxiliaire',
+                title: 'Auxiliaire',
                 text: [
                     (<strong>{a.civility + ' ' + a.lastName + ' ' + a.firstName}</strong>),
                     a.address,
@@ -62,7 +62,7 @@ class ServiceMap extends ServiceBaseComponent {
             var c = this.state.customers[marker.id];
             this.setState({ info: {
                 bsStyle: 'success',
-                header: 'Usager',
+                title: 'Usager',
                 text: [
                     (<strong>{c.civility + ' ' + c.lastName + ' ' + c.firstName}</strong>),
                     c.address,
@@ -75,7 +75,7 @@ class ServiceMap extends ServiceBaseComponent {
         default:
             this.setState({ info: {
                 bsStyle: 'danger',
-                header: 'Ma société',
+                title: 'Ma société',
                 text: [
                     (<strong>{this.state.service.socialReason}</strong>),
                     this.state.service.address,
@@ -147,7 +147,7 @@ class ServiceMap extends ServiceBaseComponent {
                         markers={this._buildMarkers()} />
                 </Col>
                 <Col sm={4}>
-                    <PanelBasic {...this.state.info} />
+                    <APPanelBasic {...this.state.info} />
                 </Col>
             </Panel>
         </Row>

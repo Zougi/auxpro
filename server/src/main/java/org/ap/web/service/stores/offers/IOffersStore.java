@@ -11,6 +11,8 @@ public interface IOffersStore {
 	
 	public OfferBean[] getAuxiliaryOffers(String auxiliaryId) throws APException;
 
+	public OfferBean[] getInterventionOffers(String interventionId) throws APException;
+
 	public OfferBean createOffer(OfferBean bean) throws APException;
 	
 	public OfferBean getOffer(String id) throws APException;

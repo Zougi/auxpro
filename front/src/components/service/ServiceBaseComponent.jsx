@@ -132,8 +132,7 @@ class ServiceBaseComponent extends React.Component {
 		let args = this._getBaseArgs();
 		args.data = intervention;
 		args.interventionId = intervention.id;
-		return Dispatcher.issue('PUT_INTERVENTION', args).
-		then(this.loadInterventions.bind(this));
+		return Dispatcher.issue('PUT_INTERVENTION', args)
 	}
 	deleteIntervention(id) {
 		let args = this._getBaseArgs();

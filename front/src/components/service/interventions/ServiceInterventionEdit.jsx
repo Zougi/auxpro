@@ -110,6 +110,7 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 			});
 		} else {
 			this.updateIntervention(this.state.intervention).
+			then(this.loadInterventions.bind(this)).
 			then(function () {
 				Dispatcher.issue('NAVIGATE', {path: '/sad/interventions'});
 			});

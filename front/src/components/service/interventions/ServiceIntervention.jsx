@@ -12,6 +12,7 @@ import CustomerSummary from 'components/common/customers/CustomerSummary'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
 import AsyncImage from 'lib/image/AsyncImage'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList'
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
 // Lib modules
 import Utils from 'utils/Utils'
 import MathUtils from 'utils/MathUtils'
@@ -36,6 +37,7 @@ class ServiceIntervention extends ServiceBaseComponent {
 	constructor(props) {
 		super(props);
 		this.state = this._buildState();
+		this.state.showConfirm = false;
 	}
 
 
@@ -95,7 +97,29 @@ class ServiceIntervention extends ServiceBaseComponent {
 		then(this.onCancel.bind(this));
 	}
 	onConfirmOffer(offer) {
-		console.log(offer)
+		this.setState({ 
+			currentOffer: offer,
+			showConfirm: true 
+		});
+		
+	}
+	doConfirmOffer() {
+		this.state.intervention.auxiliaryId = this.state.currentOffer.auxiliaryId;
+		this.updateIntervention(this.state.intervention).
+		then(function () {
+			var promises = [];
+			promises.push(this.loadInterventions);
+			promises.push(this.loadOffers);
+			promises.push(this.loadMissions);
+			return Promise.all(promises);
+		}.bind(this)).
+		then(this.onCancel.bind(this));
+	}
+	cancelConfirmOffer() {
+		this.setState({ 
+			currentOffer: null,
+			showConfirm: false 
+		});
 	}
 
 	onAuxiliaryClick(auxiliary) {
@@ -219,8 +243,23 @@ class ServiceIntervention extends ServiceBaseComponent {
 					block>
 					Retour
 				</Button>
-			}
+				}
 			</Panel>
+			<DialogConfirmation
+				show={this.state.showConfirm}
+				title="Confimer l'auxiliaire ?"
+				onConfirm={this.doConfirmOffer.bind(this)}
+				confirmStyle='success'
+				confirmText='Confirmer'
+				onCancel={this.cancelConfirmOffer.bind(this)}
+				cancelStyle='default'
+				cancelText='Annuler'
+				body={(
+					<div>
+						<p>En confirmant cet auxiliaire de vie, vous refuserez les autres offres acceptées.</p>
+						<p>L'offre sera cloturée et assignée a l'auxiliaire de vie choisi.</p>
+					</div>
+				)}/>
 		</Row>
 	);}
 }
