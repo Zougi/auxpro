@@ -63,7 +63,6 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 			if (create) throw APException.INTERVENTION_SERVICE_INVALID;
 			else throw APException.INTERVENTION_NOT_FOUND;
 		}
-
 		if (intervention.getCustomerId() == null) throw APException.INTERVENTION_CUSTOMER_MISSING;
 		CustomerBean customer = _customersStore.getCustomer(intervention.getCustomerId());
 		if (customer == null) throw APException.INTERVENTION_CUSTOMER_INVALID;
@@ -109,6 +108,7 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 					} else {
 						offer.setStatus(EOfferStatus.REJECTED.getId());
 					}
+					offer.setHideToSad(true);
 					_offersStore.updateOffer(offer);
 				}
 			}

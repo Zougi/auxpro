@@ -55,17 +55,17 @@ class ServiceInterventions extends ServiceBaseComponent {
 		Dispatcher.issue('NAVIGATE', {path: '/sad/interventions/' + intervention.id + '/edit' });
 	}
 	onMatchIntervention(intervention) {
-        Dispatcher.issue('GET_INTERVENTION_MATCH', {
-            token: this.getLoginData('/token'),
-            interventionId: intervention.id
-        }).then(function() {
-            Dispatcher.issue('NAVIGATE', {path: '/sad/interventions/' + intervention.id });
-        }).
-        catch(function (error) {
-            console.log('Unable to load matches:');
-            console.log(error);
-        });
-    }
+		Dispatcher.issue('GET_INTERVENTION_MATCH', {
+			token: this.getLoginData('/token'),
+			interventionId: intervention.id
+		}).then(function() {
+			Dispatcher.issue('NAVIGATE', {path: '/sad/interventions/' + intervention.id });
+		}).
+		catch(function (error) {
+			console.log('Unable to load matches:');
+			console.log(error);
+		});
+	}
 	onDeleteIntervention(intervention) {
 		this.setState({
 			interventionToDelete: intervention.id,
@@ -178,7 +178,7 @@ class ServiceInterventions extends ServiceBaseComponent {
 		return interventions.map(function(intervention, i) {
 			let text = InterventionHelper.getInitialText(intervention);
 			let actions = [
-				{ 
+				{
 					tooltip: 'Etat des offres',
 					bsStyle: 'info', 
 					glyph: 'cloud-upload', 
@@ -187,14 +187,14 @@ class ServiceInterventions extends ServiceBaseComponent {
 			]
 			return (
 				<Col key={i} sm={6} md={4}>
-					<APPanelBasic 							
+					<APPanelBasic
 						bsStyle='info'
 						actions={actions}
 						title={'Offre (' + intervention.offers.length + ')'}
 						text={text}/>
 				</Col>
 			);
-		}.bind(this));	
+		}.bind(this));
 	}
 
 	_buildInterventionsPlanned(interventions) {
@@ -210,7 +210,7 @@ class ServiceInterventions extends ServiceBaseComponent {
 						text={text}/>
 				</Col>
 			);
-		}.bind(this));		
+		}.bind(this));
 	}
 
 	render() { return (

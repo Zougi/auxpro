@@ -11,6 +11,7 @@ import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirma
 // Lib modules
 import Utils from 'utils/Utils'
 import MomentHelper from 'utils/moment/MomentHelper'
+import InterventionHelper from 'utils/entities/InterventionHelper'
 import OfferStatus from 'utils/constants/OfferStatus'
 
 class AuxiliaryOffers extends AuxiliaryBaseComponent {
@@ -48,13 +49,14 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	onOffersFilter(status) {
-		this.setState({ offersFilter: status.value ? status : null });
+		this.setState({ offersFilter: status });
 	}
 
 	onOfferAccept(offer) {
 		this.setState({
 			confirmAccept: true,
 			offerStatus: 'ACCEPTED',
+			hideToAux: false,
 			offer: offer
 		});
 	}
@@ -62,11 +64,19 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		this.setState({
 			confirmReject: true,
 			offerStatus: 'DECLINED',
+			hideToAux: true,
 			offer: offer
 		});
 	}
 	onOfferView(offer) {
 		Dispatcher.issue('NAVIGATE', { path: '/aux/offers/'  + offer.id});
+	}
+	onOfferHide(offer) {
+		offer.hideToAux = true;
+		this.updateOffer(offer).
+		catch(function (error) {
+			console.log(error);
+		});
 	}
 
 	onAccept() {
@@ -77,12 +87,14 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 			confirmAccept: false,
 			confirmReject: false,
 			offerStatus: 'PENDING',
+			hideToAux: false,
 			offer: null
 		});
 	}
 
 	_updateOffer(offer) {
 		offer.status = this.state.offerStatus;
+		offer.hideToAux = this.state.hideToAux;
 		this.updateOffer(offer).
 		then(function () {
 			this.onCancel();
@@ -144,7 +156,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 			glyph: 'search', 
 			callback: this.onOfferView.bind(this, offer)
 		});
-		if (	offer.status === 'PENDING') {
+		if (offer.status === 'PENDING') {
 			actions .push({ 
 				tooltip: 'Accepter offre',
 				bsStyle: 'success', 
@@ -157,6 +169,14 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 				glyph: 'remove', 
 				callback: this.onOfferDecline.bind(this, offer) 
 			});
+		}
+		if (offer.status === 'CONFIRMED' || offer.status === 'REJECTED') {
+			actions .push({ 
+				tooltip: 'Masquer offre',
+				bsStyle: 'danger', 
+				glyph: 'remove', 
+				callback: this.onOfferHide.bind(this, offer) 
+			});	
 		}
 		return actions;
 	}
@@ -180,7 +200,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 				<Panel header={(<strong>{this._buildTitle()}</strong>)} bsStyle='info'>
 					<Row style={{textAlign:'center'}}>
 						<ButtonGroup>
-							<APButton bsStyle='primary' onClick={this.onOffersFilter.bind(this)} text='Toutes' />
+							<APButton bsStyle='primary' onClick={this.onOffersFilter.bind(this, null)} text='Toutes' />
 							<APButton bsStyle='info' onClick={this.onOffersFilter.bind(this, OfferStatus.PENDING)} text='En attente' />
 							<APButton bsStyle='success' onClick={this.onOffersFilter.bind(this, OfferStatus.ACCEPTED)} text='Acceptées' />
 							<APButton bsStyle='danger' onClick={this.onOffersFilter.bind(this, OfferStatus.DECLINED)} text='Rejetées' />
