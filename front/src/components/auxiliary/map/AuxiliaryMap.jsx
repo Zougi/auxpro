@@ -10,6 +10,7 @@ import AuxiliaryAddZone from './AuxiliaryAddZone.jsx'
 import AuxiliaryAddCity from './AuxiliaryAddCity.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 import APButton from 'lib/Button/ApButton.jsx'
+import APPanelHeaderAction from 'components-lib/Panel/APPanelHeaderAction'
 
 var MARKER_TYPE = {
 	HOME: 'H',
@@ -53,7 +54,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			auxiliary: this.getAuxiliary(),
 			customers: this.getCustomers(),
 			services: this.getServices(),
-			geozones: this.getGeozones()
+			geozones: this.getGeozones(),
+			info: null
 		}
 	}
 
@@ -153,17 +155,36 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		);
 	}
 	
-	getInformationsPanel() {		
+	deleteZone() {
+		this.deleteGeozone(this.state.info.id).
+		then(function () {
+			this.loadGeozones();			
+		}.bind(this)).
+		catch(function () {
+			console.log('ERROR WHILE DELETING GEOZONE')
+		})
+	}
+	
+	getInformationsPanel() {
 		if (this.state.info) {
-			 return (
-				<Panel bsStyle={this.state.info.bsStyle} header={this.state.info.header}>
+			var actions = [
+				{ 
+					tooltip: 'Supprimer zone',
+					bsStyle: 'danger', 
+					glyph: 'remove', 
+					callback: this.deleteZone.bind(this)
+				}
+			];
+				
+			return (			
+				<APPanelHeaderAction bsStyle={this.state.info.bsStyle} title={this.state.info.header} actions={actions}>
 					{this.state.info.name}
 					<br/>
 					{this.state.info.address1}
 					<br/>
 					{this.state.info.address2}
 					<br/>
-				</Panel>
+				</APPanelHeaderAction>
 			);
 		}
 	}
