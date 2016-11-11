@@ -1,14 +1,17 @@
-// lib modules
-import React from 'react';
-import { Panel, Button, Row, Col } from 'react-bootstrap';
-// core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
-import Utils from 'utils/Utils.js'
-// custom components
-import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import ServiceInterventionsCustomer from './ServiceInterventionsCustomer.jsx';
-import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
+import React from 'react'
+import { Panel, Button, Row, Col, Clearfix } from 'react-bootstrap'
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
+// Custom components
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
+import APPanelBasic from 'components-lib/Panel/APPanelBasic'
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
+// Lib modules
+import Utils from 'utils/Utils'
+import MomentHelper from 'utils/moment/MomentHelper'
+import Period from 'utils/constants/Period'
+import Day from 'utils/constants/Day'
 
 class ServiceInterventions extends ServiceBaseComponent {
 
@@ -102,22 +105,114 @@ class ServiceInterventions extends ServiceBaseComponent {
 		return customer.interventions && customer.interventions.length;
 	}
 	_buildCustomer(customer) {
-		let interventions = Utils.filter(this.state.interventions, function(intervention) {
-			return intervention.customerId === customer.id;
-		});
-		let offers = Utils.filter(this.state.offers, function(offer) {
-			return offer.customerId === customer.id;
-		});
+		let prestations = [];
+		let offers = [];
+		let interventions = [];
+		let l = customer.interventions.length;
+		for (let i = 0; i < l; i++) {
+			let intervention = this.getIntervention(customer.interventions[i]);
+			let text = [];
+			if (intervention.oneTime) {
+				let date      = MomentHelper.localDateToHumanDate(intervention.oneTime.date);
+				let startTime = MomentHelper.localTimeToHumanTime(intervention.oneTime.startTime);
+				let endTime   = MomentHelper.localTimeToHumanTime(intervention.oneTime.endTime);
+				text.push('Prestation unique');
+				text.push('Le ' + date);
+				text.push('De ' + startTime + ' à ' + endTime);
+			} else if (intervention.recurence) {
+				let startDate = MomentHelper.localDateToHumanDate(intervention.recurence.startDate);
+				let endDate   = MomentHelper.localDateToHumanDate(intervention.recurence.endDate);
+				let startTime = MomentHelper.localTimeToHumanTime(intervention.recurence.startTime);
+				let endTime   = MomentHelper.localTimeToHumanTime(intervention.recurence.endTime);
+				let period    = Period.getPeriod(intervention.recurence.period).value.toLowerCase();
+				let sortedDays = intervention.recurence.days.map(function (d) { return Day.getDay(d); }).sort(function (d1, d2) {
+					return Day.DAYS.indexOf(d1) - Day.DAYS.indexOf(d2);
+				});
+				let days = '';
+				for (let i = 0 ; i < sortedDays.length ; i++) {
+					if (i > 0) {
+						days += ', ';
+					}
+					days += sortedDays[i].value.toLowerCase();
+				}
+				text.push('Prestation ' + period);
+				text.push('Du ' + startDate + ' au ' + endDate);
+				text.push('Les ' + days);
+				text.push('De ' + startTime + ' à ' + endTime);
+			}
+			if (intervention.auxiliaryId) {
+				let auxiliary = this.getAuxiliary(intervention.auxiliaryId);
+				text.push('Assurée par '+ auxiliary.civility + auxiliary.lastName + ' ' + auxiliary.firstName);
+				interventions.push(
+					<Col key={i} sm={6} md={4}>
+						<APPanelBasic 
+							bsStyle='success'
+							title='Intervention'
+							text={text}/>
+					</Col>
+				);
+			} else if (intervention.offers && intervention.offers.length) {
+				let actions = [
+					{ 
+						tooltip: 'Etat des offres',
+						bsStyle: 'info', 
+						glyph: 'cloud-upload', 
+						callback: this.onViewIntervention.bind(this, intervention)
+					}
+				]
+				offers.push(
+					<Col key={i} sm={6} md={4}>
+						<APPanelBasic 							
+							bsStyle='info'
+							actions={actions}
+							title='Offre'
+							text={text}/>
+					</Col>
+				);
+			} else {
+				let actions = [
+					{ 
+						tooltip: 'Editer prestation',
+						bsStyle: 'info', 
+						glyph: 'pencil', 
+						callback: this.onEditIntervention.bind(this, intervention)
+					},
+					{ 
+						tooltip: 'Envoyer offre',
+						bsStyle: 'success', 
+						glyph: 'upload', 
+						callback: this.onMatchIntervention.bind(this, intervention)
+					},
+					{ 
+						tooltip: 'Supprimer prestation',
+						bsStyle: 'danger', 
+						glyph: 'remove', 
+						callback: this.onDeleteIntervention.bind(this, intervention)
+					}
+				]
+				prestations.push(
+					<Col key={i} sm={6} md={4}>
+						<APPanelBasic 
+							actions={actions}
+							title='Prestation'
+							text={text}/>
+					</Col>
+				);
+			}
+		}
+
 		return (
-			<ServiceInterventionsCustomer
-				key={customer.id}
-				customer={customer}
-				interventions={interventions}
-				offers={offers}
-				onEdit={this.onEditIntervention.bind(this)}
-				onMatch={this.onMatchIntervention.bind(this)}
-				onDelete={this.onDeleteIntervention.bind(this)}
-				onViewOffers={this.onViewIntervention.bind(this)} />
+			<Panel key={customer.id} header={customer.lastName + ' ' + customer.firstName}>
+				<Row>
+					{prestations}
+				</Row>
+				<Row>
+					{offers}
+				</Row>
+				<Row>
+					{interventions}
+				</Row>
+			</Panel>
 		);
 	}
 

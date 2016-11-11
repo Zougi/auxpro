@@ -1,0 +1,10 @@
+{
+	"customerId":"szc1",
+	"serviceId":"sadz",
+	"auxiliaryId":"auxa",
+	"oneTime": {
+		"date":[2016,11,29],
+		"startTime":[8,30],
+		"endTime":[12,0]
+	}
+}

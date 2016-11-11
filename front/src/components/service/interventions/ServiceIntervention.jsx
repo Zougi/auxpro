@@ -48,7 +48,7 @@ class ServiceIntervention extends ServiceBaseComponent {
 		StoreRegistry.register('SERVICE_STORE', this, this.onStoreUpdate.bind(this));
 	}
 	componentWillUnmount() {
-		StoreRegistry.unregister('SERVICE_STORE', this);   
+		StoreRegistry.unregister('SERVICE_STORE', this);
 	}
 	onStoreUpdate() {
 		this.setState(this._buildState());
@@ -92,7 +92,7 @@ class ServiceIntervention extends ServiceBaseComponent {
 			promises.push(this.loadInterventions());
 			promises.push(this.loadAuxiliaries());
 			promises.push(this.loadOffers());
-			Promise.all(promises);
+			return Promise.all(promises);
 		}.bind(this)).
 		then(this.onCancel.bind(this));
 	}
@@ -108,9 +108,9 @@ class ServiceIntervention extends ServiceBaseComponent {
 		this.updateIntervention(this.state.intervention).
 		then(function () {
 			var promises = [];
-			promises.push(this.loadInterventions);
-			promises.push(this.loadOffers);
-			promises.push(this.loadMissions);
+			promises.push(this.loadInterventions());
+			promises.push(this.loadOffers());
+			promises.push(this.loadMissions());
 			return Promise.all(promises);
 		}.bind(this)).
 		then(this.onCancel.bind(this));

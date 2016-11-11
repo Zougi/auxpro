@@ -97,6 +97,17 @@ ServiceStore.onGetServiceInterventions = function (result, param) {
 };
 Dispatcher.register('GET_SERVICE_INTERVENTIONS', ServiceStore.onGetServiceInterventions);
 
+// PUT INTERVENTION
+ServiceStore.onPutIntervention = function (result, param) {
+	let data = ServiceStore.getContent().data;
+	if (param.data.auxiliaryId) {
+		data.offersLoaded = false;
+		data.interventionsLoaded = false;
+		data.missionsLoaded = false;
+	}
+};
+Dispatcher.register('PUT_INTERVENTION', ServiceStore.onPutIntervention);
+
 // GET SERVICE OFFERS
 ServiceStore.onGetServiceOffers = function (result, param) {
 	let data = ServiceStore.getContent().data;
