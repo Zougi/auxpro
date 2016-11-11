@@ -183,7 +183,9 @@ AuxiliaryStore._setUpInterventions = function () {
 	let data = AuxiliaryStore.getContent().data;
 	if (data.interventionsLoaded && data.customersLoaded) {
 		Utils.map(data.interventions).forEach(function (intervention) {
-			data.customers[intervention.customerId]._type = 'intervention';
+			if (intervention.auxiliaryId) {
+				data.customers[intervention.customerId]._type = 'intervention';
+			}
 		});
 	}
 }
