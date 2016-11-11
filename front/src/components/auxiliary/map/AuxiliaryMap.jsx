@@ -236,6 +236,13 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			return true;
 	}
 	
+	offerFilter(customer) {
+		if (customer._type === 'offer') 
+			return false;
+		else 
+			return true;
+	}
+	
 	_buildMarkers() {
 		let result = [];
 		// Add map center
@@ -278,7 +285,11 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		let customers = this.state.customers;
 		if (!this.state.showInterventions)
 			customers = Utils.filter(customers || [],  this.interventionFilter);
+		if (!this.state.showOffers)
+			customers = Utils.filter(customers || [],  this.offerFilter);
 		result.push(...Utils.map(customers, function (c) {
+			console.log("CUSTOMER")
+			console.log(c)
 			let mode = (c._type === 'intervention');
 			return {
 				id: c.id,
