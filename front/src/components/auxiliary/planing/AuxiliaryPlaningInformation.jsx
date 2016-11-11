@@ -1,8 +1,8 @@
 import React from 'react'
-import { Panel, ListGroup } from 'react-bootstrap';
+import { Panel, ListGroup } from 'react-bootstrap'
 // Custom components
-import InformationIndisponibility from './InformationIndisponibility.jsx'
-import InformationOffer from './InformationOffer.jsx'
+import InformationIndisponibility from 'components/auxiliary/planing/InformationIndisponibility'
+import InformationOffer from 'components/auxiliary/planing/InformationOffer'
 
 class AuxiliaryPlanningInformation extends React.Component {
 	
@@ -21,7 +21,7 @@ class AuxiliaryPlanningInformation extends React.Component {
 		let d = this.props.date[2];
 		for (let i = 0; i < this.props.offers.length; i++) {
 			let offer = this.props.offers[i];
-			let date = offer.date;
+			let date = offer.startDate;
 			if (date[0] === y && date[1] === m && date[2] === d) {
 				result.push(
 					<InformationOffer
@@ -43,7 +43,7 @@ class AuxiliaryPlanningInformation extends React.Component {
 		let d = this.props.date[2];
 		for (let i = 0; i < this.props.indisponibilities.length; i++) {
 			let indispo = this.props.indisponibilities[i];
-			let date = indispo.date;
+			let date = indispo.startDate;
 			if (date[0] === y && date[1] === m && date[2] === d) {
 				result.push(
 					<InformationIndisponibility
@@ -58,6 +58,7 @@ class AuxiliaryPlanningInformation extends React.Component {
 	}
 
 	render() {
+		console.log(this.props)
 		return (
 			<Panel header="Informations">
 				<ListGroup>

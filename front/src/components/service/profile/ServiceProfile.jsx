@@ -104,7 +104,7 @@ class ServiceProfile extends ServiceBaseComponent {
 	render() { return(
 		<Form horizontal>
 			<Row>
-				<Panel header='Mes informations'>
+				<Panel header={(<strong>Mes informations</strong>)} bsStyle='warning'>
 					{FormBuilder.buildFormGroups(this._buildInfos())}					
 				</Panel>
 			</Row>

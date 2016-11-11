@@ -148,15 +148,15 @@ class ServiceCustomers extends ServiceBaseComponent {
 		let customers = this._buildCustomers();
 		return (
 			<Row>
-				<Panel header={(<strong>Usagers enregistrés</strong>)}>
-					<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir nouveau client</Button>
+				<Panel header={(<strong>Usagers enregistrés</strong>)} bsStyle='warning'>
+					<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir un nouvel usager</Button>
 					<br/>
 					<SearchBar placeholder="Veuillez saisir le nom d'un usager" onChange={this.onSearch.bind(this)}/>
 					<Panel>
 						<ListGroup fill>
 							{customers}
 						</ListGroup>
-						<strong>Total : {this.state.search ? customers.length : Utils.map(this.state.customers).length} clients{this.state.search ? ' trouvés' : ''}.</strong>
+						<strong>Total : {this.state.search ? customers.length : Utils.map(this.state.customers).length} usagers{this.state.search ? ' trouvés' : ''}.</strong>
 					</Panel>
 				</Panel>
 				<DialogConfirmation

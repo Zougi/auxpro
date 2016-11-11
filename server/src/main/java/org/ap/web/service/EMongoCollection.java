@@ -5,6 +5,7 @@ import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.TokenBean;
@@ -18,6 +19,7 @@ public enum EMongoCollection {
 	INDISPONIBILITIES (IndisponibilityBean.class),
 	INTERVENTIONS     (InterventionBean.class),
 	OFFERS            (OfferBean.class),
+	MISSIONS          (MissionBean.class),
 	SERVICES          (ServiceBean.class),
 	TOKENS            (TokenBean.class),
 	USERS             (UserBean.class),

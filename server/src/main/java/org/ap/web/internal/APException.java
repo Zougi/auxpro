@@ -32,6 +32,8 @@ public class APException extends Exception {
 	public static final APException ABSENCE_INVALID_AUX = new APException("ABSENCE_INVALID_AUX", Status.BAD_REQUEST);
 	
 	public static final APException OFFER_NOT_FOUND = new APException("OFFER_NOT_FOUND", Status.NOT_FOUND);
+	
+	public static final APException MISSION_NOT_FOUND = new APException("MISSION_NOT_FOUND", Status.NOT_FOUND);
 
 	public static final APException AUX_INFO_INVALID = new APException("AUX_INFO_INVALID", Status.BAD_REQUEST);
 	
@@ -46,6 +48,7 @@ public class APException extends Exception {
 	public static final APException INDISPONIBILITY_NOT_FOUND = new APException("INDISPONIBILITY_NOT_FOUND", Status.NOT_FOUND);
 	public static final APException INDISPONIBILITY_AUXILIARY_INVALID = new APException("INDISPONIBILITY_AUXILIARY_INVALID", Status.BAD_REQUEST);
 	public static final APException INDISPONIBILITY_AUXILIARY_MISSING = new APException("INDISPONIBILITY_AUXILIARY_MISSING", Status.BAD_REQUEST);
+	public static final APException INDISPONIBILITY_MALFORMED = new APException("INDISPONIBILITY_MALFORMED", Status.BAD_REQUEST);
 	
 	public static final APException SERVICE_NOT_FOUND = new APException("SERVICE_NOT_FOUND", Status.NOT_FOUND);
 	public static final APException SERVICE_INVALID = new APException("SERVICE_INVALID", Status.BAD_REQUEST);

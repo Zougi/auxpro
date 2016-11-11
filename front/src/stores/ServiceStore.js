@@ -1,9 +1,9 @@
 // Core modules
-import Dispatcher from 'core/Dispatcher.js';
-import StoreBase from 'core/StoreBase.js';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreBase from 'core/StoreBase'
+import StoreRegistry from 'core/StoreRegistry'
 // Lib modules
-import Utils from '../utils/Utils.js';
+import Utils from '../utils/Utils'
 
 var DEFAULT_CONTENT = { 
 	data: {},
@@ -128,6 +128,24 @@ ServiceStore.onPostOffer = function (result, param) {
 	data.auxiliariesLoaded = false;
 };
 Dispatcher.register('POST_OFFER', ServiceStore.onPostOffer);
+
+// GET SERVICE MISSIONS
+ServiceStore.onGetServiceMissions = function (result, param) {
+	let data = ServiceStore.getContent().data;
+	data.missions = {};
+
+	if (result && result.length) {
+		var l = result.length;
+		for (let i = 0; i < l; i++) {
+			let mission = result[i];
+			data.missions[mission.id] = mission;
+		}
+	}
+	data.missionsLoaded = true;
+	ServiceStore.notify();
+
+};
+Dispatcher.register('GET_SERVICE_MISSIONS', ServiceStore.onGetServiceMissions);
 
 
 // GET SERVICE AUXILIARIES

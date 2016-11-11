@@ -170,6 +170,21 @@ class ServiceBaseComponent extends React.Component {
 	}
 
 
+	// Missions //
+	// --------------------------------------------------------------------------------
+
+	getMissions() {
+		return this._getServiceData('/data/missions');
+	}
+	getMission(id) {
+		return this._getServiceData('/data/missions/' + id);
+	}
+
+	loadMissions() {
+		return Dispatcher.issue('GET_SERVICE_MISSIONS', this._getBaseArgs());
+	}
+
+
 	// Dummy renderer //
 	// --------------------------------------------------------------------------------
 

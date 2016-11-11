@@ -1,6 +1,9 @@
-import Dispatcher from 'core/Dispatcher.js';
-import StoreBase from 'core/StoreBase.js';
-import StoreRegistry from 'core/StoreRegistry';
+// Core modules
+import Dispatcher from 'core/Dispatcher'
+import StoreBase from 'core/StoreBase'
+import StoreRegistry from 'core/StoreRegistry'
+// Lib modules
+import Utils from '../utils/Utils'
 
 var DEFAULT_CONTENT = {
 	data: {},
@@ -82,6 +85,8 @@ AuxiliaryStore.onGetAuxiliaryCustomers = function (result, param) {
 		}
 	}
 	data.customersLoaded = true;
+	AuxiliaryStore._setUpOffers();
+	AuxiliaryStore._setUpInterventions();
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_CUSTOMERS', AuxiliaryStore.onGetAuxiliaryCustomers);
@@ -95,13 +100,30 @@ AuxiliaryStore.onGetAuxiliaryOffers = function (result, param) {
 		for (let i = 0; i < l; i++) {
 			let offer = result[i];
 			data.offers[offer.id] = offer;
-			data.customers[offer.customerId].type = data.customers[offer.customerId].type || 'offer';
 		}
 	}
 	data.offersLoaded = true;
+	AuxiliaryStore._setUpOffers();
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_OFFERS', AuxiliaryStore.onGetAuxiliaryOffers);
+
+// GET AUXILIARY MISSIONS
+AuxiliaryStore.onGetAuxiliaryMissions = function (result, param) {
+	let data = AuxiliaryStore.getContent().data;
+	data.missions = {};
+	if (result && result.length) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
+			let mission = result[i];
+			data.missions[mission.id] = mission;
+		}
+	}
+	data.missionsLoaded = true;
+	AuxiliaryStore.notify();
+}
+Dispatcher.register('GET_AUXILIARY_MISSIONS', AuxiliaryStore.onGetAuxiliaryMissions);
+
 
 // GET AUXILIARY INTERVENTIONS
 AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
@@ -112,10 +134,10 @@ AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
 		for (let i = 0; i < l; i++) {
 			let intervention = result[i];
 			data.interventions[intervention.id] = intervention;
-			data.customers[intervention.customerId].type = 'intervention';
 		}
 	}
 	data.interventionsLoaded = true;
+	AuxiliaryStore._setUpInterventions();
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_INTERVENTIONS', AuxiliaryStore.onGetAuxiliaryInterventions);
@@ -151,5 +173,30 @@ AuxiliaryStore.onGetAuxiliaryGeoZones = function (result, param) {
 	AuxiliaryStore.notifyPath('/data/geozones');
 };
 Dispatcher.register('GET_AUXILIARY_GEOZONES', AuxiliaryStore.onGetAuxiliaryGeoZones);
+
+
+/* INTERNAL DATA MANAGEMENT */
+//------------------------------------------------------------
+
+//
+AuxiliaryStore._setUpInterventions = function () {
+	let data = AuxiliaryStore.getContent().data;
+	if (data.interventionsLoaded && data.customersLoaded) {
+		Utils.map(data.interventions).forEach(function (intervention) {
+			data.customers[intervention.customerId]._type = 'intervention';
+		});
+	}
+}
+
+//
+AuxiliaryStore._setUpOffers = function () {
+	let data = AuxiliaryStore.getContent().data;
+	if (data.offersLoaded && data.customersLoaded) {
+		Utils.map(data.offers).forEach(function (offer) {
+			let c = data.customers[offer.customerId];
+			c._type = c._type || 'offer';
+		});
+	}
+}
 
 export default AuxiliaryStore;

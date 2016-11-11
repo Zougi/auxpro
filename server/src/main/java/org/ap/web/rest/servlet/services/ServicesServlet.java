@@ -13,6 +13,7 @@ import org.ap.web.entity.mongo.UserCredentialsBean;
 import org.ap.web.entity.mongo.AuxiliaryBean;
 import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
@@ -24,6 +25,8 @@ import org.ap.web.service.stores.customers.CustomersStore;
 import org.ap.web.service.stores.customers.ICustomersStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
+import org.ap.web.service.stores.missions.IMissionsStore;
+import org.ap.web.service.stores.missions.MissionsStore;
 import org.ap.web.service.stores.offers.IOffersStore;
 import org.ap.web.service.stores.offers.OffersStore;
 import org.ap.web.service.stores.services.IServicesStore;
@@ -45,6 +48,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 	private ICustomersStore _customersStore;
 	private IInterventionsStore _interventionsStore;
 	private IOffersStore _offersStore;
+	private IMissionsStore _missionsStore;
 	private IAuxiliariesStore _auxiliariesStore;
 
 	/* CONSTRUCTOR */
@@ -55,6 +59,7 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 		_customersStore = new CustomersStore();
 		_interventionsStore = new InterventionsStore();
 		_offersStore = new OffersStore();
+		_missionsStore = new MissionsStore();
 		_auxiliariesStore = new AuxiliariesStore();
 	}
 
@@ -146,6 +151,17 @@ public class ServicesServlet extends ServletBase implements IServicesServlet {
 			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
 			OfferBean[] offers = _offersStore.getServiceOffers(serviceId);
 			return Response.status(Status.OK).entity(offers, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+
+	@Override
+	public Response getMissionsJSON(SecurityContext sc, String serviceId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(serviceId)) throw APException.SERVICE_NOT_FOUND;
+			MissionBean[] missions = _missionsStore.getServiceMissions(serviceId);
+			return Response.status(Status.OK).entity(missions, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

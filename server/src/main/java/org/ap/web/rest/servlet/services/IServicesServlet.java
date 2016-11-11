@@ -32,6 +32,7 @@ import org.ap.web.entity.mongo.ServiceBean;
  *  - /services/{serviceId}/customers     GET > list service customers
  *  - /services/{serviceId}/interventions GET > list service interventions
  *  - /services/{serviceId}/offers        GET > list service offers
+ *  - /services/{serviceId}/missions      GET > list service missions  
  *  - /services/{serviceId}/auxiliaries   GET > list service auxiliaries
  */
 public interface IServicesServlet {
@@ -91,6 +92,14 @@ public interface IServicesServlet {
 	@Path("{serviceId}/offers")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getOffersJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
+
+	// MISSIONS
+
+	@GET
+	@RolesAllowed("authenticated")
+	@Path("{serviceId}/missions")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getMissionsJSON(@Context SecurityContext sc, @PathParam("serviceId") String serviceId);
 
 	// AUXILIARIES
 

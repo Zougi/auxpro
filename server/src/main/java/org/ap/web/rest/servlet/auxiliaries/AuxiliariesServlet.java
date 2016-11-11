@@ -17,6 +17,7 @@ import org.ap.web.entity.mongo.CustomerBean;
 import org.ap.web.entity.mongo.GeozoneBean;
 import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
+import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.OfferBean;
 import org.ap.web.entity.mongo.ServiceBean;
 import org.ap.web.entity.mongo.UserBean;
@@ -32,6 +33,8 @@ import org.ap.web.service.stores.indisponibilities.IIndisponibilitiesStore;
 import org.ap.web.service.stores.indisponibilities.IndisponibilitiesStore;
 import org.ap.web.service.stores.interventions.IInterventionsStore;
 import org.ap.web.service.stores.interventions.InterventionsStore;
+import org.ap.web.service.stores.missions.IMissionsStore;
+import org.ap.web.service.stores.missions.MissionsStore;
 import org.ap.web.service.stores.offers.IOffersStore;
 import org.ap.web.service.stores.offers.OffersStore;
 import org.ap.web.service.stores.services.IServicesStore;
@@ -54,6 +57,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 	private IGeozonesStore _geozonesStore;
 	private ICustomersStore _customersStore;
 	private IOffersStore _offersStore;
+	private IMissionsStore _missionsStore;
 	private IInterventionsStore _interventionsStore;
 	private IIndisponibilitiesStore _indiponibilitiesStore;
 
@@ -64,6 +68,7 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 		_auxiliaryStore = new AuxiliariesStore();
 		_servicesStore = new ServicesStore();
 		_offersStore = new OffersStore();
+		_missionsStore = new MissionsStore();
 		_customersStore = new CustomersStore();
 		_geozonesStore = new GeozonesStore();
 		_interventionsStore = new InterventionsStore();
@@ -205,6 +210,16 @@ public class AuxiliariesServlet extends ServletBase implements IAuxiliariesServl
 			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
 			OfferBean[] offers = _offersStore.getAuxiliaryOffers(auxiliaryId);
 			return Response.status(Status.OK).entity(offers, resolveAnnotations(sc)).build();
+		} catch (APException e) {
+			return sendException(e);
+		}
+	}
+	@Override
+	public Response getMissionsJSON(SecurityContext sc, String auxiliaryId) {
+		try {
+			if (!sc.getUserPrincipal().getName().equals(auxiliaryId)) throw APException.AUXILIARY_NOT_FOUND;
+			MissionBean[] missions = _missionsStore.getAuxiliaryMissions(auxiliaryId);
+			return Response.status(Status.OK).entity(missions, resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
 		}

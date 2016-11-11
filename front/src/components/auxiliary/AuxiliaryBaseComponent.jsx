@@ -114,12 +114,31 @@ class AuxiliaryBaseComponent extends React.Component {
 		return this._getAuxiliaryData('/data/offers/' + id);
 	}
 	updateOffer(offer) {
-		return Dispatcher.issue('PUT_OFFER', {
-			data: offer,
-			offerId: offer.id,
-			token: this.getLoginData('/token')
-		}).
+		let args = this._getBaseArgs();
+		args.data = offer;
+		args.offerId = offer.id;
+		return Dispatcher.issue('PUT_OFFER', args).
 		then(this.loadOffers.bind(this));
+	}
+
+
+	// Missions //
+	// --------------------------------------------------------------------------------
+
+	loadMissions() {
+		return Dispatcher.issue('GET_AUXILIARY_MISSIONS', this._getBaseArgs());
+	}
+	getMissions() {
+		return this._getAuxiliaryData('/data/missions');
+	}
+	getMission(id) {
+		return this._getAuxiliaryData('/data/missions/' + id);
+	}
+	updateMission(mission) {
+		let args = this._getBaseArgs();
+		args.data = mission;
+		args.missionId = mission.id;
+		return Dispatcher.issue('PUT_MISSION', args);
 	}
 
 

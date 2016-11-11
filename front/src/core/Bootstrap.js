@@ -12,6 +12,7 @@ import GuestActions from 'actions/GuestActions';
 import IndisponibilitiesActions from 'actions/IndisponibilitiesActions';
 import InterventionsActions from 'actions/InterventionsActions';
 import OffersActions from 'actions/OffersActions';
+import MissionsActions from 'actions/MissionsActions';
 import ServicesActions from 'actions/ServicesActions';
 
 

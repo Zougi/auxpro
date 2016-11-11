@@ -140,7 +140,7 @@ class ServiceMap extends ServiceBaseComponent {
 	render() { 
         return (
         <Row>
-            <Panel header={(<strong>Répartition géographique</strong>)}>
+            <Panel header={(<strong>Répartition géographique</strong>)} bsStyle='warning'>
                 <Col sm={8}>
                     <GoogleMap 
                         center={this._buildCenter()} 

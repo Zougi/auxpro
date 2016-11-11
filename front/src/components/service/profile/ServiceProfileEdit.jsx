@@ -172,14 +172,14 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 			</Row>
 			<br/>
 			<Row>
-				<Panel header='Ma photo' bsStyle='info'>
+				<Panel header={(<strong>Ma photo</strong>)} bsStyle='warning'>
 					<AsyncImage
 						src={this.state.service.avatar}
 						width={200}
 						height={200}/>
 					<ImageUploader onUploadComplete={this.changeHandler('avatar')}/>
 				</Panel>
-				<Panel header='Mes informations'>
+				<Panel header={(<strong>Mes informations</strong>)} bsStyle='warning'>
 					{FormBuilder.buildFormGroups(this._buildInfos())}
 				</Panel>
 			</Row>

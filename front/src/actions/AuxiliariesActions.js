@@ -130,6 +130,17 @@ GetAuxiliaryOffers.do = function (args) {
 	return RestService._request(reqParam);
 }
 
+// GET AUXILIARY OFFERS
+let GetAuxiliaryMissions = new ActionBase({ name: 'GET_AUXILIARY_MISSIONS' });
+GetAuxiliaryMissions.do = function (args) {
+	Utils.checkMembers(args, ['auxiliaryId', 'token']);
+	var reqParam = {
+		url   : getAuxiliaryUrl(args.auxiliaryId) + '/missions',
+		token : args.token
+	};
+	return RestService._request(reqParam);
+}
+
 // GET GEOZONES
 let GetAuxiliaryGeoZones = new ActionBase({ name: 'GET_AUXILIARY_GEOZONES' });
 GetAuxiliaryGeoZones.do = function (args) {

@@ -27,16 +27,13 @@ class Service extends ServiceBaseComponent {
 
 		this.loadService().
 		then(function () {
-			return this.loadCustomers();
-		}.bind(this)).
-		then(function () {
-			return this.loadInterventions();
-		}.bind(this)).
-		then(function () {
-			return this.loadOffers();
-		}.bind(this)).
-		then(function () {
-			return this.loadAuxiliaries();
+			var promises = [];
+			promises.push(this.loadMissions());
+			promises.push(this.loadInterventions());
+			promises.push(this.loadOffers());
+			promises.push(this.loadAuxiliaries());
+			promises.push(this.loadCustomers());
+		 	return Promise.all(promises);
 		}.bind(this)).
 		then(function () {
 			this.setState({ dataLoaded: true });

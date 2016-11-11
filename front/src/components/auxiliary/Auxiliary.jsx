@@ -33,13 +33,10 @@ class Auxiliary extends AuxiliaryBaseComponent {
 		 	promises.push(this.loadIndisponibilities());
 		 	promises.push(this.loadCustomers());
 		 	promises.push(this.loadServices());
-		 	return Promise.all(promises);
-		}.bind(this)).
-		then(function () {
-			return this.loadInterventions();
-		}.bind(this)).
-		then(function () {
-			return this.loadOffers();
+		 	promises.push(this.loadInterventions());
+		 	promises.push(this.loadOffers());
+		 	promises.push(this.loadMissions());
+			return Promise.all(promises);
 		}.bind(this)).
 		then(function () {
 			this.setState({ dataLoaded: true });

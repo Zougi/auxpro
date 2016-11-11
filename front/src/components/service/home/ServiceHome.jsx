@@ -48,28 +48,30 @@ class ServiceHome extends ServiceBaseComponent {
 
 	render() { return(
 		<Row>
-		{ (this.state.profileCompleted) ?
-			<Panel bsStyle='success' header='Statut profil'>
-				Votre profil est actif.
-			</Panel>
-		:
-			<Panel bsStyle='danger' header='Statut profil'>
-				Votre profil est incomplet.
-			</Panel>
-		}
-			<Panel>
+			<Panel header={(<strong>Bienvenue</strong>)} bsStyle='warning'>
 				<Col sm={6} md={4}>
-					<Panel header='Clients'>
+				{ (this.state.profileCompleted) ?
+					<Panel bsStyle='success' header='Statut profil'>
+						Votre profil est actif.
+					</Panel>
+				:
+					<Panel bsStyle='danger' header='Statut profil'>
+						Votre profil est incomplet.
+					</Panel>
+				}
+				</Col>
+				<Col sm={6} md={4}>
+					<Panel header='Clients' bsStyle='info'>
 						<strong><b>{this.state.customers.length}</b></strong>{' clients.'}
 					</Panel>
 				</Col>
 				<Col sm={6} md={4}>
-					<Panel header='Interventions'>
+					<Panel header='Interventions' bsStyle='info'>
 						<strong><b>{this.state.interventions.length}</b></strong>{' interventions.'}
 					</Panel>
 				</Col>
 				<Col sm={6} md={4}>
-					<Panel header='Auxiliaires'>
+					<Panel header='Auxiliaires' bsStyle='info'>
 						<strong><b>{this.state.auxiliaries.length}</b></strong>{' auxiliaries.'}
 					</Panel>
 				</Col>

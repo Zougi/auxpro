@@ -123,7 +123,7 @@ class ServiceInterventions extends ServiceBaseComponent {
 
 	render() { return (
 		<Row>
-			<Panel header={(<strong>Prestations & Offres en cours</strong>)}>
+			<Panel header={(<strong>Prestations & Offres en cours</strong>)} bsStyle='warning'>
 				<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>
 					Saisir nouvelle prestation
 				</Button>

@@ -20,13 +20,11 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
-		this.state = {
-			selected: MomentHelper.toLocalDate(moment()),
-			customerFilter: '__ALL__',
-			serviceFilter: '__ALL__'
-		}
 		this.state = this._buildState();
 		this.state.selected = MomentHelper.toLocalDate(moment());
+		this.state.offers = [];
+		this.state.interventions = [];
+		this.state.indisponibilities = [];
 		this.state.customerFilter = '__ALL__';
 		this.state.serviceFilter = '__ALL__';
 	}
@@ -59,6 +57,9 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	onDaySelect(day) {
+		for (let i = 0; i < this.state.offers.length; i++) {
+			
+		}
 		this.setState({ selected: day });
 	}
 	onPrint() {
@@ -171,7 +172,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	}
 	_buildCustomersValues() {
 		let customersValues = Utils.map(this.state.customers, function (customer) {
-			var name = customer.person.civility + ' ' + customer.person.lastName;
+			var name = customer.civility + ' ' + customer.lastName;
 			return {
 				key: customer.id,
 				value: name
