@@ -288,8 +288,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		if (!this.state.showOffers)
 			customers = Utils.filter(customers || [],  this.offerFilter);
 		result.push(...Utils.map(customers, function (c) {
-			console.log("CUSTOMER")
-			console.log(c)
 			let mode = (c._type === 'intervention');
 			return {
 				id: c.id,
