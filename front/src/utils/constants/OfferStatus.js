@@ -1,9 +1,9 @@
-let PENDING   = { key: 'PENDING', value: 'En attente', bsStyle: 'info' }
-let ACCEPTED  = { key: 'ACCEPTED', value: 'Acceptée', bsStyle: 'primary' }
+let PENDING   = { key: 'PENDING', value: 'En attente' }
+let ACCEPTED  = { key: 'ACCEPTED', value: 'Acceptée', bsStyle: 'success' }
 let DECLINED  = { key: 'DECLINED', value: 'Déclinée', bsStyle: 'danger' }
 let CONFIRMED = { key: 'REJECTED', value: 'Confirmée', bsStyle: 'success' }
-let REJECTED  = { key: 'REJECTED', value: 'Rejetée', bsStyle: 'warning' }
-let EXPIRED   = { key: 'EXPIRED', value: 'Expirée' }
+let REJECTED  = { key: 'REJECTED', value: 'Rejetée', bsStyle: 'danger' }
+let EXPIRED   = { key: 'EXPIRED', value: 'Expirée', bsStyle: 'expired' }
 
 export default class OfferStatus {
 

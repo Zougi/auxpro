@@ -10,8 +10,10 @@ import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirma
 // Lib modules
 import Utils from 'utils/Utils'
 import MomentHelper from 'utils/moment/MomentHelper'
-import Period from 'utils/constants/Period'
+import InterventionHelper from 'utils/entities/InterventionHelper'
 import Day from 'utils/constants/Day'
+import InterventionType from 'utils/constants/InterventionType'
+import Period from 'utils/constants/Period'
 
 class ServiceInterventions extends ServiceBaseComponent {
 
@@ -35,8 +37,7 @@ class ServiceInterventions extends ServiceBaseComponent {
 	_buildState() {
 		return { 
 			customers: this.getCustomers(),
-			interventions: this.getInterventions(),
-			offers: this.getOffers()
+			interventions: this.getInterventions()
 		};
 	}
 
@@ -105,115 +106,111 @@ class ServiceInterventions extends ServiceBaseComponent {
 		return customer.interventions && customer.interventions.length;
 	}
 	_buildCustomer(customer) {
-		let prestations = [];
-		let offers = [];
-		let interventions = [];
+		let interventionsPending = [];
+		let interventionsOffered = [];
+		let interventionsPlanned = [];
 		let l = customer.interventions.length;
 		for (let i = 0; i < l; i++) {
 			let intervention = this.getIntervention(customer.interventions[i]);
-			let text = [];
-			if (intervention.oneTime) {
-				let date      = MomentHelper.localDateToHumanDate(intervention.oneTime.date);
-				let startTime = MomentHelper.localTimeToHumanTime(intervention.oneTime.startTime);
-				let endTime   = MomentHelper.localTimeToHumanTime(intervention.oneTime.endTime);
-				text.push('Prestation unique');
-				text.push('Le ' + date);
-				text.push('De ' + startTime + ' à ' + endTime);
-			} else if (intervention.recurence) {
-				let startDate = MomentHelper.localDateToHumanDate(intervention.recurence.startDate);
-				let endDate   = MomentHelper.localDateToHumanDate(intervention.recurence.endDate);
-				let startTime = MomentHelper.localTimeToHumanTime(intervention.recurence.startTime);
-				let endTime   = MomentHelper.localTimeToHumanTime(intervention.recurence.endTime);
-				let period    = Period.getPeriod(intervention.recurence.period).value.toLowerCase();
-				let sortedDays = intervention.recurence.days.map(function (d) { return Day.getDay(d); }).sort(function (d1, d2) {
-					return Day.DAYS.indexOf(d1) - Day.DAYS.indexOf(d2);
-				});
-				let days = '';
-				for (let i = 0 ; i < sortedDays.length ; i++) {
-					if (i > 0) {
-						days += ', ';
-					}
-					days += sortedDays[i].value.toLowerCase();
-				}
-				text.push('Prestation ' + period);
-				text.push('Du ' + startDate + ' au ' + endDate);
-				text.push('Les ' + days);
-				text.push('De ' + startTime + ' à ' + endTime);
-			}
-			if (intervention.auxiliaryId) {
-				let auxiliary = this.getAuxiliary(intervention.auxiliaryId);
-				text.push('Assurée par '+ auxiliary.civility + auxiliary.lastName + ' ' + auxiliary.firstName);
-				interventions.push(
-					<Col key={i} sm={6} md={4}>
-						<APPanelBasic 
-							bsStyle='success'
-							title='Intervention'
-							text={text}/>
-					</Col>
-				);
-			} else if (intervention.offers && intervention.offers.length) {
-				let actions = [
-					{ 
-						tooltip: 'Etat des offres',
-						bsStyle: 'info', 
-						glyph: 'cloud-upload', 
-						callback: this.onViewIntervention.bind(this, intervention)
-					}
-				]
-				offers.push(
-					<Col key={i} sm={6} md={4}>
-						<APPanelBasic 							
-							bsStyle='info'
-							actions={actions}
-							title='Offre'
-							text={text}/>
-					</Col>
-				);
-			} else {
-				let actions = [
-					{ 
-						tooltip: 'Editer prestation',
-						bsStyle: 'info', 
-						glyph: 'pencil', 
-						callback: this.onEditIntervention.bind(this, intervention)
-					},
-					{ 
-						tooltip: 'Envoyer offre',
-						bsStyle: 'success', 
-						glyph: 'upload', 
-						callback: this.onMatchIntervention.bind(this, intervention)
-					},
-					{ 
-						tooltip: 'Supprimer prestation',
-						bsStyle: 'danger', 
-						glyph: 'remove', 
-						callback: this.onDeleteIntervention.bind(this, intervention)
-					}
-				]
-				prestations.push(
-					<Col key={i} sm={6} md={4}>
-						<APPanelBasic 
-							actions={actions}
-							title='Prestation'
-							text={text}/>
-					</Col>
-				);
+			let type = InterventionType.getFromIntervention(intervention);
+			switch (type) {
+				case InterventionType.PENDING:
+					interventionsPending.push(intervention);
+					break;
+				case InterventionType.OFFERED:
+					interventionsOffered.push(intervention);
+					break;
+				case InterventionType.PLANNED:
+					interventionsPlanned.push(intervention);
+					break;
 			}
 		}
-
 		return (
 			<Panel key={customer.id} header={customer.lastName + ' ' + customer.firstName}>
 				<Row>
-					{prestations}
+					{this._buildInterventionsPending(interventionsPending)}
 				</Row>
 				<Row>
-					{offers}
+					{this._buildInterventionsOffered(interventionsOffered)}
 				</Row>
 				<Row>
-					{interventions}
+					{this._buildInterventionsPlanned(interventionsPlanned)}
 				</Row>
 			</Panel>
 		);
+	}
+
+	_buildInterventionsPending(interventions) {
+		return interventions.map(function(intervention, i) {
+			let text = InterventionHelper.getInitialText(intervention);
+			let actions = [
+				{
+					tooltip: 'Editer prestation',
+					bsStyle: 'info', 
+					glyph: 'pencil', 
+					callback: this.onEditIntervention.bind(this, intervention)
+				},
+				{
+					tooltip: 'Envoyer offre',
+					bsStyle: 'success', 
+					glyph: 'upload', 
+					callback: this.onMatchIntervention.bind(this, intervention)
+				},
+				{
+					tooltip: 'Supprimer prestation',
+					bsStyle: 'danger', 
+					glyph: 'remove', 
+					callback: this.onDeleteIntervention.bind(this, intervention)
+				}
+			]
+			return (
+				<Col key={i} sm={6} md={4}>
+					<APPanelBasic 
+						actions={actions}
+						title='Prestation'
+						text={text}/>
+				</Col>
+			);
+		}.bind(this));
+	}
+
+	_buildInterventionsOffered(interventions) {
+		return interventions.map(function(intervention, i) {
+			let text = InterventionHelper.getInitialText(intervention);
+			let actions = [
+				{ 
+					tooltip: 'Etat des offres',
+					bsStyle: 'info', 
+					glyph: 'cloud-upload', 
+					callback: this.onViewIntervention.bind(this, intervention)
+				}
+			]
+			return (
+				<Col key={i} sm={6} md={4}>
+					<APPanelBasic 							
+						bsStyle='info'
+						actions={actions}
+						title={'Offre (' + intervention.offers.length + ')'}
+						text={text}/>
+				</Col>
+			);
+		}.bind(this));	
+	}
+
+	_buildInterventionsPlanned(interventions) {
+		return interventions.map(function(intervention, i) {
+			let auxiliary = this.getAuxiliary(intervention.auxiliaryId);
+			let text = InterventionHelper.getInitialText(intervention);
+			text.push('Assurée par '+ auxiliary.civility + ' ' + auxiliary.lastName + ' ' + auxiliary.firstName);
+			return (
+				<Col key={i} sm={6} md={4}>
+					<APPanelBasic 
+						bsStyle='success'
+						title='Intervention'
+						text={text}/>
+				</Col>
+			);
+		}.bind(this));		
 	}
 
 	render() { return (
