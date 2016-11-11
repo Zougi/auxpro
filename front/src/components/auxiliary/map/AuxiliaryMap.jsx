@@ -34,6 +34,9 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		this.state.info = null;
 		this.state.geozone = null;
 		this.state.geoMode = GEO_MODES.VIEW;
+		this.state.showServices = true;
+		this.state.showOffers = true;
+		this.state.showInterventions = true;
 	}
 
 
@@ -167,15 +170,9 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	
 	getInformationsPanel() {
 		if (this.state.info) {
-			var actions = [
-				{ 
-					tooltip: 'Supprimer zone',
-					bsStyle: 'danger', 
-					glyph: 'remove', 
-					callback: this.deleteZone.bind(this)
-				}
-			];
-				
+			var actions = [];
+			if (this.state.info.type == "G")
+				actions.push({ tooltip: 'Supprimer zone',	bsStyle: 'danger', glyph: 'remove', callback: this.deleteZone.bind(this) });
 			return (			
 				<APPanelHeaderAction bsStyle={this.state.info.bsStyle} title={this.state.info.header} actions={actions}>
 					{this.state.info.name}
@@ -232,6 +229,13 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		};
 	}
 
+	interventionFilter(customer) {
+		if (customer._type === 'intervention') 
+			return false;
+		else 
+			return true;
+	}
+	
 	_buildMarkers() {
 		let result = [];
 		// Add map center
@@ -269,9 +273,13 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				onClick: this.onMarkerClicked.bind(this)
 			};
 		}.bind(this)));
+		
 		// Add customers
-		result.push(...Utils.map(this.state.customers, function (c) {
-			let mode = (c.type === 'intervention');
+		let customers = this.state.customers;
+		if (!this.state.showInterventions)
+			customers = Utils.filter(customers || [],  this.interventionFilter);
+		result.push(...Utils.map(customers, function (c) {
+			let mode = (c._type === 'intervention');
 			return {
 				id: c.id,
 				lattitude: c.lattitude,
@@ -289,23 +297,24 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			};
 		}.bind(this)));
 		// Add services
-		result.push(...Utils.map(this.state.services, function (s) {
-			return {
-				id: s.id,
-				lattitude: s.lattitude,
-				longitude: s.longitude,
-				color: '337AB7',
-				title: s.socialReason, 
-				
-				type: MARKER_TYPE.SERVICE,
-				bsStyle: 'primary',
-				header: 'Service',
-				name: s.socialReason,
-				address1: s.address,
-				address2: s.postalCode + ' ' + s.city,
-				onClick: this.onMarkerClicked.bind(this)
-			};
-		}.bind(this)));
+		if (this.state.showServices)
+			result.push(...Utils.map(this.state.services, function (s) {
+				return {
+					id: s.id,
+					lattitude: s.lattitude,
+					longitude: s.longitude,
+					color: '337AB7',
+					title: s.socialReason, 
+					
+					type: MARKER_TYPE.SERVICE,
+					bsStyle: 'primary',
+					header: 'Service',
+					name: s.socialReason,
+					address1: s.address,
+					address2: s.postalCode + ' ' + s.city,
+					onClick: this.onMarkerClicked.bind(this)
+				};
+			}.bind(this)));
 		// Add temporary marker
 		if (this.state.geozone) {
 			result.push({
@@ -347,9 +356,41 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		return result;	
 	}
 
+	hideService(event) {
+		this.setState({showServices: !event.target.checked})
+	}
+	
+	hideOffers(event) {
+		this.setState({showOffers: !event.target.checked})
+	}
+	
+	hideInterventions(event) {
+		this.setState({showInterventions: !event.target.checked})
+	}
+	
+	
 	render() {
+		console.log("RENDER")
+		console.log(this.state)
 		return (
 			<Panel header="Mes zones d'intervention">
+				<Row>
+					<Col sm={4}>
+						<div className="checkbox">
+							<label><input type="checkbox" value="" onClick={this.hideService.bind(this)} />Masquer Services</label>
+						</div>
+					</Col>
+					<Col sm={4}>
+						<div className="checkbox">
+							<label><input type="checkbox" value="" onClick={this.hideOffers.bind(this)} />Masquer Offres</label>
+						</div>
+					</Col>
+					<Col sm={4}>
+						<div className="checkbox">
+							<label><input type="checkbox" value="" onClick={this.hideInterventions.bind(this)} />Masquer Interventions</label>
+						</div>
+					</Col>
+				</Row>
 				<Row>
 					<Col xs={4}>
 					<APButton block
