@@ -4,7 +4,7 @@ import { Row, Col, Panel } from 'react-bootstrap'
 import StoreRegistry from 'core/StoreRegistry.js'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-// Custom libs
+// Lib modules
 import Utils from 'utils/Utils.js'
 
 class ServiceHome extends ServiceBaseComponent {
@@ -61,8 +61,8 @@ class ServiceHome extends ServiceBaseComponent {
 				}
 				</Col>
 				<Col sm={6} md={4}>
-					<Panel header='Clients' bsStyle='info'>
-						<strong><b>{this.state.customers.length}</b></strong>{' clients.'}
+					<Panel header='Usagers' bsStyle='info'>
+						<strong><b>{this.state.customers.length}</b></strong>{' usagers.'}
 					</Panel>
 				</Col>
 				<Col sm={6} md={4}>
@@ -72,7 +72,7 @@ class ServiceHome extends ServiceBaseComponent {
 				</Col>
 				<Col sm={6} md={4}>
 					<Panel header='Auxiliaires' bsStyle='info'>
-						<strong><b>{this.state.auxiliaries.length}</b></strong>{' auxiliaries.'}
+						<strong><b>{this.state.auxiliaries.length}</b></strong>{' auxiliaires de vie.'}
 					</Panel>
 				</Col>
 			</Panel>
