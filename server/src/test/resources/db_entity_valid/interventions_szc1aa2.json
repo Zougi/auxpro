@@ -2,12 +2,10 @@
 	"customerId":"szc1",
 	"serviceId":"sadz",
 	"auxiliaryId":"auxa",
-	"recurence": {
-		"startDate":[2016,11,10],
-		"endDate":[2016,12,23],
-		"startTime":[12,0],
-		"endTime":[14,0],
-		"period":"P3W",
-		"days":["SATURDAY"]
-	}
+	"period":"P3W",
+	"startDate":[2016,11,10],
+	"endDate":[2016,12,23],
+	"startTime":[12,0],
+	"endTime":[14,0],
+	"days":["SATURDAY"]
 }

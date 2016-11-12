@@ -1,9 +1,8 @@
 {
 	"customerId":"szc1",
 	"serviceId":"sadz",
-	"oneTime": {
-		"date": [2016, 11, 28],
-		"startTime": [14, 0],
-		"endTime": [16, 0]
-	}
+	"period":"ONE",
+	"startDate": [2016, 11, 28],
+	"startTime": [14, 0],
+	"endTime": [16, 0]
 }

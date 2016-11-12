@@ -159,8 +159,6 @@ public class AssertHelper {
 			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
 			TestCase.assertEquals(expected.getServiceId(), actual.getServiceId());
 			TestCase.assertEquals(expected.getCustomerId(), actual.getCustomerId());
-			assertOneTime(expected.getOneTime(), actual.getOneTime());
-			assertRecurence(expected.getRecurence(), actual.getRecurence());
 		}
 	}
 	public static void assertOffer(OfferBean expected, OfferBean actual) {

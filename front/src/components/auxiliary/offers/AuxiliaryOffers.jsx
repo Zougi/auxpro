@@ -10,6 +10,7 @@ import { APButton } from 'lib/Lib.jsx';
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
 // Lib modules
 import Utils from 'utils/Utils'
+import Period from 'utils/constants/Period'
 import MomentHelper from 'utils/moment/MomentHelper'
 import InterventionHelper from 'utils/entities/InterventionHelper'
 import OfferStatus from 'utils/constants/OfferStatus'
@@ -124,10 +125,17 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 				'Service : ' + service.socialReason,
 				'Usager : ' + customer.lastName + ' ' + customer.firstName
 			];
-			if (intervention.oneTime) {
-				text.push('Prestation le ' + MomentHelper.localDateToHumanDate(intervention.oneTime.date));
-			} else if (intervention.recurence) {
-				text.push('Prestation du ' + MomentHelper.localDateToHumanDate(intervention.recurence.startDate) + ' au ' + MomentHelper.localDateToHumanDate(intervention.recurence.endDate));
+			let period = Period.getPeriod(intervention.period)
+			switch (period) {
+				case Period.ONE:
+					text.push('Prestation le ' + MomentHelper.localDateToHumanDate(intervention.startDate));
+					break;
+				case Period.P1W:
+				case Period.P2W:
+				case Period.P3W:
+				case Period.P4W:
+					text.push('Prestation du ' + MomentHelper.localDateToHumanDate(intervention.startDate) + ' au ' + MomentHelper.localDateToHumanDate(intervention.endDate));
+					break;
 			}
 			result.push(
 				<Col key={'o' + offer.id} sm={6} md={4}>					

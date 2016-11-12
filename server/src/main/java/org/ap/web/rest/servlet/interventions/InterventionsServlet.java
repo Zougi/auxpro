@@ -173,20 +173,20 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 			}
 			// Then remove those with planning issues
 			for (AuxiliaryBean aux : result) {
-				boolean removed = false;
+				boolean keep = false;
 				MissionBean[] missions = _missionsStore.getAuxiliaryMissions(aux.getId());
 				IndisponibilityBean[] indisponibilities = _indisponibilitiesStore.getAuxIndisponibilities(aux.getId());
 				for (MissionBean mission : missions) {
-
 				}
-				if (removed) {
+				if (keep) {
 					break;
 				}
 				for (IndisponibilityBean indisponibility: indisponibilities) {
-
-				}
-				if (removed) {
+									}
+				if (keep) {
 					break;
+				} else {
+					//result.remove(aux);
 				}
 			}
 			// Finally give them a score a return the 5 bests

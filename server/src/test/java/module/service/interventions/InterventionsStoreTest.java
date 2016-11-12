@@ -57,7 +57,7 @@ public class InterventionsStoreTest extends TestModuleBase {
 	}
 	@Test
 	public void testV_updateExisting() throws APException {
-		intervention1.getOneTime().setEndTime(LocalTime.of(20, 0));
+		intervention1.setEndTime(LocalTime.of(20, 0));
 		InterventionBean intervention = store.updateIntervention(intervention1);
 		AssertHelper.assertIntervention(intervention1, intervention);
 	}

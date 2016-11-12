@@ -1,15 +1,13 @@
 {
 	"customerId":"szc1",
 	"serviceId":"sadz",
-	"recurence": {
-		"startDate":[2016,11,2],
-		"endDate":[2017,11,1],
-		"startTime":[8,30],
-		"endTime":[12,0],
-		"days":[
-			"FRIDAY",
-			"MONDAY"
-		],
-		"period":"P1W"
-	}
+	"period":"P1W",
+	"startDate":[2016,11,2],
+	"endDate":[2017,11,1],
+	"startTime":[8,30],
+	"endTime":[12,0],
+	"days":[
+		"FRIDAY",
+		"MONDAY"
+	]
 }

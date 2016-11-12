@@ -6,31 +6,20 @@ import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
-import InterventionSummaryOneTime from 'components/common/interventions/InterventionSummaryOneTime'
-import InterventionSummaryRecurence from 'components/common/interventions/InterventionSummaryRecurence'
 import CustomerSummary from 'components/common/customers/CustomerSummary'
-import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
-import AsyncImage from 'lib/image/AsyncImage'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList'
-import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation.jsx';
+import APPanelBasic from 'components-lib/Panel/APPanelBasic'
+import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
+import AsyncImage from 'lib/image/AsyncImage'
 // Lib modules
 import Utils from 'utils/Utils'
 import MathUtils from 'utils/MathUtils'
 import GeoHelper from 'utils/geo/GeoHelper'
 import OfferStatus from 'utils/constants/OfferStatus'
+import InterventionHelper from 'utils/entities/InterventionHelper'
 
 moment.locale('fr');
-
-let INTERVENTION_MODES = {
-	ONE_TIME: { 
-		key: 'ONE_TIME',
-		value: 'Intervention unique'
-	},
-	RECURENCE: {
-		key: 'RECURENCE',
-		value: 'Intervention récurente'
-	}
-}
 
 class ServiceIntervention extends ServiceBaseComponent {
 
@@ -57,7 +46,6 @@ class ServiceIntervention extends ServiceBaseComponent {
 		let intervention = this.getIntervention(this.props.params.interventionId);
 		return {
 			customer: this.getCustomer(intervention.customerId),
-			interventionMode: intervention.oneTime ? INTERVENTION_MODES.ONE_TIME : INTERVENTION_MODES.RECURENCE,
 			intervention: intervention,
 			selected: []
 		};
@@ -207,13 +195,10 @@ class ServiceIntervention extends ServiceBaseComponent {
 						</Panel>
 					</Col>
 					<Col sm={6}>
-						<Panel header='Prestation' bsStyle='primary'>
-						{ this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
-							<InterventionSummaryOneTime oneTime={this.state.intervention.oneTime}/>
-						:
-							<InterventionSummaryRecurence recurence={this.state.intervention.recurence}/>
-						}
-						</Panel>
+						<APPanelBasic
+							title='Prestation'
+							bsStyle='primary'
+							text={InterventionHelper.getInitialText(this.state.intervention)} />
 					</Col>
 				</Row>
 				<Row>

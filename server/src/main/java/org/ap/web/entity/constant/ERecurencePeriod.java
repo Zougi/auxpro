@@ -21,6 +21,6 @@ public enum ERecurencePeriod {
 		for (ERecurencePeriod period : ERecurencePeriod.values()) {
 			if (period.getId().equals(id.toUpperCase())) return period;
 		}
-		return P1W;
+		return ONE;
 	}
 }

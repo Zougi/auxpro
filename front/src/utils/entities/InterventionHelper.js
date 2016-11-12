@@ -5,15 +5,9 @@ import Period from 'utils/constants/Period'
 
 export default class InterventionHelper {
 
-	static get ValidatorsOneTime() {
+	static get Validators() {
 		return {
-			startTime: Validators.NonNull,
-			endTime: Validators.NonNull,
-			date: Validators.NonNull
-		}
-	}
-	static get ValidatorsRecurence() {
-		return {
+			customerId: Validators.NonEmptyString,
 			startDate: Validators.NonNull,
 			endDate: Validators.NonNull,
 			startTime: Validators.NonNull,
@@ -24,82 +18,63 @@ export default class InterventionHelper {
 	}
 
 	static checkValidation(intervention) {
-		if (intervention.oneTime) {
-			return InterventionHelper.checkValidationOneTime(intervention);
-		}
-		if (intervention.recurence) {
-			return InterventionHelper.checkValidationRecurence(intervention);
-		}
-		return false;
-	}
-
-	static checkValidationOneTime(intervention) {
-		if (Validators.NonEmptyString.getState(intervention.customerId) !== 'success') {
+		if (InterventionHelper.Validators.customerId.getState(intervention.customerId) !== 'success') {
 			return false;
 		}
-		if (intervention.oneTime) {
-			let validators = InterventionHelper.ValidatorsOneTime;
-			for (let v in validators) {
-				let state = validators[v].getState(intervention.oneTime[v])
-				if (state !== 'success') {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
-	static checkValidationRecurence(intervention) {
-		if (Validators.NonEmptyString.getState(intervention.customerId) !== 'success') {
+		if (InterventionHelper.Validators.startDate.getState(intervention.startDate) !== 'success') {
 			return false;
 		}
-		if (intervention.recurence) {
-			let validators = InterventionHelper.ValidatorsRecurence;
-			for (let v in validators) {
-				let state = validators[v].getState(intervention.recurence[v])
-				if (state !== 'success') {
+		if (InterventionHelper.Validators.startTime.getState(intervention.startTime) !== 'success') {
+			return false;
+		}
+		if (InterventionHelper.Validators.endTime.getState(intervention.endTime) !== 'success') {
+			return false;
+		}
+		if (InterventionHelper.Validators.period.getState(intervention.period) !== 'success') {
+			return false;
+		}
+		let period = Period.getPeriod(intervention.period);
+		switch (period) {
+			case Period.ONE:
+				break;
+			case Period.P1W:
+			case Period.P2W:
+			case Period.P3W:
+			case Period.P4W:
+				if (InterventionHelper.Validators.endDate.getState(intervention.endDate) !== 'success') {
 					return false;
 				}
-			}
-			return true;
+				if (InterventionHelper.Validators.days.getState(intervention.days) !== 'success') {
+					return false;
+				}
+				break;
 		}
-		return false;
+		return true;
 	}
 
 	static getInitialText(intervention) {
 		let text = [];
-		if (intervention.oneTime) {
-			let date      = MomentHelper.localDateToHumanDate(intervention.oneTime.date);
-			let startTime = MomentHelper.localTimeToHumanTime(intervention.oneTime.startTime);
-			let endTime   = MomentHelper.localTimeToHumanTime(intervention.oneTime.endTime);
-			text.push('Prestation unique');
-			text.push('Le ' + date);
-			text.push('De ' + startTime + ' à ' + endTime);
-		} else if (intervention.recurence) {
-			let startDate = MomentHelper.localDateToHumanDate(intervention.recurence.startDate);
-			let endDate   = MomentHelper.localDateToHumanDate(intervention.recurence.endDate);
-			let startTime = MomentHelper.localTimeToHumanTime(intervention.recurence.startTime);
-			let endTime   = MomentHelper.localTimeToHumanTime(intervention.recurence.endTime);
-			let period    = Period.getPeriod(intervention.recurence.period).value.toLowerCase();
-			let sortedDays = intervention.recurence.days.
-			map(function (d) { 
-				return Day.getDay(d); 
-			}).
-			sort(function (d1, d2) {
-				return Day.DAYS.indexOf(d1) - Day.DAYS.indexOf(d2);
-			});
-			let days = '';
-			for (let i = 0 ; i < sortedDays.length ; i++) {
-				if (i > 0) {
-					days += ', ';
-				}
-				days += sortedDays[i].value.toLowerCase();
-			}
-			text.push('Prestation ' + period);
-			text.push('Du ' + startDate + ' au ' + endDate);
-			text.push('Le ' + days);
-			text.push('De ' + startTime + ' à ' + endTime);
+		let period = Period.getPeriod(intervention.period);
+		let startDate = MomentHelper.localDateToHumanDate(intervention.startDate);
+		let startTime = MomentHelper.localTimeToHumanTime(intervention.startTime);
+		let endTime   = MomentHelper.localTimeToHumanTime(intervention.endTime);
+		switch (period) {
+			case Period.ONE:
+				text.push('Prestation unique');
+				text.push('Le ' + startDate);
+				text.push('De ' + startTime + ' à ' + endTime);
+				break;
+			case Period.P1W:
+			case Period.P2W:
+			case Period.P3W:
+			case Period.P4W:
+				let endDate    = MomentHelper.localDateToHumanDate(intervention.endDate);
+				let periodText = period.value.toLowerCase();
+				let days = Day.daysToHumanFormat(intervention.days);
+				text.push('Prestation ' + periodText);
+				text.push('Du ' + startDate + ' au ' + endDate);
+				text.push('Le ' + days);
+				text.push('De ' + startTime + ' à ' + endTime);
 		}
 		return text;
 	}

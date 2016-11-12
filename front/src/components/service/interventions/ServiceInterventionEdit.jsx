@@ -7,12 +7,13 @@ import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
-import FormSelect from 'components-lib/Form/FormSelect'
-import InterventionDetailsOneTime from 'components/common/interventions/InterventionDetailsOneTime'
-import InterventionDetailsRecurence from 'components/common/interventions/InterventionDetailsRecurence'
+import FormBuilder from 'components-lib/Form/FormBuilder'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
 // Lib modules
 import Utils from 'utils/Utils'
+import Day from 'utils/constants/Day'
+import Period from 'utils/constants/Period'
+import Validators from 'utils/form/Validators'
 import MomentHelper from 'utils/moment/MomentHelper'
 import InterventionHelper from 'utils/entities/InterventionHelper'
 
@@ -21,17 +22,6 @@ moment.locale('fr')
 let MODES = {
 	CREATE: 'CREATE',
 	EDIT: 'EDIT'
-}
-
-let INTERVENTION_MODES = {
-	ONE_TIME: { 
-		key: 'ONE_TIME',
-		value: 'Intervention unique'
-	},
-	RECURENCE: {
-		key: 'RECURENCE',
-		value: 'Intervention récurente'
-	}
 }
 
 class ServiceInterventionEdit extends ServiceBaseComponent {
@@ -60,7 +50,6 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 			return {
 				mode: MODES.EDIT,
 				customers: Utils.map(this.getCustomers()),
-				interventionMode: intervention.oneTime ? INTERVENTION_MODES.ONE_TIME : INTERVENTION_MODES.RECURENCE,
 				intervention: intervention,
 				validationState: InterventionHelper.checkValidation(intervention),
 			};
@@ -69,27 +58,15 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 			return {
 				mode: MODES.CREATE,
 				customers: customers,
-				interventionMode: INTERVENTION_MODES.ONE_TIME,
 				intervention: {
 					serviceId: this.getLoginData('/id'),
 					customerId: customers[0].id,
-					oneTime: this._getDefaultOneTime(),
-					recurence: this._getDefaultRecurence()
+					period: 'ONE',
+					startDate: MomentHelper.toLocalDate(moment()),
+					endDate: MomentHelper.toLocalDate(moment())
 				},
 				validationState: false
 			};
-		}
-	}
-	_getDefaultOneTime() {
-		return {
-			date: MomentHelper.toLocalDate(moment())
-		}
-	}
-	_getDefaultRecurence() {
-		return {
-			startDate: MomentHelper.toLocalDate(moment()),
-			endDate: MomentHelper.toLocalDate(moment()),
-			period: 'P1W'
 		}
 	}
 
@@ -98,11 +75,6 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 	// --------------------------------------------------------------------------------
 
 	onSaveIntervention() {
-		if (this.state.interventionMode === INTERVENTION_MODES.ONE_TIME) {
-			delete this.state.intervention.recurence;
-		} else {
-			delete this.state.intervention.oneTime;
-		}
 		if (this.state.mode === MODES.CREATE) {
 			this.createIntervention(this.state.intervention).
 			then(function () {
@@ -121,33 +93,14 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 		Dispatcher.issue('NAVIGATE', {path: '/sad/interventions'});
 	}   
 
-	onCustomerChanged(customerId) {
-		this.state.intervention.customerId = customerId;
-		this._setValidationState();
-	}
-	onInterventionModeChanged(modeId) {
-		this.state.interventionMode = INTERVENTION_MODES[modeId];
-		if (this.state.interventionMode === INTERVENTION_MODES.ONE_TIME) {
-			this.state.intervention.oneTime = this.state.intervention.oneTime || this._getDefaultOneTime();
-		} else {
-			this.state.intervention.recurence = this.state.intervention.recurence || this._getDefaultRecurence();
-		}
-		this._setValidationState();
-	}
-	onOneTimeChanged(oneTime) {
-		this.state.intervention.oneTime = oneTime;
-		this._setValidationState();
-	}
-	onRecurenceChanged(recurence) {
-		this.state.intervention.recurence = recurence;
-		this._setValidationState();
-	}
-	_setValidationState() {
-		if (this.state.interventionMode === INTERVENTION_MODES.ONE_TIME) {
-			this.setState({ validationState: InterventionHelper.checkValidationOneTime(this.state.intervention) });
-		} else {
-			this.setState({ validationState: InterventionHelper.checkValidationRecurence(this.state.intervention) });
-		}
+	changeHandler(field) { 
+		return function (event) {
+			let value = event.value || event;
+			Utils.setField(this.state.intervention, field, value); 
+			this.setState({ 
+				validationState: InterventionHelper.checkValidation(this.state.intervention)
+			});
+		}.bind(this);
 	}
 
 	// Rendering functions //
@@ -162,6 +115,85 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 		}.bind(this))
 	}
 
+	_buildTopInfos() {
+		let mode = (this.state.mode === MODES.CREATE);
+		return [[
+			{
+				title: mode ? 'Choisir usager' : 'Usager',
+				type: 'select',
+				edit: mode,
+				defaultValue: this.state.intervention.customerId,
+				changeHandler: this.changeHandler('customerId'),
+				values: this._buildCustomers(),
+				validator: Validators.NonNull
+			},
+			{
+				title: '',
+				type: 'select',
+				edit: true,
+				defaultValue: this.state.intervention.period,
+				changeHandler: this.changeHandler('period'),
+				values: Period.PERIODS,
+				validator: Validators.NonNull	
+			}
+		], []];
+	}
+
+	_buildBottomInfos() {
+		let period = Period.getPeriod(this.state.intervention.period);
+		let startDate = {
+			title: 'Début',
+			type: 'date',
+			edit: true,
+			defaultValue: this.state.intervention.startDate,
+			changeHandler: this.changeHandler('startDate'),
+			validator: Validators.NonNull
+		};
+		let endDate = {
+			title: 'Début',
+			type: 'date',
+			edit: true,
+			defaultValue: this.state.intervention.endDate,
+			changeHandler: this.changeHandler('endDate'),
+			validator: period !== Period.ONE ? Validators.NonNull : null
+		};
+		let startTime = {
+			title: 'De',
+			type: 'time',
+			edit: true,
+			defaultValue: this.state.intervention.startTime,
+			changeHandler: this.changeHandler('startTime'),
+			validator: Validators.NonNull
+		};
+		let endTime = {
+			title: 'A',
+			type: 'time',
+			edit: true,
+			defaultValue: this.state.intervention.endTime,
+			changeHandler: this.changeHandler('endTime'),
+			validator: Validators.NonNull
+		};
+		let days = {
+			title: 'Jours',
+			type: 'selectMulti',
+			edit: true,
+			defaultValue: this.state.intervention.days,
+			changeHandler: this.changeHandler('days'),
+			validator: period !== Period.ONE ? Validators.NonEmptyArray : null,
+			values: Day.DAYS			
+		};
+		
+		switch (period)	{
+			case Period.ONE:
+				return [[ startDate, startTime, endTime ], [] ];
+			case Period.P1W:
+			case Period.P2W:
+			case Period.P3W:
+			case Period.P4W:
+				return [[ startDate, endDate, startTime, endTime ], [ days ] ];
+		}
+	}
+
 	render() {
 		let mode = (this.state.mode === MODES.CREATE);
 		return (
@@ -169,40 +201,10 @@ class ServiceInterventionEdit extends ServiceBaseComponent {
 				<Form horizontal>
 					<Panel header={(<strong>{mode ? 'Saisir une nouvelle demande' : 'Modifier demande'}</strong>)}>
 						<Row>
-							<Col sm={6}>
-								<FormSelect 
-									edit={mode}
-									title={mode ? 'Choisir client' : 'Client'}
-									defaultValue={this.state.intervention.customerId}
-									values={this._buildCustomers()}
-									onChange={this.onCustomerChanged.bind(this)}/>
-								<FormSelect 
-									edit={true}
-									title='Type de demande'
-									defaultValue={this.state.interventionMode.key} 
-									values={[ INTERVENTION_MODES.ONE_TIME, INTERVENTION_MODES.RECURENCE ]}
-									onChange={this.onInterventionModeChanged.bind(this)}/>
-							</Col>
+							{FormBuilder.buildFormGroups(this._buildTopInfos())}
 						</Row>
 						<Row>
-							{this.state.interventionMode === INTERVENTION_MODES.ONE_TIME ?
-							<InterventionDetailsOneTime
-								edit={true}
-								onChange={this.onOneTimeChanged.bind(this)}
-								date={this.state.intervention.oneTime.date}
-								startTime={this.state.intervention.oneTime.startTime}
-								endTime={this.state.intervention.oneTime.endTime} />
-							:
-							<InterventionDetailsRecurence
-								edit={true}
-								onChange={this.onRecurenceChanged.bind(this)}
-								startDate={this.state.intervention.recurence.startDate}
-								endDate={this.state.intervention.recurence.endDate}
-								startTime={this.state.intervention.recurence.startTime}
-								endTime={this.state.intervention.recurence.endTime}
-								period={this.state.intervention.recurence.period}
-								days={this.state.intervention.recurence.days}/>
-							}
+							{FormBuilder.buildFormGroups(this._buildBottomInfos())}
 						</Row>
 						<ButtonsEndDialog 
 							onOk={this.onSaveIntervention.bind(this)} 

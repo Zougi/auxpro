@@ -40,7 +40,7 @@ export default class Day {
 		let result = '';
 		for (let i = 0 ; i < sortedDays.length ; i++) {
 			if (i > 0) {
-				if (i < sortedDays - 1) {
+				if (i < sortedDays.length - 1) {
 					result += ', ';
 				} else {
 					result += ' et ';

@@ -145,11 +145,6 @@ public class TestDataGenerator {
 		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
 		bean.setCustomerId(StringConverter.stringToHex(String.valueOf(CUSTOMER_ID)));
 		bean.setServiceId(StringConverter.stringToHex(String.valueOf(SERVICE_ID)));
-		if (INTERVENTION_ID % 2 == 0) {
-			bean.setRecurence(next(new RecurenceBean()));
-		} else {
-			bean.setOneTime(next(new OneTimeBean()));
-		}
 		return bean;
 	}
 	public static OneTimeBean next(OneTimeBean bean) {

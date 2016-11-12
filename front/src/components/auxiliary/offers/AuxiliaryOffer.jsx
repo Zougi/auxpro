@@ -85,10 +85,10 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 				<br/>
 				<br/>
 				<Panel bsStyle={OfferStatus.getStatus(this.state.offer.status).bsStyle} header="Détails de l'offre">
-					{ this.state.intervention.oneTime ?
-						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.oneTime.date)}</div>
+					{ this.state.intervention.period === 'ONE' ?
+						<div>{'Intervention le ' + MomentHelper.localDateToHumanDate(this.state.intervention.startDate)}</div>
 					:
-						<div>{'Intervention du ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.startDate) + ' au ' + MomentHelper.localDateToHumanDate(this.state.intervention.recurence.endDate)}</div>
+						<div>{'Intervention du ' + MomentHelper.localDateToHumanDate(this.state.intervention.startDate) + ' au ' + MomentHelper.localDateToHumanDate(this.state.intervention.endDate)}</div>
 					}
 				</Panel>
 				{this.state.offer.status === 'PENDING' ?

@@ -1,6 +1,7 @@
 package org.ap.web.service.stores.missions;
 
 import org.ap.web.entity.constant.EMissionStatus;
+import org.ap.web.entity.constant.ERecurencePeriod;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.internal.APException;
@@ -20,7 +21,7 @@ public class MissionsStore extends StoreBase<MissionBean> implements IMissionsSt
 	public MissionsStore() {
 		super(EMongoCollection.MISSIONS, MissionBean.class);
 	}
-	
+
 	@Override
 	public MissionBean[] getCustomerMissions(String serviceId, String customerId) throws APException {
 		List<MissionBean> result = getEntityWhere(and(eq("serviceId", serviceId), eq("customerId", customerId)));
@@ -43,23 +44,28 @@ public class MissionsStore extends StoreBase<MissionBean> implements IMissionsSt
 	}
 	@Override
 	public MissionBean[] createMissions(InterventionBean bean) throws APException {
-		if (bean.getOneTime() != null) {
+		switch (ERecurencePeriod.fromString(bean.getPeriod())) {
+		case ONE:
 			MissionBean m = new MissionBean();
 			m.setAuxiliaryId(bean.getAuxiliaryId());
 			m.setCustomerId(bean.getCustomerId());
 			m.setInterventionId(bean.getId());
 			m.setServiceId(bean.getServiceId());
-			m.setDate(bean.getOneTime().getDate());
+			m.setDate(bean.getStartDate());
 			m.setStatus(EMissionStatus.PENDING.getId());
 			createMission(m);
-		} else if (bean.getRecurence() != null) {
-			List<DayOfWeek> days = Arrays.asList(bean.getRecurence().getDays());
-			LocalDate startDate = bean.getRecurence().getStartDate();
-			LocalDate endDate = bean.getRecurence().getEndDate();
+			break;
+		case P1W:
+		case P2W:
+		case P3W:
+		case P4W:
+			List<DayOfWeek> days = Arrays.asList(bean.getDays());
+			LocalDate startDate = bean.getStartDate();
+			LocalDate endDate = bean.getEndDate();
 			LocalDate currentDate = startDate.plusDays(0);
 			while (!currentDate.isAfter(endDate)) {
 				if (days.contains(currentDate.getDayOfWeek())) {
-					MissionBean m = new MissionBean();
+					m = new MissionBean();
 					m.setAuxiliaryId(bean.getAuxiliaryId());
 					m.setCustomerId(bean.getCustomerId());
 					m.setInterventionId(bean.getId());
@@ -70,9 +76,7 @@ public class MissionsStore extends StoreBase<MissionBean> implements IMissionsSt
 				}
 				currentDate = currentDate.plusDays(1);
 			}
-			return null;			
-		} else {
-			throw APException.INDISPONIBILITY_MALFORMED;
+			break;
 		}
 		return getInterventionMissions(bean.getId());
 	}

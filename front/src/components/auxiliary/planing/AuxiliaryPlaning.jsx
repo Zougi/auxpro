@@ -218,9 +218,8 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		for (let i = 0; i < l; i++) {
 			let mission = this.state.filteredMissions[i];
 			let intervention = this.getIntervention(mission.interventionId);
-			let source = intervention.oneTime || intervention.recurence;
-			let hours = source.endTime[0] - source.startTime[0];
-			let minutes = source.endTime[1] - source.startTime[1];
+			let hours = intervention.endTime[0] - intervention.startTime[0];
+			let minutes = intervention.endTime[1] - intervention.startTime[1];
 			result[0] += hours;
 			if (minutes < 0) {
 				result[0] -= 1;
