@@ -4,6 +4,7 @@ import java.time.Period;
 
 public enum ERecurencePeriod {
 
+	ONE (Period.ofWeeks(0)),
 	P1W (Period.ofWeeks(1)),
 	P2W (Period.ofWeeks(2)),
 	P3W (Period.ofWeeks(3)),

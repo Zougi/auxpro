@@ -141,8 +141,11 @@ public class AssertHelper {
 			TestCase.assertNull(actual);
 		} else {
 			TestCase.assertEquals(expected.getAuxiliaryId(), actual.getAuxiliaryId());
-			assertOneTime(expected.getOneTime(), actual.getOneTime());
-			assertRecurence(expected.getRecurence(), actual.getRecurence());
+			TestCase.assertEquals(expected.getStartTime(), actual.getStartTime());
+			TestCase.assertEquals(expected.getEndTime(), actual.getEndTime());
+			TestCase.assertEquals(expected.getStartDate(), actual.getStartDate());
+			TestCase.assertEquals(expected.getEndDate(), actual.getEndDate());
+			TestCase.assertEquals(expected.getPeriod(), actual.getPeriod());
 		}
 	}
 	public static void assertIntervention(InterventionBean expected, InterventionBean actual) {

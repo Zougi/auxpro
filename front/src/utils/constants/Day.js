@@ -29,4 +29,25 @@ export default class Day {
 	static getDay(id) {
 		return Day[id.toUpperCase()];
 	}
+
+	static daysToHumanFormat(days) {
+		let sortedDays = days.map(function (d) { 
+			return Day.getDay(d); 
+		}).
+		sort(function (d1, d2) {
+			return Day.DAYS.indexOf(d1) - Day.DAYS.indexOf(d2);
+		});
+		let result = '';
+		for (let i = 0 ; i < sortedDays.length ; i++) {
+			if (i > 0) {
+				if (i < sortedDays - 1) {
+					result += ', ';
+				} else {
+					result += ' et ';
+				}
+			}
+			result += sortedDays[i].value.toLowerCase();
+		}
+		return result;
+	}
 }

@@ -1,18 +1,23 @@
 import React from 'react'
 import moment from 'moment'
-import { Grid, Row, Col, Button, ListGroup, ListGroupItem, Panel, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Row, Col, Button, Panel, Form } from 'react-bootstrap'
 // Core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
-import Calendar from 'components-lib/calendar/Calendar.jsx';
-import FormSelect from 'components-lib/Form/FormSelect.jsx';
-import AuxiliaryPlaningInformation from './AuxiliaryPlaningInformation.jsx';
+import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import AuxiliaryPlaningInformation from 'components/auxiliary/planing/AuxiliaryPlaningInformation'
+import APPanelBasic from 'components-lib/Panel/APPanelBasic'
+import Calendar from 'components-lib/calendar/Calendar'
+import FormSelect from 'components-lib/Form/FormSelect'
 // Lib modules
-import MomentHelper from 'utils/moment/MomentHelper.js'
-import { DAYS } from 'utils/moment/Days.js'
-import Utils from 'utils/Utils.js';
+import MomentHelper from 'utils/moment/MomentHelper'
+import MissionStatus from 'utils/constants/MissionStatus'
+import InterventionHelper from 'utils/entities/InterventionHelper'
+import IndisponibilityHelper from 'utils/entities/IndisponibilityHelper'
+import Period from 'utils/constants/Period'
+import { DAYS } from 'utils/moment/Days'
+import Utils from 'utils/Utils'
 
 moment.locale('fr');
 
@@ -20,13 +25,13 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	
 	constructor(props) {
 		super(props);
+		this.state = {};
 		this.state = this._buildState();
 		this.state.selected = MomentHelper.toLocalDate(moment());
-		this.state.offers = [];
-		this.state.interventions = [];
-		this.state.indisponibilities = [];
 		this.state.customerFilter = '__ALL__';
 		this.state.serviceFilter = '__ALL__';
+		this.state.showIndisponibilities = true;
+		this.state.showMissions = true;
 	}
 
 
@@ -43,23 +48,46 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		this.setState(this._buildState());
 	}
 	_buildState() {
+		let missions = this.getMissions();
 		return {
-			offers: this.getOffers(),
+			interventions: this.getInterventions(),
 			services: this.getServices(),
 			customers: this.getCustomers(),
-			interventions: this.getInterventions(),
+			missions: missions,
+			filteredMissions: this._getFilteredMission(missions),
 			indisponibilities: this.getIndisponibilities()
 		};
 	}
 	
+	_getFilteredMission(missions) {
+		return Utils.filter(missions, function(mission) {
+			let status = MissionStatus.getStatus(mission.status);
+			if (this.state.missionFilter && this.state.missionFilter !== '__ALL__' && this.state.missionFilter !== status) {
+				return false;
+			}
+			let intervention = this.getIntervention(mission.interventionId);
+			if (this.state.customerFilter && this.state.customerFilter !== '__ALL__' && this.state.customerFilter !== intervention.customerId) {
+				return false;
+			}
+			if (this.state.serviceFilter && this.state.serviceFilter !== '__ALL__' && this.state.serviceFilter !== intervention.serviceId) {
+				return false;
+			}
+			return true;
+		}.bind(this))
+	}
+
+	_filterMissions(status) {
+		return (this.state.filteredMissions || []).
+		filter(function (mission) {
+			return MissionStatus.getStatus(mission.status) === status;
+		});
+	}
+
 
 	// Callback functions //
 	// --------------------------------------------------------------------------------
 
 	onDaySelect(day) {
-		for (let i = 0; i < this.state.offers.length; i++) {
-			
-		}
 		this.setState({ selected: day });
 	}
 	onPrint() {
@@ -85,78 +113,66 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 			Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', params);
 		});
 	}
+	showMissions(show) {
+		this.setState({ showMissions: show })
+	}
+	showIndisponibilities(show) {
+		this.setState({ showIndisponibilities: show })
+	}
+	filterMissions(missionStatus) {
+		let status = missionStatus
+		if (status !== '__ALL__') {
+			status = MissionStatus.getStatus(status)
+		}
+		this.state.missionFilter = status;
+		this.setState({ 
+			filteredMissions: this._getFilteredMission(this.state.missions)
+		});
+	}
 	filterServices(serviceId) {
-		this.setState({ serviceFilter: serviceId })
+		this.state.serviceFilter = serviceId;
+		this.setState({ 
+			filteredMissions: this._getFilteredMission(this.state.missions)
+		});
 	}
 	filterCustomers(customerId) {
-		this.setState({ customerFilter: customerId })
+		this.state.customerFilter = customerId;
+		this.setState({ 
+			filteredMissions: this._getFilteredMission(this.state.missions)
+		});
 	}
 
 
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
-	_buildInterventions() {
-		return this._buildSpecials(Utils.filter(Utils.map(this.state.offers), function (offer) {
-			return offer.status === 'ACCEPTED';
-		}).
-		filter(function (offer) {
-			return this.state.customerFilter === '__ALL__' || this.state.customerFilter === offer.customerId;
-		}.bind(this)).
-		filter(function (offer) {
-			return this.state.serviceFilter === '__ALL__' || this.state.serviceFilter === offer.serviceId;
-		}.bind(this)).
-		map(function(offer) {
-			return this.state.interventions[offer.interventionId];
-		}.bind(this)));
+	// Builds the list of missions to display on the planning
+	_buildMissionsPlanned() {
+		return this._filterMissions(MissionStatus.PENDING).map(this.__buildMission.bind(this));
 	}
-	_buildIndisponibilities() {
-		return this._buildSpecials(Utils.map(this.state.indisponibilities));
+	_buildMissionsCanceled() {
+		return this._filterMissions(MissionStatus.CANCELED).map(this.__buildMission.bind(this));
 	}
-	_buildOffers() {
-		return this._buildSpecials(Utils.filter(Utils.map(this.state.offers), function (offer) {
-			return offer.status === 'PENDING';
-		}).
-		filter(function (offer) {
-			return this.state.customerFilter === '__ALL__' || this.state.customerFilter === offer.customerId;
-		}.bind(this)).
-		filter(function (offer) {
-			return this.state.serviceFilter === '__ALL__' || this.state.serviceFilter === offer.serviceId;
-		}.bind(this)).
-		map(function(offer) {
-			return this.state.interventions[offer.interventionId];
-		}.bind(this)));
+	_buildMissionsCompleted() {
+		return this._filterMissions(MissionStatus.COMPLETED).map(this.__buildMission.bind(this));
 	}
-	_buildSpecials(values) {
-		let result = [];
-		for (let i = 0; i < values.length; i++) {
-			let value = values[i];
-			if (value.oneTime) {
-				result.push(value.oneTime);
-			}
-			if (value.recurence) {
-				let recurence = value.recurence;
-				let start = MomentHelper.fromLocalDate(recurence.startDate);
-				let end = MomentHelper.fromLocalDate(recurence.endDate);
-				let current = start.clone().startOf('week');
-				while (current.isSameOrBefore(end)) {
-					for (let d = 0; d < recurence.days.length; d++) {
-						let day = DAYS[recurence.days[d]];
-						let date = current.clone().add(day.pos, 'day');
-						if (date.isSameOrAfter(start) && date.isSameOrBefore(end)) {
-							result.push({
-								date: MomentHelper.toLocalDate(date),
-								startTime: recurence.startTime,
-								endTime: recurence.endTime
-							});
-						}
-					}
-					current.add(recurence.period === 'P14D' ? 14 : 7, 'day');
-				}
-			}
+	__buildMission(mission) {
+		let intervention = this.state.interventions[mission.interventionId];
+		return {
+			date: mission.date,
+			startTime: intervention.startTime,
+			endTime: intervention.endTime
 		}
-		return result;
 	}
+	// Builds the list of absences to display on the planning
+	_buildIndisponibilities() {
+		
+		if (this.state.showIndisponibilities) {
+			return this.state.indisponibilities.absences;
+		}
+		return [];
+	}
+	// Builds a list of services for filtering
 	_buildServicesValues() {
 		let servicesValues = Utils.map(this.state.services, function (service) {
 			return {
@@ -170,6 +186,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		});
 		return servicesValues;
 	}
+	// Builds a list of customers for filtering
 	_buildCustomersValues() {
 		let customersValues = Utils.map(this.state.customers, function (customer) {
 			var name = customer.civility + ' ' + customer.lastName;
@@ -184,6 +201,84 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		});
 		return customersValues;
 	}
+	// Builds a list of missions status for filtering
+	_buildMissionsValues() {
+		let missionsValues = MissionStatus.STATUSES;
+		missionsValues.unshift({
+			key: '__ALL__',
+			value: 'Toutes'
+		});
+		return missionsValues;
+	}
+	//
+	_buildTotalHours() {
+		let result = [0, 0];
+		let l = this.state.filteredMissions.length;
+		for (let i = 0; i < l; i++) {
+			let mission = this.state.filteredMissions[i];
+			let intervention = this.getIntervention(mission.interventionId);
+			let source = intervention.oneTime || intervention.recurence;
+			let hours = source.endTime[0] - source.startTime[0];
+			let minutes = source.endTime[1] - source.startTime[1];
+			result[0] += hours;
+			if (minutes < 0) {
+				result[0] -= 1;
+				result[1] += (60 + minutes);
+			} else {
+				result[1] += minutes;
+			}
+			if (result[1] >= 60) {
+				result[0] += 1;
+				result[1] = result[1] % 60;
+			}
+		}
+		return result[0] + 'h' + result[1];
+	}
+
+	//
+	_buildInformations() {
+		let result = [];
+		if (this.state.selected) {
+			let absences = this.getIndisponibilities().absences;
+			let l = absences.length;
+			for (let i =0; i < l; i++) {
+				let absence = absences[i];
+				if (MomentHelper.localDateEquals(this.state.selected, absence.date)) {
+					result.push(
+						<APPanelBasic 
+							key={'indispo-' + i}
+							bsStyle='warning'
+							title='Indisponibilité'
+							text={IndisponibilityHelper.getInitialText(this.getIndisponibility(absence.indisponibilityId))}/>
+					);
+				}
+			}
+			l = this.state.filteredMissions.length;
+			for (let i =0; i < l; i++) {
+				let mission = this.state.filteredMissions[i];
+				let status = MissionStatus.getStatus(mission.status);
+
+				if (MomentHelper.localDateEquals(this.state.selected, mission.date)) {
+					let intervention = this.getIntervention(mission.interventionId);
+					let customer= this.getCustomer(intervention.customerId);
+					let service = this.getService(intervention.serviceId);
+					let text = InterventionHelper.getInitialText(intervention);
+					text.push('Chez ' + customer.civility + ' ' + customer.lastName + ' ' + customer.firstName);
+					text.push(customer.address);
+					text.push(customer.postalCode + ' ' + customer.city);
+					text.push('Pour ' + service.socialReason);
+					result.push(
+						<APPanelBasic 
+							key={'mission-' + i}
+							bsStyle={status.bsStyle}
+							title={'Mission ' + status.value}
+							text={text}/>
+					);
+				}
+			}
+		}
+		return result;
+	}
 
 	render() { return (
 		<Row>
@@ -193,19 +288,28 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 					<br/><p>Afficher mon planning par type de:</p>
 					<Form horizontal>
 						<FormSelect 
+							edit={true}
 							title='Clients' 
 							placeholder='<Tous>' 
 							defaultValue='__ALL__'
 							values={this._buildCustomersValues()}
 							onChange={this.filterCustomers.bind(this)}/>
 						<FormSelect 
+							edit={true}
 							title='SAD' 
 							placeholder='<Tous>' 
 							defaultValue='__ALL__'
 							values={this._buildServicesValues()}
 							onChange={this.filterServices.bind(this)}/>
+						<FormSelect 
+							edit={true}
+							title='Missions' 
+							placeholder='<Tous>' 
+							defaultValue='__ALL__'
+							values={this._buildMissionsValues()}
+							onChange={this.filterMissions.bind(this)}/>
 						</Form>
-						<p>Total heures interventions:</p><br/>
+						<p>{'Total heures interventions : ' + this._buildTotalHours()}</p><br/>
 					<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
 				</Panel>
 			</Col>
@@ -214,21 +318,26 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 					<Calendar 
 						moment={MomentHelper.toLocalDate(moment())}
 						selected={this.state.selected}
-						specialsSuccess={this._buildInterventions()}
-						specialsInfo={this._buildOffers()}
+						specialsInfo={this._buildMissionsPlanned()}
+						specialsDanger={this._buildMissionsCanceled()}
+						specialsSuccess={this._buildMissionsCompleted()}
 						specialsWarning={this._buildIndisponibilities()}
 						onDaySelect={this.onDaySelect.bind(this)} />
 				</Panel>
 			</Col>
 			<Col sm={2} md={3} lg={4}>
-				<AuxiliaryPlaningInformation
-					date={this.state.selected}
-					indisponibilities={this.state.indisponibilities}
-					interventions={this.state.interventions}
-					offers={this.state.offers} />
+				{this._buildInformations()}
 			</Col>
 		</Row>
 	);}
 }
+
+/*
+<AuxiliaryPlaningInformation
+					date={this.state.selected}
+					indisponibilities={this.state.indisponibilities}
+					interventions={this.state.interventions}
+					offers={this.state.offers} />
+*/
 
 export default AuxiliaryPlaning;

@@ -3,7 +3,10 @@ import Dispatcher from 'core/Dispatcher'
 import StoreBase from 'core/StoreBase'
 import StoreRegistry from 'core/StoreRegistry'
 // Lib modules
-import Utils from '../utils/Utils'
+import MomentHelper from 'utils/moment/MomentHelper'
+import Period from 'utils/constants/Period'
+import { DAYS } from 'utils/moment/Days'
+import Utils from 'utils/Utils'
 
 var DEFAULT_CONTENT = {
 	data: {},
@@ -146,11 +149,46 @@ Dispatcher.register('GET_AUXILIARY_INTERVENTIONS', AuxiliaryStore.onGetAuxiliary
 AuxiliaryStore.onGetAuxiliaryIndisponibilities = function (result, param) {
 	let data = AuxiliaryStore.getContent().data;
 	data.indisponibilities = {};
+	data.indisponibilities.absences = [];
 	if (result && result.length) {
 		let l = result.length;
 		for (let i = 0; i < l; i++) {
 			let indisponibility = result[i];
 			data.indisponibilities[indisponibility.id] = indisponibility;
+			let period = Period.getPeriod(indisponibility.period);
+			switch (period) {
+			case Period.ONE:
+				data.indisponibilities.absences.push({
+					indisponibilityId: indisponibility.id,
+					date: indisponibility.startDate,
+					startTime: indisponibility.startTime,
+					endTime: indisponibility.endTime
+				});
+				break;
+			case Period.P1W:
+			case Period.P2W:
+			case Period.P3W:
+			case Period.P4W:
+				let startDate = MomentHelper.fromLocalDate(indisponibility.startDate);
+				let endDate = MomentHelper.fromLocalDate(indisponibility.endDate);
+				let current = startDate.clone().startOf('week');
+				while (current.isSameOrBefore(endDate)) {
+					for (let d = 0; d < indisponibility.days.length; d++) {
+						let day = DAYS[indisponibility.days[d]];
+						let date = current.clone().add(day.pos, 'day');
+						if (date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate)) {
+							data.indisponibilities.absences.push({
+								indisponibilityId: indisponibility.id,
+								date: MomentHelper.toLocalDate(date),
+								startTime: indisponibility.startTime,
+								endTime: indisponibility.endTime
+							});
+						}
+					}
+					current.add(period.days, 'day');
+				}
+				break;
+			}
 		}
 	}
 	data.indisponibilitiesLoaded = true;

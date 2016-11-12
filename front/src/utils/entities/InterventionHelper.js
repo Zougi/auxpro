@@ -98,7 +98,7 @@ export default class InterventionHelper {
 			}
 			text.push('Prestation ' + period);
 			text.push('Du ' + startDate + ' au ' + endDate);
-			text.push('Les ' + days);
+			text.push('Le ' + days);
 			text.push('De ' + startTime + ' à ' + endTime);
 		}
 		return text;

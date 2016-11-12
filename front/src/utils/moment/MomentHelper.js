@@ -5,6 +5,14 @@ moment.locale('fr')
 
 export default class MomentHelper {
 
+	static localDateEquals (localDate1, localDate2) {
+		let result =
+			localDate1[0] === localDate2[0] && 
+			localDate1[1] === localDate2[1] && 
+			localDate1[2] === localDate2[2];
+		return result;
+	}
+
 	/*	
 		LOCAL DATE
 		Representation of the Java LocalDate object comes as integer array:

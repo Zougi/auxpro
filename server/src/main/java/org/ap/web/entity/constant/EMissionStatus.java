@@ -2,12 +2,9 @@ package org.ap.web.entity.constant;
 
 public enum EMissionStatus {
 
-	PENDING  (),
-	CANCELED (),
-	DONE_1S  (),
-	DONE_2S  (),
-	DONE_3S  (),
-	DONE_4S  (),
+	PENDING,
+	CANCELED,
+	COMPLETED,
 	;
 	
 	private EMissionStatus() {}

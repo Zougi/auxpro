@@ -50,11 +50,6 @@ public class TestDataGenerator {
 	public static IndisponibilityBean next(IndisponibilityBean bean) {
 		bean.setId(StringConverter.stringToHex(String.valueOf(ABSENCE_ID++)));
 		bean.setAuxiliaryId(StringConverter.stringToHex(String.valueOf(AUXILIARY_ID)));
-		if (ABSENCE_ID % 2 == 0) {
-			bean.setRecurence(next(new RecurenceBean()));
-		} else {
-			bean.setOneTime(next(new OneTimeBean()));
-		}
 		return bean;
 	}
 	public static AuxiliaryBean next(AuxiliaryBean bean) {
