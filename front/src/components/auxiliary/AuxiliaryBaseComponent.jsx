@@ -145,14 +145,20 @@ class AuxiliaryBaseComponent extends React.Component {
 	// Indisponibilities //
 	// --------------------------------------------------------------------------------
 
-	loadIndisponibilities() {
-		return Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', this._getBaseArgs());
-	}
 	getIndisponibilities() {
 		return this._getAuxiliaryData('/data/indisponibilities');
 	}
 	getIndisponibility(id) {
 		return this._getAuxiliaryData('/data/indisponibilities/' + id);
+	}
+
+	loadIndisponibilities() {
+		return Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', this._getBaseArgs());
+	}
+	createIndisponibility(indisponibility) {
+		let args = this._getBaseArgs();
+		args.data = indisponibility;
+		return Dispatcher.issue('POST_INDISPONIBILITY', args);
 	}
 
 

@@ -6,8 +6,8 @@ import RestService from 'services/rest/RestService.js';
  * HELPERS **
  * */
 
-function getIndisponibilityUrl(offerId) {
-	return '/indisponibilities/' + (offerId ? offerId  : '');
+function getIndisponibilityUrl(id) {
+	return '/indisponibilities/' + (id ? id  : '');
 }
 
 /* **

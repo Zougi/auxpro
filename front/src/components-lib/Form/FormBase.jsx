@@ -44,10 +44,10 @@ class FormBase extends React.Component {
 	render() { 
 		return (
 			<FormGroup validationState={this.state.validationState}>
-				<Col componentClass={ControlLabel} sm={this.state.smLabelSize} md={this.state.mdLabelSize} lg={this.state.lgLabelSize}>
+				<Col componentClass={ControlLabel} xs={this.state.xsLabelSize} sm={this.state.smLabelSize} md={this.state.mdLabelSize} lg={this.state.lgLabelSize}>
 					{this.props.title}
 				</Col>
-				<Col sm={12 - this.state.smLabelSize} md={12 - this.state.mdLabelSize} lg={12 - this.state.lgLabelSize}>
+				<Col xs={12 - this.state.xsLabelSize} sm={12 - this.state.smLabelSize} md={12 - this.state.mdLabelSize} lg={12 - this.state.lgLabelSize}>
 					{this.props.children ? this.props.children : this.getFormControl()}
 					<FormControl.Feedback/>
 				</Col>

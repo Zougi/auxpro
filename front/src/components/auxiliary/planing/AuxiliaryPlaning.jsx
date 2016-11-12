@@ -10,6 +10,7 @@ import AuxiliaryPlaningInformation from 'components/auxiliary/planing/AuxiliaryP
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 import Calendar from 'components-lib/calendar/Calendar'
 import FormSelect from 'components-lib/Form/FormSelect'
+import FormCheckbox from 'components-lib/Form/FormCheckbox'
 // Lib modules
 import MomentHelper from 'utils/moment/MomentHelper'
 import MissionStatus from 'utils/constants/MissionStatus'
@@ -94,24 +95,16 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		window.print();
 	}
 	addAbsence() {
-		let params = { 
+		let data = { 
 			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-			token: StoreRegistry.getStore('LOGIN_STORE').getData('/token'),
-			data: {
-				auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-				oneTime: {
-					date: this.state.selected,
-					startTime: [0, 0],
-					endTime: [23, 59]
-				}
-				
-			}
+			startDate: this.state.selected,
+			endDate: this.state.selected,
+			startTime: [0, 0],
+			endTime: [23, 59],
+			period: 'ONE'
 		};
-		Dispatcher.issue('POST_INDISPONIBILITY', params).
-		then(function() {
-			delete params.data;
-			Dispatcher.issue('GET_AUXILIARY_INDISPONIBILITIES', params);
-		});
+		this.createIndisponibility(data).
+		then(this.loadIndisponibilities.bind(this));
 	}
 	showMissions(show) {
 		this.setState({ showMissions: show })
@@ -148,13 +141,22 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 
 	// Builds the list of missions to display on the planning
 	_buildMissionsPlanned() {
-		return this._filterMissions(MissionStatus.PENDING).map(this.__buildMission.bind(this));
+		if (this.state.showMissions) {
+			return this._filterMissions(MissionStatus.PENDING).map(this.__buildMission.bind(this));
+		}
+		return [];
 	}
 	_buildMissionsCanceled() {
-		return this._filterMissions(MissionStatus.CANCELED).map(this.__buildMission.bind(this));
+		if (this.state.showMissions) {
+			return this._filterMissions(MissionStatus.CANCELED).map(this.__buildMission.bind(this));
+		}
+		return [];
 	}
 	_buildMissionsCompleted() {
-		return this._filterMissions(MissionStatus.COMPLETED).map(this.__buildMission.bind(this));
+		if (this.state.showMissions) {
+			return this._filterMissions(MissionStatus.COMPLETED).map(this.__buildMission.bind(this));
+		}
+		return [];
 	}
 	__buildMission(mission) {
 		let intervention = this.state.interventions[mission.interventionId];
@@ -166,7 +168,6 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	}
 	// Builds the list of absences to display on the planning
 	_buildIndisponibilities() {
-		
 		if (this.state.showIndisponibilities) {
 			return this.state.indisponibilities.absences;
 		}
@@ -285,8 +286,27 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 			<Col sm={2} md={2} lg={3}>
 				<Panel header="Actions" className='no-print'>
 					<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.onPrint.bind(this)}>Imprimer mon planning</Button>
-					<br/><p>Afficher mon planning par type de:</p>
 					<Form horizontal>
+						<FormCheckbox
+							edit={true}
+							title='Voir missions'
+							xsLabelSize={10}
+							smLabelSize={10}
+							mdLabelSize={10}
+							lgLabelSize={10}
+							defaultValue={this.state.showMissions}
+							onChange={this.showMissions.bind(this, !this.state.showMissions)}
+							/>
+						<FormCheckbox
+							edit={true}
+							title='Voir indisponibilités'
+							xsLabelSize={10}
+							smLabelSize={10}
+							mdLabelSize={10}
+							lgLabelSize={10}
+							defaultValue={this.state.showIndisponibilities}
+							onChange={this.showIndisponibilities.bind(this, !this.state.showIndisponibilities)}
+							/>
 						<FormSelect 
 							edit={true}
 							title='Clients' 
