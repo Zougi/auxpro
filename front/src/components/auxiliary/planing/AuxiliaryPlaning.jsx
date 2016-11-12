@@ -233,7 +233,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 				result[1] = result[1] % 60;
 			}
 		}
-		return result[0] + 'h' + result[1];
+		return result[0] + 'h' + (result[1] < 10 ? '0' : '') + result[1];
 	}
 
 	//
@@ -285,7 +285,6 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		<Row>
 			<Col sm={2} md={2} lg={3}>
 				<Panel header="Actions" className='no-print'>
-					<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.onPrint.bind(this)}>Imprimer mon planning</Button>
 					<Form horizontal>
 						<FormCheckbox
 							edit={true}
@@ -329,12 +328,13 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 							values={this._buildMissionsValues()}
 							onChange={this.filterMissions.bind(this)}/>
 						</Form>
-						<p>{'Total heures interventions : ' + this._buildTotalHours()}</p><br/>
-					<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une absence</Button>
+						<p>{'Total heures intervention : ' + this._buildTotalHours()}</p><br/>
+					<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une indisponibilité</Button>
+					<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.onPrint.bind(this)}>Imprimer mon planning</Button>
 				</Panel>
 			</Col>
 			<Col sm={8} md={7} lg={5}>
-				<Panel header={'Planning mensuel - '}>
+				<Panel header={'Planning mensuel'}>
 					<Calendar 
 						moment={MomentHelper.toLocalDate(moment())}
 						selected={this.state.selected}
@@ -351,13 +351,4 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 		</Row>
 	);}
 }
-
-/*
-<AuxiliaryPlaningInformation
-					date={this.state.selected}
-					indisponibilities={this.state.indisponibilities}
-					interventions={this.state.interventions}
-					offers={this.state.offers} />
-*/
-
 export default AuxiliaryPlaning;
