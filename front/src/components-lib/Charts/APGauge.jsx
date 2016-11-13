@@ -36,7 +36,6 @@ class APGauge extends React.Component {
 	};
 
 	componentDidUpdate () {
-		console.log('UPDATED')
 		this._drawChart();
 	}
 

@@ -195,7 +195,6 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		return true;
 	}
 	_buildTitle() {
-		console.log(this.state)
 		if (this.state.offersFilter) {
 			return 'Offres ' + this.state.offersFilter.value.toLowerCase();
 		}
@@ -211,7 +210,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 							<APButton bsStyle='primary' onClick={this.onOffersFilter.bind(this, null)} text='Toutes' />
 							<APButton bsStyle='info' onClick={this.onOffersFilter.bind(this, OfferStatus.PENDING)} text='En attente' />
 							<APButton bsStyle='success' onClick={this.onOffersFilter.bind(this, OfferStatus.ACCEPTED)} text='Acceptées' />
-							<APButton bsStyle='danger' onClick={this.onOffersFilter.bind(this, OfferStatus.DECLINED)} text='Rejetées' />
+							<APButton bsStyle='danger' onClick={this.onOffersFilter.bind(this, OfferStatus.REJECTED)} text='Rejetées' />
 							<APButton onClick={this.onOffersFilter.bind(this, OfferStatus.EXPIRED)} text='Expirées' />
 						</ButtonGroup>
 					</Row>
@@ -229,10 +228,10 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 					cancelText='Annuler' />
 				<DialogConfirmation
 					show={this.state.confirmReject}
-					title="Rejeter l'offre"
+					title="Décliner l'offre"
 					onConfirm={this.onAccept.bind(this)}
 					confirmStyle='danger'
-					confirmText='Rejeter'
+					confirmText='Décliner'
 					onCancel={this.onCancel.bind(this)}
 					cancelStyle='default'
 					cancelText='Annuler' />

@@ -12,8 +12,6 @@ class AuxiliaryAddCity extends React.Component {
 	}
 	
 	onAutocompleteChanged(address) {
-		console.log("AUTOCOMPLETE ADRESS")
-		console.log(address)
 		var change = {
 			lattitude: address.lattitude,
 			longitude: address.longitude,

@@ -43,7 +43,6 @@ class AuxiliaryAddZone extends React.Component {
 	
 	reverseGeoCodeResult(result, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
-			console.log(result);
 			this.setState({ defaultValue: result[0].formatted_address });
 		} else {
 			alert('ReverseGeoCode Error: ' + status);

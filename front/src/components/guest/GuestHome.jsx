@@ -1,12 +1,13 @@
-import React from 'react';
+import React from 'react'
+import { Grid, Row, Col, Panel } from 'react-bootstrap'
 // Core module
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import GuestBaseComponent from 'components/guest/GuestBaseComponent.jsx';
-import ServicesBox from 'components/common/services/ServicesBox.jsx';
+import GuestBaseComponent from 'components/guest/GuestBaseComponent'
+import AsyncImage from 'lib/image/AsyncImage'
 // Lib modules
-import Utils from 'utils/Utils.js';
+import Utils from 'utils/Utils'
 
 class GuestHome extends GuestBaseComponent {
 
@@ -25,7 +26,7 @@ class GuestHome extends GuestBaseComponent {
 			user: 'guest',
 			pass: 'guest'
 		}).then(function () {
-			return this.loadServices();	
+			return this.loadServices();
 		}.bind(this)).
 		then(function () {
 			this.setState({ dataLoaded: true });
@@ -38,7 +39,7 @@ class GuestHome extends GuestBaseComponent {
 		});
 	}
 	componentDidMount() {
-	 	StoreRegistry.register('GUEST_STORE/display/postalCode', this, this._onStoreUpdate.bind(this));
+		StoreRegistry.register('GUEST_STORE/display/postalCode', this, this._onStoreUpdate.bind(this));
 	}
 	componentWillUnmount() {
 		StoreRegistry.unregister('GUEST_STORE', this);
@@ -62,25 +63,43 @@ class GuestHome extends GuestBaseComponent {
 				return service.postalCode === Number(this.state.postalCode);
 			}
 			return true;
-		}.bind(this));
+		}.bind(this)).
+		map(function (service, i) {
+			return (
+			<Col key={i} xs={12} sm={6} lg={4}>
+				<Panel>
+					<Col xs={4}>
+						<AsyncImage src={service.avatar}/>
+					</Col>
+					<Col xs={8}>
+						<div><strong>{service.socialReason}</strong></div>
+						<div>{service.address}</div>
+						<div>{service.postalCode} {service.city}</div>
+						<div>Email: {service.email}</div>
+						<div>Téléphone: {service.phone}</div>
+					</Col>
+				</Panel>
+			</Col>
+			);
+		});
 	}
 
 	render() {
 		if (!this.state.dataLoaded) {
 			return ( <div className='container'/> );
 		}
-		let services = this._buildServices();
-		if (services.length === 0) {
-			return (
-				<div className='container'>
-					<ServicesBox services={this._buildServices()} />
-					<h4>Il n'y as pas de SAD sur cette localisation</h4>
-				</div>
-			);				
-		}
 		return(
 			<div className='container'>
-				<ServicesBox services={this._buildServices()} />
+				<Grid>
+					<Row>
+						<Col xs={12}>
+							<h2>Sociétés d'aide a domicile</h2>
+						</Col>
+					</Row>
+					<Row>
+						{this._buildServices()}
+					</Row>
+				</Grid>
 			</div>
 		);
 	}

@@ -44,7 +44,6 @@ class AsyncImage extends React.Component {
 	}
 
 	_resize() {
-		console.log('resizing')
 		this.container.style.height = this.container.getBoundingClientRect().width + 'px';
 	}
 

@@ -5,21 +5,21 @@ import StoreRegistry from 'core/StoreRegistry'
 
 class Redirect extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-	
+	constructor(props) {
+		super(props);
+	}
+
 	componentWillMount() {
-		 let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
+		let logged = StoreRegistry.getStore('LOGIN_STORE').getData('/logged');
 		if (logged) {
 			Dispatcher.issue('NAVIGATE', { path: '/'});
 		} else {
 			Dispatcher.issue('NAVIGATE', { path: '/login'});
 		}
-    }
+	}
 
-    render() {
-		return (<div></div>);
-    };
+	render() {
+		return (<div/>);
+	};
 }
 export default Redirect;

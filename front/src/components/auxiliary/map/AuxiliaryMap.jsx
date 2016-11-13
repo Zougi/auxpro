@@ -379,8 +379,6 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	
 	
 	render() {
-		console.log("RENDER")
-		console.log(this.state)
 		return (
 			<Panel header="Mes zones d'intervention">
 				<Row>

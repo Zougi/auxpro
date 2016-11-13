@@ -58,7 +58,6 @@ class AuxiliaryPlanningInformation extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
 		return (
 			<Panel header="Informations">
 				<ListGroup>
