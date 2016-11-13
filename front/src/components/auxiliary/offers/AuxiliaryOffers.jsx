@@ -196,7 +196,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	}
 	_buildTitle() {
 		if (this.state.offersFilter) {
-			return 'Offres ' + this.state.offersFilter.value.toLowerCase();
+			return 'Offres ' + this.state.offersFilter.value.toLowerCase() + 's';
 		}
 		return 'Toutes mes offres'
 	}

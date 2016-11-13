@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap'
 // Custom components
-import FormBase from 'components-lib/form/FormBase'
+import FormBase from 'components-lib/Form/FormBase'
 // Custom modules
-import { DEFAULTS } from 'components-lib/form/FormConstants'
+import { DEFAULTS } from 'components-lib/Form/FormConstants'
 
 let HOURS = [];
 for (let i = 0; i < 24; i++) {

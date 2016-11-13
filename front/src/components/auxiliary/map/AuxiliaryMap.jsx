@@ -9,7 +9,7 @@ import AuxiliaryGeozoneEdit from './AuxiliaryGeozoneEdit.jsx'
 import AuxiliaryAddZone from './AuxiliaryAddZone.jsx'
 import AuxiliaryAddCity from './AuxiliaryAddCity.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
-import APButton from 'lib/Button/ApButton.jsx'
+import APButton from 'lib/Button/APButton.jsx'
 import APPanelHeaderAction from 'components-lib/Panel/APPanelHeaderAction'
 
 var MARKER_TYPE = {

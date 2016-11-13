@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormGroup, Checkbox, Row } from 'react-bootstrap'
 // Custom components
-import FormBase from 'components-lib/form/FormBase'
+import FormBase from 'components-lib/Form/FormBase'
 
 class FormSelectMulti extends FormBase {
 

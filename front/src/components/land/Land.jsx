@@ -3,7 +3,7 @@ import { Button, Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, C
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 // Custom components
-import FormInput from 'components-lib/form/FormInput'
+import FormInput from 'components-lib/Form/FormInput'
 // Lib modules
 import CustomValidator from 'utils/form/CustomValidator.js'
 

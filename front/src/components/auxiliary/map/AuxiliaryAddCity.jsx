@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete.jsx'
-import APButton from 'lib/Button/ApButton.jsx'
+import APButton from 'lib/Button/APButton.jsx'
 
 
 class AuxiliaryAddCity extends React.Component {

@@ -1,31 +1,34 @@
 import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
-
-import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete.jsx'
-import APButton from 'lib/Button/ApButton.jsx'
-
+// Custom components
+import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete'
+import APButton from 'lib/Button/APButton'
 
 class AuxiliaryAddZone extends React.Component {
 
 	constructor(props) {
 		super(props);
-		if (props.location)
+		if (props.location) {
 			this.state = {
-					radius: 0,
-					lattitude: props.location.lattitude,
-					longitude: props.location.longitude,
-					location: props.location
+				radius: 0,
+				lattitude: props.location.lattitude,
+				longitude: props.location.longitude,
+				location: props.location
 			};
-		else
-			this.state = {radius: 0, location: props.location};
+		} else {
+			this.state = {
+				radius: 0, 
+				location: props.location
+			};
+		}
 	}
 	
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.location)
 			this.setState({
-					lattitude: nextProps.location.lattitude,
-					longitude: nextProps.location.longitude,
-					location: nextProps.location
+				lattitude: nextProps.location.lattitude,
+				longitude: nextProps.location.longitude,
+				location: nextProps.location
 			});
 			
 		if (!nextProps.location.radius && nextProps.location.radius != 0) {

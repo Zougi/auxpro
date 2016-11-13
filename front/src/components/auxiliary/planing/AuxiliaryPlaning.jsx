@@ -8,7 +8,7 @@ import StoreRegistry from 'core/StoreRegistry'
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
 import AuxiliaryPlaningInformation from 'components/auxiliary/planing/AuxiliaryPlaningInformation'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
-import Calendar from 'components-lib/calendar/Calendar'
+import Calendar from 'components-lib/Calendar/Calendar'
 import FormSelect from 'components-lib/Form/FormSelect'
 import FormCheckbox from 'components-lib/Form/FormCheckbox'
 // Lib modules

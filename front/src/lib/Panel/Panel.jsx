@@ -10,7 +10,7 @@ class Panel extends Base {
 	getContent() {
 		if(this.props.body) {
 			return (
-				<div className="panel-body">
+				<div className='panel-body'>
 					{this.props.children}
 				</div>
 			);
@@ -19,9 +19,9 @@ class Panel extends Base {
 		}
 	}
 	
-	render() { 
+	render() {
 		return(
-			<div className="panel panel-default">
+			<div className='panel panel-default'>
 				{this.getContent()}
 			</div>
 	);}
