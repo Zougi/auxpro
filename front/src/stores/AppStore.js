@@ -62,7 +62,7 @@ AppStore.onLogon = function (result, param) {
 	case 'sad':
 		AppStore._content.app = {
 			header: {
-				brand: { link: '/', name: 'AuxPro' },
+				brand: { link: '/sad/home', name: 'AuxPro' },
 				rightContent: [
 					{ key: 1, link: '/sad/home', query: {}, name: 'Accueil', glyph: 'home' },
 					{ key: 2, link: '/sad/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },

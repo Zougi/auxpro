@@ -40,6 +40,8 @@ import ServiceMap from 'components/service/map/ServiceMap'
 import ServiceCustomer from 'components/service/customers/ServiceCustomer'
 import ServiceCustomers from 'components/service/customers/ServiceCustomers'
 import ServiceCustomerEdit from 'components/service/customers/ServiceCustomerEdit'
+import ServiceAuxiliary from 'components/service/auxiliaries/ServiceAuxiliary'
+import ServiceAuxiliaries from 'components/service/auxiliaries/ServiceAuxiliaries'
 import ServiceIntervention from 'components/service/interventions/ServiceIntervention'
 import ServiceInterventions from 'components/service/interventions/ServiceInterventions'
 import ServiceInterventionEdit from 'components/service/interventions/ServiceInterventionEdit'
@@ -89,6 +91,9 @@ class AppRouter extends React.Component {
 						<Route path='interventions/new' component={ServiceInterventionEdit} />
 						<Route path='interventions/:interventionId' component={ServiceIntervention} />
 						<Route path='interventions/:interventionId/edit' component={ServiceInterventionEdit} />
+
+						<Route path='auxiliaries' component={ServiceAuxiliaries} />
+						<Route path='auxiliaries/:auxiliaryId' component={ServiceAuxiliary} />
 					</Route>
 					
 					<Route path='aux' component={Auxiliary} >

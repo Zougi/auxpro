@@ -37,7 +37,7 @@ class ServiceCustomers extends ServiceBaseComponent {
 	_buildState() {
 		return { 
 			customers: this.getCustomers(),
-			serach: ''
+			search: ''
 		};
 	}
 
