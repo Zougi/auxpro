@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Panel, Button } from 'react-bootstrap'
 // Core modules
 import StoreRegistry from 'core/StoreRegistry'
+import Dispatcher from 'core/Dispatcher'
 import Utils from 'utils/Utils.js'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
@@ -377,40 +378,64 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		this.setState({showInterventions: !event.target.checked})
 	}
 	
+	showAllServices(event) {
+		if (event.target.checked)
+			this.loadAllServices()
+		else
+			this.loadServices()
+	}
+	
+	getAddButtons() {
+		if (Object.keys(this.state.geozones).length >= 3)
+			return (
+				<Col xs={4}>
+					<div>Maximum 3 Zones</div>
+				</Col>
+			);
+		else
+			return (	
+				<Col xs={4}>
+				<APButton block
+					bsStyle='warning'
+					onClick={this.changeZoneMode.bind(this)}>
+					Ajouter une zone
+				</APButton>
+				<APButton block
+					bsStyle='warning'
+					onClick={this.changeCityMode.bind(this)}>
+					Ajouter une ville
+				</APButton>
+				</Col>
+			);
+	}
 	
 	render() {
 		return (
 			<Panel header="Mes zones d'intervention">
 				<Row>
-					<Col sm={4}>
+					<Col sm={3}>
 						<div className="checkbox">
 							<label><input type="checkbox" value="" onClick={this.hideService.bind(this)} />Masquer Services</label>
 						</div>
 					</Col>
-					<Col sm={4}>
+					<Col sm={3}>
 						<div className="checkbox">
 							<label><input type="checkbox" value="" onClick={this.hideOffers.bind(this)} />Masquer Offres</label>
 						</div>
 					</Col>
-					<Col sm={4}>
+					<Col sm={3}>
 						<div className="checkbox">
 							<label><input type="checkbox" value="" onClick={this.hideInterventions.bind(this)} />Masquer Interventions</label>
 						</div>
 					</Col>
+					<Col sm={3}>
+						<div className="checkbox">
+							<label><input type="checkbox" value="" onClick={this.showAllServices.bind(this)} />Afficher tous les Services</label>
+						</div>
+					</Col>
 				</Row>
 				<Row>
-					<Col xs={4}>
-					<APButton block
-						bsStyle='warning'
-						onClick={this.changeZoneMode.bind(this)}>
-						Ajouter une zone
-					</APButton>
-					<APButton block
-						bsStyle='warning'
-						onClick={this.changeCityMode.bind(this)}>
-						Ajouter une ville
-					</APButton>
-					</Col>
+					{this.getAddButtons()}
 					<Col sm={8}>
 						{this.getPanel()}
 					</Col>

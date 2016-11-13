@@ -60,6 +60,22 @@ AuxiliaryStore.onGetAuxiliary = function (result, param) {
 Dispatcher.register('GET_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 Dispatcher.register('PUT_AUXILIARY', AuxiliaryStore.onGetAuxiliary);
 
+// GET ALL SERVICES
+AuxiliaryStore.onGetAllServices = function (result, param) {
+	let data = AuxiliaryStore.getContent().data;
+	data.services = {};
+	if (result && result.length) {
+		let l = result.length;
+		for (let i = 0; i < l; i++) {
+			let service = result[i];
+			data.services[service.id] = service;
+		}
+	}
+	data.servicesLoaded = true;
+	AuxiliaryStore.notifyPath('/data/services');
+}
+Dispatcher.register('GET_SERVICES', AuxiliaryStore.onGetAllServices);
+
 // GET AUXILIARY SERVICES
 AuxiliaryStore.onGetAuxiliaryServices = function (result, param) {
 	let data = AuxiliaryStore.getContent().data;

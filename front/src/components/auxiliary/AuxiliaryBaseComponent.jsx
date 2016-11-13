@@ -79,6 +79,9 @@ class AuxiliaryBaseComponent extends React.Component {
 	loadServices() {
 		return Dispatcher.issue('GET_AUXILIARY_SERVICES', this._getBaseArgs());
 	}
+	loadAllServices() {
+		return Dispatcher.issue('GET_SERVICES', this._getBaseArgs());
+	}
 	getServices() {
 		return this._getAuxiliaryData('/data/services');
 	}
