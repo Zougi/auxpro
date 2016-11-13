@@ -25,11 +25,11 @@
 	"email": "herve.paoli@outlook.fr",
 	"emailChecked": true,
 	"answers": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	"housework": 2,
-	"nursing": 4,
-	"childhood": 2,
-	"shopping": 1,
+	"housework": 5,
+	"nursing": 5,
+	"childhood": 5,
+	"shopping": 5,
 	"compagny": 5,
-	"administrative": 4,
-	"doityourself": 1
+	"administrative": 5,
+	"doityourself": 5
 }

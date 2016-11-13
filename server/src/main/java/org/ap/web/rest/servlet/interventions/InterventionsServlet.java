@@ -1,6 +1,10 @@
 package org.ap.web.rest.servlet.interventions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Path;
@@ -16,6 +20,7 @@ import org.ap.web.entity.mongo.IndisponibilityBean;
 import org.ap.web.entity.mongo.InterventionBean;
 import org.ap.web.entity.mongo.MissionBean;
 import org.ap.web.entity.mongo.OfferBean;
+import org.ap.web.helpers.Event;
 import org.ap.web.helpers.GeoHelper;
 import org.ap.web.internal.APException;
 import org.ap.web.rest.servlet.ServletBase;
@@ -148,14 +153,14 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 			InterventionBean intervention = checkIntervention(sc.getUserPrincipal().getName(), interventionId);
 			CustomerBean customer = _customersStore.getCustomer(intervention.getCustomerId());
 			AuxiliaryBean[] auxiliaries = _auxiliariesStore.get();
-			Set<AuxiliaryBean> result = new HashSet<AuxiliaryBean>();
+			Set<AuxiliaryBean> initial = new HashSet<AuxiliaryBean>();
 			// First retrieve auxiliaries with the good geo zone
 			for (AuxiliaryBean aux : auxiliaries) {
 				GeozoneBean[] geozones = _geozonesStore.getAuxiliaryGeozones(aux.getId());
 				for (GeozoneBean geozone : geozones) {
 					// Postal check
 					if (geozone.getPostalCode() == customer.getPostalCode()) {
-						result.add(aux);
+						initial.add(aux);
 					}
 					// Distance check
 					if (geozone.getRadius() != null) {
@@ -165,32 +170,71 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 								new Double(customer.getLattitude()), 
 								new Double(customer.getLongitude()));
 						if (dist < new Double(geozone.getRadius())) {
-							result.add(aux);
+							initial.add(aux);
 						}
 					}
 
 				}
 			}
 			// Then remove those with planning issues
-			for (AuxiliaryBean aux : result) {
-				boolean keep = false;
+			for (AuxiliaryBean aux : initial) {
+				boolean keep = true;
 				MissionBean[] missions = _missionsStore.getAuxiliaryMissions(aux.getId());
 				IndisponibilityBean[] indisponibilities = _indisponibilitiesStore.getAuxIndisponibilities(aux.getId());
+				Event[] interventionEvents = Event.buildEvents(intervention);
 				for (MissionBean mission : missions) {
+					InterventionBean mIntervention = _interventionsStore.getIntervention(mission.getInterventionId());
+					Event[] missionEvents = Event.buildEvents(mission, mIntervention);
+					if (Event.hasOverlap(missionEvents, interventionEvents)) {
+						keep = false;
+					}
+					if (!keep) {
+						initial.remove(aux);
+						break;
+					}
 				}
-				if (keep) {
-					break;
+				if (!keep) {
+					continue;
 				}
-				for (IndisponibilityBean indisponibility: indisponibilities) {
-									}
-				if (keep) {
-					break;
-				} else {
-					//result.remove(aux);
-				}
+				for (IndisponibilityBean indisponibility : indisponibilities) {
+					Event[] indisponibilityEvents = Event.buildEvents(indisponibility);
+					if (Event.hasOverlap(indisponibilityEvents, interventionEvents)) {
+						keep = false;
+					}
+					if (!keep) {
+						initial.remove(aux);
+						break;
+					}
+				}				
 			}
-			// Finally give them a score a return the 5 bests
-
+			// Give a score to the remaining auxiliaries
+			Map<AuxiliaryBean, Integer> scores = new HashMap<AuxiliaryBean, Integer>();
+			for (AuxiliaryBean aux : initial) {
+				int score = 0;
+				score += (aux.getAdministrative() >= customer.getAdministrative() ? 1 : aux.getAdministrative() - customer.getAdministrative());
+				score += (aux.getChildhood() >= customer.getChildhood() ? 1 : aux.getChildhood() - customer.getChildhood());
+				score += (aux.getCompagny() >= customer.getCompagny() ? 1 : aux.getCompagny() - customer.getCompagny());
+				score += (aux.getDoityourself() >= customer.getDoityourself() ? 1 : aux.getDoityourself() - customer.getDoityourself());
+				score += (aux.getHousework() >= customer.getHousework() ? 1 : aux.getHousework() - customer.getHousework());
+				score += (aux.getNursing() >= customer.getNursing() ? 1 : aux.getNursing() - customer.getNursing());
+				score += (aux.getShopping() >= customer.getShopping() ? 1 : aux.getShopping() - customer.getShopping());
+				scores.put(aux, score);
+			}
+			// Sort auxiliaries
+			List<AuxiliaryBean> ranked = new ArrayList<AuxiliaryBean>();
+			for (AuxiliaryBean aux : scores.keySet()) {
+				int index = 0;
+				while (index < ranked.size()) {
+					if (scores.get(aux) < scores.get(ranked.get(index))) {
+						index++;
+					} else {
+						break;
+					}
+				}
+				ranked.add(index, aux);
+			}
+			// Filter only the 5 bests
+			List<AuxiliaryBean> result = ranked.subList(0, 5);
 			return Response.status(Status.OK).entity(result.toArray(new AuxiliaryBean[result.size()]), resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);
