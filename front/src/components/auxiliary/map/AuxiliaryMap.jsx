@@ -102,22 +102,42 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		})
 	}
 	
+	onUpdateGeozone(geozone) {
+		this.updateGeozone(geozone).
+		then(function () {
+			this.loadGeozones();
+		}.bind(this)).
+		catch(function () {
+			console.log('ERROR WHILE UPDATING GEOZONE')
+		})
+	}
+	
 	onChangeZonePanel(change) {
-		this.setState({ 
-			geozone: {
-				lattitude: Number(change.lattitude),
-				longitude: Number(change.longitude),
-				radius: change.radius
-			} 
-		});
+		let geozone = this.state.geozone;
+		geozone.lattitude = Number(change.lattitude);
+		geozone.longitude = Number(change.longitude);
+		geozone.radius = change.radius;
+		this.setState({ geozone: geozone });
 	}
 	
 	validZone(change) {
-		this.onCreateGeozone({
-			lattitude: change.lattitude,
-			longitude: change.longitude,
-			radius: change.radius
-		});
+		if (this.state.updateGeozone) {
+			console.log("TEST TEST TEST")
+			console.log(this.state)
+			this.updateGeozone({
+				id: this.state.geozone.id,
+				lattitude: this.state.geozone.lattitude,
+				longitude: this.state.geozone.longitude,
+				radius: this.state.geozone.radius
+			});
+			this.setState({ updateGeozone: false,  info: null	});
+		} else {
+			this.onCreateGeozone({
+				lattitude: change.lattitude,
+				longitude: change.longitude,
+				radius: change.radius
+			});
+		}
 		this.changeZoneMode();
 	}
 	
@@ -159,6 +179,17 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		);
 	}
 	
+	
+	updateZone() {
+		let geozone = this.state.info;
+		geozone.radius = Number(geozone.radius);
+		this.setState({ 
+			geozone: geozone,
+			updateGeozone: true
+		});
+		this.changeZoneMode()
+	}
+	
 	deleteZone() {
 		this.deleteGeozone(this.state.info.id).
 		then(function () {
@@ -173,6 +204,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		if (this.state.info) {
 			var actions = [];
 			if (this.state.info.type == "G")
+				actions.push({ tooltip: 'Modifier zone',	bsStyle: 'danger', glyph: 'edit', callback: this.updateZone.bind(this) });
 				actions.push({ tooltip: 'Supprimer zone',	bsStyle: 'danger', glyph: 'remove', callback: this.deleteZone.bind(this) });
 			return (			
 				<APPanelHeaderAction bsStyle={this.state.info.bsStyle} title={this.state.info.header} actions={actions}>
@@ -264,23 +296,25 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			onClick: this.onMarkerClicked.bind(this)
 		})
 		// Add geo zones 
-		result.push(...Utils.map(this.state.geozones, function (gz) {
-			return {
-				id: gz.id,
-				lattitude: Number(gz.lattitude),
-				longitude: Number(gz.longitude),
-				title: "Zone d'intervention",
-				infowindow: gz.radius ? null : '<div>' + gz.postalCode + ' ' + gz.city + '</div>',
+		if (!this.state.updateGeozone)
+			result.push(...Utils.map(this.state.geozones, function (gz) {
+				return {
+					id: gz.id,
+					lattitude: Number(gz.lattitude),
+					longitude: Number(gz.longitude),
+					title: "Zone d'intervention",
+					infowindow: gz.radius ? null : '<div>' + gz.postalCode + ' ' + gz.city + '</div>',
 
-				type: MARKER_TYPE.GEOZONE,
-				bsStyle: 'danger',
-				header: "Zone d'intervention",
-				name: gz.radius ? 'Par proximité' : 'Par ville',
-				address1: gz.radius ? 'Autour de' : gz.postalCode,
-				address2: gz.radius ? 'Zone de ' + (Number(gz.radius)/1000) + 'km' : gz.city,
-				onClick: this.onMarkerClicked.bind(this)
-			};
-		}.bind(this)));
+					type: MARKER_TYPE.GEOZONE,
+					bsStyle: 'danger',
+					header: "Zone d'intervention",
+					name: gz.radius ? 'Par proximité' : 'Par ville',
+					address1: gz.radius ? 'Autour de' : gz.postalCode,
+					address2: gz.radius ? 'Zone de ' + (Number(gz.radius)/1000) + 'km' : gz.city,
+					onClick: this.onMarkerClicked.bind(this),
+					radius: gz.radius
+				};
+			}.bind(this)));
 		
 		// Add customers
 		let customers = this.state.customers;
@@ -327,13 +361,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			}.bind(this)));
 		// Add temporary marker
 		if (this.state.geozone) {
-			result.push({
-				id: 'temp',
-				lattitude: Number(this.state.geozone.lattitude),
-				longitude: Number(this.state.geozone.longitude),
-				title: 'Nouvelle zone',
-				onClick: this.onMarkerClicked.bind(this)
-			});
+			result.push(this.state.geozone);
 		}
 		return result;
 	}
@@ -351,15 +379,15 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	
 	_buildCircles() {		
 		let result = [];
-		
-		result.push(...Utils.map(this.state.geozones, function (gz) {
-			return {
-				id: gz.id,
-				lattitude: Number(gz.lattitude),
-				longitude: Number(gz.longitude),
-				radius: parseFloat(gz.radius)
-			};
-		}.bind(this)));
+		if (!this.state.updateGeozone)
+			result.push(...Utils.map(this.state.geozones, function (gz) {
+				return {
+					id: gz.id,
+					lattitude: Number(gz.lattitude),
+					longitude: Number(gz.longitude),
+					radius: parseFloat(gz.radius)
+				};
+			}.bind(this)));
 		
 		if (this.state.geozone)
 			this._buildCircle(this.state.geozone, result, "current");
