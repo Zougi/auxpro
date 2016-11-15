@@ -28,6 +28,7 @@ import AuxiliaryQuestionary from 'components/auxiliary/profile/AuxiliaryQuestion
 import AuxiliaryQuestionaryEdit from 'components/auxiliary/profile/AuxiliaryQuestionaryEdit'
 import AuxiliaryMap from 'components/auxiliary/map/AuxiliaryMap'
 import AuxiliaryPlaning from 'components/auxiliary/planing/AuxiliaryPlaning'
+import AuxiliaryIndisponibilityEdit from 'components/auxiliary/indisponibilities/AuxiliaryIndisponibilityEdit'
 import AuxiliaryOffer from 'components/auxiliary/offers/AuxiliaryOffer'
 import AuxiliaryOffers from 'components/auxiliary/offers/AuxiliaryOffers'
 
@@ -108,6 +109,8 @@ class AppRouter extends React.Component {
 						<Route path='infos/questionary/edit' component={AuxiliaryQuestionaryEdit} />
 
 						<Route path='planning' component={AuxiliaryPlaning} />
+						<Route path='indisponibilities/new' component={AuxiliaryIndisponibilityEdit} />
+						<Route path='indisponibilities/:indisponibilityId/edit' component={AuxiliaryIndisponibilityEdit} />
 
 						<Route path='zone' component={AuxiliaryMap} />
 

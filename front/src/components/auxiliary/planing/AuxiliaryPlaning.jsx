@@ -6,11 +6,11 @@ import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
-import AuxiliaryPlaningInformation from 'components/auxiliary/planing/AuxiliaryPlaningInformation'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 import Calendar from 'components-lib/Calendar/Calendar'
 import FormSelect from 'components-lib/Form/FormSelect'
 import FormCheckbox from 'components-lib/Form/FormCheckbox'
+import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
 // Lib modules
 import MomentHelper from 'utils/moment/MomentHelper'
 import MissionStatus from 'utils/constants/MissionStatus'
@@ -94,18 +94,31 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	onPrint() {
 		window.print();
 	}
-	addAbsence() {
-		let data = { 
-			auxiliaryId: StoreRegistry.getStore('LOGIN_STORE').getData('/id'),
-			startDate: this.state.selected,
-			endDate: this.state.selected,
-			startTime: [0, 0],
-			endTime: [23, 59],
-			period: 'ONE'
-		};
-		this.createIndisponibility(data).
-		then(this.loadIndisponibilities.bind(this));
+
+	onCreateIndisponibility() {
+		Dispatcher.issue('NAVIGATE', {path: '/aux/indisponibilities/new' });
 	}
+	onEditIndisponibility(indisponibility) {
+		Dispatcher.issue('NAVIGATE', {path: '/aux/indisponibilities/' + indisponibility.id + '/edit' });
+	}
+	onDeleteIndisponibility(indisponibility) {
+		this.setState({
+			indisponibilityToDelete: indisponibility.id,
+			showDeleteIndisponibilityConfirm: true
+		});
+	}
+	doDeleteIndisponibility() {
+		this.deleteIndisponibility(this.state.indisponibilityToDelete).
+		then(this.loadIndisponibilities.bind(this)).
+		then(this.cancelDeleteIndisponibility.bind(this));
+	}
+	cancelDeleteIndisponibility() {
+		this.setState({
+			indisponibilityToDelete: null,
+			showDeleteIndisponibilityConfirm: false
+		});
+	}
+
 	showMissions(show) {
 		this.setState({ showMissions: show })
 	}
@@ -239,17 +252,33 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 	_buildInformations() {
 		let result = [];
 		if (this.state.selected) {
-			let absences = this.getIndisponibilities().absences;
+			let absences = this.state.indisponibilities.absences;
 			let l = absences.length;
 			for (let i =0; i < l; i++) {
 				let absence = absences[i];
 				if (MomentHelper.localDateEquals(this.state.selected, absence.date)) {
+					let indisponibility = this.getIndisponibility(absence.indisponibilityId);
+					let actions = [
+						{
+							tooltip: 'Editer indisponibilité',
+							bsStyle: 'info',
+							glyph: 'pencil',
+							callback: this.onEditIndisponibility.bind(this, indisponibility)
+						},
+						{
+							tooltip: 'Supprimer indisponibilité',
+							bsStyle: 'danger',
+							glyph: 'remove',
+							callback: this.onDeleteIndisponibility.bind(this, indisponibility)
+						}
+					]
 					result.push(
 						<APPanelBasic 
 							key={'indispo-' + i}
 							bsStyle='warning'
 							title='Indisponibilité'
-							text={IndisponibilityHelper.getInitialText(this.getIndisponibility(absence.indisponibilityId))}/>
+							actions={actions}
+							text={IndisponibilityHelper.getInitialText(indisponibility)}/>
 					);
 				}
 			}
@@ -328,8 +357,12 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 							onChange={this.filterMissions.bind(this)}/>
 						</Form>
 						<p>{'Total heures intervention : ' + this._buildTotalHours()}</p><br/>
-					<Button block bsStyle='warning' bsSize='small' onClick={this.addAbsence.bind(this)}>Ajouter une indisponibilité</Button>
-					<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.onPrint.bind(this)}>Imprimer mon planning</Button>
+					<Button block bsStyle='warning' bsSize='small' onClick={this.onCreateIndisponibility.bind(this)}>
+						Ajouter une indisponibilité
+					</Button>
+					<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.onPrint.bind(this)}>
+						Imprimer mon planning
+					</Button>
 				</Panel>
 			</Col>
 			<Col sm={8} md={7} lg={5}>
@@ -347,6 +380,15 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 			<Col sm={2} md={3} lg={4}>
 				{this._buildInformations()}
 			</Col>
+			<DialogConfirmation
+				show={this.state.showDeleteIndisponibilityConfirm}
+				title='Supprimer indisponibilité ?'
+				onConfirm={this.doDeleteIndisponibility.bind(this)}
+				confirmStyle='danger'
+				confirmText='Supprimer'
+				onCancel={this.cancelDeleteIndisponibility.bind(this)}
+				cancelStyle='default'
+				cancelText='Annuler' />
 		</Row>
 	);}
 }

@@ -160,6 +160,17 @@ class AuxiliaryBaseComponent extends React.Component {
 		args.data = indisponibility;
 		return Dispatcher.issue('POST_INDISPONIBILITY', args);
 	}
+	updateIndisponibility(indisponibility) {
+		let args = this._getBaseArgs();
+		args.indisponibilityId = indisponibility.id;
+		args.data = indisponibility;
+		return Dispatcher.issue('PUT_INDISPONIBILITY', args);
+	}
+	deleteIndisponibility(id) {
+		let args = this._getBaseArgs();
+		args.indisponibilityId = id;
+		return Dispatcher.issue('DELETE_INDISPONIBILITY', args);
+	}
 
 
 	// Questionary //

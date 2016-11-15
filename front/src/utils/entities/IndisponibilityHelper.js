@@ -5,6 +5,49 @@ import Period from 'utils/constants/Period'
 
 export default class IndisponibilityHelper {
 
+	static get Validators() {
+		return {
+			startDate: Validators.NonNull,
+			endDate: Validators.NonNull,
+			startTime: Validators.NonNull,
+			endTime: Validators.NonNull,
+			period: Validators.NonNull,
+			days: Validators.NonNull
+		}
+	}
+
+	static checkValidation(indisponibility) {
+		if (IndisponibilityHelper.Validators.startDate.getState(indisponibility.startDate) !== 'success') {
+			return false;
+		}
+		if (IndisponibilityHelper.Validators.startTime.getState(indisponibility.startTime) !== 'success') {
+			return false;
+		}
+		if (IndisponibilityHelper.Validators.endTime.getState(indisponibility.endTime) !== 'success') {
+			return false;
+		}
+		if (IndisponibilityHelper.Validators.period.getState(indisponibility.period) !== 'success') {
+			return false;
+		}
+		let period = Period.getPeriod(indisponibility.period);
+		switch (period) {
+			case Period.ONE:
+				break;
+			case Period.P1W:
+			case Period.P2W:
+			case Period.P3W:
+			case Period.P4W:
+				if (IndisponibilityHelper.Validators.endDate.getState(indisponibility.endDate) !== 'success') {
+					return false;
+				}
+				if (IndisponibilityHelper.Validators.days.getState(indisponibility.days) !== 'success') {
+					return false;
+				}
+				break;
+		}
+		return true;
+	}
+
 	static getInitialText(indisponibility) {
 		let text = [];
 		let period = Period.getPeriod(indisponibility.period);
