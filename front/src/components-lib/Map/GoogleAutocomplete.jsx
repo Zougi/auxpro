@@ -10,6 +10,7 @@ class GoogleAutocomplete extends React.Component {
   	constructor(props) {
   		super(props);
 		if (props.location)
+			this.getDefaultValue(props)
 			this.state = {location: props.location};
   	}
 
@@ -19,7 +20,7 @@ class GoogleAutocomplete extends React.Component {
   	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.location) {
+		if (nextProps.location && (!this.state.location || this.state.location.lattitude != nextProps.location.lattitude || this.state.location.longitude != nextProps.location.longitude)) {
 			this.getDefaultValue(nextProps)
 			this.setState({location: nextProps.location});
 		}

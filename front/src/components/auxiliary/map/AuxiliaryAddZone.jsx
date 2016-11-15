@@ -9,8 +9,11 @@ class AuxiliaryAddZone extends React.Component {
 	constructor(props) {
 		super(props);
 		if (props.location) {
+			let radius = 0
+			if (props.location.radius && props.location.radius != 0)
+				radius = props.location.radius
 			this.state = {
-				radius: 0,
+				radius: radius,
 				lattitude: props.location.lattitude,
 				longitude: props.location.longitude,
 				location: props.location
@@ -38,25 +41,6 @@ class AuxiliaryAddZone extends React.Component {
 				radius: this.state.radius
 			}
 			this.props.onChange(change);
-		}
-		//var nextDefaultLocation = nextProps.location;
-		//if (!this.props.location  || (nextDefaultLocation.lattitude != this.props.location.lattitude && nextDefaultLocation.longitude != this.props.location.longitude))
-		//	this.getDefaultValue(nextProps)
-	}
-	
-	reverseGeoCodeResult(result, status) {
-		if (status === google.maps.GeocoderStatus.OK) {
-			this.setState({ defaultValue: result[0].formatted_address });
-		} else {
-			alert('ReverseGeoCode Error: ' + status);
-		}
-	}
-	
-	getDefaultValue(props) {
-		if (props.location) {
-			var latLng = new google.maps.LatLng(props.location.lattitude, props.location.longitude);
-			var geocoder = new google.maps.Geocoder;
-			geocoder.geocode({'location': latLng}, this.reverseGeoCodeResult.bind(this));
 		}
 	}
 	
@@ -100,7 +84,7 @@ class AuxiliaryAddZone extends React.Component {
 					edit={true}
 					onChange={this.onAutocompleteChanged.bind(this)}
 					location={this.state.location}/>
-				<input type="number" onChange={this.onRadiusChanged.bind(this)} step="5" disabled={!this.state.lattitude}/>
+				<p>Distance en mètres  <input type="number" defaultValue={this.state.radius} onChange={this.onRadiusChanged.bind(this)} step="100" disabled={!this.state.lattitude}/></p>
 				<APButton block
 					bsStyle='success'
 					onClick={this.valid.bind(this)}>

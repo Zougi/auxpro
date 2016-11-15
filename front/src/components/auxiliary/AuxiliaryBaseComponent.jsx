@@ -79,6 +79,9 @@ class AuxiliaryBaseComponent extends React.Component {
 	loadServices() {
 		return Dispatcher.issue('GET_AUXILIARY_SERVICES', this._getBaseArgs());
 	}
+	loadAllServices() {
+		return Dispatcher.issue('GET_SERVICES', this._getBaseArgs());
+	}
 	getServices() {
 		return this._getAuxiliaryData('/data/services');
 	}
@@ -204,12 +207,17 @@ class AuxiliaryBaseComponent extends React.Component {
 		var args = this._getBaseArgs();
 		geozone.auxiliaryId = args.auxiliaryId;
 		args.data = geozone;
+		console.log("POST")
+		console.log(args)
 		return Dispatcher.issue('POST_GEOZONE', args);
 	}
 	updateGeozone(geozone) {
-		var args = this._getBaseArgs();
+		var args = {};
+		args.token = this._getBaseArgs().token;
 		args.geozoneId = geozone.id;
 		args.data = geozone;
+		console.log("PUT")
+		console.log(args)
 		return Dispatcher.issue('PUT_GEOZONE', args);
 	}
 	deleteGeozone(id) {
