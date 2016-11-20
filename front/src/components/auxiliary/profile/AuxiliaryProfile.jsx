@@ -143,7 +143,7 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 						</Col>
 						<Col sm={6}>
 							<Panel bsStyle='info' header="Mes zones d'intervention">
-								Spécifiez vos zones d'intervention afin de vous voir proposez des missions adaptées.
+								Spécifiez vos zones d'intervention afin de vous voir proposez des interventions adaptées.
 							</Panel>
 						</Col>
 					</Row>

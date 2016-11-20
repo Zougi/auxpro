@@ -81,7 +81,7 @@ class MissionShort extends React.Component {
 			action = (<a className='info-span' onClick={this.onInfoOff.bind(this)}>-info</a>);
 		}
 		return (
-			<ListGroupItem header='Mission' bsStyle='success'>
+			<ListGroupItem header='Intervention' bsStyle='success'>
 	            Le {this.props.date} de {this.props.mission.startHour}h à {this.props.mission.endHour}h<br/>
 	            Nombre d'heures : {this.props.mission.endHour - this.props.mission.startHour}h<br/>
 	            {info}

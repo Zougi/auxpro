@@ -300,7 +300,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 						<APPanelBasic 
 							key={'mission-' + i}
 							bsStyle={status.bsStyle}
-							title={'Mission ' + status.value}
+							title={'Intervention ' + status.value}
 							text={text}/>
 					);
 				}
@@ -316,7 +316,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 					<Form horizontal>
 						<FormCheckbox
 							edit={true}
-							title='Voir missions'
+							title='Voir interventions'
 							xsLabelSize={10}
 							smLabelSize={10}
 							mdLabelSize={10}
@@ -336,7 +336,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 							/>
 						<FormSelect 
 							edit={true}
-							title='Clients' 
+							title='Usagers' 
 							placeholder='<Tous>' 
 							defaultValue='__ALL__'
 							values={this._buildCustomersValues()}
@@ -350,7 +350,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 							onChange={this.filterServices.bind(this)}/>
 						<FormSelect 
 							edit={true}
-							title='Missions' 
+							title='Interventions' 
 							placeholder='<Tous>' 
 							defaultValue='__ALL__'
 							values={this._buildMissionsValues()}
