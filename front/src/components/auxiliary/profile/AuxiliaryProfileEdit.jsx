@@ -308,13 +308,16 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 						</Panel>
 
 						<Panel header='Informations personnelles' bsStyle='info'>
-							{FormBuilder.buildFormGroups(this._buildPersonalInfos())}
+							<Form>
+								{FormBuilder.buildFormGroups(this._buildPersonalInfos())}
+							</Form>
 						</Panel>
 
 						<Panel header='Informations professionnelles' bsStyle='info'>
-							{FormBuilder.buildFormGroups(this._buildProfessionnalInfos())}
-							{this.state.auxiliary.answers ?
-								<div>
+							<Form>
+								{FormBuilder.buildFormGroups(this._buildProfessionnalInfos())}
+								{this.state.auxiliary.answers ?
+								<Col lg={12}>
 									<FormBase
 										edit={true}
 										validationState='success'
@@ -323,20 +326,23 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 									</FormBase>
 									<FormBase>
 										<Button bsStyle='success' 
-												onClick={this.onQuestionaryView.bind(this)} 
+												onClick={this.onQuestionaryView.bind(this)}
 												block>
 											Voir questionnaire
 										</Button>
 									</FormBase>
-								</div>
-							:
-								<FormBase
-									edit={true}
-									validationState='error'
-									title='Mes Compétences'>
-									<Button bsStyle='warning' onClick={this.onQuestionaryEdit.bind(this)} block>Remplir questionnaire</Button>
-								</FormBase>
-							}
+								</Col>
+								:
+								<Col lg={12}>
+									<FormBase
+										edit={true}
+										validationState='error'
+										title='Mes Compétences'>
+										<Button bsStyle='warning' onClick={this.onQuestionaryEdit.bind(this)} block>Remplir questionnaire</Button>
+									</FormBase>
+								</Col>
+								}
+							</Form>
 						</Panel>
 
 					</Col>
