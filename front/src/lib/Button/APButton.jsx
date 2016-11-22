@@ -1,7 +1,7 @@
 import React from 'react'
 import Base from '../Base.jsx';
 
-import './APButton.css';
+import './ap-buttons.css';
 
 /**
  * @props.type     :
@@ -54,6 +54,7 @@ class APButton extends Base {
 	}
 
 	_onClick(event) {
+		event.preventDefault()
 		if (this.props.onClick) {
 			this.props.onClick(event);
 		}
@@ -61,7 +62,11 @@ class APButton extends Base {
 	
 	render() { 
 		return(
-			<button type={this._buildType()} className={this._buildClass()} disabled={this.props.disabled} onClick={this._onClick.bind(this)}>
+			<button 
+				type={this._buildType()} 
+				className={this._buildClass()} 
+				disabled={this.props.disabled} 
+				onClick={this._onClick.bind(this)}>
 				{this._buildIcon()}
 				{this._buildText()}
 				{this.props.children}
