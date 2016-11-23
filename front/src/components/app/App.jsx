@@ -9,6 +9,8 @@ import Footer from 'components/app/Footer.jsx';
 import AppPreload from 'components-lib/App/Preload/AppPreload.jsx'
 import Navbar from 'components-lib/Navbar/Navbar.jsx'
 
+import HeaderData from './HeaderData.js'
+
 function getHeader() {
 	return StoreRegistry.getStore('APP_STORE').getData('/app/header');
 }
@@ -22,8 +24,8 @@ class App extends React.Component {
 		super(props);
 		this.state = { 
 			preload: ap.preload,
-			header: getHeader(),
-			subHeader: getSubHeader()
+			header: HeaderData.data.header,
+			subHeader: HeaderData.data.subHeader
 		};
 		ap.listeners.push(this._onPreload.bind(this));
 	}
@@ -33,18 +35,23 @@ class App extends React.Component {
 	// --------------------------------------------------------------------------------
 
 	componentDidMount() {
-		StoreRegistry.register('APP_STORE/app', this, this._onAppStoreAppUpdate.bind(this));
 		StoreRegistry.register('APP_STORE/path', this, this._onAppStorePathUpdate.bind(this));
+		
+		HeaderData.register(this._onHeaderDataUpdate.bind(this));
 	}
+	
 	componentWillUnmount() {
 		StoreRegistry.unregister('APP_STORE', this);
+		
+		HeaderData.unregister();
 	}
-	_onAppStoreAppUpdate() {
+	_onHeaderDataUpdate(data) {
 		this.setState({ 
-			header: getHeader(),
-			subHeader: getSubHeader()
+			header: data.header,
+			subHeader: data.subHeader
 		});
 	}
+	
 	_onAppStorePathUpdate() {
 		let path = StoreRegistry.getStore('APP_STORE').getData('/path');
 		if (path) {
