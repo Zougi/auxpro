@@ -6,8 +6,8 @@ import StoreRegistry from 'core/StoreRegistry'
 // custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
-import { APButton } from 'lib/Lib';
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 import Period from 'utils/constants/Period'

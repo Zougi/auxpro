@@ -4,7 +4,7 @@ import { Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } fro
 import Dispatcher from 'core/Dispatcher'
 // Custom components
 import FormInput from 'components-lib/Form/FormInput'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import CustomValidator from 'utils/form/CustomValidator'
 

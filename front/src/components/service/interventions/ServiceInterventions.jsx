@@ -7,7 +7,7 @@ import StoreRegistry from 'core/StoreRegistry'
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 import MomentHelper from 'utils/moment/MomentHelper'

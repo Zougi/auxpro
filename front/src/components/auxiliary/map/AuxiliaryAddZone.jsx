@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 // Custom components
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 
 class AuxiliaryAddZone extends React.Component {
 

@@ -11,7 +11,7 @@ import Calendar from 'components-lib/Calendar/Calendar'
 import FormSelect from 'components-lib/Form/FormSelect'
 import FormCheckbox from 'components-lib/Form/FormCheckbox'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import MomentHelper from 'utils/moment/MomentHelper'
 import MissionStatus from 'utils/constants/MissionStatus'

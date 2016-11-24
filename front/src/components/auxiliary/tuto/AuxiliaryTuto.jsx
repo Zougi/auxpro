@@ -3,7 +3,7 @@ import { Carousel, ResponsiveEmbed, Grid, Row, Col } from 'react-bootstrap';
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 // Custom components
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 
 let TUTO_ITEMS = [
 	{ src: './../../../../../assets/img/tutoaux1.JPG' },

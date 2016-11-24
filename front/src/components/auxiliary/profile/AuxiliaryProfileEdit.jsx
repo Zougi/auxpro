@@ -12,7 +12,7 @@ import FormBase from 'components-lib/Form/FormBase'
 import FormBuilder from 'components-lib/Form/FormBuilder'
 import AsyncImage from 'lib/image/AsyncImage'
 import ImageUploader from 'lib/image/ImageUploader'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
 import Validators from 'utils/form/Validators'

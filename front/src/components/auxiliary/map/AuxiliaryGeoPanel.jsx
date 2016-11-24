@@ -2,7 +2,7 @@ import React from 'react'
 import { Panel } from 'react-bootstrap'
 // Custom components
 import AuxiliaryGeozone from 'components/auxiliary/map/AuxiliaryGeozone.jsx'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 
 class AuxiliaryGeoPanel extends React.Component {
 

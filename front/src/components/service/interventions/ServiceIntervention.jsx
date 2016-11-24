@@ -12,7 +12,7 @@ import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
 import AsyncImage from 'lib/image/AsyncImage'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 import MathUtils from 'utils/MathUtils'

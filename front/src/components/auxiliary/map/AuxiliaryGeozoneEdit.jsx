@@ -4,7 +4,7 @@ import { Row, Col, Panel } from 'react-bootstrap'
 import FormInput from 'components-lib/Form/FormInput.jsx'
 import FormSelect from 'components-lib/Form/FormSelect.jsx'
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete.jsx'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import GeozoneHelper from 'utils/entities/GeozoneHelper.js'
 

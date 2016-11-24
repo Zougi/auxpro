@@ -11,7 +11,7 @@ import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirma
 import ButtonAction from 'components-lib/ButtonAction/ButtonAction'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList'
 import SearchBar from 'components-lib/SearchBar/SearchBar'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 

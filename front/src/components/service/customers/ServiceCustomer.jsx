@@ -6,7 +6,7 @@ import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import FormBuilder from 'components-lib/Form/FormBuilder'
-import { APButton } from 'lib/Lib.jsx'
+import { APButton } from 'ap-react-bootstrap'
 
 class ServiceCustomer extends ServiceBaseComponent {
 	

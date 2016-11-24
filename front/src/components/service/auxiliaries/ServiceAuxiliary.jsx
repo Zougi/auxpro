@@ -4,7 +4,7 @@ import { Panel, Row, Col } from 'react-bootstrap'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 
 class ServiceAuxiliary extends ServiceBaseComponent {
 	

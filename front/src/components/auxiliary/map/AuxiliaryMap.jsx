@@ -11,7 +11,7 @@ import AuxiliaryAddZone from 'components/auxiliary/map/AuxiliaryAddZone.jsx'
 import AuxiliaryAddCity from 'components/auxiliary/map/AuxiliaryAddCity.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
 import APPanelHeaderAction from 'components-lib/Panel/APPanelHeaderAction'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 
 var MARKER_TYPE = {
 	HOME: 'H',

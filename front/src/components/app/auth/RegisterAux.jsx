@@ -3,7 +3,7 @@ import { Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } fro
 // Core modules
 import Dispatcher from 'core/Dispatcher';
 // Custom components
-import { APButton } from 'lib/Lib.jsx'
+import { APButton } from 'ap-react-bootstrap'
 
 class RegisterAux extends React.Component {
 	

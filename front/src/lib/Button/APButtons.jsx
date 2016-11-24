@@ -1,7 +1,8 @@
 import React from 'react'
 import Base from '../Base.jsx';
 
-import { Row, Col, APButton } from 'lib/lib.jsx'
+import { Row, Col } from 'lib/lib'
+import { APButton } from 'ap-react-bootstrap'
 
 import './ap-buttons.css'
 	

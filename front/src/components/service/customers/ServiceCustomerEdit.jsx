@@ -7,7 +7,7 @@ import StoreRegistry from 'core/StoreRegistry'
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import FormBuilder from 'components-lib/Form/FormBuilder'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
-import { APButton } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 import Validators from 'utils/form/Validators'
