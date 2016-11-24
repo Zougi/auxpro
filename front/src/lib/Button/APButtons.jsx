@@ -1,16 +1,20 @@
 import React from 'react'
-import Base from '../Base.jsx';
-
+import Base from 'lib/Base.jsx';
+// Custom components
 import { Row, Col } from 'lib/lib'
 import { APButton } from 'ap-react-bootstrap'
-
+// Style
 import './ap-buttons.css'
 	
-class APButtons extends React.Component {
+export default class APButtons extends React.Component {
 
 	constructor(props) {
 		super(props);
 	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	render() { return (
 		<Row>
@@ -33,5 +37,3 @@ class APButtons extends React.Component {
 		</Row>
 	)}
 }
-
-export default APButtons;

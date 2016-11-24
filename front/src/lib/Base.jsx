@@ -7,15 +7,17 @@ class Base extends React.Component {
 	}
 	
 	addClass(obj, className) {
-		if (obj.className)
+		if (obj.className) {
 			obj.className += " " + className;
-		else
+		} else {
 			obj.className = className
+		}
 	}
 	
 	addClassIf(cond, obj, className) {
-		if (cond)
+		if (cond) {
 			this.addClass(obj, className)
+		}
 	}
 	
 	copyFromObj(obj1, key, obj2) {
@@ -34,7 +36,9 @@ class Base extends React.Component {
 		if (null == obj || "object" != typeof obj) return obj;
 		var copy = obj.constructor();
 		for (var attr in obj) {
-			if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+			if (obj.hasOwnProperty(attr)) {
+				copy[attr] = obj[attr];
+			}
 		}
 		return copy;
 	}
@@ -45,5 +49,4 @@ class Base extends React.Component {
 		);
 	}
 }
-
 export default Base;
