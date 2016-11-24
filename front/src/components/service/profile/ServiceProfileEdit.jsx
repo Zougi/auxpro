@@ -1,13 +1,14 @@
 import React from 'react'
-import { Row, Col, Panel, Button, Form } from 'react-bootstrap'
+import { Row, Col, Panel, Form } from 'react-bootstrap'
 // Core modules
-import Dispatcher from 'core/Dispatcher.js'
-import StoreRegistry from 'core/StoreRegistry.js'
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
-import AsyncImage from 'lib/image/AsyncImage.jsx'
-import ImageUploader from 'lib/image/ImageUploader.jsx'
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
+import AsyncImage from 'lib/image/AsyncImage'
+import ImageUploader from 'lib/image/ImageUploader'
 import FormBuilder from 'components-lib/Form/FormBuilder'
+import { APButton } from 'lib/Lib'
 // Lib modules
 import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
 import Validators from 'utils/form/Validators'
@@ -28,7 +29,7 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 		StoreRegistry.register('SERVICE_STORE', this, this._onStoreUpdate.bind(this));
 	}
 	componentWillUnmount() {
-		StoreRegistry.unregister('SERVICE_STORE', this);   
+		StoreRegistry.unregister('SERVICE_STORE', this);
 	}
 	_onStoreUpdate() {
 		this.setState(this._buildState());
@@ -50,10 +51,10 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 		this.state.service.longitude = address.longitude;
 		this.forceUpdate();
 	}
-	changeHandler(field) { 
+	changeHandler(field) {
 		return function (event) {
 			let value = event.value || event;
-			Utils.setField(this.state.service, field, value); 
+			Utils.setField(this.state.service, field, value);
 			this.forceUpdate();
 		}.bind(this);
 	}
@@ -168,7 +169,11 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 			</Row>
 		: '' }
 			<Row>
-				<Button block bsStyle='success' onClick={this.onSaveProfile.bind(this)}>Enregistrer modifications</Button>
+				<APButton
+					block
+					bsStyle='success'
+					text='Enregistrer modifications'
+					onClick={this.onSaveProfile.bind(this)} />
 			</Row>
 			<br/>
 			<Row>
@@ -186,5 +191,4 @@ class ServiceProfileEdit extends ServiceBaseComponent {
 		</Form>
 	);}
 }
-
 export default ServiceProfileEdit;

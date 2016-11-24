@@ -1,16 +1,17 @@
 import React from 'react'
-import moment from 'moment';
-import { Panel, Button, Row, Col, Modal, ListGroup, ListGroupItem } from 'react-bootstrap'
+import moment from 'moment'
+import { Panel, Row, Col, Modal, ListGroup, ListGroupItem } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
-import CustomerSummaryList from 'components/common/customers/CustomerSummaryList';
+import CustomerSummaryList from 'components/common/customers/CustomerSummaryList'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
-import ButtonAction from 'components-lib/ButtonAction/ButtonAction.jsx'
-import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
-import SearchBar from 'components-lib/SearchBar/SearchBar.jsx';
+import ButtonAction from 'components-lib/ButtonAction/ButtonAction'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList'
+import SearchBar from 'components-lib/SearchBar/SearchBar'
+import { APButton } from 'lib/Lib'
 // Lib modules
 import Utils from 'utils/Utils'
 
@@ -149,7 +150,11 @@ class ServiceCustomers extends ServiceBaseComponent {
 		return (
 			<Row>
 				<Panel header={(<strong>Usagers enregistrés</strong>)} bsStyle='warning'>
-					<Button block bsStyle='info' onClick={this.onAddCustomer.bind(this)}>Saisir un nouvel usager</Button>
+					<APButton
+						block
+						bsStyle='info'
+						text='Saisir un nouvel usager'
+						onClick={this.onAddCustomer.bind(this)} />
 					<br/>
 					<SearchBar placeholder="Veuillez saisir le nom d'un usager" onChange={this.onSearch.bind(this)}/>
 					<Panel>

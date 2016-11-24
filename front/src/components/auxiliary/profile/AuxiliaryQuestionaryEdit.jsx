@@ -1,10 +1,11 @@
 import React from 'react'
-import { Panel, Col, Button, Form, FormGroup, ControlLabel, Radio } from 'react-bootstrap'
+import { Panel, Col, Form, FormGroup, ControlLabel, Radio } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import { APButton } from 'lib/Lib'
 // Lib modules
 import Questions from 'utils/constants/Questions'
 
@@ -67,7 +68,7 @@ class AuxiliaryQuestionaryEdit extends AuxiliaryBaseComponent {
 						<ControlLabel>{question.text}</ControlLabel><br/>
 						{this._buildAnswers(index, question.answers)}
 					</FormGroup>
-					<br/>			
+					<br/>
 				</div>
 			);
 		}.bind(this));
@@ -78,7 +79,7 @@ class AuxiliaryQuestionaryEdit extends AuxiliaryBaseComponent {
 			return (
 				<Radio inline
 					key={qIndex + '-' + index}
-					checked={index === this.state.answers[qIndex]} 
+					checked={index === this.state.answers[qIndex]}
 					onChange={this.onChange.bind(this, qIndex, index)}>
 					{answer + ' '}
 				</Radio>
@@ -93,10 +94,17 @@ class AuxiliaryQuestionaryEdit extends AuxiliaryBaseComponent {
 					{this._buildQuestions.bind(this)()}
 				</Form>
 				<Col sm={6}>
-					<Button onClick={this.onClose.bind(this)} block>Annuler</Button>
+					<APButton
+						block
+						text='Annuler'
+						onClick={this.onClose.bind(this)} />
 				</Col>
 				<Col sm={6}>
-					<Button bsStyle='success' onClick={this.onSubmit.bind(this)} block>Envoyer</Button>
+					<APButton
+						block
+						bsStyle='success'
+						text='Envoyer'
+						onClick={this.onSubmit.bind(this)} />
 				</Col>
 			</Panel>
 		);

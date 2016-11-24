@@ -1,5 +1,5 @@
 import React from 'react'
-import { Panel, Row, Col, Form, Button } from 'react-bootstrap'
+import { Panel, Row, Col, Form } from 'react-bootstrap'
 // core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -7,6 +7,7 @@ import StoreRegistry from 'core/StoreRegistry'
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import FormBuilder from 'components-lib/Form/FormBuilder'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
+import { APButton } from 'lib/Lib'
 // Lib modules
 import Utils from 'utils/Utils'
 import Validators from 'utils/form/Validators'
@@ -40,18 +41,18 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 	_buildState() {
 		if (this.props.params.customerId) {
 			let customer = this.getCustomer(this.props.params.customerId);
-			return { 
+			return {
 				mode: MODES.EDIT,
 				validationState: CustomerHelper.checkValidation(customer),
 				customer: customer
 			};
 		} else {
-			return { 
+			return {
 				mode: MODES.CREATE,
 				validationState: false,
-				customer: { 
+				customer: {
 					civility: 'Mr',
-					serviceId: this.getLoginData('/id') 
+					serviceId: this.getLoginData('/id')
 				}
 			};	
 		}
@@ -68,7 +69,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 		this.state.customer.country = address.country;
 		this.state.customer.lattitude = address.lattitude;
 		this.state.customer.longitude = address.longitude;
-		this.setState({ 
+		this.setState({
 			validationState: CustomerHelper.checkValidation(this.state.customer)
 		});
 	}
@@ -87,17 +88,17 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 		if (this.state.mode === MODES.CREATE) {
 			this.createCustomer(this.state.customer).
 			then(function () {
-				Dispatcher.issue('NAVIGATE', {path: '/sad/customers'});
+				Dispatcher.issue('NAVIGATE', { path: '/sad/customers' });
 			});
 		} else {
 			this.updateCustomer(this.state.customer).
 			then(function () {
-				Dispatcher.issue('NAVIGATE', {path: '/sad/customers'});
+				Dispatcher.issue('NAVIGATE', { path: '/sad/customers' });
 			});
 		}
 	}
 	onCancel(customer) {
-		Dispatcher.issue('NAVIGATE', {path: '/sad/customers'});
+		Dispatcher.issue('NAVIGATE', { path: '/sad/customers' });
 	}
 
 	onSkillsChanged(skills) {
@@ -174,7 +175,7 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 					title: 'Code postal',
 					type: 'input',
 					value: this.state.customer.postalCode,
-					validator: Validators.PostalCode					
+					validator: Validators.PostalCode
 				},
 				{
 					title: 'Ville',
@@ -240,25 +241,24 @@ class ServiceCustomerEdit extends ServiceBaseComponent {
 				<br/>
 				<Row>
 					<Col sm={6}>
-						<Button bsStyle='primary' 
-								onClick={this.onCancel.bind(this)} 
-								block>
-							Annuler
-						</Button>
+						<APButton
+							block
+							bsStyle='primary'
+							text='Annuler'
+							onClick={this.onCancel.bind(this)} />
 					</Col>
 					<br className='hidden-sm hidden-md hidden-lg'/>
 					<Col sm={6}>
-						<Button disabled={!this.state.validationState} 
-								bsStyle={this.state.validationState ? 'success' : 'warning'}  
-								onClick={this.onSaveCustomer.bind(this)} 
-								block>
-							Enregistrer modifications
-						</Button>
+						<APButton
+							block
+							disabled={!this.state.validationState}
+							bsStyle={this.state.validationState ? 'success' : 'warning'}
+							text='Enregistrer modifications'
+							onClick={this.onSaveCustomer.bind(this)} />
 					</Col>
 				</Row>
 			</Panel>
 		</Row>
 	);}
 }
-
 export default ServiceCustomerEdit;

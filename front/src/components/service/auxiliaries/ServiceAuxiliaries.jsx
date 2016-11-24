@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Panel, Row, Col, Button } from 'react-bootstrap'
+import { Panel, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -49,6 +49,7 @@ class ServiceAuxiliaries extends ServiceBaseComponent {
 		Dispatcher.issue('NAVIGATE', { path: '/sad/auxiliaries/' + auxiliary.id });
 	}
 
+
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
@@ -78,7 +79,7 @@ class ServiceAuxiliaries extends ServiceBaseComponent {
 		}];
 		return (
 			<Col key={i} sm={6} md={4}>
-				<APPanelBasic					
+				<APPanelBasic
 					title='Auxiliaire'
 					bsStyle='info'
 					actions={actions}
@@ -98,7 +99,7 @@ class ServiceAuxiliaries extends ServiceBaseComponent {
 					</Panel>
 					<Row>
 						{auxiliaries}
-					</Row>					
+					</Row>
 				</Panel>
 			</Row>
 		);

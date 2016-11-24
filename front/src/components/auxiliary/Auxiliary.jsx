@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
+import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal } from 'react-bootstrap'
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'

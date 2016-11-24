@@ -1,10 +1,11 @@
 import React from 'react';
-import { Panel, Col, Button, Form, FormGroup, ControlLabel, Radio } from 'react-bootstrap'
+import { Panel, Col, Form, FormGroup, ControlLabel, Radio } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
+import { APButton } from 'lib/Lib'
 // Lib modules
 import Questions from 'utils/constants/Questions'
 
@@ -54,7 +55,7 @@ class AuxiliaryQuestionary extends AuxiliaryBaseComponent {
 						<ControlLabel>{question.text}</ControlLabel><br/>
 						{this._buildAnswers(index, question.answers)}
 					</FormGroup>
-					<br/>			
+					<br/>
 				</div>
 			);
 		}.bind(this));
@@ -79,7 +80,11 @@ class AuxiliaryQuestionary extends AuxiliaryBaseComponent {
 					<Form>
 						{this._buildQuestions.bind(this)()}
 					</Form>
-					<Button bsStyle='info' onClick={this.onClose.bind(this)} block>Retour au profil</Button>
+					<APButton
+						block
+						bsStyle='info'
+						text='Retour au profil'
+						onClick={this.onClose.bind(this)} />
 				</Col>
 			</Panel>
 		);

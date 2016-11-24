@@ -1,11 +1,12 @@
-import React from 'react';
-import { Button, Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
+import React from 'react'
+import { Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 // Custom components
 import FormInput from 'components-lib/Form/FormInput'
+import { APButton } from 'lib/Lib'
 // Lib modules
-import CustomValidator from 'utils/form/CustomValidator.js'
+import CustomValidator from 'utils/form/CustomValidator'
 
 class Land extends React.Component {
 
@@ -40,6 +41,7 @@ class Land extends React.Component {
 		Dispatcher.issue('NAVIGATE', { path: '/login' });
 	}
 
+
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
@@ -60,32 +62,44 @@ class Land extends React.Component {
 									onChange={this.onPostalCodeChanged.bind(this)}/>
 								<FormGroup>
 									<Col smOffset={3} sm={9}>
-										<Button onClick={this.onGuestLogin.bind(this)}>
-											Valider
-										</Button>
+										<APButton
+											text='Valider'
+											onClick={this.onGuestLogin.bind(this)} />
 									</Col>
 								</FormGroup>
 							</Form>
 						</Panel>
 						<Row>
 							<Col sm={6}>
-								<Button bsStyle='info' bsSize='large' onClick={this.onRegisterAux.bind(this)} block>
+								<APButton
+									block
+									bsStyle='info'
+									bsSize='large'
+									onClick={this.onRegisterAux.bind(this)}>
 									Créer un compte<br/>Auxiliaire de vie
-								</Button>
+								</APButton>
 							</Col>
 							<br className='visible-xs-block'/>
 							<Col sm={6}>
-								<Button bsStyle='primary' bsSize='large' onClick={this.onRegisterSad.bind(this)} block>
+								<APButton
+									block
+									bsSize='large'
+									bsStyle='primary'
+									onClick={this.onRegisterSad.bind(this)}>
 									Créer un compte<br/>SAD
-								</Button>
+								</APButton>
 							</Col>
 						</Row>
 						<br/>
 						<Row>
 							<Col smOffset={3} sm={6}>
-								<Button bsStyle='success' bsSize='large' onClick={this.onLogon.bind(this)} block>
+								<APButton
+									block
+									bsSize='large'
+									bsStyle='success'
+									onClick={this.onLogon.bind(this)}>
 									Connexion
-								</Button>
+								</APButton>
 							</Col>
 						</Row>
 					</Col>
@@ -95,8 +109,4 @@ class Land extends React.Component {
 		</div>
 	);}
 }
-/*
-
-*/
-
 export default Land;

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Panel, Button, Row, Col, Clearfix, Form } from 'react-bootstrap'
+import { Panel, Row, Col, Clearfix, Form } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
+import { Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'

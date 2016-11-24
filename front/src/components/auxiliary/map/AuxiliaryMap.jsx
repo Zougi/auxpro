@@ -1,17 +1,17 @@
 import React from 'react'
-import { Row, Col, Panel, Button } from 'react-bootstrap'
+import { Row, Col, Panel } from 'react-bootstrap'
 // Core modules
 import StoreRegistry from 'core/StoreRegistry'
 import Dispatcher from 'core/Dispatcher'
 import Utils from 'utils/Utils.js'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent.jsx'
-import AuxiliaryGeozoneEdit from './AuxiliaryGeozoneEdit.jsx'
-import AuxiliaryAddZone from './AuxiliaryAddZone.jsx'
-import AuxiliaryAddCity from './AuxiliaryAddCity.jsx'
+import AuxiliaryGeozoneEdit from 'components/auxiliary/map/AuxiliaryGeozoneEdit.jsx'
+import AuxiliaryAddZone from 'components/auxiliary/map/AuxiliaryAddZone.jsx'
+import AuxiliaryAddCity from 'components/auxiliary/map/AuxiliaryAddCity.jsx'
 import GoogleMap from 'components-lib/Map/GoogleMap.jsx'
-import APButton from 'lib/Button/APButton.jsx'
 import APPanelHeaderAction from 'components-lib/Panel/APPanelHeaderAction'
+import { APButton } from 'lib/Lib'
 
 var MARKER_TYPE = {
 	HOME: 'H',
@@ -122,15 +122,13 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	
 	validZone(change) {
 		if (this.state.updateGeozone) {
-			console.log("TEST TEST TEST")
-			console.log(this.state)
 			this.updateGeozone({
 				id: this.state.geozone.id,
 				lattitude: this.state.geozone.lattitude,
 				longitude: this.state.geozone.longitude,
 				radius: this.state.geozone.radius
 			});
-			this.setState({ updateGeozone: false,  info: null	});
+			this.setState({ updateGeozone: false,  info: null });
 		} else {
 			this.onCreateGeozone({
 				lattitude: change.lattitude,
@@ -143,7 +141,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	
 	getZonePanel() {
 		return (
-			<AuxiliaryAddZone 
+			<AuxiliaryAddZone
 				onChange={this.onChangeZonePanel.bind(this)}
 				location={this.state.geozone}
 				valid={this.validZone.bind(this)} />
@@ -151,13 +149,13 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 	
 	onChangeCirtyPanel(change) {
-		this.setState({ 
+		this.setState({
 			geozone: {
 				lattitude: Number(change.lattitude),
 				longitude: Number(change.longitude),
 				postalCode: change.postalCode,
-				city:  change.city
-			} 
+				city: change.city
+			}
 		});
 	}
 	
@@ -166,14 +164,14 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			lattitude: change.lattitude,
 			longitude: change.longitude,
 			postalCode: change.postalCode,
-			city:  change.city
+			city: change.city
 		});
 		this.changeCityMode();
 	}
 	
 	getCityPanel() {
 		return (
-			<AuxiliaryAddCity 
+			<AuxiliaryAddCity
 				onChange={this.onChangeCirtyPanel.bind(this)}
 				valid={this.validCity.bind(this)} />
 		);
@@ -183,7 +181,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	updateZone() {
 		let geozone = this.state.info;
 		geozone.radius = Number(geozone.radius);
-		this.setState({ 
+		this.setState({
 			geozone: geozone,
 			updateGeozone: true
 		});
@@ -193,7 +191,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	deleteZone() {
 		this.deleteGeozone(this.state.info.id).
 		then(function () {
-			this.loadGeozones();			
+			this.loadGeozones();
 		}.bind(this)).
 		catch(function () {
 			console.log('ERROR WHILE DELETING GEOZONE')
@@ -204,8 +202,8 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		if (this.state.info) {
 			var actions = [];
 			if (this.state.info.type == "G")
-				actions.push({ tooltip: 'Modifier zone',	bsStyle: 'danger', glyph: 'edit', callback: this.updateZone.bind(this) });
-				actions.push({ tooltip: 'Supprimer zone',	bsStyle: 'danger', glyph: 'remove', callback: this.deleteZone.bind(this) });
+				actions.push({ tooltip: 'Modifier zone', bsStyle: 'danger', glyph: 'edit', callback: this.updateZone.bind(this) });
+				actions.push({ tooltip: 'Supprimer zone', bsStyle: 'danger', glyph: 'remove', callback: this.deleteZone.bind(this) });
 			return (			
 				<APPanelHeaderAction bsStyle={this.state.info.bsStyle} title={this.state.info.header} actions={actions}>
 					{this.state.info.name}
@@ -263,17 +261,19 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	interventionFilter(customer) {
-		if (customer._type === 'intervention') 
+		if (customer._type === 'intervention') {
 			return false;
-		else 
+		} else {
 			return true;
+		}
 	}
 	
 	offerFilter(customer) {
-		if (customer._type === 'offer') 
+		if (customer._type === 'offer') {
 			return false;
-		else 
+		} else {
 			return true;
+		}
 	}
 	
 	_buildMarkers() {
@@ -318,10 +318,12 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		
 		// Add customers
 		let customers = this.state.customers;
-		if (!this.state.showInterventions)
-			customers = Utils.filter(customers || [],  this.interventionFilter);
-		if (!this.state.showOffers)
-			customers = Utils.filter(customers || [],  this.offerFilter);
+		if (!this.state.showInterventions) {
+			customers = Utils.filter(customers || [], this.interventionFilter);
+		}
+		if (!this.state.showOffers) {
+			customers = Utils.filter(customers || [], this.offerFilter);
+		}
 		result.push(...Utils.map(customers, function (c) {
 			let mode = (c._type === 'intervention');
 			return {
@@ -341,7 +343,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			};
 		}.bind(this)));
 		// Add services
-		if (this.state.showServices)
+		if (this.state.showServices) {
 			result.push(...Utils.map(this.state.services, function (s) {
 				return {
 					id: s.id,
@@ -359,6 +361,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 					onClick: this.onMarkerClicked.bind(this)
 				};
 			}.bind(this)));
+		}
 		// Add temporary marker
 		if (this.state.geozone) {
 			result.push(this.state.geozone);
@@ -367,7 +370,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 
 	_buildCircle(geozone, result, id) {
-		if (geozone.radius && geozone.radius  != 0) {
+		if (geozone.radius && geozone.radius != 0) {
 			result.push({
 				id: 'gz' + id,
 				lattitude: Number(geozone.lattitude),
@@ -377,9 +380,9 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		}
 	}
 	
-	_buildCircles() {		
+	_buildCircles() {
 		let result = [];
-		if (!this.state.updateGeozone)
+		if (!this.state.updateGeozone) {
 			result.push(...Utils.map(this.state.geozones, function (gz) {
 				return {
 					id: gz.id,
@@ -388,10 +391,11 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 					radius: parseFloat(gz.radius)
 				};
 			}.bind(this)));
-		
-		if (this.state.geozone)
+		}
+		if (this.state.geozone) {
 			this._buildCircle(this.state.geozone, result, "current");
-		return result;	
+		}
+		return result;
 	}
 
 	hideService(event) {
@@ -407,21 +411,22 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 	}
 	
 	showAllServices(event) {
-		if (event.target.checked)
+		if (event.target.checked) {
 			this.loadAllServices()
-		else
+		} else {
 			this.loadServices()
+		}
 	}
 	
 	getAddButtons() {
-		if (Object.keys(this.state.geozones).length >= 3)
+		if (Object.keys(this.state.geozones).length >= 3) {
 			return (
 				<Col xs={4}>
 					<div>Maximum 3 Zones</div>
 				</Col>
 			);
-		else
-			return (	
+		} else {
+			return (
 				<Col xs={4}>
 				<APButton block
 					bsStyle='warning'
@@ -435,6 +440,7 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				</APButton>
 				</Col>
 			);
+		}
 	}
 	
 	render() {
@@ -442,23 +448,23 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 			<Panel header="Mes zones d'intervention">
 				<Row>
 					<Col sm={3}>
-						<div className="checkbox">
-							<label><input type="checkbox" value="" onClick={this.hideService.bind(this)} />Masquer Services</label>
+						<div className='checkbox'>
+							<label><input type='checkbox' value='' onClick={this.hideService.bind(this)} />Masquer Services</label>
 						</div>
 					</Col>
 					<Col sm={3}>
-						<div className="checkbox">
-							<label><input type="checkbox" value="" onClick={this.hideOffers.bind(this)} />Masquer Offres</label>
+						<div className='checkbox'>
+							<label><input type='checkbox' value='' onClick={this.hideOffers.bind(this)} />Masquer Offres</label>
 						</div>
 					</Col>
 					<Col sm={3}>
-						<div className="checkbox">
-							<label><input type="checkbox" value="" onClick={this.hideInterventions.bind(this)} />Masquer Interventions</label>
+						<div className='checkbox'>
+							<label><input type='checkbox' value='' onClick={this.hideInterventions.bind(this)} />Masquer Interventions</label>
 						</div>
 					</Col>
 					<Col sm={3}>
-						<div className="checkbox">
-							<label><input type="checkbox" value="" onClick={this.showAllServices.bind(this)} />Afficher tous les Services</label>
+						<div className='checkbox'>
+							<label><input type='checkbox' value='' onClick={this.showAllServices.bind(this)} />Afficher tous les Services</label>
 						</div>
 					</Col>
 				</Row>
@@ -470,10 +476,10 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 				</Row>
 				<Row>
 					<Col sm={12}>
-						<GoogleMap 
-							center={this._buildCenter()} 
+						<GoogleMap
+							center={this._buildCenter()}
 							onMapClicked={this.onMapClicked.bind(this)}
-							markers={this._buildMarkers()} 
+							markers={this._buildMarkers()}
 							circles={this._buildCircles()} />
 					</Col>
 				</Row>
@@ -481,5 +487,4 @@ class AuxiliaryMap extends AuxiliaryBaseComponent {
 		);
 	}
 }
-
 export default AuxiliaryMap;

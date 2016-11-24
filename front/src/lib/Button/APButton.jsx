@@ -33,8 +33,11 @@ class APButton extends Base {
 		if (this.props.active) {
 			clazz += ' active';
 		}
+		if (this.props.disabled) {
+			clazz += ' disabled';
+		}
 		if (this.props.block) {
-			clazz += ' block';
+			clazz += ' btn-block';
 		}
 		return clazz;
 	}

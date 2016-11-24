@@ -52,13 +52,13 @@ class ServiceBaseComponent extends React.Component {
 
 	loadService() {
 		return Dispatcher.issue('GET_SERVICE', this._getBaseArgs());
-	}	
+	}
 	updateService(service) {
 		let args = this._getBaseArgs();
 		args.data = service;
 		return Dispatcher.issue('PUT_SERVICE', args);
 	}
-	
+
 
 	// Customers //
 	// --------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ class ServiceBaseComponent extends React.Component {
 
 	loadAuxiliaries() {
 		return Dispatcher.issue('GET_SERVICE_AUXILIARIES', this._getBaseArgs());
-	}	
+	}
 
 
 	// Interventions //
@@ -154,7 +154,7 @@ class ServiceBaseComponent extends React.Component {
 
 	loadOffers() {
 		return Dispatcher.issue('GET_SERVICE_OFFERS', this._getBaseArgs());
-	}	
+	}
 	createOffer(offer) {
 		let args = this._getBaseArgs();
 		args.data = offer;
@@ -191,5 +191,4 @@ class ServiceBaseComponent extends React.Component {
 		return('');
 	}
 }
-
 export default ServiceBaseComponent;

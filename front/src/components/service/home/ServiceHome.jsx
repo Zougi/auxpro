@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 // Core modules
-import StoreRegistry from 'core/StoreRegistry.js'
+import StoreRegistry from 'core/StoreRegistry'
 // Custom components
-import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
+import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 // Lib modules
-import Utils from 'utils/Utils.js'
+import Utils from 'utils/Utils'
 
 class ServiceHome extends ServiceBaseComponent {
 	

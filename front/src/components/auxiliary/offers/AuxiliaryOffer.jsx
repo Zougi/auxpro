@@ -74,7 +74,7 @@ class AuxiliaryOffer extends AuxiliaryBaseComponent {
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
-	render() { 
+	render() {
 		return (
 		<div>
 			<br/>

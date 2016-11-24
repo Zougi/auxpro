@@ -69,5 +69,4 @@ class AuxiliaryPlanningInformation extends React.Component {
 		);
 	}
 }
-
 export default AuxiliaryPlanningInformation;

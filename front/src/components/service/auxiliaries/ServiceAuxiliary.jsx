@@ -1,5 +1,5 @@
 import React from 'react'
-import { Panel, Row, Col, Button } from 'react-bootstrap'
+import { Panel, Row, Col } from 'react-bootstrap'
 // Core modules
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
@@ -44,8 +44,12 @@ class ServiceAuxiliary extends ServiceBaseComponent {
 
 	render() { return (
 		<Row>
-			<APButton onClick={this.onBack} block>Retour</APButton>
-			<br/><br/>
+			<APButton
+				block
+				text='Retour'
+				onClick={this.onBack} />
+			<br/>
+			<br/>
 			<Panel header={(<strong>{this.state.auxiliary.civility} {this.state.auxiliary.lastName} {this.state.auxiliary.firstName}</strong>)} bsStyle='warning'>
 			</Panel>
 		</Row>

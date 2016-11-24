@@ -6,7 +6,7 @@ import StoreRegistry from 'core/StoreRegistry'
 // custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
-import { APButton } from 'lib/Lib.jsx';
+import { APButton } from 'lib/Lib';
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
 // Lib modules
 import Utils from 'utils/Utils'
@@ -22,7 +22,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		this.state = this._buildState();
 		this.state.offersFilter = '';
 	}
-	
+
 
 	// State Management functions //
 	// --------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		});
 	}
 	onOfferView(offer) {
-		Dispatcher.issue('NAVIGATE', { path: '/aux/offers/'  + offer.id});
+		Dispatcher.issue('NAVIGATE', { path: '/aux/offers/' + offer.id});
 	}
 	onOfferHide(offer) {
 		offer.hideToAux = true;
@@ -138,7 +138,7 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 					break;
 			}
 			result.push(
-				<Col key={'o' + offer.id} sm={6} md={4}>					
+				<Col key={'o' + offer.id} sm={6} md={4}>
 					<APPanelBasic
 						bsStyle={status.bsStyle}
 						title={'Offre ' + status.value.toLowerCase()}
@@ -158,33 +158,33 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 	}
 	_buildOfferActions(offer) {
 		let actions = [];
-		actions .push({ 
+		actions .push({
 			tooltip: 'Voir offre',
-			bsStyle: 'default', 
+			bsStyle: 'default',
 			glyph: 'search', 
 			callback: this.onOfferView.bind(this, offer)
 		});
 		if (offer.status === 'PENDING') {
-			actions .push({ 
+			actions .push({
 				tooltip: 'Accepter offre',
-				bsStyle: 'success', 
-				glyph: 'ok', 
+				bsStyle: 'success',
+				glyph: 'ok',
 				callback: this.onOfferAccept.bind(this, offer)
 			});
-			actions .push({ 
+			actions .push({
 				tooltip: 'Décliner offre',
-				bsStyle: 'danger', 
-				glyph: 'remove', 
-				callback: this.onOfferDecline.bind(this, offer) 
+				bsStyle: 'danger',
+				glyph: 'remove',
+				callback: this.onOfferDecline.bind(this, offer)
 			});
 		}
 		if (offer.status === 'CONFIRMED' || offer.status === 'REJECTED') {
-			actions .push({ 
+			actions .push({
 				tooltip: 'Masquer offre',
-				bsStyle: 'danger', 
-				glyph: 'remove', 
-				callback: this.onOfferHide.bind(this, offer) 
-			});	
+				bsStyle: 'danger',
+				glyph: 'remove',
+				callback: this.onOfferHide.bind(this, offer)
+			});
 		}
 		return actions;
 	}
@@ -201,42 +201,40 @@ class AuxiliaryOffers extends AuxiliaryBaseComponent {
 		return 'Toutes mes offres'
 	}
 
-	render() {
-		return (
-			<div>
-				<Panel header={(<strong>{this._buildTitle()}</strong>)} bsStyle='info'>
-					<Row style={{textAlign:'center'}}>
-						<ButtonGroup>
-							<APButton bsStyle='primary' onClick={this.onOffersFilter.bind(this, null)} text='Toutes' />
-							<APButton bsStyle='info' onClick={this.onOffersFilter.bind(this, OfferStatus.PENDING)} text='En attente' />
-							<APButton bsStyle='success' onClick={this.onOffersFilter.bind(this, OfferStatus.ACCEPTED)} text='Acceptées' />
-							<APButton bsStyle='danger' onClick={this.onOffersFilter.bind(this, OfferStatus.REJECTED)} text='Rejetées' />
-							<APButton onClick={this.onOffersFilter.bind(this, OfferStatus.EXPIRED)} text='Expirées' />
-						</ButtonGroup>
-					</Row>
-				<br/>
-				{this._buildOffers()}
-				</Panel>
-				<DialogConfirmation
-					show={this.state.confirmAccept}
-					title="Accepter l'offre"
-					onConfirm={this.onAccept.bind(this)}
-					confirmStyle='success'
-					confirmText='Accepter'
-					onCancel={this.onCancel.bind(this)}
-					cancelStyle='default'
-					cancelText='Annuler' />
-				<DialogConfirmation
-					show={this.state.confirmReject}
-					title="Décliner l'offre"
-					onConfirm={this.onAccept.bind(this)}
-					confirmStyle='danger'
-					confirmText='Décliner'
-					onCancel={this.onCancel.bind(this)}
-					cancelStyle='default'
-					cancelText='Annuler' />
-			</div>
-		);
-	}
+	render() { return (
+		<div>
+			<Panel header={(<strong>{this._buildTitle()}</strong>)} bsStyle='info'>
+				<Row style={{textAlign:'center'}}>
+					<ButtonGroup>
+						<APButton bsStyle='primary' onClick={this.onOffersFilter.bind(this, null)} text='Toutes' />
+						<APButton bsStyle='info' onClick={this.onOffersFilter.bind(this, OfferStatus.PENDING)} text='En attente' />
+						<APButton bsStyle='success' onClick={this.onOffersFilter.bind(this, OfferStatus.ACCEPTED)} text='Acceptées' />
+						<APButton bsStyle='danger' onClick={this.onOffersFilter.bind(this, OfferStatus.REJECTED)} text='Rejetées' />
+						<APButton onClick={this.onOffersFilter.bind(this, OfferStatus.EXPIRED)} text='Expirées' />
+					</ButtonGroup>
+				</Row>
+			<br/>
+			{this._buildOffers()}
+			</Panel>
+			<DialogConfirmation
+				show={this.state.confirmAccept}
+				title="Accepter l'offre"
+				onConfirm={this.onAccept.bind(this)}
+				confirmStyle='success'
+				confirmText='Accepter'
+				onCancel={this.onCancel.bind(this)}
+				cancelStyle='default'
+				cancelText='Annuler' />
+			<DialogConfirmation
+				show={this.state.confirmReject}
+				title="Décliner l'offre"
+				onConfirm={this.onAccept.bind(this)}
+				confirmStyle='danger'
+				confirmText='Décliner'
+				onCancel={this.onCancel.bind(this)}
+				cancelStyle='default'
+				cancelText='Annuler' />
+		</div>
+	);}
 }
 export default AuxiliaryOffers;

@@ -1,7 +1,9 @@
 import React from 'react';
-import { Carousel, ResponsiveEmbed, Grid, Row, Col, Button } from 'react-bootstrap';
+import { Carousel, ResponsiveEmbed, Grid, Row, Col } from 'react-bootstrap';
 // Core modules
 import Dispatcher from 'core/Dispatcher'
+// Custom components
+import { APButton } from 'lib/Lib'
 
 let TUTO_ITEMS = [
 	{ src: './../../../../../assets/img/tutoaux1.JPG' },
@@ -17,9 +19,9 @@ class AuxiliaryTuto extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            index: 0,
-            direction: null
-        };
+			index: 0,
+			direction: null
+		};
 	}
 
 
@@ -66,7 +68,12 @@ class AuxiliaryTuto extends React.Component {
 				<br/>
 				<Row>
 					<Col smOffset={8} sm={3} mdOffset={7} md={3} className="left">
-						<Button bsStyle='success' bsSize='large' block onClick={this.onClose.bind(this)}>Passer</Button>
+						<APButton
+							block
+							bsSize='large'
+							bsStyle='success'
+							text='Passer'
+							onClick={this.onClose.bind(this)} />
 					</Col>
 				</Row>
 			</Grid>
