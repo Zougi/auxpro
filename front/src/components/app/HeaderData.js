@@ -1,10 +1,11 @@
 import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher';
 
 class HeaderData {
 	
 	constructor() {
 		this.loginStore = StoreRegistry.getStore('LOGIN_STORE');
-		this.data = this.buildData();
+		this.buildData();
 		this.callBack = null;
 	}
 	
@@ -14,55 +15,55 @@ class HeaderData {
 	}
 	
 	onHeaderDataUpdate() {
-		this.data = this.buildData();
-		this.callBack(this.data);
+		this.buildData();
+		this.callBack();
 	}
 	
 	unregister() {
 		StoreRegistry.unregister('LOGIN_STORE', this);
 	}
 	
+	onNavigate(url) {
+		if (url == "logout") {
+			Dispatcher.issue('LOGOUT', {});
+			url = "/"
+		}	
+		Dispatcher.issue('NAVIGATE', {path: url});
+	}
+	
 	buildData() {	
-		var header;
 		if (!this.loginStore.getData('/logged')) {
-			header = {
-				brand: { link: '/', name: 'AuxPro' },
-				rightContent: [
+			this.brand = { link: '/', name: 'AuxPro' };
+			this.rightContent = [
 					{ link: '/contact', name: 'Contact', query: {}, key: 1, isLink: true },
 					{ link: '/login', name: 'Connexion', query: {}, key: 2, isLink: true }
-				]
-			}
+			];
 		} else {
 			switch (this.loginStore.getData('/type')) {
 				case 'aux':		
-					header = {
-						brand: { link: '/', name: 'AuxPro' },
-						rightContent: [
+					this.brand = { link: '/', name: 'AuxPro' };
+					this.rightContent = [
 							{ key: 1, link: '/aux/home', query: {}, name: 'Accueil', glyph: 'home' },
 							{ key: 2, link: '/aux/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },
 							{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
-						]
-					}
+					];
 					break;
 				case 'sad':
-					header = {
-						brand: { link: '/sad/home', name: 'AuxPro' },
-						rightContent: [
+					this.brand = { link: '/sad/home', name: 'AuxPro' };
+					this.rightContent = [
 							{ key: 1, link: '/sad/home', query: {}, name: 'Accueil', glyph: 'home' },
 							{ key: 2, link: '/sad/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },
 							{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
-						]
-					}
+					];
 					break;
 				default:
 					break;
 			}
-		}		
-		
-		var data = { 
-			header: header,
-		};
-		return data;
+		}
+		this.onNavigate = this.onNavigate;
+		this.className='no-print';
+		this.inverse={true};
+		this.fixedTop={true};
 	}	
 }
 

@@ -72,14 +72,6 @@ class Service extends ServiceBaseComponent {
 			showUserHeader: this.getServiceData('/display/home/showUserHeader'),
 		}
 	}
-
-	onNavigate(url) {
-		if (url == "logout") {
-			Dispatcher.issue('LOGOUT', {});
-			url = "/"
-		}	
-		Dispatcher.issue('NAVIGATE', {path: url});
-	}
 	
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
@@ -91,11 +83,7 @@ class Service extends ServiceBaseComponent {
 		return(
 			<div>
 				<header className='no-print'>
-						<Navbar 
-							className='no-print'
-							disabled={HeaderData.data.disabled}
-							leftContent={HeaderData.data.leftContent}
-							onNavigate = {this.onNavigate} />
+						<Navbar {...HeaderData} />
 				</header>
 				<div className='container'>
 					{this.state.showUserHeader ? 

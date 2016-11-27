@@ -17,7 +17,7 @@ class App extends React.Component {
 		super(props);
 		this.state = { 
 			preload: ap.preload,
-			header: HeaderData.data.header
+			HeaderData: HeaderData
 		};
 		ap.listeners.push(this._onPreload.bind(this));
 	}
@@ -35,9 +35,9 @@ class App extends React.Component {
 		StoreRegistry.unregister('APP_STORE', this);
 		HeaderData.unregister();
 	}
-	_onHeaderDataUpdate(data) {
+	_onHeaderDataUpdate() {
 		this.setState({ 
-			header: data.header
+			HeaderData: HeaderData
 		});
 	}
 	
@@ -49,18 +49,6 @@ class App extends React.Component {
 	}
 	_onPreload() {
 		this.setState({ preload: ap.preload });
-	}
-
-
-	// Callback functions //
-	// --------------------------------------------------------------------------------
-
-	onNavigate(url) {
-		if (url == "logout") {
-			Dispatcher.issue('LOGOUT', {});
-			url = "/"
-		}	
-		Dispatcher.issue('NAVIGATE', {path: url});
 	}
 	
 	
@@ -76,13 +64,7 @@ class App extends React.Component {
 		return (
 			<div className='ap-app'>
 				<header className='no-print'>
-					<Navbar
-						className='no-print'
-						inverse={true}
-						fixedTop={true}
-						onNavigate = {this.onNavigate}
-						brand={this.state.header.brand} 
-						rightContent={this.state.header.rightContent} />
+					<Navbar {...this.state.HeaderData} />
 				</header>
 				{this.props.children}
 				<Footer className='no-print'/>
