@@ -79,9 +79,6 @@ class Auxiliary extends AuxiliaryBaseComponent {
 	// --------------------------------------------------------------------------------
 	
 	render() { 
-		console.log("RENDER")
-		console.log(HeaderData)
-	
 		if (!this.state.dataLoaded) {
 			return ( <div className='container'/> );
 		}
