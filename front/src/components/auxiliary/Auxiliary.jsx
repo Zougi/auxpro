@@ -8,6 +8,10 @@ import StoreRegistry from 'core/StoreRegistry'
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
 import AuxiliaryHeader from 'components/auxiliary/AuxiliaryHeader'
 
+import Navbar from 'components-lib/Navbar/Navbar.jsx'
+
+import HeaderData from './HeaderData.js'
+
 class Auxiliary extends AuxiliaryBaseComponent {
 
 	constructor(props) {
@@ -72,23 +76,40 @@ class Auxiliary extends AuxiliaryBaseComponent {
 	}
 	
 
+	onNavigate(url) {
+		if (url == "logout") {
+			Dispatcher.issue('LOGOUT', {});
+			url = "/"
+		}	
+		Dispatcher.issue('NAVIGATE', {path: url});
+	}
+	
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
-
+	
 	render() { 
 		if (!this.state.dataLoaded) {
 			return ( <div className='container'/> );
 		}
 		return (
-			<div className='container'>
-				{this.state.showUserHeader ? 
+			<div>
+				<header className='no-print'>
+						<Navbar 
+							className='no-print'
+							disabled={HeaderData.data.disabled}
+							leftContent={HeaderData.data.leftContent}
+							onNavigate = {this.onNavigate} />
+				</header>
+				<div className='container'>
+					{this.state.showUserHeader ? 
+						<Row>
+							<AuxiliaryHeader />
+						</Row>
+					: '' }
 					<Row>
-						<AuxiliaryHeader />
+						{this.props.children}
 					</Row>
-				: '' }
-				<Row>
-					{this.props.children}
-				</Row>
+				</div>
 			</div>
 		);
 	}

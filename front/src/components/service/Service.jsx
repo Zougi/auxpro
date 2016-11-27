@@ -7,6 +7,10 @@ import StoreRegistry from 'core/StoreRegistry'
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import ServiceHeader from 'components/service/ServiceHeader'
 
+import Navbar from 'components-lib/Navbar/Navbar.jsx'
+
+import HeaderData from './HeaderData.js'
+
 class Service extends ServiceBaseComponent {
 
 	constructor(props) {
@@ -69,6 +73,14 @@ class Service extends ServiceBaseComponent {
 		}
 	}
 
+	onNavigate(url) {
+		if (url == "logout") {
+			Dispatcher.issue('LOGOUT', {});
+			url = "/"
+		}	
+		Dispatcher.issue('NAVIGATE', {path: url});
+	}
+	
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
@@ -77,15 +89,24 @@ class Service extends ServiceBaseComponent {
 			return ( <div className='container'/> );
 		}
 		return(
-			<div className='container'>
-				{this.state.showUserHeader ? 
+			<div>
+				<header className='no-print'>
+						<Navbar 
+							className='no-print'
+							disabled={HeaderData.data.disabled}
+							leftContent={HeaderData.data.leftContent}
+							onNavigate = {this.onNavigate} />
+				</header>
+				<div className='container'>
+					{this.state.showUserHeader ? 
+						<Row>
+							<ServiceHeader />
+						</Row>
+					: '' }
 					<Row>
-						<ServiceHeader />
+						{this.props.children}
 					</Row>
-				: '' }
-				<Row>
-					{this.props.children}
-				</Row>
+				</div>
 			</div>
 		);
 	}

@@ -11,21 +11,13 @@ import Navbar from 'components-lib/Navbar/Navbar.jsx'
 
 import HeaderData from './HeaderData.js'
 
-function getHeader() {
-	return StoreRegistry.getStore('APP_STORE').getData('/app/header');
-}
-function getSubHeader() {
-	return StoreRegistry.getStore('APP_STORE').getData('/app/subHeader');
-}
-
 class App extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = { 
 			preload: ap.preload,
-			header: HeaderData.data.header,
-			subHeader: HeaderData.data.subHeader
+			header: HeaderData.data.header
 		};
 		ap.listeners.push(this._onPreload.bind(this));
 	}
@@ -36,19 +28,16 @@ class App extends React.Component {
 
 	componentDidMount() {
 		StoreRegistry.register('APP_STORE/path', this, this._onAppStorePathUpdate.bind(this));
-		
 		HeaderData.register(this._onHeaderDataUpdate.bind(this));
 	}
 	
 	componentWillUnmount() {
 		StoreRegistry.unregister('APP_STORE', this);
-		
 		HeaderData.unregister();
 	}
 	_onHeaderDataUpdate(data) {
 		this.setState({ 
-			header: data.header,
-			subHeader: data.subHeader
+			header: data.header
 		});
 	}
 	
@@ -95,13 +84,6 @@ class App extends React.Component {
 						brand={this.state.header.brand} 
 						rightContent={this.state.header.rightContent} />
 				</header>
-				{(this.state.subHeader && this.state.subHeader.leftContent && this.state.subHeader.leftContent.length) ?
-					<Navbar 
-						className='no-print'
-						disabled={this.state.subHeader.disabled}
-						leftContent={this.state.subHeader.leftContent}
-						onNavigate = {this.onNavigate} />
-				: '' }
 				{this.props.children}
 				<Footer className='no-print'/>
 			</div>
