@@ -85,12 +85,23 @@ body {
 	background: transparent;
 }
 
+.ap-auxpro .panel::before {
+	content: '';
+	position: absolute;
+	left: -100%;
+	right: 0;
+	top: 0;
+	bottom: 50%;
+	background: rgba(177,127,73,0.2);
+	transform: skew(35deg);
+	z-index: -1;
+}
 .ap-auxpro .panel::after {
 	content: '';
 	position: absolute;
-	left: -30px;
-	right: -30px;
-	top: 0;
+	left: 0;
+	right: -100%;
+	top: 50%;
 	bottom: 0;
 	background: rgba(177,127,73,0.2);
 	transform: skew(35deg);
