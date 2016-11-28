@@ -50,6 +50,7 @@ body {
 	border-radius: 0;
 	border: 0;
 	transform: skewX(35deg);
+	transition: background-color .15s linear, color .15s linear, transform .2s linear;
 }
 
 .ap-auxpro .ap-button.btn-primary {
@@ -57,9 +58,11 @@ body {
 	color: #B17F49;
 }
 
-.ap-auxpro .ap-button.btn-primary:hover {
-	background: #0775B5;
-	color: #B17F49;
+.ap-auxpro .ap-button.btn-primary:hover,
+.ap-auxpro .ap-button.btn-primary:focus {
+	background: #D3E9FC;
+	color: #1D70B7;
+	transform: scale(1.05) skewX(35deg);
 }
 
 .ap-auxpro .ap-button-content {
@@ -68,6 +71,9 @@ body {
 
 /* ----------------------------------------------------------
  *                                                    PANELS
+ */
+
+/*                                                    .panel 
  */
 
 .ap-auxpro .panel {
@@ -106,4 +112,13 @@ body {
 	background: rgba(177,127,73,0.2);
 	transform: skew(35deg);
 	z-index: -1;
+}
+
+/*                                            .panel-heading 
+ */
+
+.ap-auxpro .panel .panel-heading {
+	color: #B17F49;
+	font-weight: bold;
+	font-size: 20px;
 }

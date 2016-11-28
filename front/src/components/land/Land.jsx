@@ -49,7 +49,7 @@ class Land extends React.Component {
 		<div className='container'>
 			<br/>
 			<Grid>
-				<Panel header='Je recherche un service de soutien à domicile'>
+				<Panel header='JE RECHERCHE UN SOUTIEN À DOMICILE'>
 				<Form horizontal>
 					<Col sm={8}>
 						

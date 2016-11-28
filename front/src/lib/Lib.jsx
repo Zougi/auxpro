@@ -1,3 +1,5 @@
+/** TABLES */
+
 import ITableBase from 'lib/itable/ITable'
 export const ITable = ITableBase
 
@@ -7,10 +9,14 @@ export const Table = TableBase
 import PanelBase from 'lib/panel/Panel'
 export const Panel = PanelBase
 
+/* IMAGES */
+
 import AsyncImageBase from 'lib/image/AsyncImage'
 export const AsyncImage = AsyncImageBase
+
 import ImageBase from 'lib/image/Image'
 export const Image = ImageBase
+
 import ImageUploaderBase from 'lib/image/ImageUploader'
 export const ImageUploader = ImageUploaderBase
 
