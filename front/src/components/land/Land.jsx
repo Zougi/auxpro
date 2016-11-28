@@ -49,26 +49,24 @@ class Land extends React.Component {
 		<div className='container'>
 			<br/>
 			<Grid>
-				<Row>
-					<Panel header='Je recherche un service de soutien à domicile'>
-						<Form horizontal>
-							<FormInput
-								edit={true}
-								title='Commune'
-								defaultValue=''
-								placeholder='Code postal'
-								smLabelSize={3}
-								onChange={this.onPostalCodeChanged.bind(this)}/>
-							<FormGroup>
-								<Col smOffset={3} sm={9}>
-									<APButton
-										text='Valider'
-										onClick={this.onGuestLogin.bind(this)} />
-								</Col>
-							</FormGroup>
-						</Form>
-					</Panel>
-				</Row>
+				<Panel header='Je recherche un service de soutien à domicile'>
+					<Form horizontal>
+						<FormInput
+							edit={true}
+							title='Commune'
+							defaultValue=''
+							placeholder='Code postal'
+							smLabelSize={3}
+							onChange={this.onPostalCodeChanged.bind(this)}/>
+						<FormGroup>
+							<Col smOffset={3} sm={9}>
+								<APButton
+									text='Valider'
+									onClick={this.onGuestLogin.bind(this)} />
+							</Col>
+						</FormGroup>
+					</Form>
+				</Panel>
 				<Col sm={4}>
 					<APButton
 						block

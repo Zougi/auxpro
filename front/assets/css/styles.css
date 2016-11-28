@@ -65,3 +65,34 @@ body {
 .ap-auxpro .ap-button-content {
 	transform: skewX(-35deg);
 }
+
+/* ----------------------------------------------------------
+ *                                                    PANELS
+ */
+
+.ap-auxpro .panel {
+	border-radius: 0;
+	border: 0;
+	overflow: hidden;
+	position: relative;
+	background: transparent;
+	box-shadow: initial;
+	-webkit-box-shadow: initial;
+}
+.ap-auxpro .panel-default>.panel-heading,
+.ap-auxpro .panel-default>.panel-body {
+	border: 0;
+	background: transparent;
+}
+
+.ap-auxpro .panel::after {
+	content: '';
+	position: absolute;
+	left: -30px;
+	right: -30px;
+	top: 0;
+	bottom: 0;
+	background: rgba(177,127,73,0.2);
+	transform: skew(35deg);
+	z-index: -1;
+}
