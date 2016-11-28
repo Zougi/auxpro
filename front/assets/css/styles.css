@@ -1,9 +1,5 @@
 body {
-	background: url('../img/background.jpg') no-repeat center center fixed; 
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	background: url('../img/background-repeat.jpg'); 
 	padding:0;
 	padding-top:50px;
 	margin:0;
@@ -44,4 +40,28 @@ body {
 	width: 200px;
 	height: 200px;
 	background: red;
+}
+
+/* ----------------------------------------------------------
+ *                                                   BUTTONS
+ */
+
+.ap-auxpro .ap-button {
+	border-radius: 0;
+	border: 0;
+	transform: skewX(35deg);
+}
+
+.ap-auxpro .ap-button.btn-primary {
+	background: #1D70B7;
+	color: #B17F49;
+}
+
+.ap-auxpro .ap-button.btn-primary:hover {
+	background: #0775B5;
+	color: #B17F49;
+}
+
+.ap-auxpro .ap-button-content {
+	transform: skewX(-35deg);
 }

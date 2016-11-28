@@ -62,7 +62,7 @@ class App extends React.Component {
 			);
 		}
 		return (
-			<div className='ap-app'>
+			<div className='ap-auxpro ap-app'>
 				<header className='no-print'>
 					<Navbar {...this.state.HeaderData} />
 				</header>

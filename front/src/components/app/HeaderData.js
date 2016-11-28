@@ -61,9 +61,9 @@ class HeaderData {
 			}
 		}
 		this.onNavigate = this.onNavigate;
-		this.className='no-print';
-		this.inverse={true};
-		this.fixedTop={true};
+		this.className = 'no-print';
+		this.inverse = true;
+		this.fixedTop = true;
 	}	
 }
 

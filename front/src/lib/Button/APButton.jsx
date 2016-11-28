@@ -56,6 +56,11 @@ export default class APButton extends Base {
 		}
 		return clazz;
 	}
+	_buildClassBg() {
+		var clazz = 'ap-button-bg';
+		
+		return clazz;
+	}
 
 	_buildIcon() {
 		if (this.props.icon) {
@@ -77,9 +82,11 @@ export default class APButton extends Base {
 			className={this._buildClass()}
 			disabled={this.props.disabled}
 			onClick={this._onClick.bind(this)}>
-			{this._buildIcon()}
-			{this._buildText()}
-			{this.props.children}
+			<div className='ap-button-content'>
+				{this._buildIcon()}
+				{this._buildText()}
+				{this.props.children}
+			</div>
 		</button>
 	);}
 }

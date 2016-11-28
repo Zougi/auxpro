@@ -50,60 +50,54 @@ class Land extends React.Component {
 			<br/>
 			<Grid>
 				<Row>
-					<Col sm={6} xs={12}>
-						<Panel header='Je recherche un service de soutien à domicile'>
-							<Form horizontal>
-								<FormInput
-									edit={true}
-									title='Commune'
-									defaultValue=''
-									placeholder='Code postal'
-									smLabelSize={3}
-									onChange={this.onPostalCodeChanged.bind(this)}/>
-								<FormGroup>
-									<Col smOffset={3} sm={9}>
-										<APButton
-											text='Valider'
-											onClick={this.onGuestLogin.bind(this)} />
-									</Col>
-								</FormGroup>
-							</Form>
-						</Panel>
-						<Row>
-							<Col sm={6}>
-								<APButton
-									block
-									bsStyle='info'
-									bsSize='large'
-									onClick={this.onRegisterAux.bind(this)}>
-									Créer un compte<br/>Auxiliaire de vie
-								</APButton>
-							</Col>
-							<br className='visible-xs-block'/>
-							<Col sm={6}>
-								<APButton
-									block
-									bsSize='large'
-									bsStyle='primary'
-									onClick={this.onRegisterSad.bind(this)}>
-									Créer un compte<br/>SAD
-								</APButton>
-							</Col>
-						</Row>
-						<br/>
-						<Row>
-							<Col smOffset={3} sm={6}>
-								<APButton
-									block
-									bsSize='large'
-									bsStyle='success'
-									onClick={this.onLogon.bind(this)}>
-									Connexion
-								</APButton>
-							</Col>
-						</Row>
-					</Col>
+					<Panel header='Je recherche un service de soutien à domicile'>
+						<Form horizontal>
+							<FormInput
+								edit={true}
+								title='Commune'
+								defaultValue=''
+								placeholder='Code postal'
+								smLabelSize={3}
+								onChange={this.onPostalCodeChanged.bind(this)}/>
+							<FormGroup>
+								<Col smOffset={3} sm={9}>
+									<APButton
+										text='Valider'
+										onClick={this.onGuestLogin.bind(this)} />
+								</Col>
+							</FormGroup>
+						</Form>
+					</Panel>
 				</Row>
+				<Col sm={4}>
+					<APButton
+						block
+						bsSize='lg'
+						bsStyle='primary'
+						onClick={this.onLogon.bind(this)}>
+						<br/><b>SE CONNECTER</b>
+					</APButton>
+				</Col>
+				<br className='visible-xs-block'/>
+				<Col sm={4}>
+					<APButton
+						block
+						bsStyle='primary'
+						bsSize='lg'
+						onClick={this.onRegisterAux.bind(this)}>
+						<b>CRÉER UN COMPTE<br/>AUXILIARE DE VIE</b>
+					</APButton>
+				</Col>
+				<br className='visible-xs-block'/>
+				<Col sm={4}>
+					<APButton
+						block
+						bsSize='lg'
+						bsStyle='primary'
+						onClick={this.onRegisterSad.bind(this)}>
+						<b>CRÉER UN COMPTE<br/>SAD</b>
+					</APButton>
+				</Col>
 			</Grid>
 			<br/>
 		</div>
