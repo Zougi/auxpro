@@ -4,8 +4,7 @@ import { Panel } from 'react-bootstrap'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
-import AsyncImage from 'lib/image/AsyncImage'
-import { Col, Row, ITable } from 'lib/Lib'
+import { Col, Row, ITable, AsyncImage } from 'lib/Lib'
 
 class AuxiliaryHeader extends AuxiliaryBaseComponent {
 

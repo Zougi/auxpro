@@ -5,7 +5,7 @@ import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import GuestBaseComponent from 'components/guest/GuestBaseComponent'
-import AsyncImage from 'lib/image/AsyncImage'
+import { AsyncImage } from 'lib/Lib'
 // Lib modules
 import Utils from 'utils/Utils'
 

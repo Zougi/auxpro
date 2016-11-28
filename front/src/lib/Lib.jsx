@@ -1,29 +1,33 @@
-import ITableBase from './ITable/ITable.jsx';
-export const ITable = ITableBase;
+import ITableBase from 'lib/itable/ITable'
+export const ITable = ITableBase
 
-import TableBase from './Table/Table.jsx';
-export const Table = TableBase;
+import TableBase from 'lib/table/Table'
+export const Table = TableBase
 
-import PanelBase from './Panel/Panel.jsx';
-export const Panel = PanelBase;
+import PanelBase from 'lib/panel/Panel'
+export const Panel = PanelBase
 
-import ImageBase from './Image/Image.jsx';
-export const Image = ImageBase;
+import AsyncImageBase from 'lib/image/AsyncImage'
+export const AsyncImage = AsyncImageBase
+import ImageBase from 'lib/image/Image'
+export const Image = ImageBase
+import ImageUploaderBase from 'lib/image/ImageUploader'
+export const ImageUploader = ImageUploaderBase
 
-import ColBase from './Col/Col.jsx';
-export const Col = ColBase;
+import ColBase from 'lib/col/Col'
+export const Col = ColBase
 
-import RowBase from './Row/Row.jsx';
-export const Row = RowBase;
+import RowBase from 'lib/row/Row'
+export const Row = RowBase
 
-import FormInputBase from './FormInput/FormInput.jsx';
-export const FormInput = FormInputBase;
+import FormInputBase from 'lib/forminput/FormInput'
+export const FormInput = FormInputBase
 
-import IFormBase from './IForm/IForm.jsx';
-export const IForm = IFormBase;
+import IFormBase from 'lib/iform/IForm'
+export const IForm = IFormBase
 
-import APButtonBase from './Button/APButton.jsx';
-export const APButton = APButtonBase;
+import APButtonBase from 'lib/button/APButton'
+export const APButton = APButtonBase
 
-import BasicLoginBase from './BasicLogin/BasicLogin.jsx';
-export const BasicLogin = BasicLoginBase;
+import BasicLoginBase from 'lib/basicLogin/BasicLogin'
+export const BasicLogin = BasicLoginBase

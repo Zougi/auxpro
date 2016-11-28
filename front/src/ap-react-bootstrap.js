@@ -1,2 +1,2 @@
-import APButtonBase from 'lib/Button/APButton.jsx';
+import APButtonBase from 'lib/button/APButton.jsx';
 export const APButton = APButtonBase;

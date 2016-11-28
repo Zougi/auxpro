@@ -5,9 +5,8 @@ import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
-import AsyncImage from 'lib/image/AsyncImage'
-import ImageUploader from 'lib/image/ImageUploader'
 import FormBuilder from 'components-lib/Form/FormBuilder'
+import { AsyncImage, ImageUploader } from 'lib/Lib'
 import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
