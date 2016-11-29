@@ -1,9 +1,8 @@
 import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
-
+// Custom components
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete.jsx'
-import APButton from 'lib/Button/APButton.jsx'
-
+import { APButton } from 'ap-react-bootstrap'
 
 class AuxiliaryAddCity extends React.Component {
 
@@ -18,7 +17,12 @@ class AuxiliaryAddCity extends React.Component {
 			postalCode: address.postalCode,
 			city: address.city
 		}
-		this.setState({ lattitude: change.lattitude,  longitude: change.longitude, postalCode: change.postalCode, city: change.city});
+		this.setState({
+			lattitude: change.lattitude,
+			longitude: change.longitude,
+			postalCode: change.postalCode,
+			city: change.city
+		});
 		this.props.onChange(change);
 	}
 	
@@ -40,7 +44,8 @@ class AuxiliaryAddCity extends React.Component {
 				<GoogleAutocomplete
 					edit={true}
 					onChange={this.onAutocompleteChanged.bind(this)}/>
-				<APButton block
+				<APButton
+					block
 					bsStyle='success'
 					onClick={this.valid.bind(this)}>
 					Valider
@@ -49,5 +54,4 @@ class AuxiliaryAddCity extends React.Component {
 		);
 	}
 }
-
 export default AuxiliaryAddCity;

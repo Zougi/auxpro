@@ -1,11 +1,10 @@
-// lib modules
-import React from 'react';
-import { Row, Col, Glyphicon } from 'react-bootstrap';
-// custom components
-import FormButtonGroup from 'components-lib/Form/FormButtonGroup.jsx'
+import React from 'react'
+import { Row, Col, Glyphicon } from 'react-bootstrap'
+// Custom components
+import FormButtonGroup from 'components-lib/Form/FormButtonGroup'
 
 class SkillDetails extends React.Component {
-	
+
 	constructor(props) {
 		super(props);
 	}

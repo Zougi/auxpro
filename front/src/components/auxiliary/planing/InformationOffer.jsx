@@ -9,25 +9,24 @@ class InformationOffer extends React.Component {
 		super(props);
 	}
 
-	render() { 
+	render() {
 		let date = MomentHelper.localDateToHumanDate(this.props.date);
 		let start = MomentHelper.localTimeToHumanTime(this.props.startTime[0]);
 		let end = MomentHelper.localTimeToHumanTime(this.props.endTime[0]);
 
-		let d = [ 
-			this.props.endTime[0] - this.props.startTime[0], 
-			this.props.endTime[1] - this.props.startTime[1] 
+		let d = [
+			this.props.endTime[0] - this.props.startTime[0],
+			this.props.endTime[1] - this.props.startTime[1]
 		];
 		let duration = MomentHelper.localTimeToHumanTime(d);
 
 		return (
 			<ListGroupItem header='Offre' bsStyle='info'>
-	            {'Le ' + date + ' de ' + start + ' à ' + end}
-	            <br/>
-	            {"Nombre d'heures : " + duration}
-	        </ListGroupItem>
+				{'Le ' + date + ' de ' + start + ' à ' + end}
+				<br/>
+				{"Nombre d'heures : " + duration}
+			</ListGroupItem>
 		);
 	}
 }
-
 export default InformationOffer;

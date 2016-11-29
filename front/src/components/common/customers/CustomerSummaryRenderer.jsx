@@ -1,9 +1,9 @@
-import React from 'react';
-import moment from 'moment';
-import { Row, Col, Button, Glyphicon, OverlayTrigger } from 'react-bootstrap';
+import React from 'react'
+import moment from 'moment'
+import { Row, Col, Glyphicon, OverlayTrigger } from 'react-bootstrap'
 // custom components
-import ButtonAction from 'components-lib/ButtonAction/ButtonAction.jsx'
-import SkillSummaryList from 'components/common/skills/SkillSummaryList.jsx'
+import ButtonAction from 'components-lib/ButtonAction/ButtonAction'
+import SkillSummaryList from 'components/common/skills/SkillSummaryList'
 
 moment.locale('fr');
 

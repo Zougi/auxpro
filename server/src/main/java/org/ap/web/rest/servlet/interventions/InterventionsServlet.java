@@ -234,7 +234,7 @@ public class InterventionsServlet extends ServletBase implements IInterventionsS
 				ranked.add(index, aux);
 			}
 			// Filter only the 5 bests
-			List<AuxiliaryBean> result = ranked.subList(0, 5);
+			List<AuxiliaryBean> result = ranked.subList(0, 5 > ranked.size() ? ranked.size() : 5);
 			return Response.status(Status.OK).entity(result.toArray(new AuxiliaryBean[result.size()]), resolveAnnotations(sc)).build();
 		} catch (APException e) {
 			return sendException(e);

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Panel, Button, Row, Col, Clearfix, Form } from 'react-bootstrap'
+import { Panel, Row, Col, Clearfix, Form } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -83,12 +83,12 @@ class AuxiliaryIndisponibilityEdit extends AuxiliaryBaseComponent {
 
 	onCancel() {
 		Dispatcher.issue('NAVIGATE', {path: '/aux/planning'});
-	}   
+	}
 
-	changeHandler(field) { 
+	changeHandler(field) {
 		return function (event) {
 			let value = event.value || event;
-			Utils.setField(this.state.indisponibility, field, value); 
+			Utils.setField(this.state.indisponibility, field, value);
 			this.setState({ 
 				validationState: IndisponibilityHelper.checkValidation(this.state.indisponibility)
 			});
@@ -108,7 +108,7 @@ class AuxiliaryIndisponibilityEdit extends AuxiliaryBaseComponent {
 				defaultValue: this.state.indisponibility.period,
 				changeHandler: this.changeHandler('period'),
 				values: Period.PERIODS,
-				validator: Validators.NonNull	
+				validator: Validators.NonNull
 			}
 		], []];
 	}
@@ -154,10 +154,10 @@ class AuxiliaryIndisponibilityEdit extends AuxiliaryBaseComponent {
 			defaultValue: this.state.indisponibility.days,
 			changeHandler: this.changeHandler('days'),
 			validator: period !== Period.ONE ? Validators.NonEmptyArray : null,
-			values: Day.DAYS			
+			values: Day.DAYS
 		};
 		
-		switch (period)	{
+		switch (period) {
 			case Period.ONE:
 				return [[ startDate, startTime, endTime ], [] ];
 			case Period.P1W:

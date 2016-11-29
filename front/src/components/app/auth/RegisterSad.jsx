@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
+import { Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher';
+// Custom components
+import { APButton } from 'ap-react-bootstrap'
 
 class RegisterSad extends React.Component {
 
@@ -24,21 +26,21 @@ class RegisterSad extends React.Component {
 		event.preventDefault();
 		if (this.state.pass === this.state.confirm) {
 			let params = {
-				name: this.state.user, 
-				email: this.state.user, 
+				name: this.state.user,
+				email: this.state.user,
 				password: this.state.pass
 			};
 			Dispatcher.issue('POST_SERVICE', params).
 			then(function () {
 				console.log('service créé');
 				let params = {
-					user: this.state.user, 
+					user: this.state.user,
 					pass: this.state.pass
 				};
 				return Dispatcher.issue('LOGON', params);
 			}.bind(this)).
 			then(function () {
-				Dispatcher.issue('NAVIGATE', { path: '/sad' });  
+				Dispatcher.issue('NAVIGATE', { path: '/sad' });
 			}).
 			catch(function (error) {
 				console.log(error);
@@ -52,7 +54,7 @@ class RegisterSad extends React.Component {
 		event.preventDefault();
 		this.state.user = event.target.value;
 	}
-	handlePasswordChanged(event) { 
+	handlePasswordChanged(event) {
 		event.preventDefault();
 		this.state.pass = event.target.value;
 	}
@@ -70,7 +72,7 @@ class RegisterSad extends React.Component {
 			<br/>
 			<Col smOffset={1} sm={10} mdOffset={2} md={8}>
 				<Panel 
-					header={this.state.error?this.state.error:'Création compte Société'} 
+					header={this.state.error?this.state.error:'Création compte Société'}
 					bsStyle={this.state.error?'danger':'default'}>
 					<Form>
 						<FormGroup controlId='user'>
@@ -79,20 +81,32 @@ class RegisterSad extends React.Component {
 						</FormGroup>
 						<FormGroup controlId='pass'>
 							<ControlLabel>Mot de passe</ControlLabel>
-							<FormControl type='password' onChange={this.handlePasswordChanged.bind(this)}  placeholder='Mot de passe'/>
+							<FormControl type='password' onChange={this.handlePasswordChanged.bind(this)} placeholder='Mot de passe'/>
 						</FormGroup>
 						<FormGroup controlId='confirm'>
 							<ControlLabel>Confimer mot de passe</ControlLabel>
-							<FormControl type='password' onChange={this.handleConfirmChanged.bind(this)}  placeholder='Confimer mot de passe'/>
+							<FormControl type='password' onChange={this.handleConfirmChanged.bind(this)} placeholder='Confimer mot de passe'/>
 						</FormGroup>
 						<br/>
 						<Row>
 							<Col sm={6}>
-								<Button bsStyle='default' bsSize='large' onClick={this.onCancel.bind(this)} block>Annuler</Button>
+								<APButton
+									bsSize='lg'
+									bsStyle='default'
+									onClick={this.onCancel.bind(this)}
+									block>
+									Annuler
+								</APButton>
 							</Col>
 							<br className="visible-xs-block"/>
 							<Col sm={6}>
-								<Button bsStyle='success' bsSize='large' onClick={this.onSubmit.bind(this)} block>Créer Compte</Button>
+								<APButton
+									bsSize='lg'
+									bsStyle='success'
+									onClick={this.onSubmit.bind(this)}
+									block>
+									Créer Compte
+								</APButton>
 							</Col>
 						</Row>
 					</Form>

@@ -1,15 +1,17 @@
 import React from 'react';
-import { Button, Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
+import { Panel, Form, FormGroup, FormControl, ControlLabel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher';
+// Custom components
+import { APButton } from 'ap-react-bootstrap'
 
 class RegisterAux extends React.Component {
 	
 	constructor(props) {
 		super(props);
-        this.state = {
-            error: ''
-        };
+		this.state = {
+			error: ''
+		};
 	}
 
 
@@ -24,8 +26,8 @@ class RegisterAux extends React.Component {
 		event.preventDefault();
 		if (this.state.pass === this.state.confirm) {
 			let params = {
-				name: this.state.user, 
-				email: this.state.user, 
+				name: this.state.user,
+				email: this.state.user,
 				password: this.state.pass
 			};
 			Dispatcher.issue('POST_AUXILIARY', params).
@@ -42,10 +44,10 @@ class RegisterAux extends React.Component {
 			}).
 			catch(function (error) {
 				console.log(error);
-				this.setState({ error: 'Erreur lors de la création d\'un utilisateur'});
+				this.setState({ error: 'Erreur lors de la création d\'un utilisateur' });
 			}.bind(this));
 		} else {
-			this.setState({ error: 'Erreur Confimer mot de passe'});
+			this.setState({ error: 'Erreur Confimer mot de passe' });
 		}
 	}
 
@@ -53,13 +55,13 @@ class RegisterAux extends React.Component {
 		event.preventDefault();
 		this.state.user = event.target.value;
 	}
-	handlePasswordChanged(event) { 
+	handlePasswordChanged(event) {
 		event.preventDefault();
 		this.state.pass = event.target.value;
 	}
 	handleConfirmChanged(event) {
 		event.preventDefault();
-		this.state.confirm = event.target.value; 
+		this.state.confirm = event.target.value;
 	}
 
 
@@ -70,7 +72,7 @@ class RegisterAux extends React.Component {
 		<div className="container">
 			<br/>
 			<Col smOffset={1} sm={10} mdOffset={2} md={8}>
-				<Panel 
+				<Panel
 					header={this.state.error ? this.state.error : 'Création compte Auxiliaire'} 
 					bsStyle={this.state.error ? 'danger' : 'default'}>
 				<Form>
@@ -89,11 +91,23 @@ class RegisterAux extends React.Component {
 					<br/>
 					<Row>
 						<Col sm={6}>
-							<Button bsStyle='default' bsSize='large' onClick={this.onCancel.bind(this)} block>Annuler</Button>
+							<APButton 
+								bsStyle='default' 
+								bsSize='lg' 
+								onClick={this.onCancel.bind(this)} 
+								block>
+								Annuler
+							</APButton>
 						</Col>
 						<br className="visible-xs-block"/>
 						<Col sm={6}>
-							<Button bsStyle='success' bsSize='large' onClick={this.onSubmit.bind(this)} block>Créer Compte</Button>
+							<APButton 
+								bsStyle='success' 
+								bsSize='lg' 
+								onClick={this.onSubmit.bind(this)} 
+								block>
+								Créer Compte
+							</APButton>
 						</Col>
 					</Row>
 				</Form>

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Row, Col, Button, Panel, Form } from 'react-bootstrap'
+import { Row, Col, Panel, Form } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -11,6 +11,7 @@ import Calendar from 'components-lib/Calendar/Calendar'
 import FormSelect from 'components-lib/Form/FormSelect'
 import FormCheckbox from 'components-lib/Form/FormCheckbox'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import MomentHelper from 'utils/moment/MomentHelper'
 import MissionStatus from 'utils/constants/MissionStatus'
@@ -131,19 +132,19 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 			status = MissionStatus.getStatus(status)
 		}
 		this.state.missionFilter = status;
-		this.setState({ 
+		this.setState({
 			filteredMissions: this._getFilteredMission(this.state.missions)
 		});
 	}
 	filterServices(serviceId) {
 		this.state.serviceFilter = serviceId;
-		this.setState({ 
+		this.setState({
 			filteredMissions: this._getFilteredMission(this.state.missions)
 		});
 	}
 	filterCustomers(customerId) {
 		this.state.customerFilter = customerId;
-		this.setState({ 
+		this.setState({
 			filteredMissions: this._getFilteredMission(this.state.missions)
 		});
 	}
@@ -300,7 +301,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 						<APPanelBasic 
 							key={'mission-' + i}
 							bsStyle={status.bsStyle}
-							title={'Mission ' + status.value}
+							title={'Intervention ' + status.value}
 							text={text}/>
 					);
 				}
@@ -316,7 +317,7 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 					<Form horizontal>
 						<FormCheckbox
 							edit={true}
-							title='Voir missions'
+							title='Voir interventions'
 							xsLabelSize={10}
 							smLabelSize={10}
 							mdLabelSize={10}
@@ -334,40 +335,47 @@ class AuxiliaryPlaning extends AuxiliaryBaseComponent {
 							defaultValue={this.state.showIndisponibilities}
 							onChange={this.showIndisponibilities.bind(this, !this.state.showIndisponibilities)}
 							/>
-						<FormSelect 
+						<FormSelect
 							edit={true}
-							title='Clients' 
-							placeholder='<Tous>' 
+							title='Usagers'
+							placeholder='<Tous>'
 							defaultValue='__ALL__'
 							values={this._buildCustomersValues()}
 							onChange={this.filterCustomers.bind(this)}/>
 						<FormSelect 
 							edit={true}
-							title='SAD' 
-							placeholder='<Tous>' 
+							title='SAD'
+							placeholder='<Tous>'
 							defaultValue='__ALL__'
 							values={this._buildServicesValues()}
 							onChange={this.filterServices.bind(this)}/>
 						<FormSelect 
 							edit={true}
-							title='Missions' 
-							placeholder='<Tous>' 
+							title='Interventions'
+							placeholder='<Tous>'
 							defaultValue='__ALL__'
 							values={this._buildMissionsValues()}
 							onChange={this.filterMissions.bind(this)}/>
 						</Form>
 						<p>{'Total heures intervention : ' + this._buildTotalHours()}</p><br/>
-					<Button block bsStyle='warning' bsSize='small' onClick={this.onCreateIndisponibility.bind(this)}>
-						Ajouter une indisponibilité
-					</Button>
-					<Button block className='wrap' bsStyle='info' bsSize='small' onClick={this.onPrint.bind(this)}>
-						Imprimer mon planning
-					</Button>
+					<APButton
+						block
+						bsSize='small'
+						bsStyle='warning'
+						text='Ajouter une indisponibilité'
+						onClick={this.onCreateIndisponibility.bind(this)} />
+					<APButton
+						block
+						bsSize='small'
+						bsStyle='info'
+						className='wrap'
+						text='Imprimer mon planning'
+						onClick={this.onPrint.bind(this)} />
 				</Panel>
 			</Col>
 			<Col sm={8} md={7} lg={5}>
 				<Panel header={'Planning mensuel'}>
-					<Calendar 
+					<Calendar
 						moment={MomentHelper.toLocalDate(moment())}
 						selected={this.state.selected}
 						specialsInfo={this._buildMissionsPlanned()}

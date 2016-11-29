@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 // Custom components
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete'
-import APButton from 'lib/Button/APButton'
+import { APButton } from 'ap-react-bootstrap'
 
 class AuxiliaryAddZone extends React.Component {
 
@@ -85,7 +85,8 @@ class AuxiliaryAddZone extends React.Component {
 					onChange={this.onAutocompleteChanged.bind(this)}
 					location={this.state.location}/>
 				<p>Distance en mètres  <input type="number" defaultValue={this.state.radius} onChange={this.onRadiusChanged.bind(this)} step="100" disabled={!this.state.lattitude}/></p>
-				<APButton block
+				<APButton
+					block
 					bsStyle='success'
 					onClick={this.valid.bind(this)}>
 					Valider

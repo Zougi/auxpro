@@ -1,12 +1,12 @@
 import React from 'react'
 import { Panel, Row, Col, Form } from 'react-bootstrap'
-import { APButton } from 'lib/Lib.jsx'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent.jsx'
 import FormBuilder from 'components-lib/Form/FormBuilder'
+import { APButton } from 'ap-react-bootstrap'
 
 class ServiceCustomer extends ServiceBaseComponent {
 	

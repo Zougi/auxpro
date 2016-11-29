@@ -139,6 +139,7 @@ AuxiliaryStore.onGetAuxiliaryMissions = function (result, param) {
 		}
 	}
 	data.missionsLoaded = true;
+	AuxiliaryStore._setUpMissions();
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_MISSIONS', AuxiliaryStore.onGetAuxiliaryMissions);
@@ -152,11 +153,13 @@ AuxiliaryStore.onGetAuxiliaryInterventions = function (result, param) {
 		let l = result.length;
 		for (let i = 0; i < l; i++) {
 			let intervention = result[i];
+			intervention.missions = [];
 			data.interventions[intervention.id] = intervention;
 		}
 	}
 	data.interventionsLoaded = true;
 	AuxiliaryStore._setUpInterventions();
+	AuxiliaryStore._setUpMissions();
 	AuxiliaryStore.notify();
 }
 Dispatcher.register('GET_AUXILIARY_INTERVENTIONS', AuxiliaryStore.onGetAuxiliaryInterventions);
@@ -251,6 +254,16 @@ AuxiliaryStore._setUpOffers = function () {
 		Utils.map(data.offers).forEach(function (offer) {
 			let c = data.customers[offer.customerId];
 			c._type = c._type || 'offer';
+		});
+	}
+}
+
+//
+AuxiliaryStore._setUpMissions = function () {
+	let data = AuxiliaryStore.getContent().data;
+	if (data.missionsLoaded && data.interventionsLoaded) {
+		Utils.map(data.missions).forEach(function (mission) {
+			data.interventions[mission.interventionId].missions.push(mission);
 		});
 	}
 }

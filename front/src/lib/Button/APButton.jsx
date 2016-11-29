@@ -1,7 +1,7 @@
 import React from 'react'
-import Base from '../Base.jsx';
-
-import './APButton.css';
+import Base from 'lib/Base'
+// Style
+import './ap-buttons.css'
 
 /**
  * @props.type     :
@@ -14,11 +14,26 @@ import './APButton.css';
  * @props.disabled :
  * @props.onClick  :
  */
-class APButton extends Base {
+export default class APButton extends Base {
 
 	constructor(props) {
 		super(props);
 	}
+
+
+	// Callback functions //
+	// --------------------------------------------------------------------------------
+
+	_onClick(event) {
+		event.preventDefault()
+		if (this.props.onClick) {
+			this.props.onClick(event)
+		}
+	}
+
+
+	// Rendering functions //
+	// --------------------------------------------------------------------------------
 
 	_buildType() {
 		return this.props.type ? this.props.type : 'button';
@@ -33,9 +48,17 @@ class APButton extends Base {
 		if (this.props.active) {
 			clazz += ' active';
 		}
-		if (this.props.block) {
-			clazz += ' block';
+		if (this.props.disabled) {
+			clazz += ' disabled';
 		}
+		if (this.props.block) {
+			clazz += ' btn-block';
+		}
+		return clazz;
+	}
+	_buildClassBg() {
+		var clazz = 'ap-button-bg';
+		
 		return clazz;
 	}
 
@@ -53,20 +76,17 @@ class APButton extends Base {
 		return '';
 	}
 
-	_onClick(event) {
-		if (this.props.onClick) {
-			this.props.onClick(event);
-		}
-	}
-	
-	render() { 
-		return(
-			<button type={this._buildType()} className={this._buildClass()} disabled={this.props.disabled} onClick={this._onClick.bind(this)}>
+	render() { return (
+		<button
+			type={this._buildType()}
+			className={this._buildClass()}
+			disabled={this.props.disabled}
+			onClick={this._onClick.bind(this)}>
+			<div className='ap-button-content'>
 				{this._buildIcon()}
 				{this._buildText()}
 				{this.props.children}
-			</button>
+			</div>
+		</button>
 	);}
 }
-
-export default APButton;

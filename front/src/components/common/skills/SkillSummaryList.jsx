@@ -1,10 +1,9 @@
-// lib modules
-import React from 'react';
-import { Glyphicon, OverlayTrigger } from 'react-bootstrap';
+import React from 'react'
+import { Glyphicon, OverlayTrigger } from 'react-bootstrap'
 // custom modules
-import { SKILLS } from './SkillData.js'
+import { SKILLS } from './SkillData'
 // custom components
-import SkillSummary from './SkillSummary.jsx'
+import SkillSummary from './SkillSummary'
 
 class SkillSummaryList extends React.Component {
 	
@@ -33,5 +32,4 @@ class SkillSummaryList extends React.Component {
 		);
 	}
 }
-
 export default SkillSummaryList;

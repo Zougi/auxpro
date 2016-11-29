@@ -2,7 +2,7 @@ import React from 'react'
 
 import { SKILLS } from './SkillData.js'
 
-import GoogleChart from 'components-lib/charts/GoogleChart.jsx'
+import GoogleChart from 'components-lib/Charts/GoogleChart.jsx'
 
 class SkillChart extends React.Component {
 

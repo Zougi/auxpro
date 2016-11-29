@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 // Core modules
-import Dispatcher from 'core/Dispatcher';
-import StoreRegistry from 'core/StoreRegistry';
+import Dispatcher from 'core/Dispatcher'
+import StoreRegistry from 'core/StoreRegistry'
 
 class AuxiliaryBaseComponent extends React.Component {
 
@@ -57,7 +57,7 @@ class AuxiliaryBaseComponent extends React.Component {
 		args.data = auxiliary;
 		return Dispatcher.issue('PUT_AUXILIARY', args);
 	}
-	
+
 
 	// Customers //
 	// --------------------------------------------------------------------------------
@@ -185,6 +185,7 @@ class AuxiliaryBaseComponent extends React.Component {
 		return Dispatcher.issue('POST_AUXILIARY_QUESTIONARY', args)
 	}
 
+
 	// Geo Zones //
 	// --------------------------------------------------------------------------------
 
@@ -207,8 +208,6 @@ class AuxiliaryBaseComponent extends React.Component {
 		var args = this._getBaseArgs();
 		geozone.auxiliaryId = args.auxiliaryId;
 		args.data = geozone;
-		console.log("POST")
-		console.log(args)
 		return Dispatcher.issue('POST_GEOZONE', args);
 	}
 	updateGeozone(geozone) {
@@ -216,8 +215,6 @@ class AuxiliaryBaseComponent extends React.Component {
 		args.token = this._getBaseArgs().token;
 		args.geozoneId = geozone.id;
 		args.data = geozone;
-		console.log("PUT")
-		console.log(args)
 		return Dispatcher.issue('PUT_GEOZONE', args);
 	}
 	deleteGeozone(id) {
@@ -232,5 +229,4 @@ class AuxiliaryBaseComponent extends React.Component {
 		return('');
 	}
 }
-
 export default AuxiliaryBaseComponent;

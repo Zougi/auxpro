@@ -3,16 +3,7 @@ import StoreBase from 'core/StoreBase.js';
 import Dispatcher from 'core/Dispatcher';
 import StoreRegistry from 'core/StoreRegistry';
 
-var DEFAULT_APP_CONTENT = {
-	header: {
-		brand: { link: '/', name: 'AuxPro' },
-		rightContent: [
-			{ link: '/contact', name: 'Contact', query: {}, key: 1, isLink: true },
-			{ link: '/login', name: 'Connexion', query: {}, key: 2, isLink: true }
-		]
-	},
-	subHeader: {}
-};
+var DEFAULT_APP_CONTENT = {};
 
 var DEFAULT_CONTENT = { 
 	app: DEFAULT_APP_CONTENT,
@@ -32,82 +23,66 @@ AppStore.setBusy = function (busy) {
 }
 
 // LOGON
-AppStore.onLogon = function (result, param) {
-	switch (result.type) {
-	case 'aux':		
-		AppStore._content.app = {
-			header: {
-				brand: { link: '/', name: 'AuxPro' },
-				rightContent: [
-					{ key: 1, link: '/aux/home', query: {}, name: 'Accueil', glyph: 'home' },
-					{ key: 2, link: '/aux/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },
-					{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
-				]
-			},
-			subHeader: {
-				disabled: true,
-				leftContent: [
-					{ key: 0, link: '/aux/home', query: {}, name: 'Accueil' },
-					{ key: 1, name: 'Informations', dropdown: [
-						{ key: 1.1, link: '/aux/infos', query: {}, name: 'Voir mes informations' },
-						{ key: 1.2, link: '/aux/infos/edit', query: {}, name: 'Modifier mes informations' }
-					]},
-					{ key: 2, link: '/aux/planning', query: {}, name: 'Planning' },
-					{ key: 3, link: '/aux/zone', query: {}, name: 'Zone' },
-					{ key: 4, link: '/aux/offers', query: {}, name: 'Offres' }
-				]
-			}
-		}
-		break;
-	case 'sad':
-		AppStore._content.app = {
-			header: {
-				brand: { link: '/sad/home', name: 'AuxPro' },
-				rightContent: [
-					{ key: 1, link: '/sad/home', query: {}, name: 'Accueil', glyph: 'home' },
-					{ key: 2, link: '/sad/tuto', query: {}, name: 'Tutorials', glyph: 'envelope' },
-					{ key: 3, link: 'logout', query: {}, name: 'Déconnexion', glyph: 'off' }
-				]
-			},
-			subHeader: {
-				disabled: true,
-				leftContent: [
-					{ key: 0, link: '/sad/home', query: {}, name: 'Accueil' },
-					{ key: 1, name: 'Informations', dropdown: [
-						{ key: 1.1, link: '/sad/infos', query: {}, name: 'Voir mes informations' },
-						{ key: 1.2, link: '/sad/infos/edit', query: {}, name: 'Modifier mes informations' }
-					]},
-					{ key: 2, link: '/sad/zone', query: {}, name: 'Ma zone' },
-					{ key: 3, link: '/sad/customers', query: {}, name: 'Mes usagers' },
-					{ key: 4, link: '/sad/interventions', query: {}, name: 'Mes prestations' }
-				]
-			}
-		}
-		break;
-	default:
-		break;
-	}
-	AppStore.notifyPath('/app');
-};
-Dispatcher.register('LOGON', AppStore.onLogon);
+// AppStore.onLogon = function (result, param) {
+	// switch (result.type) {
+	// case 'aux':		
+		// AppStore._content.app = {
+			// subHeader: {
+				// disabled: true,
+				// leftContent: [
+					// { key: 0, link: '/aux/home', query: {}, name: 'Accueil' },
+					// { key: 1, name: 'Informations', dropdown: [
+						// { key: 1.1, link: '/aux/infos', query: {}, name: 'Voir mes informations' },
+						// { key: 1.2, link: '/aux/infos/edit', query: {}, name: 'Modifier mes informations' }
+					// ]},
+					// { key: 2, link: '/aux/planning', query: {}, name: 'Planning' },
+					// { key: 3, link: '/aux/zone', query: {}, name: 'Zone' },
+					// { key: 4, link: '/aux/offers', query: {}, name: 'Offres' }
+				// ]
+			// }
+		// }
+		// break;
+	// case 'sad':
+		// AppStore._content.app = {
+			// subHeader: {
+				// disabled: true,
+				// leftContent: [
+					// { key: 0, link: '/sad/home', query: {}, name: 'Accueil' },
+					// { key: 1, name: 'Informations', dropdown: [
+						// { key: 1.1, link: '/sad/infos', query: {}, name: 'Voir mes informations' },
+						// { key: 1.2, link: '/sad/infos/edit', query: {}, name: 'Modifier mes informations' }
+					// ]},
+					// { key: 2, link: '/sad/zone', query: {}, name: 'Ma zone' },
+					// { key: 3, link: '/sad/customers', query: {}, name: 'Mes usagers' },
+					// { key: 4, link: '/sad/interventions', query: {}, name: 'Mes prestations' }
+				// ]
+			// }
+		// }
+		// break;
+	// default:
+		// break;
+	// }
+	// AppStore.notifyPath('/app');
+// };
+// Dispatcher.register('LOGON', AppStore.onLogon);
 
 // GET_AUXILIARY - PUT_AUXILIARY
-AppStore.onGetAuxiliary = function (result, param) {
-	if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'aux') {
-		AppStore._content.app.subHeader.disabled = !result.profileCompleted;
-		AppStore.notifyPath('/app/subHeader/disabled');
-	}
-}
-Dispatcher.register('GET_AUXILIARY', AppStore.onGetAuxiliary);
+// AppStore.onGetAuxiliary = function (result, param) {
+	// if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'aux') {
+		// AppStore._content.app.subHeader.disabled = !result.profileCompleted;
+		// AppStore.notifyPath('/app/subHeader/disabled');
+	// }
+// }
+// Dispatcher.register('GET_AUXILIARY', AppStore.onGetAuxiliary);
 
 // GET_SERVICE - PUT_SERVICE
-AppStore.onGetService = function (result, param) {
-	if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'sad') {
-		AppStore._content.app.subHeader.disabled = !result.profileCompleted;
-		AppStore.notifyPath('/app/subHeader/disabled');
-	}
-}
-Dispatcher.register('GET_SERVICE', AppStore.onGetService);
+// AppStore.onGetService = function (result, param) {
+	// if (StoreRegistry.getStore('LOGIN_STORE').getData('/type') === 'sad') {
+		// AppStore._content.app.subHeader.disabled = !result.profileCompleted;
+		// AppStore.notifyPath('/app/subHeader/disabled');
+	// }
+// }
+// Dispatcher.register('GET_SERVICE', AppStore.onGetService);
 
 // LOGOUT
 AppStore.onLogout = function (result, param) {

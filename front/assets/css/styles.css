@@ -1,9 +1,5 @@
 body {
-	background: url('../img/background.jpg') no-repeat center center fixed; 
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	background: url('../img/background-repeat.jpg'); 
 	padding:0;
 	padding-top:50px;
 	margin:0;
@@ -44,4 +40,85 @@ body {
 	width: 200px;
 	height: 200px;
 	background: red;
+}
+
+/* ----------------------------------------------------------
+ *                                                   BUTTONS
+ */
+
+.ap-auxpro .ap-button {
+	border-radius: 0;
+	border: 0;
+	transform: skewX(35deg);
+	transition: background-color .15s linear, color .15s linear, transform .2s linear;
+}
+
+.ap-auxpro .ap-button.btn-primary {
+	background: #1D70B7;
+	color: #B17F49;
+}
+
+.ap-auxpro .ap-button.btn-primary:hover,
+.ap-auxpro .ap-button.btn-primary:focus {
+	background: #D3E9FC;
+	color: #1D70B7;
+	transform: scale(1.05) skewX(35deg);
+}
+
+.ap-auxpro .ap-button-content {
+	transform: skewX(-35deg);
+}
+
+/* ----------------------------------------------------------
+ *                                                    PANELS
+ */
+
+/*                                                    .panel 
+ */
+
+.ap-auxpro .panel {
+	border-radius: 0;
+	border: 0;
+	overflow: hidden;
+	position: relative;
+	background: transparent;
+	box-shadow: initial;
+	-webkit-box-shadow: initial;
+}
+.ap-auxpro .panel-default>.panel-heading,
+.ap-auxpro .panel-default>.panel-body {
+	border: 0;
+	background: transparent;
+}
+
+.ap-auxpro .panel::before {
+	content: '';
+	position: absolute;
+	left: -100%;
+	right: 0;
+	top: 0;
+	bottom: 50%;
+	background: rgba(177,127,73,0.2);
+	transform: skew(35deg);
+	z-index: -1;
+}
+.ap-auxpro .panel::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: -100%;
+	top: 50%;
+	bottom: 0;
+	background: rgba(177,127,73,0.2);
+	transform: skew(35deg);
+	z-index: -1;
+}
+
+/*                                            .panel-heading 
+ */
+
+.ap-auxpro .panel .panel-heading {
+	color: #B17F49;
+	font-weight: bold;
+	font-size: 20px;
 }

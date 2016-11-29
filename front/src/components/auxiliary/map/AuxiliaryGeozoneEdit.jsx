@@ -1,11 +1,11 @@
 import React from 'react'
 import { Row, Col, Panel } from 'react-bootstrap'
 // Custom components
-import APButton from 'lib/Button/APButton.jsx'
 import FormInput from 'components-lib/Form/FormInput.jsx'
 import FormSelect from 'components-lib/Form/FormSelect.jsx'
 import GoogleAutocomplete from 'components-lib/Map/GoogleAutocomplete.jsx'
-
+import { APButton } from 'ap-react-bootstrap'
+// Lib modules
 import GeozoneHelper from 'utils/entities/GeozoneHelper.js'
 
 let GEOZONE_TYPE = {
@@ -24,7 +24,7 @@ class AuxiliaryGeozoneEdit extends React.Component {
 	constructor(props) {
 		super(props);
 		if (this.props.geozone ) {
-			this.state = { 
+			this.state = {
 				type: this.props.geozone.radius ? GEOZONE_TYPE.ZONE : GEOZONE_TYPE.CITY,
 				geozone: this.props.geozone
 			}	
@@ -43,14 +43,14 @@ class AuxiliaryGeozoneEdit extends React.Component {
 	}
 
 	_buildDefaultState() {
-		return { 
+		return {
 			type: GEOZONE_TYPE.CITY,
 			geozone: {
 				lattitude: null,
 				longitude: null,
 				postalCode: '',
 				city: ''
-			} 
+			}
 		};
 	}
 
@@ -75,7 +75,7 @@ class AuxiliaryGeozoneEdit extends React.Component {
 	}
 
 	onAutocompleteChanged(address) {
-		this.setState({ 
+		this.setState({
 			geozone: {
 				postalCode: address.postalCode,
 				city: address.city,
@@ -143,13 +143,13 @@ class AuxiliaryGeozoneEdit extends React.Component {
 					<br/>
 					<Row>
 						<Col sm={6}>
-							<FormInput 
+							<FormInput
 								edit={false}
 								title='Code postal'
 								value={this.state.geozone.postalCode} />
 						</Col>
 						<Col sm={6}>
-							<FormInput 
+							<FormInput
 								edit={false}
 								title='Ville'
 								value={this.state.geozone.city} />
@@ -181,5 +181,4 @@ class AuxiliaryGeozoneEdit extends React.Component {
 		);
 	}
 }
-
 export default AuxiliaryGeozoneEdit;

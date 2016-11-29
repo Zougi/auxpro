@@ -16,13 +16,13 @@ class MissionShort extends React.Component {
 	onInfo() {
 		var user = StoreRegistry.getStore('LOGIN_STORE').getData('/');
 		//
-		let paramServ = { 
+		let paramServ = {
 			id: this.props.mission.serviceId,
 			token: user.token
 		}
 		Dispatcher.issue('GET_SERVICE', paramServ);
 		//
-		let paramCust = { 
+		let paramCust = {
 			id: this.props.mission.customerId,
 			token: user.token
 		}
@@ -37,24 +37,24 @@ class MissionShort extends React.Component {
 	}
 
 	componentDidMount() {
-        StoreRegistry.register('SERVICE_STORE', this, this.onServiceUpdate.bind(this));
-        StoreRegistry.register('CUSTOMER_STORE', this, this.onCustomerUpdate.bind(this));
-    }
+		StoreRegistry.register('SERVICE_STORE', this, this.onServiceUpdate.bind(this));
+		StoreRegistry.register('CUSTOMER_STORE', this, this.onCustomerUpdate.bind(this));
+	}
 
-    componentWillUnmount() {
-        StoreRegistry.unregister('SERVICE_STORE', this);   
-        StoreRegistry.unregister('CUSTOMER_STORE', this);   
-    }
+	componentWillUnmount() {
+		StoreRegistry.unregister('SERVICE_STORE', this);
+		StoreRegistry.unregister('CUSTOMER_STORE', this);
+	}
 
-    onServiceUpdate() {
-    	this.state.service = StoreRegistry.getStore('SERVICE_STORE').getData().data;
-    	this.setState(this.state);
-    }
+	onServiceUpdate() {
+		this.state.service = StoreRegistry.getStore('SERVICE_STORE').getData().data;
+		this.setState(this.state);
+	}
 
-    onCustomerUpdate() {
-    	this.state.customer = StoreRegistry.getStore('CUSTOMER_STORE').getCustomer(this.props.mission.customerId);
-    	this.setState(this.state);
-    }
+	onCustomerUpdate() {
+		this.state.customer = StoreRegistry.getStore('CUSTOMER_STORE').getCustomer(this.props.mission.customerId);
+		this.setState(this.state);
+	}
 
 	render() {
 		var info = '';
@@ -76,19 +76,18 @@ class MissionShort extends React.Component {
 						Addresse: {this.state.customer.contact.address.address} {this.state.customer.contact.address.postalCode} {this.state.customer.contact.address.city}<br/>
 					</div>);
 			} else {
-				info = 'Chargement...'	
+				info = 'Chargement...'
 			}
 			action = (<a className='info-span' onClick={this.onInfoOff.bind(this)}>-info</a>);
 		}
 		return (
-			<ListGroupItem header='Mission' bsStyle='success'>
-	            Le {this.props.date} de {this.props.mission.startHour}h à {this.props.mission.endHour}h<br/>
-	            Nombre d'heures : {this.props.mission.endHour - this.props.mission.startHour}h<br/>
-	            {info}
-	            {action}
-	        </ListGroupItem>
+			<ListGroupItem header='Intervention' bsStyle='success'>
+				Le {this.props.date} de {this.props.mission.startHour}h à {this.props.mission.endHour}h<br/>
+				Nombre d'heures : {this.props.mission.endHour - this.props.mission.startHour}h<br/>
+				{info}
+				{action}
+			</ListGroupItem>
 		);
 	}
 }
-
 export default MissionShort;

@@ -11,7 +11,8 @@ import SkillSummaryList from 'components/common/skills/SkillSummaryList'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 import ButtonsEndDialog from 'components-lib/ButtonsEndDialog/ButtonsEndDialog'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
-import AsyncImage from 'lib/image/AsyncImage'
+import { AsyncImage } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 import MathUtils from 'utils/MathUtils'
@@ -172,11 +173,11 @@ class ServiceIntervention extends ServiceBaseComponent {
 						</Col>
 						<Col xsOffset={2} xs={10} smOffset={0} sm={2}>
 						{ OfferStatus.getStatus(offer.status) === OfferStatus.ACCEPTED ?
-							<Button bsStyle='success' 
-							onClick={this.onConfirmOffer.bind(this, offer)}
-							block>
-							Confirmer
-							</Button>
+							<APButton
+								block
+								bsStyle='success'
+								text='Confirmer'
+								onClick={this.onConfirmOffer.bind(this, offer)} />
 						: <div/> }
 						</Col>
 					</Row>
@@ -222,12 +223,11 @@ class ServiceIntervention extends ServiceBaseComponent {
 					onCancel={this.onCancel.bind(this)} 
 					cancelTitle='Annuler'/>
 				:
-				<Button
+				<APButton
+					block
 					bsStyle='info'
-					onClick={this.onCancel.bind(this)} 
-					block>
-					Retour
-				</Button>
+					text='Retour'
+					onClick={this.onCancel.bind(this)} />
 				}
 			</Panel>
 			<DialogConfirmation

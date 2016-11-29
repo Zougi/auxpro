@@ -1,12 +1,10 @@
 import React from 'react'
 import { Panel } from 'react-bootstrap'
-import { Col, Row, ITable } from 'lib/Lib.jsx'
 // Core modules
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
-import AsyncImage from 'lib/image/AsyncImage'
-import ImageUploader from 'lib/image/ImageUploader'
+import { Col, Row, ITable, AsyncImage, ImageUploader } from 'lib/Lib'
 
 class ServiceHeader extends ServiceBaseComponent {
 
@@ -70,5 +68,4 @@ class ServiceHeader extends ServiceBaseComponent {
 		</Row>
 	);}
 }
-
 export default ServiceHeader;

@@ -1,11 +1,15 @@
 import React from 'react'
-import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal, Button } from 'react-bootstrap'
+import { Grid, Row, Col, Table, Panel, PageHeader, Tabs, Tab, Modal } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
 // Custom components
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import ServiceHeader from 'components/service/ServiceHeader'
+
+import Navbar from 'components-lib/Navbar/Navbar.jsx'
+
+import HeaderData from './HeaderData.js'
 
 class Service extends ServiceBaseComponent {
 
@@ -68,7 +72,7 @@ class Service extends ServiceBaseComponent {
 			showUserHeader: this.getServiceData('/display/home/showUserHeader'),
 		}
 	}
-
+	
 	// Rendering functions //
 	// --------------------------------------------------------------------------------
 
@@ -77,15 +81,20 @@ class Service extends ServiceBaseComponent {
 			return ( <div className='container'/> );
 		}
 		return(
-			<div className='container'>
-				{this.state.showUserHeader ? 
+			<div>
+				<header className='no-print'>
+						<Navbar {...HeaderData} />
+				</header>
+				<div className='container'>
+					{this.state.showUserHeader ? 
+						<Row>
+							<ServiceHeader />
+						</Row>
+					: '' }
 					<Row>
-						<ServiceHeader />
+						{this.props.children}
 					</Row>
-				: '' }
-				<Row>
-					{this.props.children}
-				</Row>
+				</div>
 			</div>
 		);
 	}

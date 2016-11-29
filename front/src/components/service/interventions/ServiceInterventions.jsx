@@ -1,5 +1,5 @@
 import React from 'react'
-import { Panel, Button, Row, Col, Clearfix } from 'react-bootstrap'
+import { Panel, Row, Col, Clearfix } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -7,6 +7,7 @@ import StoreRegistry from 'core/StoreRegistry'
 import ServiceBaseComponent from 'components/service/ServiceBaseComponent'
 import APPanelBasic from 'components-lib/Panel/APPanelBasic'
 import DialogConfirmation from 'components-lib/DialogConfirmation/DialogConfirmation'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import Utils from 'utils/Utils'
 import MomentHelper from 'utils/moment/MomentHelper'
@@ -216,9 +217,11 @@ class ServiceInterventions extends ServiceBaseComponent {
 	render() { return (
 		<Row>
 			<Panel header={(<strong>Prestations & Offres en cours</strong>)} bsStyle='warning'>
-				<Button block bsStyle='info' onClick={this.onAddIntervention.bind(this)}>
-					Saisir nouvelle prestation
-				</Button>
+				<APButton
+					block
+					bsStyle='info'
+					text='Saisir nouvelle prestation'
+					onClick={this.onAddIntervention.bind(this)} />
 				<br/>
 				{this._buildCustomers()}
 			</Panel>

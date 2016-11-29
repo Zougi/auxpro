@@ -1,7 +1,8 @@
 import React from 'react'
-import { Panel, Button } from 'react-bootstrap'
+import { Panel } from 'react-bootstrap'
 // Custom components
-import AuxiliaryGeozone from './AuxiliaryGeozone.jsx'
+import AuxiliaryGeozone from 'components/auxiliary/map/AuxiliaryGeozone.jsx'
+import { APButton } from 'ap-react-bootstrap'
 
 class AuxiliaryGeoPanel extends React.Component {
 
@@ -20,14 +21,14 @@ class AuxiliaryGeoPanel extends React.Component {
 					Enregistrer
 				</Button>
 				<br/>
-				<Button block
+				<APButton
+					block
 					bsStyle='primary'
 					onClick={this.cancel.bind(this)}>
 					Annuler
-				</Button>
+				</APButton>
 			</Panel>
 		);
 	}
 }
-
 export default AuxiliaryGeoPanel;

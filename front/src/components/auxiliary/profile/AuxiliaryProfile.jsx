@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
+import { Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -143,7 +143,7 @@ class AuxiliaryProfile extends AuxiliaryBaseComponent {
 						</Col>
 						<Col sm={6}>
 							<Panel bsStyle='info' header="Mes zones d'intervention">
-								Spécifiez vos zones d'intervention afin de vous voir proposez des missions adaptées.
+								Spécifiez vos zones d'intervention afin de vous voir proposez des interventions adaptées.
 							</Panel>
 						</Col>
 					</Row>

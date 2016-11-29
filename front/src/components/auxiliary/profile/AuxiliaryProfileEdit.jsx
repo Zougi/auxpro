@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
+import { Form, FormGroup, Panel, Grid, Row, Col } from 'react-bootstrap'
 // Core modules
 import Dispatcher from 'core/Dispatcher'
 import StoreRegistry from 'core/StoreRegistry'
@@ -7,11 +7,11 @@ import StoreRegistry from 'core/StoreRegistry'
 import AuxiliaryBaseComponent from 'components/auxiliary/AuxiliaryBaseComponent'
 import AuxiliaryQuestionary from 'components/auxiliary/profile/AuxiliaryQuestionary'
 import SkillSummaryList from 'components/common/skills/SkillSummaryList'
-import APGauge from 'components-lib/charts/APGauge'
+import APGauge from 'components-lib/Charts/APGauge'
 import FormBase from 'components-lib/Form/FormBase'
 import FormBuilder from 'components-lib/Form/FormBuilder'
-import AsyncImage from 'lib/image/AsyncImage'
-import ImageUploader from 'lib/image/ImageUploader'
+import { AsyncImage, ImageUploader } from 'lib/Lib'
+import { APButton } from 'ap-react-bootstrap'
 // Lib modules
 import AuxiliaryHelper from 'utils/entities/AuxiliaryHelper'
 import Validators from 'utils/form/Validators'
@@ -282,18 +282,18 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 		return (<div/>);
 	}
 
-	render() { 
+	render() {
 		return (
 			<Form horizontal>
 				{this._buildProfileWarning()}
 				<Row>
 					<Col sm={12}>
-						<Button disabled={!this.state.validationState} 
-								bsStyle={this.state.validationState ? 'success' : 'warning'} 
-								onClick={this.onSaveProfile.bind(this)} 
-								block>
-							Enregistrer modifications
-						</Button>
+						<APButton
+							block
+							disabled={!this.state.validationState}
+							bsStyle={this.state.validationState ? 'success' : 'warning'}
+							onClick={this.onSaveProfile.bind(this)}
+							text='Enregistrer modifications' />
 					</Col>
 				</Row>
 				<br/>
@@ -308,13 +308,16 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 						</Panel>
 
 						<Panel header='Informations personnelles' bsStyle='info'>
-							{FormBuilder.buildFormGroups(this._buildPersonalInfos())}
+							<Form>
+								{FormBuilder.buildFormGroups(this._buildPersonalInfos())}
+							</Form>
 						</Panel>
 
 						<Panel header='Informations professionnelles' bsStyle='info'>
-							{FormBuilder.buildFormGroups(this._buildProfessionnalInfos())}
-							{this.state.auxiliary.answers ?
-								<div>
+							<Form>
+								{FormBuilder.buildFormGroups(this._buildProfessionnalInfos())}
+								{this.state.auxiliary.answers ?
+								<Col lg={12}>
 									<FormBase
 										edit={true}
 										validationState='success'
@@ -322,21 +325,28 @@ class AuxiliaryProfileEdit extends AuxiliaryBaseComponent {
 										<SkillSummaryList skills={this.state.auxiliary}/>
 									</FormBase>
 									<FormBase>
-										<Button bsStyle='success' 
-												onClick={this.onQuestionaryView.bind(this)} 
-												block>
-											Voir questionnaire
-										</Button>
+										<APButton
+											block
+											bsStyle='success'
+											text='Voir questionnaire'
+											onClick={this.onQuestionaryView.bind(this)} />
 									</FormBase>
-								</div>
-							:
-								<FormBase
-									edit={true}
-									validationState='error'
-									title='Mes Compétences'>
-									<Button bsStyle='warning' onClick={this.onQuestionaryEdit.bind(this)} block>Remplir questionnaire</Button>
-								</FormBase>
-							}
+								</Col>
+								:
+								<Col lg={12}>
+									<FormBase
+										edit={true}
+										validationState='error'
+										title='Mes Compétences'>
+										<APButton
+											block
+											bsStyle='warning'
+											text='Remplir questionnaire'
+											onClick={this.onQuestionaryEdit.bind(this)} />
+									</FormBase>
+								</Col>
+								}
+							</Form>
 						</Panel>
 
 					</Col>
